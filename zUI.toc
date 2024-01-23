@@ -5,4 +5,6 @@
 ## Version: 1.0
 ## SavedVariables: zUISavedSettings
 
+ui_elements.lua
+menu.lua
 zUI.lua

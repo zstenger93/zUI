@@ -2,91 +2,6 @@ zUI = { }
 zUISavedSettings = { }
 
 
--------------------------------------------- UI SETTINGS PANEL DESIGN --------------------------------------------
-
-
--- Create a frame for the UI
-local zUI_Panel = CreateFrame("Frame", "zUIConfig", UIParent, "BackdropTemplate")
-
-zUI_Panel:SetSize(600, 500)
-
-zUI_Panel:SetBackdrop({
-    bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
-    edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
-    tile = true,
-    tileSize = 32,
-    edgeSize = 32,
-    insets = { left = 8, right = 8, top = 8, bottom = 8 }
-})
-
--- Create a vertical line next to the menu buttons
-local verticalLine = zUI_Panel:CreateTexture(nil, "BACKGROUND")
-verticalLine:SetColorTexture(1, 1, 1, 0.5)
-verticalLine:SetPoint("TOPLEFT", zUI_Panel, "TOPLEFT", 110, -10)
-verticalLine:SetPoint("BOTTOMLEFT", zUI_Panel, "BOTTOMLEFT", 110, 10)
-verticalLine:SetWidth(1)
-
--- UI Panel Title
-local UI_Title = zUI_Panel:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-
-UI_Title:SetPoint("TOP", zUI_Panel, "TOP", 0, -10)
-UI_Title:SetText("zUI Settings")
-
--- Set the backdrop color to 50% transparent black
-zUI_Panel:SetBackdropColor(0, 0, 0, 0.9q)
-zUI_Panel:SetPoint("CENTER")
-zUI_Panel:Hide()
-
-local closeButton = CreateFrame("Button", nil, zUI_Panel, "UIPanelCloseButton")
-closeButton:SetPoint("TOPRIGHT")
-
--- Handle the OnClick event for the close button
-closeButton:SetScript("OnClick", function()
-    zUI_Panel:Hide()
-end)
-
-
-
--------------------------------------------- BUTTON & PAGE CREATION --------------------------------------------
-
-
--- Create the menu buttons
-local generalButton = CreateFrame("Button", nil, zUI_Panel, "GameMenuButtonTemplate")
-generalButton:SetPoint("TOPLEFT", 10, -30)
-generalButton:SetSize(100, 20)
-generalButton:SetText("General")
-generalButton:SetNormalFontObject("GameFontNormal")
-
-local hideShowButton = CreateFrame("Button", nil, zUI_Panel, "GameMenuButtonTemplate")
-hideShowButton:SetPoint("TOPLEFT", generalButton, "BOTTOMLEFT", 0, -10)
-hideShowButton:SetSize(100, 20)
-hideShowButton:SetText("Hide & Show")
-hideShowButton:SetNormalFontObject("GameFontNormal")
-
-local actionBarsButton = CreateFrame("Button", nil, zUI_Panel, "GameMenuButtonTemplate")
-actionBarsButton:SetPoint("TOPLEFT", hideShowButton, "BOTTOMLEFT", 0, -10)
-actionBarsButton:SetSize(100, 20)
-actionBarsButton:SetText("ActionBars")
-actionBarsButton:SetNormalFontObject("GameFontNormal")
-
--- Create the pages
-local generalPage = CreateFrame("Frame", nil, zUI_Panel)
-generalPage:SetSize(200, 200)
-generalPage:SetPoint("TOPLEFT", generalButton, "TOPRIGHT", 10, 0)
-generalPage:Show() -- Show the general page by default
-
-local hideShowPage = CreateFrame("Frame", nil, zUI_Panel)
-hideShowPage:SetSize(200, 200)
-hideShowPage:SetPoint("TOPLEFT", hideShowButton, "TOPRIGHT", 10, 0)
-hideShowPage:Hide() -- Hide the hide/show page by default
-
--- Create the ActionBars page
-local actionBarsPage = CreateFrame("Frame", nil, zUI_Panel)
-actionBarsPage:SetSize(200, 200)
-actionBarsPage:SetPoint("TOPLEFT", actionBarsButton, "TOPRIGHT", 10, 0)
-actionBarsPage:Hide() -- Hide the ActionBars page by default
-
-
 -------------------------------------------- CHECKBOXES ON SHOW & HIDE PAGE --------------------------------------------
 
 
@@ -182,7 +97,7 @@ end)
 
 -- Create a reload button at the bottom middle of the panel
 local reloadButton = CreateFrame("Button", nil, zUI_Panel, "GameMenuButtonTemplate")
-reloadButton:SetPoint("BOTTOM", 5, 10)
+reloadButton:SetPoint("BOTTOM", 50, 10)
 reloadButton:SetSize(100, 20)
 reloadButton:SetText("Reload")
 reloadButton:SetNormalFontObject("GameFontNormal")
@@ -310,41 +225,41 @@ local fadeTicker = nil
 frame:RegisterEvent("ADDON_LOADED")
 
 frame:SetScript("OnEvent", function(self, event, addonName)
-    MultiBarRight:Show()
-    if event == "ADDON_LOADED" and addonName == "zUI" then
-        local barFrame = CreateFrame("Frame", nil, UIParent)
-        barFrame:SetAllPoints(MultiBarRight)
-        barFrame:EnableMouse(true)
+    -- MultiBarRight:Show()
+    -- if event == "ADDON_LOADED" and addonName == "zUI" then
+    --     local barFrame = CreateFrame("Frame", nil, UIParent)
+    --     barFrame:SetAllPoints(MultiBarRight)
+    --     barFrame:EnableMouse(true)
         
-        local function fadeOut()
-            local alpha = MultiBarRight:GetAlpha()
-            local newAlpha = alpha - 0.01
-            if newAlpha < 0.01 then
-                newAlpha = 0.01
-                if fadeTicker then
-                    fadeTicker:Cancel()
-                    fadeTicker = nil
-                end
-            end
-            MultiBarRight:SetAlpha(newAlpha)
-        end
+    --     local function fadeOut()
+    --         local alpha = MultiBarRight:GetAlpha()
+    --         local newAlpha = alpha - 0.01
+    --         if newAlpha < 0.01 then
+    --             newAlpha = 0.01
+    --             if fadeTicker then
+    --                 fadeTicker:Cancel()
+    --                 fadeTicker = nil
+    --             end
+    --         end
+    --         MultiBarRight:SetAlpha(newAlpha)
+    --     end
 
-        barFrame:SetScript("OnEnter", function(self)
-            if fadeTicker then
-                fadeTicker:Cancel()
-                fadeTicker = nil
-            end
-            MultiBarRight:SetAlpha(1)
-        end)
+    --     barFrame:SetScript("OnEnter", function(self)
+    --         if fadeTicker then
+    --             fadeTicker:Cancel()
+    --             fadeTicker = nil
+    --         end
+    --         MultiBarRight:SetAlpha(1)
+    --     end)
 
-        barFrame:SetScript("OnLeave", function(self)
-            if fadeTicker then
-                fadeTicker:Cancel()
-            end
-            fadeTicker = C_Timer.NewTicker(0.015, fadeOut, 100)
-        end)
+    --     barFrame:SetScript("OnLeave", function(self)
+    --         if fadeTicker then
+    --             fadeTicker:Cancel()
+    --         end
+    --         fadeTicker = C_Timer.NewTicker(0.015, fadeOut, 100)
+    --     end)
 
-        MultiBarRight:Show()
-        MultiBarRight:SetAlpha(0.01)
-    end
+    --     MultiBarRight:Show()
+    --     MultiBarRight:SetAlpha(0.01)
+    -- end
 end)
