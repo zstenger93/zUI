@@ -1,10 +1,14 @@
 zUI = { }
 zUISavedSettings = { }
 
+
+-------------------------------------------- UI SETTINGS PANEL DESIGN --------------------------------------------
+
+
 -- Create a frame for the UI
 local zUI_Panel = CreateFrame("Frame", "zUIConfig", UIParent, "BackdropTemplate")
 
-zUI_Panel:SetSize(600, 600)
+zUI_Panel:SetSize(600, 500)
 
 zUI_Panel:SetBackdrop({
     bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
@@ -15,6 +19,13 @@ zUI_Panel:SetBackdrop({
     insets = { left = 8, right = 8, top = 8, bottom = 8 }
 })
 
+-- Create a vertical line next to the menu buttons
+local verticalLine = zUI_Panel:CreateTexture(nil, "BACKGROUND")
+verticalLine:SetColorTexture(1, 1, 1, 0.5)
+verticalLine:SetPoint("TOPLEFT", zUI_Panel, "TOPLEFT", 110, -10)
+verticalLine:SetPoint("BOTTOMLEFT", zUI_Panel, "BOTTOMLEFT", 110, 10)
+verticalLine:SetWidth(1)
+
 -- UI Panel Title
 local UI_Title = zUI_Panel:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
 
@@ -22,7 +33,7 @@ UI_Title:SetPoint("TOP", zUI_Panel, "TOP", 0, -10)
 UI_Title:SetText("zUI Settings")
 
 -- Set the backdrop color to 50% transparent black
-zUI_Panel:SetBackdropColor(0, 0, 0, 0.7)
+zUI_Panel:SetBackdropColor(0, 0, 0, 0.9q)
 zUI_Panel:SetPoint("CENTER")
 zUI_Panel:Hide()
 
@@ -36,105 +47,174 @@ end)
 
 
 
-
+-------------------------------------------- BUTTON & PAGE CREATION --------------------------------------------
 
 
 -- Create the menu buttons
-local hideShowButton = CreateFrame("Button", nil, zUI_Panel, "GameMenuButtonTemplate")
-hideShowButton:SetPoint("TOPLEFT", 10, -10)
-hideShowButton:SetSize(100, 20)
-hideShowButton:SetText("General")
-hideShowButton:SetNormalFontObject("GameFontNormal")
-
 local generalButton = CreateFrame("Button", nil, zUI_Panel, "GameMenuButtonTemplate")
-generalButton:SetPoint("TOPLEFT", hideShowButton, "BOTTOMLEFT", 0, -10)
+generalButton:SetPoint("TOPLEFT", 10, -30)
 generalButton:SetSize(100, 20)
-generalButton:SetText("Hide & Show")
+generalButton:SetText("General")
 generalButton:SetNormalFontObject("GameFontNormal")
 
--- Create the pages
-local hideShowPage = CreateFrame("Frame", nil, zUI_Panel)
-hideShowPage:SetSize(200, 200)
-hideShowPage:SetPoint("TOPLEFT", hideShowButton, "TOPRIGHT", 10, 0)
+local hideShowButton = CreateFrame("Button", nil, zUI_Panel, "GameMenuButtonTemplate")
+hideShowButton:SetPoint("TOPLEFT", generalButton, "BOTTOMLEFT", 0, -10)
+hideShowButton:SetSize(100, 20)
+hideShowButton:SetText("Hide & Show")
+hideShowButton:SetNormalFontObject("GameFontNormal")
 
+local actionBarsButton = CreateFrame("Button", nil, zUI_Panel, "GameMenuButtonTemplate")
+actionBarsButton:SetPoint("TOPLEFT", hideShowButton, "BOTTOMLEFT", 0, -10)
+actionBarsButton:SetSize(100, 20)
+actionBarsButton:SetText("ActionBars")
+actionBarsButton:SetNormalFontObject("GameFontNormal")
+
+-- Create the pages
 local generalPage = CreateFrame("Frame", nil, zUI_Panel)
 generalPage:SetSize(200, 200)
 generalPage:SetPoint("TOPLEFT", generalButton, "TOPRIGHT", 10, 0)
 generalPage:Show() -- Show the general page by default
 
+local hideShowPage = CreateFrame("Frame", nil, zUI_Panel)
+hideShowPage:SetSize(200, 200)
+hideShowPage:SetPoint("TOPLEFT", hideShowButton, "TOPRIGHT", 10, 0)
+hideShowPage:Hide() -- Hide the hide/show page by default
+
+-- Create the ActionBars page
+local actionBarsPage = CreateFrame("Frame", nil, zUI_Panel)
+actionBarsPage:SetSize(200, 200)
+actionBarsPage:SetPoint("TOPLEFT", actionBarsButton, "TOPRIGHT", 10, 0)
+actionBarsPage:Hide() -- Hide the ActionBars page by default
+
+
+-------------------------------------------- CHECKBOXES ON SHOW & HIDE PAGE --------------------------------------------
+
+
 -- Create the setting for HideObjectiveTrackerSetting
-local checkbox = CreateFrame("CheckButton", "zUIHideObjectiveTrackerCheckbox", hideShowPage, "ChatConfigCheckButtonTemplate") -- Create the checkbox on hideShowPage
-
--- Create a font string for the checkbox name
-local checkboxName = checkbox:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-checkboxName:SetPoint("LEFT", checkbox, "RIGHT", 20, 0)
+local checkbox_HideObjectiveTracker = CreateFrame("CheckButton", "zUIHideObjectiveTrackerCheckbox", hideShowPage, "ChatConfigCheckButtonTemplate") -- Create the checkbox on hideShowPage
+local checkboxName = checkbox_HideObjectiveTracker:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+checkboxName:SetPoint("LEFT", checkbox_HideObjectiveTracker, "RIGHT", 20, 0)
 checkboxName:SetText("Objective Tracker")
+checkbox_HideObjectiveTracker:SetPoint("TOPLEFT", 40, -30)
+checkbox_HideObjectiveTracker.tooltip = "Hide Objective Tracker during combat."
+checkbox_HideObjectiveTracker:SetChecked(zUISavedSettings.HideObjectiveTrackerSetting)
 
-checkbox:SetPoint("TOPLEFT", 40, -30)
-checkbox.tooltip = "Hide Objective Tracker during combat."
-checkbox:SetChecked(zUISavedSettings.HideObjectiveTrackerSetting)
-
-checkbox:SetScript("OnClick", function(self)
+checkbox_HideObjectiveTracker:SetScript("OnClick", function(self)
     zUISavedSettings.HideObjectiveTrackerSetting = self:GetChecked()
 end)
 
+-- Create the setting for HideChatFrameSetting
+local checkbox_HideChatFrame = CreateFrame("CheckButton", "zUIHideChatFrameCheckbox", hideShowPage, "ChatConfigCheckButtonTemplate")
+local checkboxName2 = checkbox_HideChatFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+checkboxName2:SetPoint("LEFT", checkbox_HideChatFrame, "RIGHT", 20, 0)
+checkboxName2:SetText("Chat Frame")
+checkbox_HideChatFrame:SetPoint("TOPLEFT", 40, -60)
+checkbox_HideChatFrame.tooltip = "Hide Chat Frame during combat."
+checkbox_HideChatFrame:SetChecked(zUISavedSettings.HideChatFrameSetting)
+
+checkbox_HideChatFrame:SetScript("OnClick", function(self)
+    zUISavedSettings.HideChatFrameSetting = self:GetChecked()
+end)
+
+-- Create the setting for HideQuickJoinToastButtonSetting
+local checkbox_HideQuickJoinToastButton = CreateFrame("CheckButton", "zUIHideQuickJoinToastButtonCheckbox", hideShowPage, "ChatConfigCheckButtonTemplate")
+local checkboxName3 = checkbox_HideQuickJoinToastButton:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+checkboxName3:SetPoint("LEFT", checkbox_HideQuickJoinToastButton, "RIGHT", 20, 0)
+checkboxName3:SetText("Quick Join Toast Button")
+checkbox_HideQuickJoinToastButton:SetPoint("TOPLEFT", 40, -90)
+checkbox_HideQuickJoinToastButton.tooltip = "Hide Quick Join Toast Button during combat."
+checkbox_HideQuickJoinToastButton:SetChecked(zUISavedSettings.HideQuickJoinToastButtonSetting)
+
+checkbox_HideQuickJoinToastButton:SetScript("OnClick", function(self)
+    zUISavedSettings.HideQuickJoinToastButtonSetting = self:GetChecked()
+end)
+
+-- Create the setting for HideBagBarSetting
+
+local checkbox_HideBagBar = CreateFrame("CheckButton", "zUIHideBagBarCheckbox", hideShowPage, "ChatConfigCheckButtonTemplate")
+local checkboxName4 = checkbox_HideBagBar:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+checkboxName4:SetPoint("LEFT", checkbox_HideBagBar, "RIGHT", 20, 0)
+checkboxName4:SetText("Bag Bar")
+checkbox_HideBagBar:SetPoint("TOPLEFT", 40, -120)
+checkbox_HideBagBar.tooltip = "Hide Bag Bar during combat."
+checkbox_HideBagBar:SetChecked(zUISavedSettings.HideBagBarSetting)
+
+checkbox_HideBagBar:SetScript("OnClick", function(self)
+    zUISavedSettings.HideBagBarSetting = self:GetChecked()
+end)
+
+
+-------------------------------------------- CHECKBOXES ON ACTIONBARS PAGE --------------------------------------------
+
+
+-- Create the setting for HideMultiBarRightSetting
+
+local checkbox_HideMultiBarRight = CreateFrame("CheckButton", "zUIHideMultiBarRightCheckbox", actionBarsPage, "ChatConfigCheckButtonTemplate")
+local checkboxName5 = checkbox_HideMultiBarRight:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+checkboxName5:SetPoint("LEFT", checkbox_HideMultiBarRight, "RIGHT", 20, 0)
+checkboxName5:SetText("MultiBarRight")
+checkbox_HideMultiBarRight:SetPoint("TOPLEFT", 40, -30)
+checkbox_HideMultiBarRight.tooltip = "Hide MultiBarRight during combat."
+checkbox_HideMultiBarRight:SetChecked(zUISavedSettings.HideMultiBarRightSetting)
+
+checkbox_HideMultiBarRight:SetScript("OnClick", function(self)
+    zUISavedSettings.HideMultiBarRightSetting = self:GetChecked()
+end)
+
 -- Handle the OnClick event for the menu buttons
-hideShowButton:SetScript("OnClick", function()
-    hideShowPage:Show()
-    generalPage:Hide()
-end)
-
 generalButton:SetScript("OnClick", function()
-    hideShowPage:Hide()
     generalPage:Show()
+    hideShowPage:Hide()
+    actionBarsPage:Hide()
 end)
 
+hideShowButton:SetScript("OnClick", function()
+    generalPage:Hide()
+    hideShowPage:Show()
+    actionBarsPage:Hide()
+end)
 
+actionBarsButton:SetScript("OnClick", function()
+    actionBarsPage:Show()
+    generalPage:Hide()
+    hideShowPage:Hide()
+end)
 
+-- Create a reload button at the bottom middle of the panel
+local reloadButton = CreateFrame("Button", nil, zUI_Panel, "GameMenuButtonTemplate")
+reloadButton:SetPoint("BOTTOM", 5, 10)
+reloadButton:SetSize(100, 20)
+reloadButton:SetText("Reload")
+reloadButton:SetNormalFontObject("GameFontNormal")
 
+-- Handle the OnClick event for the reload button
+reloadButton:SetScript("OnClick", function()
+    ReloadUI()
+end)
 
+-- Update the checkboxes based on the saved settings
+local ShowTicksIfAttributeIsSet = CreateFrame("Frame")
+ShowTicksIfAttributeIsSet:RegisterEvent("PLAYER_LOGIN")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--- -- Create the setting for HideObjectiveTrackerSetting
--- local checkbox = CreateFrame("CheckButton", "zUIHideObjectiveTrackerCheckbox", zUI_Panel, "ChatConfigCheckButtonTemplate")
-
--- -- Create a font string for the checkbox name
--- local checkboxName = checkbox:CreateFontString(nil, "OVERLAY", "GameFontNormal")
--- checkboxName:SetPoint("LEFT", checkbox, "RIGHT", 20, 0)
--- checkboxName:SetText("Objective Tracker")
-
--- checkbox:SetPoint("TOPLEFT", 40, -30)
--- checkbox.tooltip = "Hide Objective Tracker during combat."
--- checkbox:SetChecked(zUISavedSettings.HideObjectiveTrackerSetting)
-
--- checkbox:SetScript("OnClick", function(self)
---     zUISavedSettings.HideObjectiveTrackerSetting = self:GetChecked()
--- end)
+ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, ...)
+    if event == "PLAYER_LOGIN" then
+        checkbox_HideObjectiveTracker:SetChecked(zUISavedSettings.HideObjectiveTrackerSetting)
+        checkbox_HideChatFrame:SetChecked(zUISavedSettings.HideChatFrameSetting)
+        checkbox_HideQuickJoinToastButton:SetChecked(zUISavedSettings.HideQuickJoinToastButtonSetting)
+        checkbox_HideBagBar:SetChecked(zUISavedSettings.HideBagBarSetting)
+        checkbox_HideMultiBarRight:SetChecked(zUISavedSettings.HideMultiBarRightSetting)
+    end
+end)
 
 -- Create a Slash Command to show the settings UI
 SLASH_ZUI1 = "/zui"
 SlashCmdList["ZUI"] = function(msg)
     zUI_Panel:Show()
 end
+
+
+-------------------------------------------- GAME SETTINGS BELOW --------------------------------------------
+
 
 -- Hide the objective tracker when combat starts
 local HideObjectiveTracker = CreateFrame("Frame")
