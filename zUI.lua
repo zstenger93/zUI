@@ -67,23 +67,23 @@ HideSocialButton:SetScript("OnEvent", function(self, event)
     end
 end)
 
--- Hide the bag icon when combat starts
-local HideBagIcon = CreateFrame("Frame")
+-- Hide the bag bar when combat starts
+local HideBagBar = CreateFrame("Frame")
 
-HideBagIcon:RegisterEvent("PLAYER_REGEN_DISABLED")
-HideBagIcon:RegisterEvent("PLAYER_REGEN_ENABLED")
+HideBagBar:RegisterEvent("PLAYER_REGEN_DISABLED")
+HideBagBar:RegisterEvent("PLAYER_REGEN_ENABLED")
 
-HideBagIcon:SetScript("OnEvent", function(self, event)
+HideBagBar:SetScript("OnEvent", function(self, event)
     if event == "PLAYER_REGEN_DISABLED" then
         local status, error = pcall(function() 
-            MainMenuBarBackpackButton:Hide()
+            MainMenuBarBackpackButton:GetParent():Hide()
         end)
         if not status then
             zUI:Print(error)
         end
     elseif event == "PLAYER_REGEN_ENABLED" then
         local status, error = pcall(function() 
-            MainMenuBarBackpackButton:Show()
+            MainMenuBarBackpackButton:GetParent():Show()
         end)
         if not status then
             zUI:Print(error)
@@ -91,29 +91,48 @@ HideBagIcon:SetScript("OnEvent", function(self, event)
     end
 end)
 
--- Hide the main menu bar when combat starts
-local HideMenuBar = CreateFrame("Frame")
+-- Hide MultiBarRight(action bar 4 when combat starts
+local frame = CreateFrame("Frame")
+local fadeTicker = nil
 
-HideMenuBar:RegisterEvent("PLAYER_REGEN_DISABLED")
-HideMenuBar:RegisterEvent("PLAYER_REGEN_ENABLED")
+frame:RegisterEvent("ADDON_LOADED")
 
-HideMenuBar:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_REGEN_DISABLED" then
-        local status, error = pcall(function() 
-            MainMenuBar:Hide()
-        end)
-        if not status then
-            zUI:Print(error)
+frame:SetScript("OnEvent", function(self, event, addonName)
+    MultiBarRight:Show()
+    if event == "ADDON_LOADED" and addonName == "zUI" then
+        local barFrame = CreateFrame("Frame", nil, UIParent)
+        barFrame:SetAllPoints(MultiBarRight)
+        barFrame:EnableMouse(true)
+        
+        local function fadeOut()
+            local alpha = MultiBarRight:GetAlpha()
+            local newAlpha = alpha - 0.01
+            if newAlpha < 0.01 then
+                newAlpha = 0.01
+                if fadeTicker then
+                    fadeTicker:Cancel()
+                    fadeTicker = nil
+                end
+            end
+            MultiBarRight:SetAlpha(newAlpha)
         end
-    elseif event == "PLAYER_REGEN_ENABLED" then
-        local status, error = pcall(function() 
-            MainMenuBar:Show()
+
+        barFrame:SetScript("OnEnter", function(self)
+            if fadeTicker then
+                fadeTicker:Cancel()
+                fadeTicker = nil
+            end
+            MultiBarRight:SetAlpha(1)
         end)
-        if not status then
-            zUI:Print(error)
-        end
+
+        barFrame:SetScript("OnLeave", function(self)
+            if fadeTicker then
+                fadeTicker:Cancel()
+            end
+            fadeTicker = C_Timer.NewTicker(0.015, fadeOut, 100)
+        end)
+
+        MultiBarRight:Show()
+        MultiBarRight:SetAlpha(0.01)
     end
 end)
-
-
-
