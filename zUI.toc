@@ -3,5 +3,6 @@
 ## Notes:
 ## Author: zstenger93
 ## Version: 1.0
+## SavedVariables: zUISavedSettings
 
 zUI.lua
