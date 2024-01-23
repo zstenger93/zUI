@@ -24,9 +24,16 @@ verticalLine:SetWidth(3)
 
 -- UI Panel Title
 local UI_Title = zUI_Panel:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-
+UI_Title:SetFontObject("GameFontNormalLarge")
 UI_Title:SetPoint("TOP", zUI_Panel, "TOP", 50, -20)
 UI_Title:SetText("zUI Settings")
+
+-- Create a horizontal line below the title
+local line = zUI_Panel:CreateTexture(nil, "BACKGROUND")
+line:SetHeight(2)
+line:SetWidth(zUI_Panel:GetWidth() - 110)
+line:SetColorTexture(0.5, 0.5, 0.5, 0.5)
+line:SetPoint("TOP", UI_Title, "BOTTOM", 0, -10)
 
 -- Set the backdrop color to 50% transparent black
 zUI_Panel:SetBackdropColor(0, 0, 0, 0.9)
