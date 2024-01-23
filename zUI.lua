@@ -226,40 +226,5 @@ frame:RegisterEvent("ADDON_LOADED")
 
 frame:SetScript("OnEvent", function(self, event, addonName)
     -- MultiBarRight:Show()
-    -- if event == "ADDON_LOADED" and addonName == "zUI" then
-    --     local barFrame = CreateFrame("Frame", nil, UIParent)
-    --     barFrame:SetAllPoints(MultiBarRight)
-    --     barFrame:EnableMouse(true)
-        
-    --     local function fadeOut()
-    --         local alpha = MultiBarRight:GetAlpha()
-    --         local newAlpha = alpha - 0.01
-    --         if newAlpha < 0.01 then
-    --             newAlpha = 0.01
-    --             if fadeTicker then
-    --                 fadeTicker:Cancel()
-    --                 fadeTicker = nil
-    --             end
-    --         end
-    --         MultiBarRight:SetAlpha(newAlpha)
-    --     end
-
-    --     barFrame:SetScript("OnEnter", function(self)
-    --         if fadeTicker then
-    --             fadeTicker:Cancel()
-    --             fadeTicker = nil
-    --         end
-    --         MultiBarRight:SetAlpha(1)
-    --     end)
-
-    --     barFrame:SetScript("OnLeave", function(self)
-    --         if fadeTicker then
-    --             fadeTicker:Cancel()
-    --         end
-    --         fadeTicker = C_Timer.NewTicker(0.015, fadeOut, 100)
-    --     end)
-
-    --     MultiBarRight:Show()
-    --     MultiBarRight:SetAlpha(0.01)
-    -- end
+   
 end)
