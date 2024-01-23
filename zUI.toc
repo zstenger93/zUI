@@ -7,4 +7,5 @@
 
 ui_elements.lua
 menu.lua
+ui_settings.lua
 zUI.lua

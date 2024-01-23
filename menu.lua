@@ -36,3 +36,4 @@ actionBarsPage = CreateFrame("Frame", nil, zUI_Panel)
 actionBarsPage:SetSize(200, 200)
 actionBarsPage:SetPoint("TOPLEFT", actionBarsButton, "TOPRIGHT", 10, 0)
 actionBarsPage:Hide()
+

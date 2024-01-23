@@ -6,7 +6,7 @@ zUISavedSettings = { }
 
 
 -- Create the setting for HideObjectiveTrackerSetting
-local checkbox_HideObjectiveTracker = CreateFrame("CheckButton", "zUIHideObjectiveTrackerCheckbox", hideShowPage, "ChatConfigCheckButtonTemplate") -- Create the checkbox on hideShowPage
+checkbox_HideObjectiveTracker = CreateFrame("CheckButton", "zUIHideObjectiveTrackerCheckbox", hideShowPage, "ChatConfigCheckButtonTemplate") -- Create the checkbox on hideShowPage
 local checkboxName = checkbox_HideObjectiveTracker:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 checkboxName:SetPoint("LEFT", checkbox_HideObjectiveTracker, "RIGHT", 20, 0)
 checkboxName:SetText("Objective Tracker")
@@ -19,7 +19,7 @@ checkbox_HideObjectiveTracker:SetScript("OnClick", function(self)
 end)
 
 -- Create the setting for HideChatFrameSetting
-local checkbox_HideChatFrame = CreateFrame("CheckButton", "zUIHideChatFrameCheckbox", hideShowPage, "ChatConfigCheckButtonTemplate")
+checkbox_HideChatFrame = CreateFrame("CheckButton", "zUIHideChatFrameCheckbox", hideShowPage, "ChatConfigCheckButtonTemplate")
 local checkboxName2 = checkbox_HideChatFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 checkboxName2:SetPoint("LEFT", checkbox_HideChatFrame, "RIGHT", 20, 0)
 checkboxName2:SetText("Chat Frame")
@@ -32,7 +32,7 @@ checkbox_HideChatFrame:SetScript("OnClick", function(self)
 end)
 
 -- Create the setting for HideQuickJoinToastButtonSetting
-local checkbox_HideQuickJoinToastButton = CreateFrame("CheckButton", "zUIHideQuickJoinToastButtonCheckbox", hideShowPage, "ChatConfigCheckButtonTemplate")
+checkbox_HideQuickJoinToastButton = CreateFrame("CheckButton", "zUIHideQuickJoinToastButtonCheckbox", hideShowPage, "ChatConfigCheckButtonTemplate")
 local checkboxName3 = checkbox_HideQuickJoinToastButton:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 checkboxName3:SetPoint("LEFT", checkbox_HideQuickJoinToastButton, "RIGHT", 20, 0)
 checkboxName3:SetText("Quick Join Toast Button")
@@ -45,8 +45,7 @@ checkbox_HideQuickJoinToastButton:SetScript("OnClick", function(self)
 end)
 
 -- Create the setting for HideBagBarSetting
-
-local checkbox_HideBagBar = CreateFrame("CheckButton", "zUIHideBagBarCheckbox", hideShowPage, "ChatConfigCheckButtonTemplate")
+checkbox_HideBagBar = CreateFrame("CheckButton", "zUIHideBagBarCheckbox", hideShowPage, "ChatConfigCheckButtonTemplate")
 local checkboxName4 = checkbox_HideBagBar:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 checkboxName4:SetPoint("LEFT", checkbox_HideBagBar, "RIGHT", 20, 0)
 checkboxName4:SetText("Bag Bar")
@@ -64,7 +63,7 @@ end)
 
 -- Create the setting for HideMultiBarRightSetting
 
-local checkbox_HideMultiBarRight = CreateFrame("CheckButton", "zUIHideMultiBarRightCheckbox", actionBarsPage, "ChatConfigCheckButtonTemplate")
+checkbox_HideMultiBarRight = CreateFrame("CheckButton", "zUIHideMultiBarRightCheckbox", actionBarsPage, "ChatConfigCheckButtonTemplate")
 local checkboxName5 = checkbox_HideMultiBarRight:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 checkboxName5:SetPoint("LEFT", checkbox_HideMultiBarRight, "RIGHT", 20, 0)
 checkboxName5:SetText("MultiBarRight")
@@ -94,38 +93,6 @@ actionBarsButton:SetScript("OnClick", function()
     generalPage:Hide()
     hideShowPage:Hide()
 end)
-
--- Create a reload button at the bottom middle of the panel
-local reloadButton = CreateFrame("Button", nil, zUI_Panel, "GameMenuButtonTemplate")
-reloadButton:SetPoint("BOTTOM", 50, 10)
-reloadButton:SetSize(100, 20)
-reloadButton:SetText("Reload")
-reloadButton:SetNormalFontObject("GameFontNormal")
-
--- Handle the OnClick event for the reload button
-reloadButton:SetScript("OnClick", function()
-    ReloadUI()
-end)
-
--- Update the checkboxes based on the saved settings
-local ShowTicksIfAttributeIsSet = CreateFrame("Frame")
-ShowTicksIfAttributeIsSet:RegisterEvent("PLAYER_LOGIN")
-
-ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, ...)
-    if event == "PLAYER_LOGIN" then
-        checkbox_HideObjectiveTracker:SetChecked(zUISavedSettings.HideObjectiveTrackerSetting)
-        checkbox_HideChatFrame:SetChecked(zUISavedSettings.HideChatFrameSetting)
-        checkbox_HideQuickJoinToastButton:SetChecked(zUISavedSettings.HideQuickJoinToastButtonSetting)
-        checkbox_HideBagBar:SetChecked(zUISavedSettings.HideBagBarSetting)
-        checkbox_HideMultiBarRight:SetChecked(zUISavedSettings.HideMultiBarRightSetting)
-    end
-end)
-
--- Create a Slash Command to show the settings UI
-SLASH_ZUI1 = "/zui"
-SlashCmdList["ZUI"] = function(msg)
-    zUI_Panel:Show()
-end
 
 
 -------------------------------------------- GAME SETTINGS BELOW --------------------------------------------
