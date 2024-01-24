@@ -1,11 +1,11 @@
 ## Interface: 100205
 ## Title: zUI
-## Notes:
+## Notes: The Custom Rabbit Hole Hell
 ## Author: zstenger93
 ## Version: 1.0
-## SavedVariables: zUISavedSettings
+## SavedVariables: zUI_SavedSettings
 
+ui_settings.lua
 ui_elements.lua
 menu.lua
-ui_settings.lua
 zUI.lua

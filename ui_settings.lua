@@ -1,3 +1,6 @@
+zUI = zUI or {}
+zUI_SavedSettings = zUI_SavedSettings or {}
+
 -- Welcome to the zUI Settings UI!
 local welcomeMessage = CreateFrame("Frame")
 welcomeMessage:RegisterEvent("PLAYER_LOGIN")
@@ -20,21 +23,21 @@ end)
 
 -- Update the checkboxes based on the saved settings
 local ShowTicksIfAttributeIsSet = CreateFrame("Frame")
-ShowTicksIfAttributeIsSet:RegisterEvent("PLAYER_LOGIN")
+ShowTicksIfAttributeIsSet:RegisterEvent("ADDON_LOADED")
 
-ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, ...)
-    if event == "PLAYER_LOGIN" then
+ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, addonName)
+    if event == "ADDON_LOADED" and addonName == "zUI" then
         checkbox_HideObjectiveTracker:SetChecked(
-            zUISavedSettings.HideObjectiveTrackerSetting)
-        checkbox_HideChatFrame:SetChecked(zUISavedSettings.HideChatFrameSetting)
+            zUI_SavedSettings.HideObjectiveTrackerSetting)
+        checkbox_HideChatFrame:SetChecked(zUI_SavedSettings.HideChatFrameSetting)
         checkbox_HideQuickJoinToastButton:SetChecked(
-            zUISavedSettings.HideQuickJoinToastButtonSetting)
-        checkbox_HideBagBar:SetChecked(zUISavedSettings.HideBagBarSetting)
+            zUI_SavedSettings.HideQuickJoinToastButtonSetting)
+        checkbox_HideBagBar:SetChecked(zUI_SavedSettings.HideBagBarSetting)
         checkbox_HideMultiBarRight:SetChecked(
-            zUISavedSettings.HideMultiBarRightSetting)
+            zUI_SavedSettings.HideMultiBarRightSetting)
         checkbox_HideHudTooltip:SetChecked(
-            zUISavedSettings.HideHudTooltipSetting)
-        checkbox_fpsFrame:SetChecked(zUISavedSettings.HideFpsSetting)
+            zUI_SavedSettings.HideHudTooltipSetting)
+        checkbox_fpsFrame:SetChecked(zUI_SavedSettings.HideFpsSetting)
     end
 end)
 

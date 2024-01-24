@@ -1,8 +1,4 @@
-zUI = {}
-zUISavedSettings = {}
-
 ---------------------------------------------- CHECKBOXES ON GENERAL PAGE ----------------------------------------------
-
 -- Create the setting for fpsFrameSetting
 checkbox_fpsFrame = CreateFrame("CheckButton", "zUIfpsFrameCheckbox",
                                 generalPage, "ChatConfigCheckButtonTemplate")
@@ -12,10 +8,10 @@ checkboxName:SetPoint("LEFT", checkbox_fpsFrame, "RIGHT", 20, 0)
 checkboxName:SetText("FPS Frame")
 checkbox_fpsFrame:SetPoint("TOPLEFT", 40, -30)
 checkbox_fpsFrame.tooltip = "Show FPS Frame."
-checkbox_fpsFrame:SetChecked(zUISavedSettings.fpsFrameSetting)
+checkbox_fpsFrame:SetChecked(zUI_SavedSettings.fpsFrameSetting)
 
 checkbox_fpsFrame:SetScript("OnClick", function(self)
-    zUISavedSettings.fpsFrameSetting = self:GetChecked()
+    zUI_SavedSettings.fpsFrameSetting = self:GetChecked()
 end)
 
 -------------------------------------------- CHECKBOXES ON SHOW & HIDE PAGE --------------------------------------------
@@ -33,10 +29,11 @@ checkboxName:SetText("Objective Tracker")
 checkbox_HideObjectiveTracker:SetPoint("TOPLEFT", 40, -30)
 checkbox_HideObjectiveTracker.tooltip = "Hide Objective Tracker during combat."
 checkbox_HideObjectiveTracker:SetChecked(
-    zUISavedSettings.HideObjectiveTrackerSetting)
+    zUI_SavedSettings.HideObjectiveTrackerSetting)
 
-checkbox_HideObjectiveTracker:SetScript("OnClick", function(self)
-    zUISavedSettings.HideObjectiveTrackerSetting = self:GetChecked()
+checkbox_HideObjectiveTracker:SetScript("OnClick",
+                                        function(self)
+    zUI_SavedSettings.HideObjectiveTrackerSetting = self:GetChecked()
 end)
 
 -- Create the setting for HideChatFrameSetting
@@ -49,10 +46,10 @@ checkboxName2:SetPoint("LEFT", checkbox_HideChatFrame, "RIGHT", 20, 0)
 checkboxName2:SetText("Chat Frame")
 checkbox_HideChatFrame:SetPoint("TOPLEFT", 40, -60)
 checkbox_HideChatFrame.tooltip = "Hide Chat Frame during combat."
-checkbox_HideChatFrame:SetChecked(zUISavedSettings.HideChatFrameSetting)
+checkbox_HideChatFrame:SetChecked(zUI_SavedSettings.HideChatFrameSetting)
 
 checkbox_HideChatFrame:SetScript("OnClick", function(self)
-    zUISavedSettings.HideChatFrameSetting = self:GetChecked()
+    zUI_SavedSettings.HideChatFrameSetting = self:GetChecked()
 end)
 
 -- Create the setting for HideQuickJoinToastButtonSetting
@@ -69,10 +66,10 @@ checkbox_HideQuickJoinToastButton:SetPoint("TOPLEFT", 40, -90)
 checkbox_HideQuickJoinToastButton.tooltip =
     "Hide Quick Join Toast Button during combat."
 checkbox_HideQuickJoinToastButton:SetChecked(
-    zUISavedSettings.HideQuickJoinToastButtonSetting)
+    zUI_SavedSettings.HideQuickJoinToastButtonSetting)
 
 checkbox_HideQuickJoinToastButton:SetScript("OnClick", function(self)
-    zUISavedSettings.HideQuickJoinToastButtonSetting = self:GetChecked()
+    zUI_SavedSettings.HideQuickJoinToastButtonSetting = self:GetChecked()
 end)
 
 -- Create the setting for HideBagBarSetting
@@ -84,10 +81,10 @@ checkboxName4:SetPoint("LEFT", checkbox_HideBagBar, "RIGHT", 20, 0)
 checkboxName4:SetText("Bag Bar")
 checkbox_HideBagBar:SetPoint("TOPLEFT", 40, -120)
 checkbox_HideBagBar.tooltip = "Hide Bag Bar during combat."
-checkbox_HideBagBar:SetChecked(zUISavedSettings.HideBagBarSetting)
+checkbox_HideBagBar:SetChecked(zUI_SavedSettings.HideBagBarSetting)
 
 checkbox_HideBagBar:SetScript("OnClick", function(self)
-    zUISavedSettings.HideBagBarSetting = self:GetChecked()
+    zUI_SavedSettings.HideBagBarSetting = self:GetChecked()
 end)
 
 -- Create the setting for HideHudTooltipSetting
@@ -100,10 +97,10 @@ checkboxName5:SetPoint("LEFT", checkbox_HideHudTooltip, "RIGHT", 20, 0)
 checkboxName5:SetText("HUD Tooltips")
 checkbox_HideHudTooltip:SetPoint("TOPLEFT", 40, -150)
 checkbox_HideHudTooltip.tooltip = "Hide HUD Tooltips during combat."
-checkbox_HideHudTooltip:SetChecked(zUISavedSettings.HideHudTooltipSetting)
+checkbox_HideHudTooltip:SetChecked(zUI_SavedSettings.HideHudTooltipSetting)
 
 checkbox_HideHudTooltip:SetScript("OnClick", function(self)
-    zUISavedSettings.HideHudTooltipSetting = self:GetChecked()
+    zUI_SavedSettings.HideHudTooltipSetting = self:GetChecked()
 end)
 
 -------------------------------------------- CHECKBOXES ON ACTIONBARS PAGE --------------------------------------------
@@ -121,10 +118,10 @@ checkboxName5:SetPoint("LEFT", checkbox_HideMultiBarRight, "RIGHT", 20, 0)
 checkboxName5:SetText("MultiBarRight")
 checkbox_HideMultiBarRight:SetPoint("TOPLEFT", 40, -30)
 checkbox_HideMultiBarRight.tooltip = "Hide MultiBarRight during combat."
-checkbox_HideMultiBarRight:SetChecked(zUISavedSettings.HideMultiBarRightSetting)
+checkbox_HideMultiBarRight:SetChecked(zUI_SavedSettings.HideMultiBarRightSetting)
 
 checkbox_HideMultiBarRight:SetScript("OnClick", function(self)
-    zUISavedSettings.HideMultiBarRightSetting = self:GetChecked()
+    zUI_SavedSettings.HideMultiBarRightSetting = self:GetChecked()
 end)
 
 ------------------------------------------------- GAME SETTINGS BELOW -------------------------------------------------
@@ -135,7 +132,7 @@ HideObjectiveTracker:RegisterEvent("PLAYER_REGEN_DISABLED")
 HideObjectiveTracker:RegisterEvent("PLAYER_REGEN_ENABLED")
 
 HideObjectiveTracker:SetScript("OnEvent", function(self, event)
-    if ObjectiveTrackerFrame and zUISavedSettings.HideObjectiveTrackerSetting then
+    if ObjectiveTrackerFrame and zUI_SavedSettings.HideObjectiveTrackerSetting then
         if event == "PLAYER_REGEN_DISABLED" then
             local status, error = pcall(function()
                 ObjectiveTrackerFrame:Hide()
@@ -192,36 +189,12 @@ HideChatSidebar:SetScript("OnEvent", function(self, event)
         end)
         if not status then end
         for i = 1, NUM_CHAT_WINDOWS do
-            _G["ChatFrame" .. i .. "Tab"]:SetAlpha(0)
-        end
-    end
-end)
--- Hide the bag bar when combat starts
-local HideBagBar = CreateFrame("Frame")
-
-HideBagBar:RegisterEvent("PLAYER_REGEN_DISABLED")
-HideBagBar:RegisterEvent("PLAYER_REGEN_ENABLED")
-
-HideChatSidebar:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_ENTERING_WORLD" then
-        local status, error = pcall(function()
-            ChatFrameMenuButton:Hide()
-            QuickJoinToastButton:Hide()
-            ChatFrameChannelButton:Hide()
-            ChatFrameToggleVoiceDeafenButton:Hide()
-            for i = 1, NUM_CHAT_WINDOWS do
-                _G["ChatFrame" .. i .. "TabLeft"]:SetTexture(nil)
-                _G["ChatFrame" .. i .. "TabMiddle"]:SetTexture(nil)
-                _G["ChatFrame" .. i .. "TabRight"]:SetTexture(nil)
-            end
-        end)
-        if not status then end
-        for i = 1, NUM_CHAT_WINDOWS do
             for i = 1, NUM_CHAT_WINDOWS do
                 local chatFrame = _G["ChatFrame" .. i]
                 local editBox = _G["ChatFrame" .. i .. "EditBox"]
                 chatFrame:ClearAllPoints()
-                chatFrame:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", -20, -20)
+                chatFrame:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", -20,
+                                   -20)
                 chatFrame:SetWidth(500)
                 chatFrame:SetHeight(300)
                 editBox:ClearAllPoints()
@@ -232,14 +205,36 @@ HideChatSidebar:SetScript("OnEvent", function(self, event)
             _G["ChatFrame" .. i .. "Tab"]:SetAlpha(0)
             local editBox = _G["ChatFrame" .. i .. "EditBox"]
             editBox:ClearAllPoints()
-            editBox:SetPoint("BOTTOMLEFT", _G["ChatFrame" .. i], "TOPLEFT", -10, 0)
-            editBox:SetPoint("BOTTOMRIGHT", _G["ChatFrame" .. i], "TOPRIGHT", 10, 0)
+            editBox:SetPoint("BOTTOMLEFT", _G["ChatFrame" .. i], "TOPLEFT", -10,
+                             0)
+            editBox:SetPoint("BOTTOMRIGHT", _G["ChatFrame" .. i], "TOPRIGHT",
+                             10, 0)
         end
         DEFAULT_CHAT_FRAME:ClearAllPoints()
-        DEFAULT_CHAT_FRAME:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", -10, -10)
+        DEFAULT_CHAT_FRAME:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", -10,
+                                    -10)
     end
 end)
 
+-- Hide the bag bar when combat starts
+local HideBagBar = CreateFrame("Frame")
+
+HideBagBar:RegisterEvent("PLAYER_REGEN_DISABLED")
+HideBagBar:RegisterEvent("PLAYER_REGEN_ENABLED")
+
+HideBagBar:SetScript("OnEvent", function(self, event)
+    if event == "PLAYER_REGEN_DISABLED" and zUISavedSettings.HideBagBarSetting then
+        local status, error = pcall(function()
+            MainMenuBarBackpackButton:GetParent():Hide()
+        end)
+        if not status then zUI:Print(error) end
+    elseif event == "PLAYER_REGEN_ENABLED" then
+        local status, error = pcall(function()
+            MainMenuBarBackpackButton:GetParent():Show()
+        end)
+        if not status then zUI:Print(error) end
+    end
+end)
 
 -- Hide HUD tooltips when combat starts
 local HideHudTooltip = CreateFrame("Frame")
@@ -249,7 +244,7 @@ HideHudTooltip:RegisterEvent("PLAYER_REGEN_ENABLED")
 
 HideHudTooltip:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_REGEN_DISABLED" and
-        zUISavedSettings.HideHudTooltipSetting then
+        zUI_SavedSettings.HideHudTooltipSetting then
         inCombat = true
         GameTooltip:Hide()
     elseif event == "PLAYER_REGEN_ENABLED" then
@@ -258,7 +253,7 @@ HideHudTooltip:SetScript("OnEvent", function(self, event, ...)
 end)
 
 GameTooltip:SetScript("OnShow", function(self)
-    if inCombat and zUISavedSettings.HideHudTooltipSetting then self:Hide() end
+    if inCombat and zUI_SavedSettings.HideHudTooltipSetting then self:Hide() end
 end)
 
 -- Show FPS Frame

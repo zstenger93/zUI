@@ -1,3 +1,4 @@
+
 -------------------------------------------- UI SETTINGS PANEL DESIGN --------------------------------------------
 -- Create a frame for the UI
 zUI_Panel = CreateFrame("Frame", "zUIConfig", UIParent, "BackdropTemplate")
