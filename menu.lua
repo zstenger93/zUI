@@ -1,6 +1,4 @@
 -------------------------------------------- BUTTON & PAGE CREATION --------------------------------------------
-
-
 -- Create the menu buttons
 generalButton = CreateFrame("Button", nil, zUI_Panel, "GameMenuButtonTemplate")
 generalButton:SetPoint("TOPLEFT", 10, -30)
@@ -14,7 +12,8 @@ hideShowButton:SetSize(100, 20)
 hideShowButton:SetText("Hide & Show")
 hideShowButton:SetNormalFontObject("GameFontNormal")
 
-actionBarsButton = CreateFrame("Button", nil, zUI_Panel, "GameMenuButtonTemplate")
+actionBarsButton = CreateFrame("Button", nil, zUI_Panel,
+                               "GameMenuButtonTemplate")
 actionBarsButton:SetPoint("TOPLEFT", hideShowButton, "BOTTOMLEFT", 0, -10)
 actionBarsButton:SetSize(100, 20)
 actionBarsButton:SetText("ActionBars")
@@ -37,21 +36,3 @@ actionBarsPage:SetSize(200, 200)
 actionBarsPage:SetPoint("TOPLEFT", actionBarsButton, "TOPRIGHT", 10, 0)
 actionBarsPage:Hide()
 
--- Handle the OnClick event for the menu buttons
-generalButton:SetScript("OnClick", function()
-    generalPage:Show()
-    hideShowPage:Hide()
-    actionBarsPage:Hide()
-end)
-
-hideShowButton:SetScript("OnClick", function()
-    generalPage:Hide()
-    hideShowPage:Show()
-    actionBarsPage:Hide()
-end)
-
-actionBarsButton:SetScript("OnClick", function()
-    actionBarsPage:Show()
-    generalPage:Hide()
-    hideShowPage:Hide()
-end)

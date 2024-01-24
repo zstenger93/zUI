@@ -1,6 +1,4 @@
 -------------------------------------------- UI SETTINGS PANEL DESIGN --------------------------------------------
-
-
 -- Create a frame for the UI
 zUI_Panel = CreateFrame("Frame", "zUIConfig", UIParent, "BackdropTemplate")
 
@@ -12,7 +10,7 @@ zUI_Panel:SetBackdrop({
     tile = true,
     tileSize = 32,
     edgeSize = 32,
-    insets = { left = 8, right = 8, top = 8, bottom = 8 }
+    insets = {left = 8, right = 8, top = 8, bottom = 8}
 })
 
 -- Create a vertical line next to the menu buttons
@@ -58,17 +56,14 @@ local closeButton = CreateFrame("Button", nil, zUI_Panel, "UIPanelCloseButton")
 closeButton:SetPoint("TOPRIGHT")
 
 -- Handle the OnClick event for the close button
-closeButton:SetScript("OnClick", function()
-    zUI_Panel:Hide()
-end)
+closeButton:SetScript("OnClick", function() zUI_Panel:Hide() end)
 
 -- Create a reload button at the bottom middle of the panel
-local reloadButton = CreateFrame("Button", nil, zUI_Panel, "GameMenuButtonTemplate")
+local reloadButton = CreateFrame("Button", nil, zUI_Panel,
+                                 "GameMenuButtonTemplate")
 reloadButton:SetPoint("BOTTOM", 50, 20)
 reloadButton:SetSize(100, 20)
 reloadButton:SetText("Reload")
 reloadButton:SetNormalFontObject("GameFontNormal")
 
-reloadButton:SetScript("OnClick", function()
-    ReloadUI()
-end)
+reloadButton:SetScript("OnClick", function() ReloadUI() end)
