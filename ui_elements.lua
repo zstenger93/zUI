@@ -36,9 +36,23 @@ line:SetColorTexture(0.5, 0.5, 0.5, 0.5)
 line:SetPoint("TOP", UI_Title, "BOTTOM", 0, -10)
 
 -- Set the backdrop color to 50% transparent black
-zUI_Panel:SetBackdropColor(0, 0, 0, 0.9)
 zUI_Panel:SetPoint("CENTER")
 zUI_Panel:Hide()
+
+-- Hide the addon UI when combat starts
+local HideZuiInCombat = CreateFrame("Frame")
+HideZuiInCombat:RegisterEvent("PLAYER_REGEN_DISABLED")
+HideZuiInCombat:RegisterEvent("PLAYER_REGEN_ENABLED")
+local wasOpenBeforeCombat
+
+HideZuiInCombat:SetScript("OnEvent", function(self, event, ...)
+    if event == "PLAYER_REGEN_DISABLED" then
+        wasOpenBeforeCombat = zUI_Panel:IsVisible()
+        zUI_Panel:Hide()
+    elseif event == "PLAYER_REGEN_ENABLED" and wasOpenBeforeCombat then
+        zUI_Panel:Show()
+    end
+end)
 
 local closeButton = CreateFrame("Button", nil, zUI_Panel, "UIPanelCloseButton")
 closeButton:SetPoint("TOPRIGHT")
@@ -46,4 +60,15 @@ closeButton:SetPoint("TOPRIGHT")
 -- Handle the OnClick event for the close button
 closeButton:SetScript("OnClick", function()
     zUI_Panel:Hide()
+end)
+
+-- Create a reload button at the bottom middle of the panel
+local reloadButton = CreateFrame("Button", nil, zUI_Panel, "GameMenuButtonTemplate")
+reloadButton:SetPoint("BOTTOM", 50, 20)
+reloadButton:SetSize(100, 20)
+reloadButton:SetText("Reload")
+reloadButton:SetNormalFontObject("GameFontNormal")
+
+reloadButton:SetScript("OnClick", function()
+    ReloadUI()
 end)

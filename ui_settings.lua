@@ -11,21 +11,10 @@ welcomeMessage:SetScript("OnEvent", function(self, event, ...)
         DEFAULT_CHAT_FRAME:AddMessage(" ")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
-        DEFAULT_CHAT_FRAME:AddMessage("                            Welcome back!")
+        DEFAULT_CHAT_FRAME:AddMessage("                         Welcome back!")
         DEFAULT_CHAT_FRAME:AddMessage("What are you going to waste your time on today?")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
     end
-end)
-
--- Create a reload button at the bottom middle of the panel
-local reloadButton = CreateFrame("Button", nil, zUI_Panel, "GameMenuButtonTemplate")
-reloadButton:SetPoint("BOTTOM", 50, 10)
-reloadButton:SetSize(100, 20)
-reloadButton:SetText("Reload")
-reloadButton:SetNormalFontObject("GameFontNormal")
-
-reloadButton:SetScript("OnClick", function()
-    ReloadUI()
 end)
 
 -- Update the checkboxes based on the saved settings
