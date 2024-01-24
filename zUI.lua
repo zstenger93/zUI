@@ -172,39 +172,74 @@ HideChatFrameObject:SetScript("OnEvent", function(self, event)
     end
 end)
 
--- Hide the Quick Join Toast Button 
-local HideSocialButton = CreateFrame("Frame")
+-- Hide the CHat sidebar
+local HideChatSidebar = CreateFrame("Frame")
 
-HideSocialButton:RegisterEvent("PLAYER_LOGIN")
+HideChatSidebar:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-HideSocialButton:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_LOGIN" then
+HideChatSidebar:SetScript("OnEvent", function(self, event)
+    if event == "PLAYER_ENTERING_WORLD" then
         local status, error = pcall(function()
+            ChatFrameMenuButton:Hide()
             QuickJoinToastButton:Hide()
+            ChatFrameChannelButton:Hide()
+            ChatFrameToggleVoiceDeafenButton:Hide()
+            for i = 1, NUM_CHAT_WINDOWS do
+                _G["ChatFrame" .. i .. "TabLeft"]:SetTexture(nil)
+                _G["ChatFrame" .. i .. "TabMiddle"]:SetTexture(nil)
+                _G["ChatFrame" .. i .. "TabRight"]:SetTexture(nil)
+            end
         end)
-        if not status then zUI:Print(error) end
+        if not status then end
+        for i = 1, NUM_CHAT_WINDOWS do
+            _G["ChatFrame" .. i .. "Tab"]:SetAlpha(0)
+        end
     end
 end)
-
 -- Hide the bag bar when combat starts
 local HideBagBar = CreateFrame("Frame")
 
 HideBagBar:RegisterEvent("PLAYER_REGEN_DISABLED")
 HideBagBar:RegisterEvent("PLAYER_REGEN_ENABLED")
 
-HideBagBar:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_REGEN_DISABLED" and zUISavedSettings.HideBagBarSetting then
+HideChatSidebar:SetScript("OnEvent", function(self, event)
+    if event == "PLAYER_ENTERING_WORLD" then
         local status, error = pcall(function()
-            MainMenuBarBackpackButton:GetParent():Hide()
+            ChatFrameMenuButton:Hide()
+            QuickJoinToastButton:Hide()
+            ChatFrameChannelButton:Hide()
+            ChatFrameToggleVoiceDeafenButton:Hide()
+            for i = 1, NUM_CHAT_WINDOWS do
+                _G["ChatFrame" .. i .. "TabLeft"]:SetTexture(nil)
+                _G["ChatFrame" .. i .. "TabMiddle"]:SetTexture(nil)
+                _G["ChatFrame" .. i .. "TabRight"]:SetTexture(nil)
+            end
         end)
-        if not status then zUI:Print(error) end
-    elseif event == "PLAYER_REGEN_ENABLED" then
-        local status, error = pcall(function()
-            MainMenuBarBackpackButton:GetParent():Show()
-        end)
-        if not status then zUI:Print(error) end
+        if not status then end
+        for i = 1, NUM_CHAT_WINDOWS do
+            for i = 1, NUM_CHAT_WINDOWS do
+                local chatFrame = _G["ChatFrame" .. i]
+                local editBox = _G["ChatFrame" .. i .. "EditBox"]
+                chatFrame:ClearAllPoints()
+                chatFrame:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", -20, -20)
+                chatFrame:SetWidth(500)
+                chatFrame:SetHeight(300)
+                editBox:ClearAllPoints()
+                editBox:SetPoint("BOTTOMLEFT", chatFrame, "TOPLEFT", 0, 0)
+                editBox:SetPoint("BOTTOMRIGHT", chatFrame, "TOPRIGHT", 0, 0)
+                _G["ChatFrame" .. i .. "Tab"]:SetAlpha(0)
+            end
+            _G["ChatFrame" .. i .. "Tab"]:SetAlpha(0)
+            local editBox = _G["ChatFrame" .. i .. "EditBox"]
+            editBox:ClearAllPoints()
+            editBox:SetPoint("BOTTOMLEFT", _G["ChatFrame" .. i], "TOPLEFT", -10, 0)
+            editBox:SetPoint("BOTTOMRIGHT", _G["ChatFrame" .. i], "TOPRIGHT", 10, 0)
+        end
+        DEFAULT_CHAT_FRAME:ClearAllPoints()
+        DEFAULT_CHAT_FRAME:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", -10, -10)
     end
 end)
+
 
 -- Hide HUD tooltips when combat starts
 local HideHudTooltip = CreateFrame("Frame")
@@ -243,7 +278,6 @@ fpsFrame:SetScript("OnUpdate", function(self, elapsed)
         self.timeSinceLastUpdate = 0
     end
 end)
-
 
 -- THIS AIN'T FINISHED YET
 
