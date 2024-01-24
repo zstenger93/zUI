@@ -3,6 +3,21 @@ zUISavedSettings = {}
 
 ---------------------------------------------- CHECKBOXES ON GENERAL PAGE ----------------------------------------------
 
+-- Create the setting for fpsFrameSetting
+checkbox_fpsFrame = CreateFrame("CheckButton", "zUIfpsFrameCheckbox",
+                                generalPage, "ChatConfigCheckButtonTemplate")
+local checkboxName = checkbox_fpsFrame:CreateFontString(nil, "OVERLAY",
+                                                        "GameFontNormal")
+checkboxName:SetPoint("LEFT", checkbox_fpsFrame, "RIGHT", 20, 0)
+checkboxName:SetText("FPS Frame")
+checkbox_fpsFrame:SetPoint("TOPLEFT", 40, -30)
+checkbox_fpsFrame.tooltip = "Show FPS Frame."
+checkbox_fpsFrame:SetChecked(zUISavedSettings.fpsFrameSetting)
+
+checkbox_fpsFrame:SetScript("OnClick", function(self)
+    zUISavedSettings.fpsFrameSetting = self:GetChecked()
+end)
+
 -------------------------------------------- CHECKBOXES ON SHOW & HIDE PAGE --------------------------------------------
 
 -- Create the setting for HideObjectiveTrackerSetting
@@ -210,6 +225,27 @@ end)
 GameTooltip:SetScript("OnShow", function(self)
     if inCombat and zUISavedSettings.HideHudTooltipSetting then self:Hide() end
 end)
+
+-- Show FPS Frame
+local fpsFrame = CreateFrame("Frame", nil, UIParent)
+fpsFrame:SetSize(100, 20)
+fpsFrame:SetPoint("TOP", 0, -5)
+
+local fpsText = fpsFrame:CreateFontString(nil, "OVERLAY")
+fpsText:SetAllPoints()
+fpsText:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
+
+fpsFrame:SetScript("OnUpdate", function(self, elapsed)
+    self.timeSinceLastUpdate = (self.timeSinceLastUpdate or 0) + elapsed
+    if self.timeSinceLastUpdate >= 1 then
+        local fps = GetFramerate()
+        fpsText:SetText(string.format("FPS: %.1f", fps))
+        self.timeSinceLastUpdate = 0
+    end
+end)
+
+
+-- THIS AIN'T FINISHED YET
 
 -- Hide MultiBarRight(action bar 4 when combat starts
 local frame = CreateFrame("Frame")
