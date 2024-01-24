@@ -37,3 +37,21 @@ actionBarsPage:SetSize(200, 200)
 actionBarsPage:SetPoint("TOPLEFT", actionBarsButton, "TOPRIGHT", 10, 0)
 actionBarsPage:Hide()
 
+-- Handle the OnClick event for the menu buttons
+generalButton:SetScript("OnClick", function()
+    generalPage:Show()
+    hideShowPage:Hide()
+    actionBarsPage:Hide()
+end)
+
+hideShowButton:SetScript("OnClick", function()
+    generalPage:Hide()
+    hideShowPage:Show()
+    actionBarsPage:Hide()
+end)
+
+actionBarsButton:SetScript("OnClick", function()
+    actionBarsPage:Show()
+    generalPage:Hide()
+    hideShowPage:Hide()
+end)

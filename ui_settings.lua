@@ -5,7 +5,13 @@ welcomeMessage:RegisterEvent("PLAYER_LOGIN")
 welcomeMessage:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_LOGIN" then
         DEFAULT_CHAT_FRAME:AddMessage(" ")
-        DEFAULT_CHAT_FRAME:AddMessage("Welcome back!")
+        DEFAULT_CHAT_FRAME:AddMessage(" ")
+        DEFAULT_CHAT_FRAME:AddMessage(" ")
+        DEFAULT_CHAT_FRAME:AddMessage(" ")
+        DEFAULT_CHAT_FRAME:AddMessage(" ")
+        DEFAULT_CHAT_FRAME:AddMessage(" ")
+        DEFAULT_CHAT_FRAME:AddMessage(" ")
+        DEFAULT_CHAT_FRAME:AddMessage("                            Welcome back!")
         DEFAULT_CHAT_FRAME:AddMessage("What are you going to waste your time on today?")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
     end
@@ -33,6 +39,7 @@ ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, ...)
         checkbox_HideQuickJoinToastButton:SetChecked(zUISavedSettings.HideQuickJoinToastButtonSetting)
         checkbox_HideBagBar:SetChecked(zUISavedSettings.HideBagBarSetting)
         checkbox_HideMultiBarRight:SetChecked(zUISavedSettings.HideMultiBarRightSetting)
+        checkbox_HideHudTooltip:SetChecked(zUISavedSettings.HideHudTooltipSetting)
     end
 end)
 

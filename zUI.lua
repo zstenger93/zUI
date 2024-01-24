@@ -2,6 +2,9 @@ zUI = { }
 zUISavedSettings = { }
 
 
+---------------------------------------------- CHECKBOXES ON GENERAL PAGE ----------------------------------------------
+
+
 -------------------------------------------- CHECKBOXES ON SHOW & HIDE PAGE --------------------------------------------
 
 
@@ -57,6 +60,18 @@ checkbox_HideBagBar:SetScript("OnClick", function(self)
     zUISavedSettings.HideBagBarSetting = self:GetChecked()
 end)
 
+-- Create the setting for HideHudTooltipSetting
+checkbox_HideHudTooltip = CreateFrame("CheckButton", "zUIHideHudTooltipCheckbox", hideShowPage, "ChatConfigCheckButtonTemplate")
+local checkboxName5 = checkbox_HideHudTooltip:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+checkboxName5:SetPoint("LEFT", checkbox_HideHudTooltip, "RIGHT", 20, 0)
+checkboxName5:SetText("HUD Tooltips")
+checkbox_HideHudTooltip:SetPoint("TOPLEFT", 40, -150)
+checkbox_HideHudTooltip.tooltip = "Hide HUD Tooltips during combat."
+checkbox_HideHudTooltip:SetChecked(zUISavedSettings.HideHudTooltipSetting)
+
+checkbox_HideHudTooltip:SetScript("OnClick", function(self)
+    zUISavedSettings.HideHudTooltipSetting = self:GetChecked()
+end)
 
 -------------------------------------------- CHECKBOXES ON ACTIONBARS PAGE --------------------------------------------
 
@@ -75,27 +90,8 @@ checkbox_HideMultiBarRight:SetScript("OnClick", function(self)
     zUISavedSettings.HideMultiBarRightSetting = self:GetChecked()
 end)
 
--- Handle the OnClick event for the menu buttons
-generalButton:SetScript("OnClick", function()
-    generalPage:Show()
-    hideShowPage:Hide()
-    actionBarsPage:Hide()
-end)
 
-hideShowButton:SetScript("OnClick", function()
-    generalPage:Hide()
-    hideShowPage:Show()
-    actionBarsPage:Hide()
-end)
-
-actionBarsButton:SetScript("OnClick", function()
-    actionBarsPage:Show()
-    generalPage:Hide()
-    hideShowPage:Hide()
-end)
-
-
--------------------------------------------- GAME SETTINGS BELOW --------------------------------------------
+------------------------------------------------- GAME SETTINGS BELOW -------------------------------------------------
 
 
 -- Hide the objective tracker when combat starts
@@ -168,7 +164,7 @@ HideBagBar:RegisterEvent("PLAYER_REGEN_DISABLED")
 HideBagBar:RegisterEvent("PLAYER_REGEN_ENABLED")
 
 HideBagBar:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_REGEN_DISABLED" then
+    if event == "PLAYER_REGEN_DISABLED" and zUISavedSettings.HideBagBarSetting then
         local status, error = pcall(function() 
             MainMenuBarBackpackButton:GetParent():Hide()
         end)
@@ -182,6 +178,27 @@ HideBagBar:SetScript("OnEvent", function(self, event)
         if not status then
             zUI:Print(error)
         end
+    end
+end)
+
+-- Hide HUD tooltips when combat starts
+local HideHudTooltip = CreateFrame("Frame")
+local inCombat = false
+HideHudTooltip:RegisterEvent("PLAYER_REGEN_DISABLED")
+HideHudTooltip:RegisterEvent("PLAYER_REGEN_ENABLED")
+
+HideHudTooltip:SetScript("OnEvent", function(self, event, ...)
+    if event == "PLAYER_REGEN_DISABLED" and zUISavedSettings.HideHudTooltipSetting then
+        inCombat = true
+        GameTooltip:Hide()
+    elseif event == "PLAYER_REGEN_ENABLED" then
+        inCombat = false
+    end
+end)
+
+GameTooltip:SetScript("OnShow", function(self)
+    if inCombat and zUISavedSettings.HideHudTooltipSetting then
+        self:Hide()
     end
 end)
 
