@@ -1,8 +1,6 @@
 --[[
     create tables and enable multichar settings
-]]
-
-zUI = zUI or {}
+]] zUI = zUI or {}
 zUI_SavedSettings = zUI_SavedSettings or {}
 
 -- Welcome to the zUI Settings UI!
@@ -11,6 +9,11 @@ welcomeMessage:RegisterEvent("PLAYER_LOGIN")
 
 welcomeMessage:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_LOGIN" then
+        local playerName = GetUnitName("player")
+        local yellow = "|cFFFFFF00"
+        local red = "|cFFFF0000"
+        local purple = "|cFF800080"
+        local endColor = "|r"
         DEFAULT_CHAT_FRAME:AddMessage(" ")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
@@ -18,9 +21,12 @@ welcomeMessage:SetScript("OnEvent", function(self, event, ...)
         DEFAULT_CHAT_FRAME:AddMessage(" ")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
-        DEFAULT_CHAT_FRAME:AddMessage("                                              Welcome back!")
-        DEFAULT_CHAT_FRAME:AddMessage(
-            "                     What are you going to waste your time on today?")
+        DEFAULT_CHAT_FRAME:AddMessage(yellow ..
+                                          "                                         Welcome back " ..
+                                          red .. playerName .. yellow .. "!" ..endColor)
+        DEFAULT_CHAT_FRAME:AddMessage(purple ..
+                                          "                     What are you going to waste your time on today?" ..
+                                          endColor)
         DEFAULT_CHAT_FRAME:AddMessage(" ")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
