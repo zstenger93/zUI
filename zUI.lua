@@ -223,7 +223,7 @@ HideBagBar:RegisterEvent("PLAYER_REGEN_DISABLED")
 HideBagBar:RegisterEvent("PLAYER_REGEN_ENABLED")
 
 HideBagBar:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_REGEN_DISABLED" and zUISavedSettings.HideBagBarSetting then
+    if event == "PLAYER_REGEN_DISABLED" and zUI_SavedSettings.HideBagBarSetting then
         local status, error = pcall(function()
             MainMenuBarBackpackButton:GetParent():Hide()
         end)

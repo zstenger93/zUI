@@ -37,7 +37,7 @@ ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, addonName)
             zUI_SavedSettings.HideMultiBarRightSetting)
         checkbox_HideHudTooltip:SetChecked(
             zUI_SavedSettings.HideHudTooltipSetting)
-        checkbox_fpsFrame:SetChecked(zUI_SavedSettings.HideFpsSetting)
+        checkbox_fpsFrame:SetChecked(zUI_SavedSettings.fpsFrameSetting)
     end
 end)
 
