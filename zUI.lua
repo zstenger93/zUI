@@ -15,55 +15,6 @@ Checkbox_fpsFrame:SetScript("OnClick", function(self)
     zUI_SavedSettings.fpsFrameSetting = self:GetChecked()
 end)
 
--- Checkbox for XP bar
-Checkbox_XPBar = CreateFrame("CheckButton", "zUIXPBarCheckbox", GeneralPage,
-                             "ChatConfigCheckButtonTemplate")
-local checkboxXPBarName = Checkbox_XPBar:CreateFontString(nil, "OVERLAY",
-                                                          "GameFontNormal")
-checkboxXPBarName:SetPoint("LEFT", Checkbox_XPBar, "RIGHT", 20, 0)
-checkboxXPBarName:SetText("XP Bar")
-Checkbox_XPBar:SetPoint("TOPLEFT", 40, -60)
-Checkbox_XPBar:SetScript("OnClick", function(self)
-    if self:GetChecked() then
-        MainStatusTrackingBarContainer:Hide()
-    else
-        MainStatusTrackingBarContainer:Show()
-    end
-end)
-
--- Checkbox for Reputation bar
-Checkbox_RepBar = CreateFrame("CheckButton", "zUIRepBarCheckbox", GeneralPage,
-                              "ChatConfigCheckButtonTemplate")
-local checkboxRepBarName = Checkbox_RepBar:CreateFontString(nil, "OVERLAY",
-                                                            "GameFontNormal")
-checkboxRepBarName:SetPoint("LEFT", Checkbox_RepBar, "RIGHT", 20, 0)
-checkboxRepBarName:SetText("Reputation Bar")
-Checkbox_RepBar:SetPoint("TOPLEFT", 40, -90)
-Checkbox_RepBar:SetScript("OnClick", function(self)
-    if self:GetChecked() then
-        SecondaryStatusTrackingBarContainer:Hide()
-    else
-        SecondaryStatusTrackingBarContainer:Show()
-    end
-end)
-
--- Checkbox for Micro Menu
-Checkbox_MicroMenu = CreateFrame("CheckButton", "zUIMicroMenuCheckbox",
-                                 GeneralPage, "ChatConfigCheckButtonTemplate")
-local checkboxMicroMenuName = Checkbox_MicroMenu:CreateFontString(nil,
-                                                                  "OVERLAY",
-                                                                  "GameFontNormal")
-checkboxMicroMenuName:SetPoint("LEFT", Checkbox_MicroMenu, "RIGHT", 20, 0)
-checkboxMicroMenuName:SetText("Micro Menu")
-Checkbox_MicroMenu:SetPoint("TOPLEFT", 40, -120)
-Checkbox_MicroMenu:SetScript("OnClick", function(self)
-    if self:GetChecked() then
-        MicroMenuContainer:Hide()
-    else
-        MicroMenuContainer:Show()
-    end
-end)
-
 -------------------------------------------- CHECKBOXES ON SHOW & HIDE PAGE --------------------------------------------
 
 -- Create the setting for HideObjectiveTrackerSetting
@@ -158,6 +109,43 @@ Checkbox_HideHudTooltip:SetScript("OnClick", function(self)
     zUI_SavedSettings.HideHudTooltipSetting = self:GetChecked()
 end)
 
+-- Checkbox for XP bar
+Checkbox_XPBar = CreateFrame("CheckButton", "zUIXPBarCheckbox", HideShowPage,
+                             "ChatConfigCheckButtonTemplate")
+local checkboxXPBarName = Checkbox_XPBar:CreateFontString(nil, "OVERLAY",
+                                                          "GameFontNormal")
+checkboxXPBarName:SetPoint("LEFT", Checkbox_XPBar, "RIGHT", 20, 0)
+checkboxXPBarName:SetText("XP Bar")
+Checkbox_XPBar:SetPoint("TOPLEFT", 40, -180)
+Checkbox_XPBar:SetScript("OnClick", function(self)
+    zUI_SavedSettings.XPBarSetting = self:GetChecked()
+end)
+
+-- Checkbox for Reputation bar
+Checkbox_RepBar = CreateFrame("CheckButton", "zUIRepBarCheckbox", HideShowPage,
+                              "ChatConfigCheckButtonTemplate")
+local checkboxRepBarName = Checkbox_RepBar:CreateFontString(nil, "OVERLAY",
+                                                            "GameFontNormal")
+checkboxRepBarName:SetPoint("LEFT", Checkbox_RepBar, "RIGHT", 20, 0)
+checkboxRepBarName:SetText("Reputation Bar")
+Checkbox_RepBar:SetPoint("TOPLEFT", 40, -210)
+Checkbox_RepBar:SetScript("OnClick", function(self)
+    zUI_SavedSettings.RepBarSetting = self:GetChecked()
+end)
+
+-- Checkbox for Micro Menu
+Checkbox_MicroMenu = CreateFrame("CheckButton", "zUIMicroMenuCheckbox",
+                                 HideShowPage, "ChatConfigCheckButtonTemplate")
+local checkboxMicroMenuName = Checkbox_MicroMenu:CreateFontString(nil,
+                                                                  "OVERLAY",
+                                                                  "GameFontNormal")
+checkboxMicroMenuName:SetPoint("LEFT", Checkbox_MicroMenu, "RIGHT", 20, 0)
+checkboxMicroMenuName:SetText("Micro Menu")
+Checkbox_MicroMenu:SetPoint("TOPLEFT", 40, -240)
+Checkbox_MicroMenu:SetScript("OnClick", function(self)
+    zUI_SavedSettings.MicroMenuSetting = self:GetChecked()
+end)
+
 -------------------------------------------- CHECKBOXES ON ACTIONBARS PAGE --------------------------------------------
 
 -- Create the setting for actionBarMod
@@ -171,10 +159,10 @@ checkboxName6:SetPoint("LEFT", Checkbox_actionBarMod, "RIGHT", 20, 0)
 checkboxName6:SetText("Action Bar Mod")
 Checkbox_actionBarMod:SetPoint("TOPLEFT", 40, -30)
 Checkbox_actionBarMod.tooltip = "Custom Action Bar Mod."
-Checkbox_actionBarMod:SetChecked(zUI_SavedSettings.actionBarMod)
+Checkbox_actionBarMod:SetChecked(zUI_SavedSettings.actionBarModSetting)
 
 Checkbox_actionBarMod:SetScript("OnClick", function(self)
-    zUI_SavedSettings.actionBarMod = self:GetChecked()
+    zUI_SavedSettings.actionBarModSetting = self:GetChecked()
 end)
 
 ------------------------------------------------- GAME SETTINGS BELOW -------------------------------------------------
@@ -316,13 +304,43 @@ fpsFrame:SetScript("OnUpdate", function(self, elapsed)
 end)
 
 -- Hide XP bar
-if zUI_SavedSettings.XPBar then MainStatusTrackingBarContainer:Hide() end
+local xpBarFrame = CreateFrame("Frame")
+xpBarFrame:RegisterEvent("ADDON_LOADED")
+xpBarFrame:SetScript("OnEvent", function(self, event, addonName)
+    if event == "ADDON_LOADED" and addonName == "zUI" then
+        if zUI_SavedSettings.XPBarSetting then
+            MainStatusTrackingBarContainer:Hide()
+        else
+            MainStatusTrackingBarContainer:Show()
+        end
+    end
+end)
 
 -- Hide Reputation bar
-if zUI_SavedSettings.RepBar then SecondaryStatusTrackingBarContainer:Hide() end
+local repBarFrame = CreateFrame("Frame")
+repBarFrame:RegisterEvent("ADDON_LOADED")
+repBarFrame:SetScript("OnEvent", function(self, event, addonName)
+    if event == "ADDON_LOADED" and addonName == "zUI" then
+        if zUI_SavedSettings.RepBarSetting then
+            SecondaryStatusTrackingBarContainer:Hide()
+        else
+            SecondaryStatusTrackingBarContainer:Show()
+        end
+    end
+end)
 
 -- Hide Micro Menu
-if zUI_SavedSettings.MicroMenu then MicroMenuContainer:Hide() end
+local microMenuFrame = CreateFrame("Frame")
+microMenuFrame:RegisterEvent("ADDON_LOADED")
+microMenuFrame:SetScript("OnEvent", function(self, event, addonName)
+    if event == "ADDON_LOADED" and addonName == "zUI" then
+        if zUI_SavedSettings.MicroMenuSetting then
+            MicroMenuContainer:Hide()
+        else
+            MicroMenuContainer:Show()
+        end
+    end
+end)
 
 -- THIS AIN'T FINISHED YET
 
@@ -340,7 +358,7 @@ local actionBarMod = CreateFrame("Frame")
 actionBarMod:RegisterEvent("ADDON_LOADED")
 
 actionBarMod:SetScript("OnEvent", function()
-    if not zUI_SavedSettings.actionBarMod then return end
+    if not zUI_SavedSettings.actionBarModSetting then return end
 
     local actionBars = {
         "ActionButton", "MultiBarBottomLeftButton", "MultiBarBottomRightButton",
