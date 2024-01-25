@@ -269,6 +269,15 @@ fpsFrame:SetScript("OnUpdate", function(self, elapsed)
     end
 end)
 
+-- Hide XP bar
+MainStatusTrackingBarContainer:Hide()
+
+-- Hide Reputation bar
+SecondaryStatusTrackingBarContainer:Hide()
+
+-- Hide Micro Menu
+MicroMenuContainer:Hide()
+
 -- THIS AIN'T FINISHED YET
 
 -- Custom Action Bar
