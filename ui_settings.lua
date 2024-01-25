@@ -1,3 +1,7 @@
+--[[
+    create tables and enable multichar settings
+]]
+
 zUI = zUI or {}
 zUI_SavedSettings = zUI_SavedSettings or {}
 
@@ -18,6 +22,9 @@ welcomeMessage:SetScript("OnEvent", function(self, event, ...)
         DEFAULT_CHAT_FRAME:AddMessage(
             "What are you going to waste your time on today?")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
+        DEFAULT_CHAT_FRAME:AddMessage(" ")
+        DEFAULT_CHAT_FRAME:AddMessage(" ")
+        DEFAULT_CHAT_FRAME:AddMessage(" ")
     end
 end)
 
@@ -27,20 +34,20 @@ ShowTicksIfAttributeIsSet:RegisterEvent("ADDON_LOADED")
 
 ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, addonName)
     if event == "ADDON_LOADED" and addonName == "zUI" then
-        checkbox_HideObjectiveTracker:SetChecked(
+        Checkbox_HideObjectiveTracker:SetChecked(
             zUI_SavedSettings.HideObjectiveTrackerSetting)
-        checkbox_HideChatFrame:SetChecked(zUI_SavedSettings.HideChatFrameSetting)
-        checkbox_HideQuickJoinToastButton:SetChecked(
+        Checkbox_HideChatFrame:SetChecked(zUI_SavedSettings.HideChatFrameSetting)
+        Checkbox_HideQuickJoinToastButton:SetChecked(
             zUI_SavedSettings.HideQuickJoinToastButtonSetting)
-        checkbox_HideBagBar:SetChecked(zUI_SavedSettings.HideBagBarSetting)
-        checkbox_HideMultiBarRight:SetChecked(
+        Checkbox_HideBagBar:SetChecked(zUI_SavedSettings.HideBagBarSetting)
+        Checkbox_HideMultiBarRight:SetChecked(
             zUI_SavedSettings.HideMultiBarRightSetting)
-        checkbox_HideHudTooltip:SetChecked(
+        Checkbox_HideHudTooltip:SetChecked(
             zUI_SavedSettings.HideHudTooltipSetting)
-        checkbox_fpsFrame:SetChecked(zUI_SavedSettings.fpsFrameSetting)
+        Checkbox_fpsFrame:SetChecked(zUI_SavedSettings.fpsFrameSetting)
     end
 end)
 
 -- Create a Slash Command to show the settings UI
 SLASH_ZUI1 = "/zui"
-SlashCmdList["ZUI"] = function(msg) zUI_Panel:Show() end
+SlashCmdList["ZUI"] = function(msg) ZUI_Panel:Show() end
