@@ -1,5 +1,5 @@
 ---------------------------------------------- CHECKBOXES ON GENERAL PAGE ----------------------------------------------
--- Create the setting for fpsFrameSetting
+-- Checkbox for fps display
 ---@class Checkbox_fpsFrame : CheckButton
 Checkbox_fpsFrame = CreateFrame("CheckButton", "zUIfpsFrameCheckbox",
                                 GeneralPage, "ChatConfigCheckButtonTemplate")
@@ -15,6 +15,54 @@ Checkbox_fpsFrame:SetScript("OnClick", function(self)
     zUI_SavedSettings.fpsFrameSetting = self:GetChecked()
 end)
 
+-- Checkbox for XP bar
+Checkbox_XPBar = CreateFrame("CheckButton", "zUIXPBarCheckbox", GeneralPage,
+                             "ChatConfigCheckButtonTemplate")
+local checkboxXPBarName = Checkbox_XPBar:CreateFontString(nil, "OVERLAY",
+                                                          "GameFontNormal")
+checkboxXPBarName:SetPoint("LEFT", Checkbox_XPBar, "RIGHT", 20, 0)
+checkboxXPBarName:SetText("XP Bar")
+Checkbox_XPBar:SetPoint("TOPLEFT", 40, -60)
+Checkbox_XPBar:SetScript("OnClick", function(self)
+    if self:GetChecked() then
+        MainStatusTrackingBarContainer:Hide()
+    else
+        MainStatusTrackingBarContainer:Show()
+    end
+end)
+
+-- Checkbox for Reputation bar
+Checkbox_RepBar = CreateFrame("CheckButton", "zUIRepBarCheckbox", GeneralPage,
+                              "ChatConfigCheckButtonTemplate")
+local checkboxRepBarName = Checkbox_RepBar:CreateFontString(nil, "OVERLAY",
+                                                            "GameFontNormal")
+checkboxRepBarName:SetPoint("LEFT", Checkbox_RepBar, "RIGHT", 20, 0)
+checkboxRepBarName:SetText("Reputation Bar")
+Checkbox_RepBar:SetPoint("TOPLEFT", 40, -90)
+Checkbox_RepBar:SetScript("OnClick", function(self)
+    if self:GetChecked() then
+        SecondaryStatusTrackingBarContainer:Hide()
+    else
+        SecondaryStatusTrackingBarContainer:Show()
+    end
+end)
+
+-- Checkbox for Micro Menu
+Checkbox_MicroMenu = CreateFrame("CheckButton", "zUIMicroMenuCheckbox",
+                                 GeneralPage, "ChatConfigCheckButtonTemplate")
+local checkboxMicroMenuName = Checkbox_MicroMenu:CreateFontString(nil,
+                                                                  "OVERLAY",
+                                                                  "GameFontNormal")
+checkboxMicroMenuName:SetPoint("LEFT", Checkbox_MicroMenu, "RIGHT", 20, 0)
+checkboxMicroMenuName:SetText("Micro Menu")
+Checkbox_MicroMenu:SetPoint("TOPLEFT", 40, -120)
+Checkbox_MicroMenu:SetScript("OnClick", function(self)
+    if self:GetChecked() then
+        MicroMenuContainer:Hide()
+    else
+        MicroMenuContainer:Show()
+    end
+end)
 
 -------------------------------------------- CHECKBOXES ON SHOW & HIDE PAGE --------------------------------------------
 
@@ -25,8 +73,8 @@ Checkbox_HideObjectiveTracker = CreateFrame("CheckButton",
                                             HideShowPage,
                                             "ChatConfigCheckButtonTemplate")
 local checkboxName1 = Checkbox_HideObjectiveTracker:CreateFontString(nil,
-                                                                    "OVERLAY",
-                                                                    "GameFontNormal")
+                                                                     "OVERLAY",
+                                                                     "GameFontNormal")
 checkboxName1:SetPoint("LEFT", Checkbox_HideObjectiveTracker, "RIGHT", 20, 0)
 checkboxName1:SetText("Objective Tracker")
 Checkbox_HideObjectiveTracker:SetPoint("TOPLEFT", 40, -30)
@@ -116,9 +164,9 @@ end)
 ---@class Checkbox_actionBarMod : CheckButton
 Checkbox_actionBarMod = CreateFrame("CheckButton", "zUIactionBarModCheckbox",
                                     ActionBarsPage,
-    "ChatConfigCheckButtonTemplate")
+                                    "ChatConfigCheckButtonTemplate")
 local checkboxName6 = Checkbox_actionBarMod:CreateFontString(nil, "OVERLAY",
-    "GameFontNormal")
+                                                             "GameFontNormal")
 checkboxName6:SetPoint("LEFT", Checkbox_actionBarMod, "RIGHT", 20, 0)
 checkboxName6:SetText("Action Bar Mod")
 Checkbox_actionBarMod:SetPoint("TOPLEFT", 40, -30)
@@ -199,12 +247,12 @@ HideChatSidebar:SetScript("OnEvent", function(self, event)
             _G["ChatFrame" .. i .. "Tab"]:SetAlpha(0)
             _G["ChatFrame" .. i .. "Background"]:SetAlpha(0)
             local chatTab = _G["ChatFrame" .. i .. "Tab"]
-    if chatTab then
-        chatTab:HookScript("OnClick", function()
-            _G["ChatFrame" .. i .. "Tab"]:SetAlpha(0)
-            _G["ChatFrame" .. i .. "Background"]:SetAlpha(0)
-        end)
-    end
+            if chatTab then
+                chatTab:HookScript("OnClick", function()
+                    _G["ChatFrame" .. i .. "Tab"]:SetAlpha(0)
+                    _G["ChatFrame" .. i .. "Background"]:SetAlpha(0)
+                end)
+            end
         end
     end
 end)
@@ -268,13 +316,13 @@ fpsFrame:SetScript("OnUpdate", function(self, elapsed)
 end)
 
 -- Hide XP bar
-MainStatusTrackingBarContainer:Hide()
+if zUI_SavedSettings.XPBar then MainStatusTrackingBarContainer:Hide() end
 
 -- Hide Reputation bar
-SecondaryStatusTrackingBarContainer:Hide()
+if zUI_SavedSettings.RepBar then SecondaryStatusTrackingBarContainer:Hide() end
 
 -- Hide Micro Menu
-MicroMenuContainer:Hide()
+if zUI_SavedSettings.MicroMenu then MicroMenuContainer:Hide() end
 
 -- THIS AIN'T FINISHED YET
 

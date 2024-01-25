@@ -44,6 +44,9 @@ ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, addonName)
             zUI_SavedSettings.HideHudTooltipSetting)
         Checkbox_fpsFrame:SetChecked(zUI_SavedSettings.fpsFrameSetting)
         Checkbox_actionBarMod:SetChecked(zUI_SavedSettings.actionBarMod)
+        Checkbox_XPBar:SetChecked(zUI_SavedSettings.XPBar)
+        Checkbox_RepBar:SetChecked(zUI_SavedSettings.RepBar)
+        Checkbox_MicroMenu:SetChecked(zUI_SavedSettings.MicroMenu)
     end
 end)
 
