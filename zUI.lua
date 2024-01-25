@@ -20,7 +20,7 @@ end)
 checkbox_HideObjectiveTracker = CreateFrame("CheckButton",
                                             "zUIHideObjectiveTrackerCheckbox",
                                             hideShowPage,
-                                            "ChatConfigCheckButtonTemplate") -- Create the checkbox on hideShowPage
+                                            "ChatConfigCheckButtonTemplate")
 local checkboxName = checkbox_HideObjectiveTracker:CreateFontString(nil,
                                                                     "OVERLAY",
                                                                     "GameFontNormal")
@@ -274,15 +274,56 @@ fpsFrame:SetScript("OnUpdate", function(self, elapsed)
     end
 end)
 
+
+
+
 -- THIS AIN'T FINISHED YET
 
--- Hide MultiBarRight(action bar 4 when combat starts
+-- Custom Action Bar Borders
 local frame = CreateFrame("Frame")
 local fadeTicker = nil
 
 frame:RegisterEvent("ADDON_LOADED")
 
 frame:SetScript("OnEvent", function(self, event, addonName)
-    -- MultiBarRight:Show()
+    local actionBars = {
+        "ActionButton",
+        "MultiBarBottomLeftButton",
+        "MultiBarBottomRightButton",
+        "MultiBarLeftButton",
+        "MultiBarRightButton"
+    }
 
+    local borderSize = 2
+
+    for _, actionBar in ipairs(actionBars) do
+        for i = 1, 12 do
+            local button = _G[actionBar .. i]
+            button:SetFrameLevel(button:GetFrameLevel() + 1)
+
+            -- Create a border for each side of the button
+            for _, point in ipairs({"TOP", "BOTTOM", "LEFT", "RIGHT"}) do
+                local border = button:CreateTexture(nil, "OVERLAY")
+                border:SetDrawLayer("OVERLAY", 7)
+                border:SetColorTexture(0, 0, 0)
+                if point == "TOP" then
+                    border:SetPoint("BOTTOMLEFT", button, "TOPLEFT", -borderSize, 0)
+                    border:SetPoint("BOTTOMRIGHT", button, "TOPRIGHT", borderSize, 0)
+                    border:SetHeight(borderSize)
+                elseif point == "BOTTOM" then
+                    border:SetPoint("TOPLEFT", button, "BOTTOMLEFT", -borderSize, 0)
+                    border:SetPoint("TOPRIGHT", button, "BOTTOMRIGHT", borderSize, 0)
+                    border:SetHeight(borderSize)
+                elseif point == "LEFT" then
+                    border:SetPoint("TOPRIGHT", button, "TOPLEFT", 0, borderSize)
+                    border:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT", 0, -borderSize)
+                    border:SetWidth(borderSize)
+                else
+                    border:SetPoint("TOPLEFT", button, "TOPRIGHT", 0, borderSize)
+                    border:SetPoint("BOTTOMLEFT", button, "BOTTOMRIGHT", 0, -borderSize)
+                    border:SetWidth(borderSize)
+                end
+            end
+        end
+    end
 end)
