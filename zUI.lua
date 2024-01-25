@@ -112,23 +112,21 @@ end)
 
 -------------------------------------------- CHECKBOXES ON ACTIONBARS PAGE --------------------------------------------
 
--- Create the setting for HideMultiBarRightSetting
----@class Checkbox_HideMultiBarRight : CheckButton
-Checkbox_HideMultiBarRight = CreateFrame("CheckButton",
-                                         "zUIHideMultiBarRightCheckbox",
-                                         ActionBarsPage,
-                                         "ChatConfigCheckButtonTemplate")
-local checkboxName6 = Checkbox_HideMultiBarRight:CreateFontString(nil,
-                                                                  "OVERLAY",
-                                                                  "GameFontNormal")
-checkboxName6:SetPoint("LEFT", Checkbox_HideMultiBarRight, "RIGHT", 20, 0)
-checkboxName6:SetText("MultiBarRight")
-Checkbox_HideMultiBarRight:SetPoint("TOPLEFT", 40, -30)
-Checkbox_HideMultiBarRight.tooltip = "Hide MultiBarRight during combat."
-Checkbox_HideMultiBarRight:SetChecked(zUI_SavedSettings.HideMultiBarRightSetting)
+-- Create the setting for actionBarMod
+---@class Checkbox_actionBarMod : CheckButton
+Checkbox_actionBarMod = CreateFrame("CheckButton", "zUIactionBarModCheckbox",
+                                    ActionBarsPage,
+    "ChatConfigCheckButtonTemplate")
+local checkboxName6 = Checkbox_actionBarMod:CreateFontString(nil, "OVERLAY",
+    "GameFontNormal")
+checkboxName6:SetPoint("LEFT", Checkbox_actionBarMod, "RIGHT", 20, 0)
+checkboxName6:SetText("Action Bar Mod")
+Checkbox_actionBarMod:SetPoint("TOPLEFT", 40, -30)
+Checkbox_actionBarMod.tooltip = "Custom Action Bar Mod."
+Checkbox_actionBarMod:SetChecked(zUI_SavedSettings.actionBarMod)
 
-Checkbox_HideMultiBarRight:SetScript("OnClick", function(self)
-    zUI_SavedSettings.HideMultiBarRightSetting = self:GetChecked()
+Checkbox_actionBarMod:SetScript("OnClick", function(self)
+    zUI_SavedSettings.actionBarMod = self:GetChecked()
 end)
 
 ------------------------------------------------- GAME SETTINGS BELOW -------------------------------------------------
@@ -290,11 +288,12 @@ MicroMenuContainer:Hide()
 
 ]]
 local actionBarMod = CreateFrame("Frame")
-local fadeTicker = nil
 
 actionBarMod:RegisterEvent("ADDON_LOADED")
 
-actionBarMod:SetScript("OnEvent", function(self, event, addonName)
+actionBarMod:SetScript("OnEvent", function()
+    if not zUI_SavedSettings.actionBarMod then return end
+
     local actionBars = {
         "ActionButton", "MultiBarBottomLeftButton", "MultiBarBottomRightButton",
         "MultiBarLeftButton", "MultiBarRightButton"

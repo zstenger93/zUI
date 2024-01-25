@@ -18,9 +18,9 @@ welcomeMessage:SetScript("OnEvent", function(self, event, ...)
         DEFAULT_CHAT_FRAME:AddMessage(" ")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
-        DEFAULT_CHAT_FRAME:AddMessage("                                               Welcome back!")
+        DEFAULT_CHAT_FRAME:AddMessage("                                              Welcome back!")
         DEFAULT_CHAT_FRAME:AddMessage(
-            "                      What are you going to waste your time on today?")
+            "                     What are you going to waste your time on today?")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
@@ -40,11 +40,10 @@ ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, addonName)
         Checkbox_HideQuickJoinToastButton:SetChecked(
             zUI_SavedSettings.HideQuickJoinToastButtonSetting)
         Checkbox_HideBagBar:SetChecked(zUI_SavedSettings.HideBagBarSetting)
-        Checkbox_HideMultiBarRight:SetChecked(
-            zUI_SavedSettings.HideMultiBarRightSetting)
         Checkbox_HideHudTooltip:SetChecked(
             zUI_SavedSettings.HideHudTooltipSetting)
         Checkbox_fpsFrame:SetChecked(zUI_SavedSettings.fpsFrameSetting)
+        Checkbox_actionBarMod:SetChecked(zUI_SavedSettings.actionBarMod)
     end
 end)
 
