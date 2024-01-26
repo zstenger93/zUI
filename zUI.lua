@@ -20,22 +20,22 @@ end)
 Checkbox_MoveChatFrameEditBox = CreateFrame("CheckButton",
                                             "zUIMoveChatFrameEditBoxCheckbox",
                                             GeneralPage,
-    "ChatConfigCheckButtonTemplate")
+                                            "ChatConfigCheckButtonTemplate")
 local checkboxName8 = Checkbox_MoveChatFrameEditBox:CreateFontString(nil,
-                                                                    "OVERLAY",
-    "GameFontNormal")
+                                                                     "OVERLAY",
+                                                                     "GameFontNormal")
 checkboxName8:SetPoint("LEFT", Checkbox_MoveChatFrameEditBox, "RIGHT", 20, 0)
 checkboxName8:SetText("Move Chat Edit Box")
 Checkbox_MoveChatFrameEditBox:SetPoint("TOPLEFT", 20, -60)
 Checkbox_MoveChatFrameEditBox.tooltip =
-"Move the chat frame edit box to the top of the chat frame."
+    "Move the chat frame edit box to the top of the chat frame."
 Checkbox_MoveChatFrameEditBox:SetChecked(
     zUI_SavedSettings.MoveChatFrameEditBoxSetting)
 
-Checkbox_MoveChatFrameEditBox:SetScript("OnClick", function(self)
+Checkbox_MoveChatFrameEditBox:SetScript("OnClick",
+                                        function(self)
     zUI_SavedSettings.MoveChatFrameEditBoxSetting = self:GetChecked()
 end)
-
 
 -------------------------------------------- CHECKBOXES ON SHOW & HIDE PAGE --------------------------------------------
 
@@ -287,30 +287,70 @@ HideChatSidebar:RegisterEvent("PLAYER_ENTERING_WORLD")
 HideChatSidebar:SetScript("OnEvent", function(self, event)
     if event == "PLAYER_ENTERING_WORLD" and
         zUI_SavedSettings.HideChatSidebarSetting then
-        local status, error = pcall(function()
-            ChatFrameMenuButton:Hide()
-            ChatFrameChannelButton:Hide()
-            ChatFrameToggleVoiceDeafenButton:Hide()
-            ChatFrameMenuButton:GetParent():Hide()
-        end)
+        ChatFrameMenuButton:Hide()
+        ChatFrameChannelButton:Hide()
+        ChatFrameToggleVoiceDeafenButton:Hide()
+        ChatFrameMenuButton:GetParent():Hide()
         for i = 1, NUM_CHAT_WINDOWS do
-            _G["ChatFrame" .. i .. "Tab"]:SetAlpha(0)
-            _G["ChatFrame" .. i .. "Background"]:SetAlpha(0)
+            _G["ChatFrame" .. i .. "ButtonFrameBackground"]:Hide()
+            _G["ChatFrame" .. i .. "ButtonFrameTopTexture"]:Hide()
+            _G["ChatFrame" .. i .. "ButtonFrameTopLeftTexture"]:Hide()
+            _G["ChatFrame" .. i .. "ButtonFrameTopRightTexture"]:Hide()
+            _G["ChatFrame" .. i .. "ButtonFrameBottomLeftTexture"]:Hide()
+            _G["ChatFrame" .. i .. "ButtonFrameBottomRightTexture"]:Hide()
+            _G["ChatFrame" .. i .. "ButtonFrameBottomTexture"]:Hide()
+            _G["ChatFrame" .. i .. "ButtonFrameLeftTexture"]:Hide()
+            _G["ChatFrame" .. i .. "ButtonFrameRightTexture"]:Hide()
+        end
+    end
+end)
 
+-- Hide the original chat frame style
+local HideChatFrameStyle = CreateFrame("Frame")
+
+HideChatFrameStyle:RegisterEvent("PLAYER_ENTERING_WORLD")
+
+HideChatFrameStyle:SetScript("OnEvent", function(self, event)
+    if event == "PLAYER_ENTERING_WORLD" then
+        for i = 1, NUM_CHAT_WINDOWS do
+            local chatFrame = _G["ChatFrame" .. i]
             local chatTab = _G["ChatFrame" .. i .. "Tab"]
 
-            if chatTab then
-                chatTab:HookScript("OnClick", function()
-                    _G["ChatFrame" .. i .. "Tab"]:SetAlpha(0)
-                    _G["ChatFrame" .. i .. "Background"]:SetAlpha(0)
+            _G["ChatFrame" .. i .. "Tab"].Left:Hide()
+            _G["ChatFrame" .. i .. "Tab"].Right:Hide()
+            _G["ChatFrame" .. i .. "Tab"].Middle:Hide()
+            _G["ChatFrame" .. i .. "BottomTexture"]:Hide()
+            _G["ChatFrame" .. i .. "BottomLeftTexture"]:Hide()
+            _G["ChatFrame" .. i .. "BottomRightTexture"]:Hide()
+            _G["ChatFrame" .. i .. "TopTexture"]:Hide()
+            _G["ChatFrame" .. i .. "TopLeftTexture"]:Hide()
+            _G["ChatFrame" .. i .. "TopRightTexture"]:Hide()
+            _G["ChatFrame" .. i .. "LeftTexture"]:Hide()
+            _G["ChatFrame" .. i .. "RightTexture"]:Hide()
+
+            local function hideTabAndBackground()
+                chatTab:SetAlpha(0.3)
+                _G["ChatFrame" .. i .. "Background"]:SetAlpha(0.02)
+            end
+
+            hideTabAndBackground()
+
+            -- Hook both the chat frame and tab into all the events
+            local events = {
+                "OnEnter", "OnLeave", "OnMouseDown", "OnMouseUp", "OnUpdate",
+                "OnShow", "OnHide", "OnReceiveDrag", "OnDragStart", "OnDragStop"
+            }
+            for _, eventHook in ipairs(events) do
+                chatTab:HookScript(eventHook,
+                                   function()
+                    hideTabAndBackground()
+                end)
+                chatFrame:HookScript(eventHook,
+                                     function()
+                    hideTabAndBackground()
                 end)
             end
         end
-    else
-        ChatFrameMenuButton:Show()
-        ChatFrameChannelButton:Show()
-        ChatFrameToggleVoiceDeafenButton:Show()
-        ChatFrameMenuButton:GetParent():Show()
     end
 end)
 
@@ -320,7 +360,8 @@ local MoveChatFrameEditBox = CreateFrame("Frame")
 MoveChatFrameEditBox:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 MoveChatFrameEditBox:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_ENTERING_WORLD" and zUI_SavedSettings.MoveChatFrameEditBoxSetting then
+    if event == "PLAYER_ENTERING_WORLD" and
+        zUI_SavedSettings.MoveChatFrameEditBoxSetting then
         for i = 1, NUM_CHAT_WINDOWS do
             local chatFrame = _G["ChatFrame" .. i]
             local editBox = _G["ChatFrame" .. i .. "EditBox"]
