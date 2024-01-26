@@ -37,6 +37,28 @@ Checkbox_MoveChatFrameEditBox:SetScript("OnClick",
     zUI_SavedSettings.MoveChatFrameEditBoxSetting = self:GetChecked()
 end)
 
+-- Checkbox for hiding Paladin Power Bar Texture
+---@class Checkbox_HidePaladinPowerBarTexture : CheckButton
+Checkbox_HidePaladinPowerBarTexture = CreateFrame("CheckButton",
+                                                  "zUIHidePaladinPowerBarTextureCheckbox",
+                                                  GeneralPage,
+                                                  "ChatConfigCheckButtonTemplate")
+local checkboxName9 = Checkbox_HidePaladinPowerBarTexture:CreateFontString(nil,
+                                                                           "OVERLAY",
+                                                                           "GameFontNormal")
+checkboxName9:SetPoint("LEFT", Checkbox_HidePaladinPowerBarTexture, "RIGHT", 20,
+                       0)
+checkboxName9:SetText("Custom Paladin Power Bar")
+Checkbox_HidePaladinPowerBarTexture:SetPoint("TOPLEFT", 20, -90) -- Adjust the position as needed
+Checkbox_HidePaladinPowerBarTexture.tooltip =
+    "Hide the texture of the Paladin Power Bar, but keep the glowing runes."
+Checkbox_HidePaladinPowerBarTexture:SetChecked(
+    zUI_SavedSettings.HidePaladinPowerBarTextureSetting)
+
+Checkbox_HidePaladinPowerBarTexture:SetScript("OnClick", function(self)
+    zUI_SavedSettings.HidePaladinPowerBarTextureSetting = self:GetChecked()
+end)
+
 -------------------------------------------- CHECKBOXES ON SHOW & HIDE PAGE --------------------------------------------
 
 -- Create the setting for HideObjectiveTrackerSetting
@@ -504,6 +526,20 @@ bagBarFrame:SetScript("OnEvent", function(self, event, addonName)
     end
 end)
 
+local HidePaladinPowerBarTexture = CreateFrame("Frame")
+HidePaladinPowerBarTexture:RegisterEvent("ADDON_LOADED")
+
+HidePaladinPowerBarTexture:SetScript("OnEvent", function(self, event, addonName)
+    if event == "ADDON_LOADED" and addonName == "zUI" then
+        if zUI_SavedSettings.HidePaladinPowerBarTextureSetting then
+            PaladinPowerBarFrame.ActiveTexture:Hide()
+            PaladinPowerBarFrame.Background:Hide()
+            PaladinPowerBarFrame:Hide()
+            PaladinPowerBarFrame.ThinGlow:Hide()
+        end
+    end
+end)
+
 -- THIS AIN'T FINISHED YET
 
 -- Custom Action Bar
@@ -513,7 +549,8 @@ end)
     Hide the border when the button is active
     Hide all textures for empty buttons
     Hide hotkey text for empty buttons
-
+    Resizing and positioning the hotkey text
+    Scaling the buttons back because why would Blizzard give us precise control over the size of the buttons?
 ]]
 local actionBarMod = CreateFrame("Frame")
 
@@ -533,6 +570,9 @@ actionBarMod:SetScript("OnEvent", function()
     for _, actionBar in ipairs(actionBars) do
         for i = 1, 12 do
             local button = _G[actionBar .. i]
+
+            -- Change the scale of the action bar
+            button:SetScale(0.97)
 
             button:HookScript("OnUpdate", function(self)
                 -- Hide the default border
@@ -558,9 +598,14 @@ actionBarMod:SetScript("OnEvent", function()
                 end
 
                 -- Hide hotkey text for empty buttons
-                if not HasAction(button.action) then
-                    local hotkey = _G[button:GetName() .. 'HotKey']
-                    if hotkey then hotkey:Hide() end
+                local hotkey = _G[button:GetName() .. 'HotKey']
+                if hotkey then
+                    hotkey:SetFont("Fonts\\FRIZQT__.TTF", 20, "OUTLINE")
+                    hotkey:ClearAllPoints()
+                    hotkey:SetPoint("CENTER", button, "CENTER", 0, 5)
+                    if not HasAction(button.action) and hotkey then
+                        hotkey:Hide()
+                    end
                 end
             end)
 

@@ -61,6 +61,8 @@ ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, addonName)
             zUI_SavedSettings.HideChatSidebarSetting)
         Checkbox_MoveChatFrameEditBox:SetChecked(
             zUI_SavedSettings.MoveChatFrameEditBoxSetting)
+        Checkbox_HidePaladinPowerBarTexture:SetChecked(
+            zUI_SavedSettings.HidePaladinPowerBarTextureSetting)
     end
 end)
 
