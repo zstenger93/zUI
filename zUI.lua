@@ -46,7 +46,7 @@ Checkbox_HideChatFrame = CreateFrame("CheckButton", "zUIHideChatFrameCheckbox",
 local checkboxName2 = Checkbox_HideChatFrame:CreateFontString(nil, "OVERLAY",
                                                               "GameFontNormal")
 checkboxName2:SetPoint("LEFT", Checkbox_HideChatFrame, "RIGHT", 20, 0)
-checkboxName2:SetText("Chat Frame")
+checkboxName2:SetText("Chat Sidebar")
 Checkbox_HideChatFrame:SetPoint("TOPLEFT", 40, -60)
 Checkbox_HideChatFrame.tooltip = "Hide Chat Frame during combat."
 Checkbox_HideChatFrame:SetChecked(zUI_SavedSettings.HideChatFrameSetting)
