@@ -7,8 +7,8 @@ local checkboxName = Checkbox_fpsFrame:CreateFontString(nil, "OVERLAY",
                                                         "GameFontNormal")
 checkboxName:SetPoint("LEFT", Checkbox_fpsFrame, "RIGHT", 20, 0)
 checkboxName:SetText("FPS Frame")
-Checkbox_fpsFrame:SetPoint("TOPLEFT", 40, -30)
-Checkbox_fpsFrame.tooltip = "Show FPS Frame."
+Checkbox_fpsFrame:SetPoint("TOPLEFT", 20, -30)
+Checkbox_fpsFrame.tooltip = "Show FPS Frame at the top-middle of the screen."
 Checkbox_fpsFrame:SetChecked(zUI_SavedSettings.fpsFrameSetting)
 
 Checkbox_fpsFrame:SetScript("OnClick", function(self)
@@ -18,94 +18,81 @@ end)
 -------------------------------------------- CHECKBOXES ON SHOW & HIDE PAGE --------------------------------------------
 
 -- Create the setting for HideObjectiveTrackerSetting
----@class Checkbox_HideObjectiveTracker : CheckButton
-Checkbox_HideObjectiveTracker = CreateFrame("CheckButton",
-                                            "zUIHideObjectiveTrackerCheckbox",
-                                            HideShowPage,
-                                            "ChatConfigCheckButtonTemplate")
-local checkboxName1 = Checkbox_HideObjectiveTracker:CreateFontString(nil,
-                                                                     "OVERLAY",
-                                                                     "GameFontNormal")
-checkboxName1:SetPoint("LEFT", Checkbox_HideObjectiveTracker, "RIGHT", 20, 0)
+---@class Checkbox_HideObjectiveTrackerInCombat : CheckButton
+Checkbox_HideObjectiveTrackerInCombat = CreateFrame("CheckButton",
+                                                    "zUIHideObjectiveTrackerCheckbox",
+                                                    HideShowPage,
+                                                    "ChatConfigCheckButtonTemplate")
+local checkboxName1 = Checkbox_HideObjectiveTrackerInCombat:CreateFontString(
+                          nil, "OVERLAY", "GameFontNormal")
+checkboxName1:SetPoint("LEFT", Checkbox_HideObjectiveTrackerInCombat, "RIGHT",
+                       20, 0)
 checkboxName1:SetText("Objective Tracker")
-Checkbox_HideObjectiveTracker:SetPoint("TOPLEFT", 20, -40)
-Checkbox_HideObjectiveTracker.tooltip = "Hide Objective Tracker during combat."
-Checkbox_HideObjectiveTracker:SetChecked(
+Checkbox_HideObjectiveTrackerInCombat:SetPoint("TOPLEFT", 20, -40)
+Checkbox_HideObjectiveTrackerInCombat.tooltip =
+    "Hide Objective Tracker during combat."
+Checkbox_HideObjectiveTrackerInCombat:SetChecked(
     zUI_SavedSettings.HideObjectiveTrackerSetting)
 
-Checkbox_HideObjectiveTracker:SetScript("OnClick",
-                                        function(self)
+Checkbox_HideObjectiveTrackerInCombat:SetScript("OnClick",
+                                                function(self)
     zUI_SavedSettings.HideObjectiveTrackerSetting = self:GetChecked()
 end)
 
 -- Create the setting for HideChatFrameSetting
----@class Checkbox_HideChatFrame : CheckButton
-Checkbox_HideChatFrame = CreateFrame("CheckButton", "zUIHideChatFrameCheckbox",
-                                     HideShowPage,
-                                     "ChatConfigCheckButtonTemplate")
-local checkboxName2 = Checkbox_HideChatFrame:CreateFontString(nil, "OVERLAY",
-                                                              "GameFontNormal")
-checkboxName2:SetPoint("LEFT", Checkbox_HideChatFrame, "RIGHT", 20, 0)
+---@class Checkbox_HideChatFrameInCombat : CheckButton
+Checkbox_HideChatFrameInCombat = CreateFrame("CheckButton",
+                                             "zUIHideChatFrameCheckbox",
+                                             HideShowPage,
+                                             "ChatConfigCheckButtonTemplate")
+local checkboxName2 = Checkbox_HideChatFrameInCombat:CreateFontString(nil,
+                                                                      "OVERLAY",
+                                                                      "GameFontNormal")
+checkboxName2:SetPoint("LEFT", Checkbox_HideChatFrameInCombat, "RIGHT", 20, 0)
 checkboxName2:SetText("Chat Frame")
-Checkbox_HideChatFrame:SetPoint("TOPLEFT", 20, -70)
-Checkbox_HideChatFrame.tooltip = "Hide Chat Frame during combat."
-Checkbox_HideChatFrame:SetChecked(zUI_SavedSettings.HideChatFrameSetting)
+Checkbox_HideChatFrameInCombat:SetPoint("TOPLEFT", 20, -70)
+Checkbox_HideChatFrameInCombat.tooltip = "Hide Chat Frame during combat."
+Checkbox_HideChatFrameInCombat:SetChecked(zUI_SavedSettings.HideChatFrameSetting)
 
-Checkbox_HideChatFrame:SetScript("OnClick", function(self)
+Checkbox_HideChatFrameInCombat:SetScript("OnClick", function(self)
     zUI_SavedSettings.HideChatFrameSetting = self:GetChecked()
 end)
 
--- Create the setting for HideQuickJoinToastButtonSetting
----@class Checkbox_HideQuickJoinToastButton : CheckButton
-Checkbox_HideQuickJoinToastButton = CreateFrame("CheckButton",
-                                                "zUIHideQuickJoinToastButtonCheckbox",
-                                                HideShowPage,
-                                                "ChatConfigCheckButtonTemplate")
-local checkboxName3 = Checkbox_HideQuickJoinToastButton:CreateFontString(nil,
-                                                                         "OVERLAY",
-                                                                         "GameFontNormal")
-checkboxName3:SetPoint("LEFT", Checkbox_HideQuickJoinToastButton, "RIGHT", 20, 0)
-checkboxName3:SetText("Quick Join Toast Button")
-Checkbox_HideQuickJoinToastButton:SetPoint("TOPLEFT", 20, -100)
-Checkbox_HideQuickJoinToastButton.tooltip =
-    "Hide Quick Join Toast Button during combat."
-Checkbox_HideQuickJoinToastButton:SetChecked(
-    zUI_SavedSettings.HideQuickJoinToastButtonSetting)
-
-Checkbox_HideQuickJoinToastButton:SetScript("OnClick", function(self)
-    zUI_SavedSettings.HideQuickJoinToastButtonSetting = self:GetChecked()
-end)
-
 -- Create the setting for HideBagBarSetting
----@class Checkbox_HideBagBar : CheckButton
-Checkbox_HideBagBar = CreateFrame("CheckButton", "zUIHideBagBarCheckbox",
-                                  HideShowPage, "ChatConfigCheckButtonTemplate")
-local checkboxName4 = Checkbox_HideBagBar:CreateFontString(nil, "OVERLAY",
-                                                           "GameFontNormal")
-checkboxName4:SetPoint("LEFT", Checkbox_HideBagBar, "RIGHT", 20, 0)
+---@class Checkbox_HideBagBarInCombat : CheckButton
+Checkbox_HideBagBarInCombat = CreateFrame("CheckButton",
+                                          "zUIHideBagBarCheckbox", HideShowPage,
+                                          "ChatConfigCheckButtonTemplate")
+local checkboxName4 = Checkbox_HideBagBarInCombat:CreateFontString(nil,
+                                                                   "OVERLAY",
+                                                                   "GameFontNormal")
+checkboxName4:SetPoint("LEFT", Checkbox_HideBagBarInCombat, "RIGHT", 20, 0)
 checkboxName4:SetText("Bag Bar")
-Checkbox_HideBagBar:SetPoint("TOPLEFT", 20, -130)
-Checkbox_HideBagBar.tooltip = "Hide Bag Bar during combat."
-Checkbox_HideBagBar:SetChecked(zUI_SavedSettings.HideBagBarSetting)
+Checkbox_HideBagBarInCombat:SetPoint("TOPLEFT", 20, -100)
+Checkbox_HideBagBarInCombat.tooltip = "Hide Bag Bar during combat."
+Checkbox_HideBagBarInCombat:SetChecked(zUI_SavedSettings.HideBagBarSetting)
 
-Checkbox_HideBagBar:SetScript("OnClick", function(self)
+Checkbox_HideBagBarInCombat:SetScript("OnClick", function(self)
     zUI_SavedSettings.HideBagBarSetting = self:GetChecked()
 end)
 
 -- Create the setting for HideHudTooltipSetting
----@class Checkbox_HideHudTooltip : CheckButton
-Checkbox_HideHudTooltip = CreateFrame("CheckButton",
-                                      "zUIHideHudTooltipCheckbox", HideShowPage,
-                                      "ChatConfigCheckButtonTemplate")
-local checkboxName5 = Checkbox_HideHudTooltip:CreateFontString(nil, "OVERLAY",
-                                                               "GameFontNormal")
-checkboxName5:SetPoint("LEFT", Checkbox_HideHudTooltip, "RIGHT", 20, 0)
+---@class Checkbox_HideHudTooltipInCombat : CheckButton
+Checkbox_HideHudTooltipInCombat = CreateFrame("CheckButton",
+                                              "zUIHideHudTooltipCheckbox",
+                                              HideShowPage,
+                                              "ChatConfigCheckButtonTemplate")
+local checkboxName5 = Checkbox_HideHudTooltipInCombat:CreateFontString(nil,
+                                                                       "OVERLAY",
+                                                                       "GameFontNormal")
+checkboxName5:SetPoint("LEFT", Checkbox_HideHudTooltipInCombat, "RIGHT", 20, 0)
 checkboxName5:SetText("HUD Tooltips")
-Checkbox_HideHudTooltip:SetPoint("TOPLEFT", 20, -160)
-Checkbox_HideHudTooltip.tooltip = "Hide HUD Tooltips during combat."
-Checkbox_HideHudTooltip:SetChecked(zUI_SavedSettings.HideHudTooltipSetting)
+Checkbox_HideHudTooltipInCombat:SetPoint("TOPLEFT", 20, -130)
+Checkbox_HideHudTooltipInCombat.tooltip = "Hide HUD Tooltips during combat."
+Checkbox_HideHudTooltipInCombat:SetChecked(
+    zUI_SavedSettings.HideHudTooltipSetting)
 
-Checkbox_HideHudTooltip:SetScript("OnClick", function(self)
+Checkbox_HideHudTooltipInCombat:SetScript("OnClick", function(self)
     zUI_SavedSettings.HideHudTooltipSetting = self:GetChecked()
 end)
 
@@ -169,6 +156,43 @@ Checkbox_HideChatSidebar:SetScript("OnClick", function(self)
     zUI_SavedSettings.HideChatSidebarSetting = self:GetChecked()
 end)
 
+-- Create the setting for HideQuickJoinToastButtonSetting
+---@class Checkbox_HideQuickJoinToastButton : CheckButton
+Checkbox_HideQuickJoinToastButton = CreateFrame("CheckButton",
+                                                "zUIHideQuickJoinToastButtonCheckbox",
+                                                HideShowPage,
+                                                "ChatConfigCheckButtonTemplate")
+local checkboxName3 = Checkbox_HideQuickJoinToastButton:CreateFontString(nil,
+                                                                         "OVERLAY",
+                                                                         "GameFontNormal")
+checkboxName3:SetPoint("LEFT", Checkbox_HideQuickJoinToastButton, "RIGHT", 20, 0)
+checkboxName3:SetText("Quick Join Toast Button")
+Checkbox_HideQuickJoinToastButton:SetPoint("TOPLEFT", 250, -160)
+Checkbox_HideQuickJoinToastButton.tooltip =
+    "Hide Quick Join Toast Button during combat."
+Checkbox_HideQuickJoinToastButton:SetChecked(
+    zUI_SavedSettings.HideQuickJoinToastButtonSetting)
+
+Checkbox_HideQuickJoinToastButton:SetScript("OnClick", function(self)
+    zUI_SavedSettings.HideQuickJoinToastButtonSetting = self:GetChecked()
+end)
+
+-- Create the setting for HideBagBarSetting
+---@class Checkbox_HideBagBar : CheckButton
+Checkbox_HideBagBar = CreateFrame("CheckButton", "zUIHideBagBarCheckbox",
+                                  HideShowPage, "ChatConfigCheckButtonTemplate")
+local checkboxName6 = Checkbox_HideBagBar:CreateFontString(nil, "OVERLAY",
+                                                           "GameFontNormal")
+checkboxName6:SetPoint("LEFT", Checkbox_HideBagBar, "RIGHT", 20, 0)
+checkboxName6:SetText("Bag Bar")
+Checkbox_HideBagBar:SetPoint("TOPLEFT", 250, -190)
+Checkbox_HideBagBar.tooltip = "Hide Bag Bar permanently."
+Checkbox_HideBagBar:SetChecked(zUI_SavedSettings.HideBagBarSettingPerm)
+
+Checkbox_HideBagBar:SetScript("OnClick", function(self)
+    zUI_SavedSettings.HideBagBarSettingPerm = self:GetChecked()
+end)
+
 -------------------------------------------- CHECKBOXES ON ACTIONBARS PAGE --------------------------------------------
 
 -- Create the setting for actionBarMod
@@ -176,11 +200,11 @@ end)
 Checkbox_actionBarMod = CreateFrame("CheckButton", "zUIactionBarModCheckbox",
                                     ActionBarsPage,
                                     "ChatConfigCheckButtonTemplate")
-local checkboxName6 = Checkbox_actionBarMod:CreateFontString(nil, "OVERLAY",
+local checkboxName7 = Checkbox_actionBarMod:CreateFontString(nil, "OVERLAY",
                                                              "GameFontNormal")
-checkboxName6:SetPoint("LEFT", Checkbox_actionBarMod, "RIGHT", 20, 0)
-checkboxName6:SetText("Action Bar Mod")
-Checkbox_actionBarMod:SetPoint("TOPLEFT", 40, -30)
+checkboxName7:SetPoint("LEFT", Checkbox_actionBarMod, "RIGHT", 20, 0)
+checkboxName7:SetText("Action Bar Mod")
+Checkbox_actionBarMod:SetPoint("TOPLEFT", 20, 30)
 Checkbox_actionBarMod.tooltip = "Custom Action Bar Mod."
 Checkbox_actionBarMod:SetChecked(zUI_SavedSettings.actionBarModSetting)
 
@@ -386,6 +410,20 @@ microMenuFrame:SetScript("OnEvent", function(self, event, addonName)
             MicroMenuContainer:Hide()
         else
             MicroMenuContainer:Show()
+        end
+    end
+end)
+
+-- Hide Bag Bar
+local bagBarFrame = CreateFrame("Frame")
+bagBarFrame:RegisterEvent("ADDON_LOADED")
+
+bagBarFrame:SetScript("OnEvent", function(self, event, addonName)
+    if event == "ADDON_LOADED" and addonName == "zUI" then
+        if zUI_SavedSettings.HideBagBarSettingPerm then
+            MainMenuBarBackpackButton:GetParent():Hide()
+        else
+            MainMenuBarBackpackButton:GetParent():Show()
         end
     end
 end)

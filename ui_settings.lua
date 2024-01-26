@@ -41,13 +41,16 @@ ShowTicksIfAttributeIsSet:RegisterEvent("ADDON_LOADED")
 
 ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, addonName)
     if event == "ADDON_LOADED" and addonName == "zUI" then
-        Checkbox_HideObjectiveTracker:SetChecked(
+        Checkbox_HideObjectiveTrackerInCombat:SetChecked(
             zUI_SavedSettings.HideObjectiveTrackerSetting)
-        Checkbox_HideChatFrame:SetChecked(zUI_SavedSettings.HideChatFrameSetting)
+        Checkbox_HideChatFrameInCombat:SetChecked(
+            zUI_SavedSettings.HideChatFrameSetting)
         Checkbox_HideQuickJoinToastButton:SetChecked(
             zUI_SavedSettings.HideQuickJoinToastButtonSetting)
-        Checkbox_HideBagBar:SetChecked(zUI_SavedSettings.HideBagBarSetting)
-        Checkbox_HideHudTooltip:SetChecked(
+        Checkbox_HideBagBarInCombat:SetChecked(
+            zUI_SavedSettings.HideBagBarSetting)
+        Checkbox_HideBagBar:SetChecked(zUI_SavedSettings.HideBagBarSettingPerm)
+        Checkbox_HideHudTooltipInCombat:SetChecked(
             zUI_SavedSettings.HideHudTooltipSetting)
         Checkbox_fpsFrame:SetChecked(zUI_SavedSettings.fpsFrameSetting)
         Checkbox_actionBarMod:SetChecked(zUI_SavedSettings.actionBarModSetting)
