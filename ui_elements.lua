@@ -15,7 +15,7 @@ ZUI_Panel:SetBackdrop({
 
 -- Create a vertical line next to the menu buttons
 local verticalLine = ZUI_Panel:CreateTexture(nil, "BACKGROUND")
-verticalLine:SetColorTexture(0.5, 0.5, 0.5, 0.5)
+verticalLine:SetColorTexture(0.7, 0.7, 0.7, 0.7)
 verticalLine:SetPoint("TOPLEFT", ZUI_Panel, "TOPLEFT", 110, -10)
 verticalLine:SetPoint("BOTTOMLEFT", ZUI_Panel, "BOTTOMLEFT", 110, 10)
 verticalLine:SetWidth(3)
@@ -29,8 +29,8 @@ UI_Title:SetText("zUI Settings")
 -- Create a horizontal line below the title
 local line = ZUI_Panel:CreateTexture(nil, "BACKGROUND")
 line:SetHeight(2)
-line:SetWidth(ZUI_Panel:GetWidth() - 110)
-line:SetColorTexture(0.5, 0.5, 0.5, 0.5)
+line:SetWidth(ZUI_Panel:GetWidth() - 120)
+line:SetColorTexture(0.7, 0.7, 0.7, 0.7)
 line:SetPoint("TOP", UI_Title, "BOTTOM", 0, -10)
 
 -- Set the backdrop color to 50% transparent black

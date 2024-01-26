@@ -23,7 +23,8 @@ welcomeMessage:SetScript("OnEvent", function(self, event, ...)
         DEFAULT_CHAT_FRAME:AddMessage(" ")
         DEFAULT_CHAT_FRAME:AddMessage(yellow ..
                                           "                                         Welcome back " ..
-                                          red .. playerName .. yellow .. "!" ..endColor)
+                                          red .. playerName .. yellow .. "!" ..
+                                          endColor)
         DEFAULT_CHAT_FRAME:AddMessage(purple ..
                                           "                     What are you going to waste your time on today?" ..
                                           endColor)
@@ -53,6 +54,8 @@ ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, addonName)
         Checkbox_XPBar:SetChecked(zUI_SavedSettings.XPBarSetting)
         Checkbox_RepBar:SetChecked(zUI_SavedSettings.RepBarSetting)
         Checkbox_MicroMenu:SetChecked(zUI_SavedSettings.MicroMenuSetting)
+        Checkbox_HideChatSidebar:SetChecked(
+            zUI_SavedSettings.HideChatSidebarSetting)
     end
 end)
 

@@ -20,7 +20,7 @@ God damnit if I want something overcomplicated I'll start to customize vim
     - XP bar
     - Micromenu
     - Chat Sidebar with it's buttons
-- Editbox move from bottom to top of chat
+- Editbox moved from bottom to top of chat
 - Actionbars
     - Hide all of the original texture (border, background, etc.)
     - Hide Hotkeys on non used slots
