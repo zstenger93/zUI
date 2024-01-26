@@ -3,10 +3,10 @@
 ---@class Checkbox_fpsFrame : CheckButton
 Checkbox_fpsFrame = CreateFrame("CheckButton", "zUIfpsFrameCheckbox",
                                 GeneralPage, "ChatConfigCheckButtonTemplate")
-local checkboxName = Checkbox_fpsFrame:CreateFontString(nil, "OVERLAY",
+local fpsCheckbox = Checkbox_fpsFrame:CreateFontString(nil, "OVERLAY",
                                                         "GameFontNormal")
-checkboxName:SetPoint("LEFT", Checkbox_fpsFrame, "RIGHT", 20, 0)
-checkboxName:SetText("Display the FPS")
+fpsCheckbox:SetPoint("LEFT", Checkbox_fpsFrame, "RIGHT", 20, 0)
+fpsCheckbox:SetText("Display the FPS")
 Checkbox_fpsFrame:SetPoint("TOPLEFT", 20, -30)
 Checkbox_fpsFrame.tooltip = "Show FPS Frame at the top-middle of the screen."
 Checkbox_fpsFrame:SetChecked(zUI_SavedSettings.fpsFrameSetting)
@@ -21,11 +21,11 @@ Checkbox_MoveChatFrameEditBox = CreateFrame("CheckButton",
                                             "zUIMoveChatFrameEditBoxCheckbox",
                                             GeneralPage,
                                             "ChatConfigCheckButtonTemplate")
-local checkboxName8 = Checkbox_MoveChatFrameEditBox:CreateFontString(nil,
+local chatFrameCheckbox = Checkbox_MoveChatFrameEditBox:CreateFontString(nil,
                                                                      "OVERLAY",
                                                                      "GameFontNormal")
-checkboxName8:SetPoint("LEFT", Checkbox_MoveChatFrameEditBox, "RIGHT", 20, 0)
-checkboxName8:SetText("Move Chat Edit Box")
+chatFrameCheckbox:SetPoint("LEFT", Checkbox_MoveChatFrameEditBox, "RIGHT", 20, 0)
+chatFrameCheckbox:SetText("Move Chat Edit Box")
 Checkbox_MoveChatFrameEditBox:SetPoint("TOPLEFT", 20, -60)
 Checkbox_MoveChatFrameEditBox.tooltip =
     "Move the chat frame edit box to the top of the chat frame."
@@ -43,12 +43,12 @@ Checkbox_HidePaladinPowerBarTexture = CreateFrame("CheckButton",
                                                   "zUIHidePaladinPowerBarTextureCheckbox",
                                                   GeneralPage,
                                                   "ChatConfigCheckButtonTemplate")
-local checkboxName9 = Checkbox_HidePaladinPowerBarTexture:CreateFontString(nil,
+local paladinPowerBarCheckbox = Checkbox_HidePaladinPowerBarTexture:CreateFontString(nil,
                                                                            "OVERLAY",
                                                                            "GameFontNormal")
-checkboxName9:SetPoint("LEFT", Checkbox_HidePaladinPowerBarTexture, "RIGHT", 20,
+paladinPowerBarCheckbox:SetPoint("LEFT", Checkbox_HidePaladinPowerBarTexture, "RIGHT", 20,
                        0)
-checkboxName9:SetText("Custom Paladin Power Bar")
+paladinPowerBarCheckbox:SetText("Custom Paladin Power Bar")
 Checkbox_HidePaladinPowerBarTexture:SetPoint("TOPLEFT", 20, -90) -- Adjust the position as needed
 Checkbox_HidePaladinPowerBarTexture.tooltip =
     "Hide the texture of the Paladin Power Bar, but keep the glowing runes."
@@ -67,11 +67,11 @@ Checkbox_HideObjectiveTrackerInCombat = CreateFrame("CheckButton",
                                                     "zUIHideObjectiveTrackerCheckbox",
                                                     HideShowPage,
                                                     "ChatConfigCheckButtonTemplate")
-local checkboxName1 = Checkbox_HideObjectiveTrackerInCombat:CreateFontString(
+local objectiveTrackerCheckbox = Checkbox_HideObjectiveTrackerInCombat:CreateFontString(
                           nil, "OVERLAY", "GameFontNormal")
-checkboxName1:SetPoint("LEFT", Checkbox_HideObjectiveTrackerInCombat, "RIGHT",
+objectiveTrackerCheckbox:SetPoint("LEFT", Checkbox_HideObjectiveTrackerInCombat, "RIGHT",
                        20, 0)
-checkboxName1:SetText("Objective Tracker")
+objectiveTrackerCheckbox:SetText("Objective Tracker")
 Checkbox_HideObjectiveTrackerInCombat:SetPoint("TOPLEFT", 20, -40)
 Checkbox_HideObjectiveTrackerInCombat.tooltip =
     "Hide Objective Tracker during combat."
@@ -89,11 +89,11 @@ Checkbox_HideChatFrameInCombat = CreateFrame("CheckButton",
                                              "zUIHideChatFrameCheckbox",
                                              HideShowPage,
                                              "ChatConfigCheckButtonTemplate")
-local checkboxName2 = Checkbox_HideChatFrameInCombat:CreateFontString(nil,
+local chatFrameInCombatCheckbox = Checkbox_HideChatFrameInCombat:CreateFontString(nil,
                                                                       "OVERLAY",
                                                                       "GameFontNormal")
-checkboxName2:SetPoint("LEFT", Checkbox_HideChatFrameInCombat, "RIGHT", 20, 0)
-checkboxName2:SetText("Chat Frame")
+chatFrameInCombatCheckbox:SetPoint("LEFT", Checkbox_HideChatFrameInCombat, "RIGHT", 20, 0)
+chatFrameInCombatCheckbox:SetText("Chat Frame")
 Checkbox_HideChatFrameInCombat:SetPoint("TOPLEFT", 20, -70)
 Checkbox_HideChatFrameInCombat.tooltip = "Hide Chat Frame during combat."
 Checkbox_HideChatFrameInCombat:SetChecked(zUI_SavedSettings.HideChatFrameSetting)
@@ -107,11 +107,11 @@ end)
 Checkbox_HideBagBarInCombat = CreateFrame("CheckButton",
                                           "zUIHideBagBarCheckbox", HideShowPage,
                                           "ChatConfigCheckButtonTemplate")
-local checkboxName4 = Checkbox_HideBagBarInCombat:CreateFontString(nil,
+local bagBarInCombatCheckbox = Checkbox_HideBagBarInCombat:CreateFontString(nil,
                                                                    "OVERLAY",
                                                                    "GameFontNormal")
-checkboxName4:SetPoint("LEFT", Checkbox_HideBagBarInCombat, "RIGHT", 20, 0)
-checkboxName4:SetText("Bag Bar")
+bagBarInCombatCheckbox:SetPoint("LEFT", Checkbox_HideBagBarInCombat, "RIGHT", 20, 0)
+bagBarInCombatCheckbox:SetText("Bag Bar")
 Checkbox_HideBagBarInCombat:SetPoint("TOPLEFT", 20, -100)
 Checkbox_HideBagBarInCombat.tooltip = "Hide Bag Bar during combat."
 Checkbox_HideBagBarInCombat:SetChecked(zUI_SavedSettings.HideBagBarSetting)
@@ -126,11 +126,11 @@ Checkbox_HideHudTooltipInCombat = CreateFrame("CheckButton",
                                               "zUIHideHudTooltipCheckbox",
                                               HideShowPage,
                                               "ChatConfigCheckButtonTemplate")
-local checkboxName5 = Checkbox_HideHudTooltipInCombat:CreateFontString(nil,
+local hudTooltipCheckbox = Checkbox_HideHudTooltipInCombat:CreateFontString(nil,
                                                                        "OVERLAY",
                                                                        "GameFontNormal")
-checkboxName5:SetPoint("LEFT", Checkbox_HideHudTooltipInCombat, "RIGHT", 20, 0)
-checkboxName5:SetText("HUD Tooltips")
+hudTooltipCheckbox:SetPoint("LEFT", Checkbox_HideHudTooltipInCombat, "RIGHT", 20, 0)
+hudTooltipCheckbox:SetText("HUD Tooltips")
 Checkbox_HideHudTooltipInCombat:SetPoint("TOPLEFT", 20, -130)
 Checkbox_HideHudTooltipInCombat.tooltip = "Hide HUD Tooltips during combat."
 Checkbox_HideHudTooltipInCombat:SetChecked(
@@ -206,11 +206,11 @@ Checkbox_HideQuickJoinToastButton = CreateFrame("CheckButton",
                                                 "zUIHideQuickJoinToastButtonCheckbox",
                                                 HideShowPage,
                                                 "ChatConfigCheckButtonTemplate")
-local checkboxName3 = Checkbox_HideQuickJoinToastButton:CreateFontString(nil,
+local quickJoinCheckbox = Checkbox_HideQuickJoinToastButton:CreateFontString(nil,
                                                                          "OVERLAY",
                                                                          "GameFontNormal")
-checkboxName3:SetPoint("LEFT", Checkbox_HideQuickJoinToastButton, "RIGHT", 20, 0)
-checkboxName3:SetText("Quick Join Toast Button")
+quickJoinCheckbox:SetPoint("LEFT", Checkbox_HideQuickJoinToastButton, "RIGHT", 20, 0)
+quickJoinCheckbox:SetText("Quick Join Toast Button")
 Checkbox_HideQuickJoinToastButton:SetPoint("TOPLEFT", 250, -160)
 Checkbox_HideQuickJoinToastButton.tooltip =
     "Hide Quick Join Toast Button during combat."
@@ -225,10 +225,10 @@ end)
 ---@class Checkbox_HideBagBar : CheckButton
 Checkbox_HideBagBar = CreateFrame("CheckButton", "zUIHideBagBarCheckbox",
                                   HideShowPage, "ChatConfigCheckButtonTemplate")
-local checkboxName6 = Checkbox_HideBagBar:CreateFontString(nil, "OVERLAY",
+local hideBagBarCheckbox = Checkbox_HideBagBar:CreateFontString(nil, "OVERLAY",
                                                            "GameFontNormal")
-checkboxName6:SetPoint("LEFT", Checkbox_HideBagBar, "RIGHT", 20, 0)
-checkboxName6:SetText("Bag Bar")
+hideBagBarCheckbox:SetPoint("LEFT", Checkbox_HideBagBar, "RIGHT", 20, 0)
+hideBagBarCheckbox:SetText("Bag Bar")
 Checkbox_HideBagBar:SetPoint("TOPLEFT", 250, -190)
 Checkbox_HideBagBar.tooltip = "Hide Bag Bar permanently."
 Checkbox_HideBagBar:SetChecked(zUI_SavedSettings.HideBagBarSettingPerm)
@@ -244,10 +244,10 @@ end)
 Checkbox_actionBarMod = CreateFrame("CheckButton", "zUIactionBarModCheckbox",
                                     ActionBarsPage,
                                     "ChatConfigCheckButtonTemplate")
-local checkboxName7 = Checkbox_actionBarMod:CreateFontString(nil, "OVERLAY",
+local actionBarModCheckbox = Checkbox_actionBarMod:CreateFontString(nil, "OVERLAY",
                                                              "GameFontNormal")
-checkboxName7:SetPoint("LEFT", Checkbox_actionBarMod, "RIGHT", 20, 0)
-checkboxName7:SetText("Action Bar Mod")
+actionBarModCheckbox:SetPoint("LEFT", Checkbox_actionBarMod, "RIGHT", 20, 0)
+actionBarModCheckbox:SetText("Action Bar Mod")
 Checkbox_actionBarMod:SetPoint("TOPLEFT", 20, 30)
 Checkbox_actionBarMod.tooltip = "Custom Action Bar Mod."
 Checkbox_actionBarMod:SetChecked(zUI_SavedSettings.actionBarModSetting)
@@ -338,9 +338,11 @@ HideChatFrameStyle:SetScript("OnEvent", function(self, event)
             local chatFrame = _G["ChatFrame" .. i]
             local chatTab = _G["ChatFrame" .. i .. "Tab"]
 
+            -- Hide the tab border and backround
             _G["ChatFrame" .. i .. "Tab"].Left:Hide()
             _G["ChatFrame" .. i .. "Tab"].Right:Hide()
             _G["ChatFrame" .. i .. "Tab"].Middle:Hide()
+            -- Hide chat border
             _G["ChatFrame" .. i .. "BottomTexture"]:Hide()
             _G["ChatFrame" .. i .. "BottomLeftTexture"]:Hide()
             _G["ChatFrame" .. i .. "BottomRightTexture"]:Hide()
@@ -357,7 +359,11 @@ HideChatFrameStyle:SetScript("OnEvent", function(self, event)
 
             hideTabAndBackground()
 
-            -- Hook both the chat frame and tab into all the events
+            --[[
+                Hook both the chat frame and tab into all the events
+                It still causes flickering sometimes, but it's better than before
+                Needs a check later
+            ]]
             local events = {
                 "OnEnter", "OnLeave", "OnMouseDown", "OnMouseUp", "OnUpdate",
                 "OnShow", "OnHide", "OnReceiveDrag", "OnDragStart", "OnDragStop"
@@ -395,7 +401,7 @@ MoveChatFrameEditBox:SetScript("OnEvent", function(self, event)
     end
 end)
 
--- Hide the quick join toast button when combat starts
+-- Hide the social quick join toast button when combat starts
 local HideQuickJoinToastButton = CreateFrame("Frame")
 
 HideQuickJoinToastButton:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -458,7 +464,7 @@ end)
 -- Show FPS Frame
 local fpsFrame = CreateFrame("Frame", nil, UIParent)
 fpsFrame:SetSize(100, 20)
-fpsFrame:SetPoint("TOP", 0, -5)
+fpsFrame:SetPoint("TOP", 0, 0)
 
 local fpsText = fpsFrame:CreateFontString(nil, "OVERLAY")
 fpsText:SetAllPoints()
@@ -512,7 +518,7 @@ microMenuFrame:SetScript("OnEvent", function(self, event, addonName)
     end
 end)
 
--- Hide Bag Bar
+-- Hide Bag Bar Permanently
 local bagBarFrame = CreateFrame("Frame")
 bagBarFrame:RegisterEvent("ADDON_LOADED")
 
@@ -526,6 +532,7 @@ bagBarFrame:SetScript("OnEvent", function(self, event, addonName)
     end
 end)
 
+-- Hide the paladin power bar textures except the symbols for holy power
 local HidePaladinPowerBarTexture = CreateFrame("Frame")
 HidePaladinPowerBarTexture:RegisterEvent("ADDON_LOADED")
 

@@ -14,11 +14,11 @@ ZUI_Panel:SetBackdrop({
 })
 
 -- Create a vertical line next to the menu buttons
-local verticalLine = ZUI_Panel:CreateTexture(nil, "BACKGROUND")
-verticalLine:SetColorTexture(0.7, 0.7, 0.7, 0.7)
-verticalLine:SetPoint("TOPLEFT", ZUI_Panel, "TOPLEFT", 110, -10)
-verticalLine:SetPoint("BOTTOMLEFT", ZUI_Panel, "BOTTOMLEFT", 110, 10)
-verticalLine:SetWidth(3)
+local MainPageLeftSideVerticalLine = ZUI_Panel:CreateTexture(nil, "BACKGROUND")
+MainPageLeftSideVerticalLine:SetColorTexture(0.7, 0.7, 0.7, 0.7)
+MainPageLeftSideVerticalLine:SetPoint("TOPLEFT", ZUI_Panel, "TOPLEFT", 110, -10)
+MainPageLeftSideVerticalLine:SetPoint("BOTTOMLEFT", ZUI_Panel, "BOTTOMLEFT", 110, 10)
+MainPageLeftSideVerticalLine:SetWidth(3)
 
 -- UI Panel Title
 local UI_Title = ZUI_Panel:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
@@ -27,11 +27,11 @@ UI_Title:SetPoint("TOP", ZUI_Panel, "TOP", 50, -20)
 UI_Title:SetText("zUI Settings")
 
 -- Create a horizontal line below the title
-local line = ZUI_Panel:CreateTexture(nil, "BACKGROUND")
-line:SetHeight(2)
-line:SetWidth(ZUI_Panel:GetWidth() - 120)
-line:SetColorTexture(0.7, 0.7, 0.7, 0.7)
-line:SetPoint("TOP", UI_Title, "BOTTOM", 0, -10)
+local MainPageTopHorizontalLine = ZUI_Panel:CreateTexture(nil, "BACKGROUND")
+MainPageTopHorizontalLine:SetHeight(2)
+MainPageTopHorizontalLine:SetWidth(ZUI_Panel:GetWidth() - 120)
+MainPageTopHorizontalLine:SetColorTexture(0.7, 0.7, 0.7, 0.7)
+MainPageTopHorizontalLine:SetPoint("TOP", UI_Title, "BOTTOM", 0, -10)
 
 -- Set the backdrop color to 50% transparent black
 ZUI_Panel:SetPoint("CENTER")
@@ -52,10 +52,10 @@ HideZuiInCombat:SetScript("OnEvent", function(self, event, ...)
     end
 end)
 
+-- Close button at the top right of the panel
 local closeButton = CreateFrame("Button", nil, ZUI_Panel, "UIPanelCloseButton")
 closeButton:SetPoint("TOPRIGHT")
 
--- Handle the OnClick event for the close button
 closeButton:SetScript("OnClick", function() ZUI_Panel:Hide() end)
 
 -- Create a reload button at the bottom middle of the panel
