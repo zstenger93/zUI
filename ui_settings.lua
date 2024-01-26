@@ -59,6 +59,8 @@ ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, addonName)
         Checkbox_MicroMenu:SetChecked(zUI_SavedSettings.MicroMenuSetting)
         Checkbox_HideChatSidebar:SetChecked(
             zUI_SavedSettings.HideChatSidebarSetting)
+        Checkbox_MoveChatFrameEditBox:SetChecked(
+            zUI_SavedSettings.MoveChatFrameEditBoxSetting)
     end
 end)
 

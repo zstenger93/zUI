@@ -11,16 +11,18 @@ God damnit if I want something overcomplicated I'll start to customize vim
     - Objective Tracker
     - HUD Tooltips
     - Chat
-    - Micromenu
-    - Bags
+    - Bagbar
 - Show
     - FPS
-- Hide / Show
+- Move
+    - Editbox from bottom to top of the Chat
+- Hide / Show Permanently
     - Reputation Bar
     - XP bar
     - Micromenu
-    - Chat Sidebar with it's buttons
-- Editbox moved from bottom to top of chat
+    - Chat Sidebar with it's Buttons
+    - Bagbar
+    - Quick Join Button
 - Actionbars
     - Hide all of the original texture (border, background, etc.)
     - Hide Hotkeys on non used slots

@@ -6,7 +6,7 @@ Checkbox_fpsFrame = CreateFrame("CheckButton", "zUIfpsFrameCheckbox",
 local checkboxName = Checkbox_fpsFrame:CreateFontString(nil, "OVERLAY",
                                                         "GameFontNormal")
 checkboxName:SetPoint("LEFT", Checkbox_fpsFrame, "RIGHT", 20, 0)
-checkboxName:SetText("FPS Frame")
+checkboxName:SetText("Display the FPS")
 Checkbox_fpsFrame:SetPoint("TOPLEFT", 20, -30)
 Checkbox_fpsFrame.tooltip = "Show FPS Frame at the top-middle of the screen."
 Checkbox_fpsFrame:SetChecked(zUI_SavedSettings.fpsFrameSetting)
@@ -14,6 +14,28 @@ Checkbox_fpsFrame:SetChecked(zUI_SavedSettings.fpsFrameSetting)
 Checkbox_fpsFrame:SetScript("OnClick", function(self)
     zUI_SavedSettings.fpsFrameSetting = self:GetChecked()
 end)
+
+-- Checkbox for chat frame edit box
+---@class Checkbox_MoveChatFrameEditBox : CheckButton
+Checkbox_MoveChatFrameEditBox = CreateFrame("CheckButton",
+                                            "zUIMoveChatFrameEditBoxCheckbox",
+                                            GeneralPage,
+    "ChatConfigCheckButtonTemplate")
+local checkboxName8 = Checkbox_MoveChatFrameEditBox:CreateFontString(nil,
+                                                                    "OVERLAY",
+    "GameFontNormal")
+checkboxName8:SetPoint("LEFT", Checkbox_MoveChatFrameEditBox, "RIGHT", 20, 0)
+checkboxName8:SetText("Move Chat Edit Box")
+Checkbox_MoveChatFrameEditBox:SetPoint("TOPLEFT", 20, -60)
+Checkbox_MoveChatFrameEditBox.tooltip =
+"Move the chat frame edit box to the top of the chat frame."
+Checkbox_MoveChatFrameEditBox:SetChecked(
+    zUI_SavedSettings.MoveChatFrameEditBoxSetting)
+
+Checkbox_MoveChatFrameEditBox:SetScript("OnClick", function(self)
+    zUI_SavedSettings.MoveChatFrameEditBoxSetting = self:GetChecked()
+end)
+
 
 -------------------------------------------- CHECKBOXES ON SHOW & HIDE PAGE --------------------------------------------
 
@@ -257,7 +279,7 @@ HideChatFrameObject:SetScript("OnEvent", function(self, event)
     end
 end)
 
--- Hide side buttons on the chat frame, move the edit box to the top of the chat frame
+-- Hide side buttons and their background on the chat frame
 local HideChatSidebar = CreateFrame("Frame")
 
 HideChatSidebar:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -271,17 +293,12 @@ HideChatSidebar:SetScript("OnEvent", function(self, event)
             ChatFrameToggleVoiceDeafenButton:Hide()
             ChatFrameMenuButton:GetParent():Hide()
         end)
-        if not status then end
         for i = 1, NUM_CHAT_WINDOWS do
-            local chatFrame = _G["ChatFrame" .. i]
-            local editBox = _G["ChatFrame" .. i .. "EditBox"]
-
-            editBox:ClearAllPoints()
-            editBox:SetPoint("BOTTOMLEFT", chatFrame, "TOPLEFT", 0, 0)
-            editBox:SetPoint("BOTTOMRIGHT", chatFrame, "TOPRIGHT", 0, 0)
             _G["ChatFrame" .. i .. "Tab"]:SetAlpha(0)
             _G["ChatFrame" .. i .. "Background"]:SetAlpha(0)
+
             local chatTab = _G["ChatFrame" .. i .. "Tab"]
+
             if chatTab then
                 chatTab:HookScript("OnClick", function()
                     _G["ChatFrame" .. i .. "Tab"]:SetAlpha(0)
@@ -294,6 +311,24 @@ HideChatSidebar:SetScript("OnEvent", function(self, event)
         ChatFrameChannelButton:Show()
         ChatFrameToggleVoiceDeafenButton:Show()
         ChatFrameMenuButton:GetParent():Show()
+    end
+end)
+
+-- Move the chat frame edit box to the top of the chat frame
+local MoveChatFrameEditBox = CreateFrame("Frame")
+
+MoveChatFrameEditBox:RegisterEvent("PLAYER_ENTERING_WORLD")
+
+MoveChatFrameEditBox:SetScript("OnEvent", function(self, event)
+    if event == "PLAYER_ENTERING_WORLD" and zUI_SavedSettings.MoveChatFrameEditBoxSetting then
+        for i = 1, NUM_CHAT_WINDOWS do
+            local chatFrame = _G["ChatFrame" .. i]
+            local editBox = _G["ChatFrame" .. i .. "EditBox"]
+
+            editBox:ClearAllPoints()
+            editBox:SetPoint("BOTTOMLEFT", chatFrame, "TOPLEFT", 0, 0)
+            editBox:SetPoint("BOTTOMRIGHT", chatFrame, "TOPRIGHT", 0, 0)
+        end
     end
 end)
 
