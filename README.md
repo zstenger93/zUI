@@ -30,5 +30,6 @@ God damnit if I want something overcomplicated I'll start to customize vim
 - Setting to only show a specific actionbar on hover
 - Move the whole chatframe to the bottomleft corner without having a gap
 - Displayin more useful info next to the fps, like durabilty etc, will see
+- Maybe an option to be able to hide any of the settings in combat or permanently as well
 
 
