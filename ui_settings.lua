@@ -32,6 +32,8 @@ welcomeMessage:SetScript("OnEvent", function(self, event, ...)
         DEFAULT_CHAT_FRAME:AddMessage(" ")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
+        DEFAULT_CHAT_FRAME:AddMessage(" ")
+        DEFAULT_CHAT_FRAME:AddMessage(" ")
     end
 end)
 
@@ -61,8 +63,8 @@ ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, addonName)
             zUI_SavedSettings.HideChatSidebarSetting)
         Checkbox_MoveChatFrameEditBox:SetChecked(
             zUI_SavedSettings.MoveChatFrameEditBoxSetting)
-        Checkbox_HidePaladinPowerBarTexture:SetChecked(
-            zUI_SavedSettings.HidePaladinPowerBarTextureSetting)
+        Checkbox_CustomPaladinPowerBarTexture:SetChecked(
+            zUI_SavedSettings.CustomPaladinPowerBarTextureSetting)
     end
 end)
 
