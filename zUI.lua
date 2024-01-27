@@ -49,7 +49,7 @@ local paladinPowerBarCheckbox =
 paladinPowerBarCheckbox:SetPoint("LEFT", Checkbox_CustomPaladinPowerBarTexture,
                                  "RIGHT", 20, 0)
 paladinPowerBarCheckbox:SetText("Custom Paladin Power Bar")
-Checkbox_CustomPaladinPowerBarTexture:SetPoint("TOPLEFT", 20, -90) -- Adjust the position as needed
+Checkbox_CustomPaladinPowerBarTexture:SetPoint("TOPLEFT", 20, -90)
 Checkbox_CustomPaladinPowerBarTexture.tooltip =
     "Hide the texture of the Paladin Power Bar, but keep the glowing runes."
 Checkbox_CustomPaladinPowerBarTexture:SetChecked(
@@ -259,6 +259,42 @@ Checkbox_actionBarMod:SetChecked(zUI_SavedSettings.actionBarModSetting)
 
 Checkbox_actionBarMod:SetScript("OnClick", function(self)
     zUI_SavedSettings.actionBarModSetting = self:GetChecked()
+end)
+
+-- Create the setting for MultiBarLeft
+---@class Checkbox_MultiBarLeft : CheckButton
+Checkbox_MultiBarLeft = CreateFrame("CheckButton", "zUIMultiBarLeftCheckbox",
+                                    ActionBarsPage,
+                                    "ChatConfigCheckButtonTemplate")
+local multiBarLeftCheckbox = Checkbox_MultiBarLeft:CreateFontString(nil,
+                                                                    "OVERLAY",
+                                                                    "GameFontNormal")
+multiBarLeftCheckbox:SetPoint("LEFT", Checkbox_MultiBarLeft, "RIGHT", 20, 0)
+multiBarLeftCheckbox:SetText("MultiBarLeft Visibility")
+Checkbox_MultiBarLeft:SetPoint("TOPLEFT", 20, 0)
+Checkbox_MultiBarLeft.tooltip = "Make MultiBarLeft visible only on mouseover."
+Checkbox_MultiBarLeft:SetChecked(zUI_SavedSettings.multiBarLeftSetting)
+
+Checkbox_MultiBarLeft:SetScript("OnClick", function(self)
+    zUI_SavedSettings.multiBarLeftSetting = self:GetChecked()
+end)
+
+-- Create the setting for MultiBarRight
+---@class Checkbox_MultiBarRight : CheckButton
+Checkbox_MultiBarRight = CreateFrame("CheckButton", "zUIMultiBarRightCheckbox",
+                                     ActionBarsPage,
+                                     "ChatConfigCheckButtonTemplate")
+local multiBarRightCheckbox = Checkbox_MultiBarRight:CreateFontString(nil,
+                                                                      "OVERLAY",
+                                                                      "GameFontNormal")
+multiBarRightCheckbox:SetPoint("LEFT", Checkbox_MultiBarRight, "RIGHT", 20, 0)
+multiBarRightCheckbox:SetText("MultiBarRight Visibility")
+Checkbox_MultiBarRight:SetPoint("TOPLEFT", 20, -30)
+Checkbox_MultiBarRight.tooltip = "Make MultiBarRight visible only on mouseover."
+Checkbox_MultiBarRight:SetChecked(zUI_SavedSettings.multiBarRightSetting)
+
+Checkbox_MultiBarRight:SetScript("OnClick", function(self)
+    zUI_SavedSettings.multiBarRightSetting = self:GetChecked()
 end)
 
 ------------------------------------------------- GAME SETTINGS BELOW -------------------------------------------------
@@ -726,7 +762,8 @@ MouseOverActionBar4:Show()
 
 -- Initially hide the buttons
 MouseOverActionBar4:SetScript("OnEvent", function(self, event, ...)
-    if event == "PLAYER_ENTERING_WORLD" then
+    if event == "PLAYER_ENTERING_WORLD" and
+        zUI_SavedSettings.multiBarLeftSetting then
         for i = 1, 12 do
             local button = _G["MultiBarLeftButton" .. i]
             button:Hide()
@@ -735,6 +772,7 @@ MouseOverActionBar4:SetScript("OnEvent", function(self, event, ...)
 end)
 
 MouseOverActionBar4:SetScript("OnEnter", function(self)
+    if not zUI_SavedSettings.multiBarLeftSetting then return end
     for i = 1, 12 do
         local button = _G["MultiBarLeftButton" .. i]
         button:Show()
@@ -742,12 +780,12 @@ MouseOverActionBar4:SetScript("OnEnter", function(self)
 end)
 
 MouseOverActionBar4:SetScript("OnLeave", function(self)
+    if not zUI_SavedSettings.multiBarLeftSetting then return end
     for i = 1, 12 do
         local button = _G["MultiBarLeftButton" .. i]
         button:Hide()
     end
 end)
-
 
 -- Make MultiBarRight visible on mouseover
 local MouseOverActionBar5 = CreateFrame("Frame", nil, UIParent)
@@ -760,7 +798,8 @@ MouseOverActionBar5:Show()
 
 -- Initially hide the buttons
 MouseOverActionBar5:SetScript("OnEvent", function(self, event, ...)
-    if event == "PLAYER_ENTERING_WORLD" then
+    if event == "PLAYER_ENTERING_WORLD" and
+        zUI_SavedSettings.multiBarRightSetting then
         for i = 1, 12 do
             local button = _G["MultiBarRightButton" .. i]
             button:Hide()
@@ -769,6 +808,7 @@ MouseOverActionBar5:SetScript("OnEvent", function(self, event, ...)
 end)
 
 MouseOverActionBar5:SetScript("OnEnter", function(self)
+    if not zUI_SavedSettings.multiBarRightSetting then return end
     for i = 1, 12 do
         local button = _G["MultiBarRightButton" .. i]
         button:Show()
@@ -776,9 +816,9 @@ MouseOverActionBar5:SetScript("OnEnter", function(self)
 end)
 
 MouseOverActionBar5:SetScript("OnLeave", function(self, event, ...)
+    if not zUI_SavedSettings.multiBarRightSetting then return end
     for i = 1, 12 do
         local button = _G["MultiBarRightButton" .. i]
         button:Hide()
     end
 end)
-

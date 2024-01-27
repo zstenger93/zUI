@@ -1,5 +1,5 @@
 # zUI
-World of Warcraft UI tweaks for General activities, M+, Raids.
+World of Warcraft UI rework/tweaks for General activities, M+, Raids for a minimalistic style.
 
 Because I'm bored of slow updates and overcomplicated ui panels.
 
@@ -26,6 +26,9 @@ God damnit if I want something overcomplicated I'll start to customize vim
 - Actionbars
     - Hide all of the original texture (border, background, etc.)
     - Hide Hotkeys on non used slots
+    - Bar 4 and 5 visible only on mouseover
+- Paladin
+    - Moved the power bar above the main action bar and removed everything except the glyps and it's effect
 
 ## Next up
 

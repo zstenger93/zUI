@@ -65,6 +65,8 @@ ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, addonName)
             zUI_SavedSettings.MoveChatFrameEditBoxSetting)
         Checkbox_CustomPaladinPowerBarTexture:SetChecked(
             zUI_SavedSettings.CustomPaladinPowerBarTextureSetting)
+        Checkbox_MultiBarLeft:SetChecked(zUI_SavedSettings.multiBarLeftSetting)
+        Checkbox_MultiBarRight:SetChecked(zUI_SavedSettings.multiBarRightSetting)
     end
 end)
 
