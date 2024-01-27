@@ -592,110 +592,193 @@ end)
 ]]
 local actionBarMod = CreateFrame("Frame")
 
-actionBarMod:RegisterEvent("ADDON_LOADED")
+actionBarMod:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-actionBarMod:SetScript("OnEvent", function()
+actionBarMod:SetScript("OnEvent", function(self, event, ...)
     if not zUI_SavedSettings.actionBarModSetting then return end
+    if event == "PLAYER_ENTERING_WORLD" then
+        local actionBars = {
+            "ActionButton", "MultiBarBottomLeftButton",
+            "MultiBarBottomRightButton", "MultiBarLeftButton",
+            "MultiBarRightButton"
+        }
 
-    local actionBars = {
-        "ActionButton", "MultiBarBottomLeftButton", "MultiBarBottomRightButton",
-        "MultiBarLeftButton", "MultiBarRightButton"
-    }
+        -- Hide the page number and up + down arrows on the main action bar
+        MainMenuBar.ActionBarPageNumber:Hide()
 
-    -- Hide the page number and up + down arrows on the main action bar
-    MainMenuBar.ActionBarPageNumber:Hide()
+        for _, actionBar in ipairs(actionBars) do
+            for i = 1, 12 do
+                local button = _G[actionBar .. i]
 
-    for _, actionBar in ipairs(actionBars) do
-        for i = 1, 12 do
-            local button = _G[actionBar .. i]
+                -- Change the scale of the action bar
+                button:SetScale(0.97)
 
-            -- Change the scale of the action bar
-            button:SetScale(0.97)
+                button:HookScript("OnUpdate", function(self)
+                    -- Hide the default border
+                    local normalTexture = self:GetNormalTexture()
+                    if normalTexture then
+                        normalTexture:Hide()
+                    end
 
-            button:HookScript("OnUpdate", function(self)
-                -- Hide the default border
-                local normalTexture = self:GetNormalTexture()
-                if normalTexture then normalTexture:Hide() end
+                    -- Hide the border when the button is pressed
+                    local pushedTexture = self:GetPushedTexture()
+                    if pushedTexture then
+                        pushedTexture:Hide()
+                    end
 
-                -- Hide the border when the button is pressed
-                local pushedTexture = self:GetPushedTexture()
-                if pushedTexture then pushedTexture:Hide() end
+                    -- Hide the border when the button is active
+                    local checkedTexture = self:GetCheckedTexture()
+                    if checkedTexture then
+                        checkedTexture:Hide()
+                    end
 
-                -- Hide the border when the button is active
-                local checkedTexture = self:GetCheckedTexture()
-                if checkedTexture then checkedTexture:Hide() end
-
-                -- Hide all textures for empty buttons
-                local regions = {button:GetRegions()}
-                for _, region in ipairs(regions) do
-                    if region:IsObjectType("Texture") then
-                        if not HasAction(button.action) then
-                            region:Hide()
+                    -- Hide all textures for empty buttons
+                    local regions = {button:GetRegions()}
+                    for _, region in ipairs(regions) do
+                        if region:IsObjectType("Texture") then
+                            if not HasAction(button.action) then
+                                region:Hide()
+                            end
                         end
                     end
-                end
 
-                -- Hide hotkey text for empty buttons
-                local hotkey = _G[button:GetName() .. 'HotKey']
-                if hotkey then
-                    hotkey:SetFont("Fonts\\FRIZQT__.TTF", 20, "OUTLINE")
-                    hotkey:ClearAllPoints()
-                    hotkey:SetPoint("CENTER", button, "CENTER", 0, 5)
-                    if not HasAction(button.action) and hotkey then
-                        hotkey:Hide()
+                    -- Hide hotkey text for empty buttons
+                    local hotkey = _G[button:GetName() .. 'HotKey']
+                    if hotkey then
+                        hotkey:SetFont("Fonts\\FRIZQT__.TTF", 18, "OUTLINE")
+                        --[[
+                            THE FOLLOWING CODE ISN'T WORKING PROPERLY
+                            TEXT IS DISAPPERING ON LOADING SCREENS
+                            /reload fixes it, but it's not ideal
+                        ]]
+                        -- hotkey:ClearAllPoints()
+                        -- hotkey:SetPoint("CENTER", button, "CENTER", 0, 5)
+                        -- if not HasAction(button.action) and
+                        --     not GetActionInfo(button.action) and
+                        --     hotkey:IsShown() then
+                        --     hotkey:Hide()
+                        -- end
                     end
-                end
-            end)
+                end)
 
-            -- preferably need to find a way to make this work on drag, but ain't workin atm
+                -- preferably need to find a way to make this work on drag, but ain't workin atm
 
-            -- Show the border when a drag operation starts
-            -- self:SetScript("OnDragStart", function(self)
-            --     self:StartMoving()
-            --     if normalTexture then normalTexture:Show() end
-            -- end)
+                -- Show the border when a drag operation starts
+                -- self:SetScript("OnDragStart", function(self)
+                --     self:StartMoving()
+                --     if normalTexture then normalTexture:Show() end
+                -- end)
 
-            -- -- Hide the border again when a drag operation ends
-            -- self:SetScript("OnDragStop", function(self)
-            --     self:StopMovingOrSizing()
-            --     if normalTexture then normalTexture:Hide() end
-            -- end)
+                -- -- Hide the border again when a drag operation ends
+                -- self:SetScript("OnDragStop", function(self)
+                --     self:StopMovingOrSizing()
+                --     if normalTexture then normalTexture:Hide() end
+                -- end)
 
-            -- they way it's drawn is kinda thrash, but it works. need to find a better way to do this
+                -- they way it's drawn is kinda thrash, but it works. need to find a better way to do this
 
-            -- local borderSize = 2
+                -- local borderSize = 2
 
-            -- Create a border for each side of the button
-            -- for _, point in ipairs({"TOP", "BOTTOM", "LEFT", "RIGHT"}) do
-            --     local border = button:CreateTexture(nil, "OVERLAY")
-            --     border:SetDrawLayer("OVERLAY", 7)
-            --     border:SetColorTexture(0, 0, 0)
-            --     if point == "TOP" then
-            --         border:SetPoint("BOTTOMLEFT", button, "TOPLEFT", borderSize,
-            --                         -borderSize)
-            --         border:SetPoint("BOTTOMRIGHT", button, "TOPRIGHT",
-            --                         -borderSize, -borderSize)
-            --         border:SetHeight(borderSize)
-            --     elseif point == "BOTTOM" then
-            --         border:SetPoint("TOPLEFT", button, "BOTTOMLEFT", borderSize,
-            --                         borderSize)
-            --         border:SetPoint("TOPRIGHT", button, "BOTTOMRIGHT",
-            --                         -borderSize, borderSize)
-            --         border:SetHeight(borderSize)
-            --     elseif point == "LEFT" then
-            --         border:SetPoint("TOPRIGHT", button, "TOPLEFT", borderSize,
-            --                         -borderSize)
-            --         border:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT",
-            --                         borderSize, borderSize)
-            --         border:SetWidth(borderSize)
-            --     else
-            --         border:SetPoint("TOPLEFT", button, "TOPRIGHT", -borderSize,
-            --                         -borderSize)
-            --         border:SetPoint("BOTTOMLEFT", button, "BOTTOMRIGHT",
-            --                         -borderSize, borderSize)
-            --         border:SetWidth(borderSize)
-            --     end
-            -- end
+                -- Create a border for each side of the button
+                -- for _, point in ipairs({"TOP", "BOTTOM", "LEFT", "RIGHT"}) do
+                --     local border = button:CreateTexture(nil, "OVERLAY")
+                --     border:SetDrawLayer("OVERLAY", 7)
+                --     border:SetColorTexture(0, 0, 0)
+                --     if point == "TOP" then
+                --         border:SetPoint("BOTTOMLEFT", button, "TOPLEFT", borderSize,
+                --                         -borderSize)
+                --         border:SetPoint("BOTTOMRIGHT", button, "TOPRIGHT",
+                --                         -borderSize, -borderSize)
+                --         border:SetHeight(borderSize)
+                --     elseif point == "BOTTOM" then
+                --         border:SetPoint("TOPLEFT", button, "BOTTOMLEFT", borderSize,
+                --                         borderSize)
+                --         border:SetPoint("TOPRIGHT", button, "BOTTOMRIGHT",
+                --                         -borderSize, borderSize)
+                --         border:SetHeight(borderSize)
+                --     elseif point == "LEFT" then
+                --         border:SetPoint("TOPRIGHT", button, "TOPLEFT", borderSize,
+                --                         -borderSize)
+                --         border:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT",
+                --                         borderSize, borderSize)
+                --         border:SetWidth(borderSize)
+                --     else
+                --         border:SetPoint("TOPLEFT", button, "TOPRIGHT", -borderSize,
+                --                         -borderSize)
+                --         border:SetPoint("BOTTOMLEFT", button, "BOTTOMRIGHT",
+                --                         -borderSize, borderSize)
+                --         border:SetWidth(borderSize)
+                --     end
+                -- end
+            end
         end
     end
 end)
+
+-- Make MultiBarLeft visible on mouseover
+local MouseOverActionBar4 = CreateFrame("Frame", nil, UIParent)
+MouseOverActionBar4:RegisterEvent("PLAYER_ENTERING_WORLD")
+MouseOverActionBar4:SetSize(40, 40 * 12)
+MouseOverActionBar4:SetPoint("BOTTOMRIGHT", MultiBarLeftButton12, "BOTTOMRIGHT",
+                             0, 0)
+MouseOverActionBar4:EnableMouse(true)
+MouseOverActionBar4:Show()
+
+-- Initially hide the buttons
+MouseOverActionBar4:SetScript("OnEvent", function(self, event, ...)
+    if event == "PLAYER_ENTERING_WORLD" then
+        for i = 1, 12 do
+            local button = _G["MultiBarLeftButton" .. i]
+            button:Hide()
+        end
+    end
+end)
+
+MouseOverActionBar4:SetScript("OnEnter", function(self)
+    for i = 1, 12 do
+        local button = _G["MultiBarLeftButton" .. i]
+        button:Show()
+    end
+end)
+
+MouseOverActionBar4:SetScript("OnLeave", function(self)
+    for i = 1, 12 do
+        local button = _G["MultiBarLeftButton" .. i]
+        button:Hide()
+    end
+end)
+
+
+-- Make MultiBarRight visible on mouseover
+local MouseOverActionBar5 = CreateFrame("Frame", nil, UIParent)
+MouseOverActionBar5:RegisterEvent("PLAYER_ENTERING_WORLD")
+MouseOverActionBar5:SetSize(40, 40 * 12)
+MouseOverActionBar5:SetPoint("BOTTOMRIGHT", MultiBarRightButton12,
+                             "BOTTOMRIGHT", 0, 0)
+MouseOverActionBar5:EnableMouse(true)
+MouseOverActionBar5:Show()
+
+-- Initially hide the buttons
+MouseOverActionBar5:SetScript("OnEvent", function(self, event, ...)
+    if event == "PLAYER_ENTERING_WORLD" then
+        for i = 1, 12 do
+            local button = _G["MultiBarRightButton" .. i]
+            button:Hide()
+        end
+    end
+end)
+
+MouseOverActionBar5:SetScript("OnEnter", function(self)
+    for i = 1, 12 do
+        local button = _G["MultiBarRightButton" .. i]
+        button:Show()
+    end
+end)
+
+MouseOverActionBar5:SetScript("OnLeave", function(self, event, ...)
+    for i = 1, 12 do
+        local button = _G["MultiBarRightButton" .. i]
+        button:Hide()
+    end
+end)
+
