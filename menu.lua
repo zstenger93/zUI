@@ -19,12 +19,20 @@ ActionBarsButton:SetSize(100, 20)
 ActionBarsButton:SetText("ActionBars")
 ActionBarsButton:SetNormalFontObject("GameFontNormal")
 
+ClassPageButton = CreateFrame("Button", nil, ZUI_Panel, "GameMenuButtonTemplate")
+ClassPageButton:SetPoint("TOPLEFT", ActionBarsButton, "BOTTOMLEFT", 0, -10)
+ClassPageButton:SetSize(100, 20)
+ClassPageButton:SetText("Class")
+ClassPageButton:SetNormalFontObject("GameFontNormal")
+
 -- Create the pages
+-- General
 GeneralPage = CreateFrame("Frame", nil, ZUI_Panel)
 GeneralPage:SetSize(600, 500)
 GeneralPage:SetPoint("TOPLEFT", GeneralButton, "TOPRIGHT", 10, 0)
 GeneralPage:Show()
 
+-- Hide & Show
 HideShowPage = CreateFrame("Frame", nil, ZUI_Panel)
 HideShowPage:SetSize(600, 500)
 HideShowPage:SetPoint("TOPLEFT", HideShowButton, "TOPRIGHT", 10, 0)
@@ -54,26 +62,42 @@ HideType2:SetFontObject("GameFontNormalLarge")
 HideType2:SetPoint("TOP", HideShowPage, "TOP", 50, 0)
 HideType2:SetText("Hide Permanently")
 
--- Create the ActionBars page
+-- ActionBars
 ActionBarsPage = CreateFrame("Frame", nil, ZUI_Panel)
 ActionBarsPage:SetSize(600, 500)
 ActionBarsPage:SetPoint("TOPLEFT", ActionBarsButton, "TOPRIGHT", 10, 0)
 ActionBarsPage:Hide()
 
+ClassPage = CreateFrame("Frame", nil, ZUI_Panel)
+ClassPage:SetSize(600, 500)
+ClassPage:SetPoint("TOPLEFT", ActionBarsButton, "TOPRIGHT", 10, 0)
+ClassPage:Hide()
+
+-- Set which page is shown when a button is clicked
 GeneralButton:SetScript("OnClick", function()
     GeneralPage:Show()
     HideShowPage:Hide()
     ActionBarsPage:Hide()
+    ClassPage:Hide()
 end)
 
 HideShowButton:SetScript("OnClick", function()
     GeneralPage:Hide()
     HideShowPage:Show()
     ActionBarsPage:Hide()
+    ClassPage:Hide()
 end)
 
 ActionBarsButton:SetScript("OnClick", function()
     GeneralPage:Hide()
     HideShowPage:Hide()
     ActionBarsPage:Show()
+    ClassPage:Hide()
+end)
+
+ClassPageButton:SetScript("OnClick", function()
+    GeneralPage:Hide()
+    HideShowPage:Hide()
+    ActionBarsPage:Hide()
+    ClassPage:Show()
 end)

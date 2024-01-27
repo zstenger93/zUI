@@ -37,26 +37,127 @@ Checkbox_MoveChatFrameEditBox:SetScript("OnClick",
     zUI_SavedSettings.MoveChatFrameEditBoxSetting = self:GetChecked()
 end)
 
--- Checkbox for hiding Paladin Power Bar Texture
----@class Checkbox_CustomPaladinPowerBarTexture : CheckButton
-Checkbox_CustomPaladinPowerBarTexture = CreateFrame("CheckButton",
-                                                    "zUICustomPaladinPowerBarTextureCheckbox",
-                                                    GeneralPage,
-                                                    "ChatConfigCheckButtonTemplate")
-local paladinPowerBarCheckbox =
-    Checkbox_CustomPaladinPowerBarTexture:CreateFontString(nil, "OVERLAY",
-                                                           "GameFontNormal")
-paladinPowerBarCheckbox:SetPoint("LEFT", Checkbox_CustomPaladinPowerBarTexture,
-                                 "RIGHT", 20, 0)
-paladinPowerBarCheckbox:SetText("Custom Paladin Power Bar")
-Checkbox_CustomPaladinPowerBarTexture:SetPoint("TOPLEFT", 20, -90)
-Checkbox_CustomPaladinPowerBarTexture.tooltip =
-    "Hide the texture of the Paladin Power Bar, but keep the glowing runes."
-Checkbox_CustomPaladinPowerBarTexture:SetChecked(
-    zUI_SavedSettings.CustomPaladinPowerBarTextureSetting)
+-- Create a new font string
+local headerMenuLabel = GeneralPage:CreateFontString(nil, "OVERLAY",
+                                                     "GameFontNormal")
+headerMenuLabel:SetPoint("TOPLEFT", 20, -100)
+headerMenuLabel:SetText("Auto Collapse On Loading Screens")
 
-Checkbox_CustomPaladinPowerBarTexture:SetScript("OnClick", function(self)
-    zUI_SavedSettings.CustomPaladinPowerBarTextureSetting = self:GetChecked()
+-- Checkbox for HeaderMenu
+---@class Checkbox_HeaderMenu : CheckButton
+Checkbox_HeaderMenu = CreateFrame("CheckButton", "zUIHeaderMenuCheckbox",
+                                  GeneralPage, "ChatConfigCheckButtonTemplate")
+local headerMenuCheckbox = Checkbox_HeaderMenu:CreateFontString(nil, "OVERLAY",
+                                                                "GameFontNormal")
+headerMenuCheckbox:SetPoint("LEFT", Checkbox_HeaderMenu, "RIGHT", 20, 0)
+headerMenuCheckbox:SetText("Entire Objective Tracker")
+Checkbox_HeaderMenu:SetPoint("TOPLEFT", 20, -120)
+Checkbox_HeaderMenu.tooltip =
+    "Minimize the entire Objective Tracker on loading screens."
+Checkbox_HeaderMenu:SetChecked(zUI_SavedSettings.HeaderMenuSetting)
+
+Checkbox_HeaderMenu:SetScript("OnClick", function(self)
+    zUI_SavedSettings.HeaderMenuSetting = self:GetChecked()
+end)
+
+-- Checkbox for CampaignQuestHeader
+---@class Checkbox_CampaignQuestHeader : CheckButton
+Checkbox_CampaignQuestHeader = CreateFrame("CheckButton",
+                                           "zUICampaignQuestHeaderCheckbox",
+                                           GeneralPage,
+                                           "ChatConfigCheckButtonTemplate")
+local campaignQuestHeaderCheckbox =
+    Checkbox_CampaignQuestHeader:CreateFontString(nil, "OVERLAY",
+                                                  "GameFontNormal")
+campaignQuestHeaderCheckbox:SetPoint("LEFT", Checkbox_CampaignQuestHeader,
+                                     "RIGHT", 20, 0)
+campaignQuestHeaderCheckbox:SetText("Campaign Quest Header")
+Checkbox_CampaignQuestHeader:SetPoint("TOPLEFT", 20, -150)
+Checkbox_CampaignQuestHeader.tooltip =
+    "Minimize the campaign quest header of the Objective Tracker on loading screens."
+Checkbox_CampaignQuestHeader:SetChecked(
+    zUI_SavedSettings.CampaignQuestHeaderSetting)
+
+Checkbox_CampaignQuestHeader:SetScript("OnClick", function(self)
+    zUI_SavedSettings.CampaignQuestHeaderSetting = self:GetChecked()
+end)
+
+-- Checkbox for quest section
+---@class Checkbox_QuestSection : CheckButton
+Checkbox_QuestSection = CreateFrame("CheckButton", "zUIQuestSectionCheckbox",
+                                    GeneralPage, "ChatConfigCheckButtonTemplate")
+local questSectionCheckbox = Checkbox_QuestSection:CreateFontString(nil,
+                                                                    "OVERLAY",
+                                                                    "GameFontNormal")
+questSectionCheckbox:SetPoint("LEFT", Checkbox_QuestSection, "RIGHT", 20, 0)
+questSectionCheckbox:SetText("Quest Section")
+Checkbox_QuestSection:SetPoint("TOPLEFT", 20, -180)
+Checkbox_QuestSection.tooltip =
+    "Minimize the quest section of the Objective Tracker on loading screens."
+Checkbox_QuestSection:SetChecked(zUI_SavedSettings.QuestSectionSetting)
+
+Checkbox_QuestSection:SetScript("OnClick", function(self)
+    zUI_SavedSettings.QuestSectionSetting = self:GetChecked()
+end)
+
+-- Checkbox for AchievementHeader
+---@class Checkbox_AchievementHeader : CheckButton
+Checkbox_AchievementHeader = CreateFrame("CheckButton",
+                                         "zUIAchievementHeaderCheckbox",
+                                         GeneralPage,
+                                         "ChatConfigCheckButtonTemplate")
+local achievementHeaderCheckbox = Checkbox_AchievementHeader:CreateFontString(
+                                      nil, "OVERLAY", "GameFontNormal")
+achievementHeaderCheckbox:SetPoint("LEFT", Checkbox_AchievementHeader, "RIGHT",
+                                   20, 0)
+achievementHeaderCheckbox:SetText("Achievement Header")
+Checkbox_AchievementHeader:SetPoint("TOPLEFT", 20, -210)
+Checkbox_AchievementHeader.tooltip =
+    "Minimize the achievement header of the Objective Tracker on loading screens."
+Checkbox_AchievementHeader:SetChecked(zUI_SavedSettings.AchievementHeaderSetting)
+
+Checkbox_AchievementHeader:SetScript("OnClick", function(self)
+    zUI_SavedSettings.AchievementHeaderSetting = self:GetChecked()
+end)
+
+-- Checkbox for ScenarioHeader
+---@class Checkbox_ScenarioHeader : CheckButton
+Checkbox_ScenarioHeader = CreateFrame("CheckButton",
+                                      "zUIScenarioHeaderCheckbox", GeneralPage,
+                                      "ChatConfigCheckButtonTemplate")
+local scenarioHeaderCheckbox = Checkbox_ScenarioHeader:CreateFontString(nil,
+                                                                        "OVERLAY",
+                                                                        "GameFontNormal")
+scenarioHeaderCheckbox:SetPoint("LEFT", Checkbox_ScenarioHeader, "RIGHT", 20, 0)
+scenarioHeaderCheckbox:SetText("Scenario Header")
+Checkbox_ScenarioHeader:SetPoint("TOPLEFT", 20, -240)
+Checkbox_ScenarioHeader.tooltip =
+    "Minimize the scenario header of the Objective Tracker on loading screens."
+Checkbox_ScenarioHeader:SetChecked(zUI_SavedSettings.ScenarioHeaderSetting)
+
+Checkbox_ScenarioHeader:SetScript("OnClick", function(self)
+    zUI_SavedSettings.ScenarioHeaderSetting = self:GetChecked()
+end)
+
+-- Checkbox for AdventureHeader
+---@class Checkbox_AdventureHeader : CheckButton
+Checkbox_AdventureHeader = CreateFrame("CheckButton",
+                                       "zUIAdventureHeaderCheckbox",
+                                       GeneralPage,
+                                       "ChatConfigCheckButtonTemplate")
+local adventureHeaderCheckbox = Checkbox_AdventureHeader:CreateFontString(nil,
+                                                                          "OVERLAY",
+                                                                          "GameFontNormal")
+adventureHeaderCheckbox:SetPoint("LEFT", Checkbox_AdventureHeader, "RIGHT", 20,
+                                 0)
+adventureHeaderCheckbox:SetText("Adventure Header")
+Checkbox_AdventureHeader:SetPoint("TOPLEFT", 20, -270)
+Checkbox_AdventureHeader.tooltip =
+    "Minimize the adventure header of the Objective Tracker on loading screens."
+Checkbox_AdventureHeader:SetChecked(zUI_SavedSettings.AdventureHeaderSetting)
+
+Checkbox_AdventureHeader:SetScript("OnClick", function(self)
+    zUI_SavedSettings.AdventureHeaderSetting = self:GetChecked()
 end)
 
 -------------------------------------------- CHECKBOXES ON SHOW & HIDE PAGE --------------------------------------------
@@ -295,6 +396,30 @@ Checkbox_MultiBarRight:SetChecked(zUI_SavedSettings.multiBarRightSetting)
 
 Checkbox_MultiBarRight:SetScript("OnClick", function(self)
     zUI_SavedSettings.multiBarRightSetting = self:GetChecked()
+end)
+
+---------------------------------------------- CHECKBOXES ON CLASS PAGE ----------------------------------------------
+
+-- Checkbox for hiding Paladin Power Bar Texture
+---@class Checkbox_CustomPaladinPowerBarTexture : CheckButton
+Checkbox_CustomPaladinPowerBarTexture = CreateFrame("CheckButton",
+                                                    "zUICustomPaladinPowerBarTextureCheckbox",
+                                                    ClassPage,
+                                                    "ChatConfigCheckButtonTemplate")
+local paladinPowerBarCheckbox =
+    Checkbox_CustomPaladinPowerBarTexture:CreateFontString(nil, "OVERLAY",
+                                                           "GameFontNormal")
+paladinPowerBarCheckbox:SetPoint("LEFT", Checkbox_CustomPaladinPowerBarTexture,
+                                 "RIGHT", 20, 0)
+paladinPowerBarCheckbox:SetText("Custom Paladin Power Bar")
+Checkbox_CustomPaladinPowerBarTexture:SetPoint("TOPLEFT", 20, -30)
+Checkbox_CustomPaladinPowerBarTexture.tooltip =
+    "Hide the texture of the Paladin Power Bar, but keep the glowing runes."
+Checkbox_CustomPaladinPowerBarTexture:SetChecked(
+    zUI_SavedSettings.CustomPaladinPowerBarTextureSetting)
+
+Checkbox_CustomPaladinPowerBarTexture:SetScript("OnClick", function(self)
+    zUI_SavedSettings.CustomPaladinPowerBarTextureSetting = self:GetChecked()
 end)
 
 ------------------------------------------------- GAME SETTINGS BELOW -------------------------------------------------
@@ -822,3 +947,90 @@ MouseOverActionBar5:SetScript("OnLeave", function(self, event, ...)
         button:Hide()
     end
 end)
+
+--[[
+    Automatic collapse options for each part of the objective tracker
+    on load (login, loading screen, etc.)
+    - Campaign Quest
+    - Quests
+    - Achievements
+    - Scenario
+    - Entire Objective Tracker
+    Not sure about what are these ones showing yet:
+    - Monthly Activities
+    - Profession
+    - Adventure
+
+]]
+local AutomaticObjectiveTrackerCollapseOnLoad = CreateFrame("Frame")
+AutomaticObjectiveTrackerCollapseOnLoad:RegisterEvent("PLAYER_ENTERING_WORLD")
+
+AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
+                                                  function(self, event, ...)
+    if event == "PLAYER_ENTERING_WORLD" then
+        -- Minimize the entire Objective Tracker
+        if ObjectiveTrackerFrame.HeaderMenu.MinimizeButton:IsShown() and
+            zUI_SavedSettings.HeaderMenuSetting then
+            C_Timer.After(5, function()
+                ObjectiveTrackerFrame.HeaderMenu.MinimizeButton:Click()
+            end)
+        end
+
+        -- Minimize the campaign quest section
+        if ObjectiveTrackerBlocksFrame.CampaignQuestHeader.MinimizeButton:IsShown() and
+            zUI_SavedSettings.CampaignQuestHeaderSetting then
+            C_Timer.After(5, function()
+                ObjectiveTrackerBlocksFrame.CampaignQuestHeader.MinimizeButton:Click()
+            end)
+        end
+
+        -- Minimize the quest section
+        if ObjectiveTrackerBlocksFrame.QuestHeader.MinimizeButton:IsShown() and
+            zUI_SavedSettings.QuestSectionSetting then
+            C_Timer.After(5, function()
+                ObjectiveTrackerBlocksFrame.QuestHeader.MinimizeButton:Click()
+            end)
+        end
+
+        -- Minimize the achievement section
+        if ObjectiveTrackerBlocksFrame.AchievementHeader.MinimizeButton:IsShown() and
+            zUI_SavedSettings.AchievementHeaderSetting then
+            C_Timer.After(5, function()
+                ObjectiveTrackerBlocksFrame.AchievementHeader.MinimizeButton:Click()
+            end)
+        end
+
+        -- Minimize the scenario section
+        if ObjectiveTrackerBlocksFrame.ScenarioHeader.MinimizeButton:IsShown() and
+            zUI_SavedSettings.ScenarioHeaderSetting then
+            C_Timer.After(5, function()
+                ObjectiveTrackerBlocksFrame.ScenarioHeader.MinimizeButton:Click()
+            end)
+        end
+
+        -- Minimize the adventure section
+        if ObjectiveTrackerBlocksFrame.AdventureHeader.MinimizeButton:IsShown() and
+            zUI_SavedSettings.AdventureHeaderSetting then
+            C_Timer.After(5, function()
+                ObjectiveTrackerBlocksFrame.AdventureHeader.MinimizeButton:Click()
+            end)
+        end
+
+        -- Minimize the monthly activities section
+        if ObjectiveTrackerBlocksFrame.MonthlyActivitiesHeader.MinimizeButton:IsShown() then
+            C_Timer.After(5, function()
+                ObjectiveTrackerBlocksFrame.MonthlyActivitiesHeader
+                    .MinimizeButton:Click()
+            end)
+        end
+
+        -- Minimize the profession section
+        if ObjectiveTrackerBlocksFrame.ProfessionHeader.MinimizeButton:IsShown() then
+            C_Timer.After(5, function()
+                ObjectiveTrackerBlocksFrame.ProfessionHeader.MinimizeButton:Click()
+            end)
+        end
+
+    end
+end)
+

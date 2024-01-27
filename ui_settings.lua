@@ -67,6 +67,16 @@ ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, addonName)
             zUI_SavedSettings.CustomPaladinPowerBarTextureSetting)
         Checkbox_MultiBarLeft:SetChecked(zUI_SavedSettings.multiBarLeftSetting)
         Checkbox_MultiBarRight:SetChecked(zUI_SavedSettings.multiBarRightSetting)
+        Checkbox_HeaderMenu:SetChecked(zUI_SavedSettings.HeaderMenuSetting)
+        Checkbox_CampaignQuestHeader:SetChecked(
+            zUI_SavedSettings.CampaignQuestHeaderSetting)
+        Checkbox_QuestSection:SetChecked(zUI_SavedSettings.QuestSectionSetting)
+        Checkbox_AchievementHeader:SetChecked(
+            zUI_SavedSettings.AchievementHeaderSetting)
+        Checkbox_ScenarioHeader:SetChecked(
+            zUI_SavedSettings.ScenarioHeaderSetting)
+        Checkbox_AdventureHeader:SetChecked(
+            zUI_SavedSettings.AdventureHeaderSetting)
     end
 end)
 
