@@ -17,7 +17,8 @@ ZUI_Panel:SetBackdrop({
 local MainPageLeftSideVerticalLine = ZUI_Panel:CreateTexture(nil, "BACKGROUND")
 MainPageLeftSideVerticalLine:SetColorTexture(0.7, 0.7, 0.7, 0.7)
 MainPageLeftSideVerticalLine:SetPoint("TOPLEFT", ZUI_Panel, "TOPLEFT", 110, -10)
-MainPageLeftSideVerticalLine:SetPoint("BOTTOMLEFT", ZUI_Panel, "BOTTOMLEFT", 110, 10)
+MainPageLeftSideVerticalLine:SetPoint("BOTTOMLEFT", ZUI_Panel, "BOTTOMLEFT",
+                                      110, 10)
 MainPageLeftSideVerticalLine:SetWidth(3)
 
 -- UI Panel Title

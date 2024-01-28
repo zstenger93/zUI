@@ -19,7 +19,8 @@ ActionBarsButton:SetSize(100, 20)
 ActionBarsButton:SetText("ActionBars")
 ActionBarsButton:SetNormalFontObject("GameFontNormal")
 
-ClassPageButton = CreateFrame("Button", nil, ZUI_Panel, "GameMenuButtonTemplate")
+ClassPageButton =
+    CreateFrame("Button", nil, ZUI_Panel, "GameMenuButtonTemplate")
 ClassPageButton:SetPoint("TOPLEFT", ActionBarsButton, "BOTTOMLEFT", 0, -10)
 ClassPageButton:SetSize(100, 20)
 ClassPageButton:SetText("Class")
@@ -38,26 +39,29 @@ HideShowPage:SetSize(600, 500)
 HideShowPage:SetPoint("TOPLEFT", HideShowButton, "TOPRIGHT", 10, 0)
 HideShowPage:Hide()
 
-local HideShowPageMiddleVerticalLine = HideShowPage:CreateTexture(nil, "BACKGROUND")
+local HideShowPageMiddleVerticalLine = HideShowPage:CreateTexture(nil,
+                                                                  "BACKGROUND")
 HideShowPageMiddleVerticalLine:SetColorTexture(0.5, 0.5, 0.5, 0.5)
 HideShowPageMiddleVerticalLine:SetPoint("TOP", HideShowPage, "TOP", -70, 12)
-HideShowPageMiddleVerticalLine:SetPoint("BOTTOM", HideShowPage, "BOTTOM", -70, 65)
+HideShowPageMiddleVerticalLine:SetPoint("BOTTOM", HideShowPage, "BOTTOM", -70,
+                                        65)
 HideShowPageMiddleVerticalLine:SetWidth(3)
 
-local HideShowPageTopHorizontalLine = HideShowPage:CreateTexture(nil, "BACKGROUND")
+local HideShowPageTopHorizontalLine = HideShowPage:CreateTexture(nil,
+                                                                 "BACKGROUND")
 HideShowPageTopHorizontalLine:SetHeight(2)
 HideShowPageTopHorizontalLine:SetWidth(HideShowPage:GetWidth() - 120)
 HideShowPageTopHorizontalLine:SetColorTexture(0.5, 0.5, 0.5, 0.5)
 HideShowPageTopHorizontalLine:SetPoint("TOP", HideShowPage, "TOP", -70, -30)
 
 local HideType1 = HideShowPage:CreateFontString(nil, "OVERLAY",
-    "GameFontHighlight")
+                                                "GameFontHighlight")
 HideType1:SetFontObject("GameFontNormalLarge")
 HideType1:SetPoint("TOP", HideShowPage, "TOP", -190, 0)
 HideType1:SetText("Hide In Combat")
 
 local HideType2 = HideShowPage:CreateFontString(nil, "OVERLAY",
-    "GameFontHighlight")
+                                                "GameFontHighlight")
 HideType2:SetFontObject("GameFontNormalLarge")
 HideType2:SetPoint("TOP", HideShowPage, "TOP", 50, 0)
 HideType2:SetText("Hide Permanently")
