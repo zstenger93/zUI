@@ -4,7 +4,7 @@
 ## Author: zstenger93
 ## Version: 1.0
 ## SavedVariables: zUI_SavedSettings
-## X-Icon: zUI.png
+## IconTexture: Interface\AddOns\zUI\icon.blp
 
 ui_settings.lua
 ui_elements.lua
