@@ -15,13 +15,14 @@ Use `/zui` to show the settings panel (every setting is character specific)
     - Objective Tracker
     - HUD Tooltips
     - Chat
-    - Bagbar
+    - Bag bar
 - Show
     - FPS
+    - Target on tooltip
 - Move
     - Editbox from bottom to top of the Chat
     - Queue Status Button next to the Minimap
-- Auto collapse Objective Tracker on loading sceens
+- Auto collapse Objective Tracker on loading screens
     - Entire Tracker
     - Campaign quests
     - Quests

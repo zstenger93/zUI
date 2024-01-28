@@ -90,6 +90,11 @@ ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, addonName)
                 false)
         Checkbox_QuestSection:SetChecked(
             zUI_SavedSettings[PlayerIdentifier].QuestSectionSetting or false)
+        Checkbox_HideObjectiveTrackerArtwork:SetChecked(
+            zUI_SavedSettings[PlayerIdentifier]
+                .HideObjectiveTrackerArtworkSetting or false)
+        Checkbox_MoveQSB:SetChecked(zUI_SavedSettings[PlayerIdentifier]
+                                        .MoveQSBSetting or false)
     end
 end)
 
