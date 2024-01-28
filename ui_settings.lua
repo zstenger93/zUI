@@ -77,6 +77,9 @@ ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, addonName)
             zUI_SavedSettings.ScenarioHeaderSetting)
         Checkbox_AdventureHeader:SetChecked(
             zUI_SavedSettings.AdventureHeaderSetting)
+        Checkbox_HideObjectiveTrackerArtwork:SetChecked(
+            zUI_SavedSettings.HideObjectiveTrackerArtworkSetting)
+        Checkbox_MoveQSB:SetChecked(zUI_SavedSettings.MoveQSBSetting)
     end
 end)
 

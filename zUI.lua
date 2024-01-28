@@ -37,10 +37,27 @@ Checkbox_MoveChatFrameEditBox:SetScript("OnClick",
     zUI_SavedSettings.MoveChatFrameEditBoxSetting = self:GetChecked()
 end)
 
+-- Checkbox for MoveQSB function
+---@class Checkbox_MoveQSB : CheckButton
+Checkbox_MoveQSB = CreateFrame("CheckButton", "zUIMoveQSBCheckbox", GeneralPage,
+                               "ChatConfigCheckButtonTemplate")
+local moveQSBCheckbox = Checkbox_MoveQSB:CreateFontString(nil, "OVERLAY",
+                                                          "GameFontNormal")
+moveQSBCheckbox:SetPoint("LEFT", Checkbox_MoveQSB, "RIGHT", 20, 0)
+moveQSBCheckbox:SetText("Move Queue Status Button")
+Checkbox_MoveQSB:SetPoint("TOPLEFT", 20, -90) -- Adjust the position as needed
+Checkbox_MoveQSB.tooltip =
+    "Move the Queue Status Button to the left of the Minimap."
+Checkbox_MoveQSB:SetChecked(zUI_SavedSettings.MoveQSBSetting)
+
+Checkbox_MoveQSB:SetScript("OnClick", function(self)
+    zUI_SavedSettings.MoveQSBSetting = self:GetChecked()
+end)
+
 -- Create a new font string
 local headerMenuLabel = GeneralPage:CreateFontString(nil, "OVERLAY",
                                                      "GameFontNormal")
-headerMenuLabel:SetPoint("TOPLEFT", 20, -100)
+headerMenuLabel:SetPoint("TOPLEFT", 20, -130)
 headerMenuLabel:SetText("Auto Collapse On Loading Screens")
 
 -- Checkbox for HeaderMenu
@@ -51,7 +68,7 @@ local headerMenuCheckbox = Checkbox_HeaderMenu:CreateFontString(nil, "OVERLAY",
                                                                 "GameFontNormal")
 headerMenuCheckbox:SetPoint("LEFT", Checkbox_HeaderMenu, "RIGHT", 20, 0)
 headerMenuCheckbox:SetText("Entire Objective Tracker")
-Checkbox_HeaderMenu:SetPoint("TOPLEFT", 20, -120)
+Checkbox_HeaderMenu:SetPoint("TOPLEFT", 20, -150)
 Checkbox_HeaderMenu.tooltip =
     "Minimize the entire Objective Tracker on loading screens."
 Checkbox_HeaderMenu:SetChecked(zUI_SavedSettings.HeaderMenuSetting)
@@ -72,7 +89,7 @@ local campaignQuestHeaderCheckbox =
 campaignQuestHeaderCheckbox:SetPoint("LEFT", Checkbox_CampaignQuestHeader,
                                      "RIGHT", 20, 0)
 campaignQuestHeaderCheckbox:SetText("Campaign Quest Header")
-Checkbox_CampaignQuestHeader:SetPoint("TOPLEFT", 20, -150)
+Checkbox_CampaignQuestHeader:SetPoint("TOPLEFT", 20, -180)
 Checkbox_CampaignQuestHeader.tooltip =
     "Minimize the campaign quest header of the Objective Tracker on loading screens."
 Checkbox_CampaignQuestHeader:SetChecked(
@@ -91,7 +108,7 @@ local questSectionCheckbox = Checkbox_QuestSection:CreateFontString(nil,
                                                                     "GameFontNormal")
 questSectionCheckbox:SetPoint("LEFT", Checkbox_QuestSection, "RIGHT", 20, 0)
 questSectionCheckbox:SetText("Quest Section")
-Checkbox_QuestSection:SetPoint("TOPLEFT", 20, -180)
+Checkbox_QuestSection:SetPoint("TOPLEFT", 20, -210)
 Checkbox_QuestSection.tooltip =
     "Minimize the quest section of the Objective Tracker on loading screens."
 Checkbox_QuestSection:SetChecked(zUI_SavedSettings.QuestSectionSetting)
@@ -111,7 +128,7 @@ local achievementHeaderCheckbox = Checkbox_AchievementHeader:CreateFontString(
 achievementHeaderCheckbox:SetPoint("LEFT", Checkbox_AchievementHeader, "RIGHT",
                                    20, 0)
 achievementHeaderCheckbox:SetText("Achievement Header")
-Checkbox_AchievementHeader:SetPoint("TOPLEFT", 20, -210)
+Checkbox_AchievementHeader:SetPoint("TOPLEFT", 20, -240)
 Checkbox_AchievementHeader.tooltip =
     "Minimize the achievement header of the Objective Tracker on loading screens."
 Checkbox_AchievementHeader:SetChecked(zUI_SavedSettings.AchievementHeaderSetting)
@@ -130,7 +147,7 @@ local scenarioHeaderCheckbox = Checkbox_ScenarioHeader:CreateFontString(nil,
                                                                         "GameFontNormal")
 scenarioHeaderCheckbox:SetPoint("LEFT", Checkbox_ScenarioHeader, "RIGHT", 20, 0)
 scenarioHeaderCheckbox:SetText("Scenario Header")
-Checkbox_ScenarioHeader:SetPoint("TOPLEFT", 20, -240)
+Checkbox_ScenarioHeader:SetPoint("TOPLEFT", 20, -270)
 Checkbox_ScenarioHeader.tooltip =
     "Minimize the scenario header of the Objective Tracker on loading screens."
 Checkbox_ScenarioHeader:SetChecked(zUI_SavedSettings.ScenarioHeaderSetting)
@@ -151,7 +168,7 @@ local adventureHeaderCheckbox = Checkbox_AdventureHeader:CreateFontString(nil,
 adventureHeaderCheckbox:SetPoint("LEFT", Checkbox_AdventureHeader, "RIGHT", 20,
                                  0)
 adventureHeaderCheckbox:SetText("Adventure Header")
-Checkbox_AdventureHeader:SetPoint("TOPLEFT", 20, -270)
+Checkbox_AdventureHeader:SetPoint("TOPLEFT", 20, -300)
 Checkbox_AdventureHeader.tooltip =
     "Minimize the adventure header of the Objective Tracker on loading screens."
 Checkbox_AdventureHeader:SetChecked(zUI_SavedSettings.AdventureHeaderSetting)
@@ -340,6 +357,29 @@ Checkbox_HideBagBar:SetChecked(zUI_SavedSettings.HideBagBarSettingPerm)
 
 Checkbox_HideBagBar:SetScript("OnClick", function(self)
     zUI_SavedSettings.HideBagBarSettingPerm = self:GetChecked()
+end)
+
+-- Checkbox for HideObjectiveTrackerArtwork
+---@class Checkbox_HideObjectiveTrackerArtwork : CheckButton
+Checkbox_HideObjectiveTrackerArtwork = CreateFrame("CheckButton",
+                                                   "zUIHideObjectiveTrackerArtworkCheckbox",
+                                                   HideShowPage,
+                                                   "ChatConfigCheckButtonTemplate")
+local hideObjectiveTrackerArtworkCheckbox =
+    Checkbox_HideObjectiveTrackerArtwork:CreateFontString(nil, "OVERLAY",
+                                                          "GameFontNormal")
+hideObjectiveTrackerArtworkCheckbox:SetPoint("LEFT",
+                                             Checkbox_HideObjectiveTrackerArtwork,
+                                             "RIGHT", 20, 0)
+hideObjectiveTrackerArtworkCheckbox:SetText("Objective Tracker Artwork")
+Checkbox_HideObjectiveTrackerArtwork:SetPoint("TOPLEFT", 250, -220)
+Checkbox_HideObjectiveTrackerArtwork.tooltip =
+    "Hide Objective Tracker Artwork permanently."
+Checkbox_HideObjectiveTrackerArtwork:SetChecked(
+    zUI_SavedSettings.HideObjectiveTrackerArtworkSetting)
+
+Checkbox_HideObjectiveTrackerArtwork:SetScript("OnClick", function(self)
+    zUI_SavedSettings.HideObjectiveTrackerArtworkSetting = self:GetChecked()
 end)
 
 -------------------------------------------- CHECKBOXES ON ACTIONBARS PAGE --------------------------------------------
@@ -671,15 +711,41 @@ repBarFrame:SetScript("OnEvent", function(self, event, addonName)
     end
 end)
 
--- Hide Micro Menu
+for key, value in pairs(StoreMicroButton) do print(key, value) end
+
+-- Hide Micro Menu except the Queue Status Button
 local microMenuFrame = CreateFrame("Frame")
 microMenuFrame:RegisterEvent("ADDON_LOADED")
 microMenuFrame:SetScript("OnEvent", function(self, event, addonName)
     if event == "ADDON_LOADED" and addonName == "zUI" then
         if zUI_SavedSettings.MicroMenuSetting then
-            MicroMenuContainer:Hide()
+            AchievementMicroButton:Hide()
+            GuildMicroButton:Hide()
+            LFDMicroButton:Hide()
+            CollectionsMicroButton:Hide()
+            EJMicroButton:Hide()
+            MainMenuMicroButton:Hide()
+            HelpMicroButton:Hide()
+            StoreMicroButton:SetAlpha(0)
+            TalentMicroButton:Hide()
+            QuestLogMicroButton:Hide()
+            CharacterMicroButton:Hide()
+            SpellbookMicroButton:Hide()
+            TalentMicroButton:Hide()
         else
-            MicroMenuContainer:Show()
+            AchievementMicroButton:Show()
+            GuildMicroButton:Show()
+            LFDMicroButton:Show()
+            CollectionsMicroButton:Show()
+            EJMicroButton:Show()
+            MainMenuMicroButton:Show()
+            HelpMicroButton:Show()
+            StoreMicroButton:SetAlpha(1)
+            TalentMicroButton:Show()
+            QuestLogMicroButton:Show()
+            CharacterMicroButton:Show()
+            SpellbookMicroButton:Show()
+            TalentMicroButton:Show()
         end
     end
 end)
@@ -948,6 +1014,23 @@ MouseOverActionBar5:SetScript("OnLeave", function(self, event, ...)
     end
 end)
 
+-- Hide the Objective Tracker Artwork
+local HideObjectiveTrackerArtwork = CreateFrame("Frame")
+HideObjectiveTrackerArtwork:RegisterEvent("PLAYER_ENTERING_WORLD")
+
+HideObjectiveTrackerArtwork:SetScript("OnEvent", function(self, event, ...)
+    if event == "PLAYER_ENTERING_WORLD" and
+        zUI_SavedSettings.HideObjectiveTrackerArtworkSetting then
+        ObjectiveTrackerBlocksFrame.CampaignQuestHeader.Background:Hide()
+        ObjectiveTrackerBlocksFrame.QuestHeader.Background:Hide()
+        ObjectiveTrackerBlocksFrame.AchievementHeader.Background:Hide()
+        ObjectiveTrackerBlocksFrame.ScenarioHeader.Background:Hide()
+        ObjectiveTrackerBlocksFrame.AdventureHeader.Background:Hide()
+        ObjectiveTrackerBlocksFrame.MonthlyActivitiesHeader.Background:Hide()
+        ObjectiveTrackerBlocksFrame.ProfessionHeader.Background:Hide()
+    end
+end)
+
 --[[
     Automatic collapse options for each part of the objective tracker
     on load (login, loading screen, etc.)
@@ -1031,6 +1114,25 @@ AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
             end)
         end
 
+    end
+end)
+
+-- Move the Queue Status Button to the left of the minimap
+local function MoveQSB()
+    UIParent.ClearAllPoints(QueueStatusButton)
+    UIParent.SetPoint(QueueStatusButton, "RIGHT", Minimap, "LEFT", -20, -100)
+    QueueStatusButton:SetScale(0.8)
+    QueueStatusButton:Show()
+end
+
+local QSB = CreateFrame("Frame")
+QSB:RegisterEvent("PLAYER_ENTERING_WORLD")
+QSB:SetScript("OnEvent", function(self, event, ...)
+    if event == "PLAYER_ENTERING_WORLD" and zUI_SavedSettings.MoveQSBSetting then
+        C_Timer.After(5, function()
+            MoveQSB()
+            hooksecurefunc(QueueStatusButton, "SetPoint", MoveQSB)
+        end)
     end
 end)
 
