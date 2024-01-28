@@ -670,6 +670,67 @@ HideBagBar:SetScript("OnEvent", function(self, event)
     end
 end)
 
+local classColors = {
+    ["Warrior"] = {r = 0.78, g = 0.61, b = 0.43},
+    ["Paladin"] = {r = 0.96, g = 0.55, b = 0.73},
+    ["Hunter"] = {r = 0.67, g = 0.83, b = 0.45},
+    ["Rogue"] = {r = 1.00, g = 0.96, b = 0.41},
+    ["Priest"] = {r = 1.00, g = 1.00, b = 1.00},
+    ["Death Knight"] = {r = 0.77, g = 0.12, b = 0.23},
+    ["Shaman"] = {r = 0.00, g = 0.44, b = 0.87},
+    ["Mage"] = {r = 0.41, g = 0.8, b = 0.94},
+    ["Warlock"] = {r = 0.58, g = 0.51, b = 0.79},
+    ["Monk"] = {r = 0.00, g = 1.00, b = 0.59},
+    ["Druid"] = {r = 1.00, g = 0.49, b = 0.04},
+    ["Demon Hunter"] = {r = 0.64, g = 0.19, b = 0.79}
+}
+
+--[[
+    Show the target's name and realm in the tooltip
+    Show the target's item level in the tooltip if available
+    Clas type color for the target's name is not working yet
+    for some reason, but it's not that important atm
+]]
+local lastTarget = nil
+GameTooltip:HookScript("OnTooltipCleared", function(self) lastTarget = nil end)
+
+GameTooltip:HookScript("OnUpdate", function(self)
+    local _, unit = self:GetUnit()
+    if unit then
+        local target = unit .. "target"
+        local targetName, targetRealm = UnitName(unit)
+        local _, targetClass = UnitClass(unit)
+        local color = classColors[targetClass] or {r = 1, g = 1, b = 1}
+        local realmString = targetRealm and "-" .. targetRealm or ""
+        local targetInfo = targetName .. realmString
+
+        local totalItemLevel, itemCount = 0, 0
+        for i = 1, 18 do
+            if i ~= 4 then
+                local itemLink = GetInventoryItemLink(unit, i)
+                if itemLink then
+                    local _, _, _, itemLevel = GetItemInfo(itemLink)
+                    totalItemLevel = totalItemLevel + itemLevel
+                    itemCount = itemCount + 1
+                end
+            end
+        end
+        local avgItemLevel = itemCount > 0 and totalItemLevel / itemCount or nil
+        local itemLevelInfo = avgItemLevel and "iLvl: " .. avgItemLevel or ""
+
+        if targetInfo ~= lastTarget then
+            self:AddLine(" ", 1, 1, 1)
+            self:AddLine(itemLevelInfo, color.r, color.g, color.b)
+            if UnitExists(target) then
+                self:AddDoubleLine("Target: ", targetInfo, color.r, color.g,
+                                   color.b)
+            end
+            self:Show()
+            lastTarget = targetInfo
+        end
+    end
+end)
+
 -- Hide HUD tooltips when combat starts
 local HideHudTooltip = CreateFrame("Frame")
 local inCombat = false
@@ -736,7 +797,11 @@ repBarFrame:SetScript("OnEvent", function(self, event)
     end
 end)
 
--- Hide Micro Menu except the Queue Status Button
+--[[
+    Hide Micro Menu except the Queue Status Button
+    Change the alpha of the Store Button, because it's the only one
+    where Hide() doesn't work, not sure why 💰💰💰💰💰
+]]
 local microMenuFrame = CreateFrame("Frame")
 microMenuFrame:RegisterEvent("ADDON_LOADED")
 microMenuFrame:SetScript("OnEvent", function(self, event, addonName)
@@ -967,7 +1032,7 @@ actionBarMod:SetScript("OnEvent", function(self, event, ...)
     end
 end)
 
--- Make MultiBarLeft visible on mouseover
+-- Make MultiBarLeft visible only on mouseover
 local MouseOverActionBar4 = CreateFrame("Frame", nil, UIParent)
 MouseOverActionBar4:RegisterEvent("PLAYER_ENTERING_WORLD")
 MouseOverActionBar4:SetSize(40, 40 * 12)
@@ -1009,7 +1074,7 @@ MouseOverActionBar4:SetScript("OnLeave", function(self)
     end
 end)
 
--- Make MultiBarRight visible on mouseover
+-- Make MultiBarRight visible only on mouseover
 local MouseOverActionBar5 = CreateFrame("Frame", nil, UIParent)
 MouseOverActionBar5:RegisterEvent("PLAYER_ENTERING_WORLD")
 MouseOverActionBar5:SetSize(40, 40 * 12)

@@ -7,7 +7,7 @@ Because I'm bored of slow updates and overcomplicated ui panels.
 
 God damnit if I want something overcomplicated I'll start to customize vim
 
-Use `/zui` to show the settings panel
+Use `/zui` to show the settings panel (every setting is character specific)
 
 ## Currently available settings
 
@@ -47,4 +47,10 @@ Use `/zui` to show the settings panel
 - Move the whole chatframe to the bottomleft corner without having a gap
 - Displayin more useful info next to the fps, like durabilty etc, will 
 - Other classes with power bar
+- Hiding hotkeys on empty buttons needs a check
+
+## Works but could use a check
+
+- Mouseover sometimes not working properly on bar 4 and 5, OnLeave sometimes ain't hidin them
+
 
