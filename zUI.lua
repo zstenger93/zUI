@@ -687,9 +687,9 @@ end)
 
 -- Hide XP bar
 local xpBarFrame = CreateFrame("Frame")
-xpBarFrame:RegisterEvent("ADDON_LOADED")
-xpBarFrame:SetScript("OnEvent", function(self, event, addonName)
-    if event == "ADDON_LOADED" and addonName == "zUI" then
+xpBarFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+xpBarFrame:SetScript("OnEvent", function(self, event)
+    if event == "PLAYER_ENTERING_WORLD" then
         if zUI_SavedSettings.XPBarSetting then
             MainStatusTrackingBarContainer:Hide()
         else
@@ -700,9 +700,9 @@ end)
 
 -- Hide Reputation bar
 local repBarFrame = CreateFrame("Frame")
-repBarFrame:RegisterEvent("ADDON_LOADED")
-repBarFrame:SetScript("OnEvent", function(self, event, addonName)
-    if event == "ADDON_LOADED" and addonName == "zUI" then
+repBarFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+repBarFrame:SetScript("OnEvent", function(self, event)
+    if event == "PLAYER_ENTERING_WORLD" then
         if zUI_SavedSettings.RepBarSetting then
             SecondaryStatusTrackingBarContainer:Hide()
         else
@@ -710,8 +710,6 @@ repBarFrame:SetScript("OnEvent", function(self, event, addonName)
         end
     end
 end)
-
-for key, value in pairs(StoreMicroButton) do print(key, value) end
 
 -- Hide Micro Menu except the Queue Status Button
 local microMenuFrame = CreateFrame("Frame")
@@ -1054,7 +1052,7 @@ AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
         -- Minimize the entire Objective Tracker
         if ObjectiveTrackerFrame.HeaderMenu.MinimizeButton:IsShown() and
             zUI_SavedSettings.HeaderMenuSetting then
-            C_Timer.After(5, function()
+            C_Timer.After(3, function()
                 ObjectiveTrackerFrame.HeaderMenu.MinimizeButton:Click()
             end)
         end
@@ -1062,7 +1060,7 @@ AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
         -- Minimize the campaign quest section
         if ObjectiveTrackerBlocksFrame.CampaignQuestHeader.MinimizeButton:IsShown() and
             zUI_SavedSettings.CampaignQuestHeaderSetting then
-            C_Timer.After(5, function()
+            C_Timer.After(3, function()
                 ObjectiveTrackerBlocksFrame.CampaignQuestHeader.MinimizeButton:Click()
             end)
         end
@@ -1070,7 +1068,7 @@ AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
         -- Minimize the quest section
         if ObjectiveTrackerBlocksFrame.QuestHeader.MinimizeButton:IsShown() and
             zUI_SavedSettings.QuestSectionSetting then
-            C_Timer.After(5, function()
+            C_Timer.After(3, function()
                 ObjectiveTrackerBlocksFrame.QuestHeader.MinimizeButton:Click()
             end)
         end
@@ -1078,7 +1076,7 @@ AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
         -- Minimize the achievement section
         if ObjectiveTrackerBlocksFrame.AchievementHeader.MinimizeButton:IsShown() and
             zUI_SavedSettings.AchievementHeaderSetting then
-            C_Timer.After(5, function()
+            C_Timer.After(3, function()
                 ObjectiveTrackerBlocksFrame.AchievementHeader.MinimizeButton:Click()
             end)
         end
@@ -1086,7 +1084,7 @@ AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
         -- Minimize the scenario section
         if ObjectiveTrackerBlocksFrame.ScenarioHeader.MinimizeButton:IsShown() and
             zUI_SavedSettings.ScenarioHeaderSetting then
-            C_Timer.After(5, function()
+            C_Timer.After(3, function()
                 ObjectiveTrackerBlocksFrame.ScenarioHeader.MinimizeButton:Click()
             end)
         end
@@ -1094,14 +1092,14 @@ AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
         -- Minimize the adventure section
         if ObjectiveTrackerBlocksFrame.AdventureHeader.MinimizeButton:IsShown() and
             zUI_SavedSettings.AdventureHeaderSetting then
-            C_Timer.After(5, function()
+            C_Timer.After(3, function()
                 ObjectiveTrackerBlocksFrame.AdventureHeader.MinimizeButton:Click()
             end)
         end
 
         -- Minimize the monthly activities section
         if ObjectiveTrackerBlocksFrame.MonthlyActivitiesHeader.MinimizeButton:IsShown() then
-            C_Timer.After(5, function()
+            C_Timer.After(3, function()
                 ObjectiveTrackerBlocksFrame.MonthlyActivitiesHeader
                     .MinimizeButton:Click()
             end)
@@ -1109,7 +1107,7 @@ AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
 
         -- Minimize the profession section
         if ObjectiveTrackerBlocksFrame.ProfessionHeader.MinimizeButton:IsShown() then
-            C_Timer.After(5, function()
+            C_Timer.After(3, function()
                 ObjectiveTrackerBlocksFrame.ProfessionHeader.MinimizeButton:Click()
             end)
         end
@@ -1122,14 +1120,13 @@ local function MoveQSB()
     UIParent.ClearAllPoints(QueueStatusButton)
     UIParent.SetPoint(QueueStatusButton, "RIGHT", Minimap, "LEFT", -20, -100)
     QueueStatusButton:SetScale(0.8)
-    QueueStatusButton:Show()
 end
 
 local QSB = CreateFrame("Frame")
 QSB:RegisterEvent("PLAYER_ENTERING_WORLD")
 QSB:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" and zUI_SavedSettings.MoveQSBSetting then
-        C_Timer.After(5, function()
+        C_Timer.After(3, function()
             MoveQSB()
             hooksecurefunc(QueueStatusButton, "SetPoint", MoveQSB)
         end)

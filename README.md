@@ -7,7 +7,7 @@ Because I'm bored of slow updates and overcomplicated ui panels.
 
 God damnit if I want something overcomplicated I'll start to customize vim
 
-## Currently available
+## Currently available settings
 
 - Hide in combat
     - Objective Tracker
