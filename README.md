@@ -1,4 +1,4 @@
-![zUI](https://github.com/zstenger93/zUI/blob/master/zUi.png)
+![zUI](https://github.com/zstenger93/zUI/blob/master/zUi_git.png)
 
 # zUI
 World of Warcraft UI rework/tweaks for General activities, M+, Raids for a minimalistic style.
