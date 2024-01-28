@@ -16,6 +16,14 @@ God damnit if I want something overcomplicated I'll start to customize vim
     - FPS
 - Move
     - Editbox from bottom to top of the Chat
+    - Queue Status Button next to the Minimap
+- Auto collapse Objective Tracker on loading sceens
+    - Entire Tracker
+    - Campaign quests
+    - Quests
+    - Achievements
+    - Scenario
+    - Adventure
 - Hide / Show Permanently
     - Reputation Bar
     - XP bar
@@ -32,9 +40,7 @@ God damnit if I want something overcomplicated I'll start to customize vim
 
 ## Next up
 
-- Setting to only show a specific actionbar on hover
 - Move the whole chatframe to the bottomleft corner without having a gap
-- Displayin more useful info next to the fps, like durabilty etc, will see
-- Maybe an option to be able to hide any of the settings in combat or permanently as well
-- Fixing the chatframe display and remove the default settings in every state
+- Displayin more useful info next to the fps, like durabilty etc, will 
+- Other classes with power bar
 
