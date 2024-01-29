@@ -542,7 +542,7 @@ end)
 ---------------------------------------------- CHECKBOXES ON CLASS PAGE ----------------------------------------------
 
 ---------------------------------------------------------------------------------------------------
--- Checkbox for hiding Paladin Power Bar Texture
+-- Checkbox for hiding Paladin Power Bar Texture and move it
 ---------------------------------------------------------------------------------------------------
 ---@class Checkbox_CustomPaladinPowerBarTexture : CheckButton
 Checkbox_CustomPaladinPowerBarTexture = CreateFrame("CheckButton",
@@ -555,14 +555,39 @@ local paladinPowerBarCheckbox =
 paladinPowerBarCheckbox:SetPoint("LEFT", Checkbox_CustomPaladinPowerBarTexture,
                                  "RIGHT", 20, 0)
 paladinPowerBarCheckbox:SetText("Custom Paladin Power Bar")
-Checkbox_CustomPaladinPowerBarTexture:SetPoint("TOPLEFT", 20, -30)
+Checkbox_CustomPaladinPowerBarTexture:SetPoint("TOPLEFT", 20, 30)
 Checkbox_CustomPaladinPowerBarTexture.tooltip =
-    "Hide the texture of the Paladin Power Bar, but keep the glowing runes."
+    "Hide the texture of the Paladin Power Bar, but keep the glowing runes and animations."
 Checkbox_CustomPaladinPowerBarTexture:SetChecked(
     zUI_SavedSettings[PlayerIdentifier].CustomPaladinPowerBarTextureSetting)
 
 Checkbox_CustomPaladinPowerBarTexture:SetScript("OnClick", function(self)
     zUI_SavedSettings[PlayerIdentifier].CustomPaladinPowerBarTextureSetting =
+        self:GetChecked()
+end)
+
+---------------------------------------------------------------------------------------------------
+-- Checkbox for hiding Death Knight Rune Textures and move it
+---------------------------------------------------------------------------------------------------
+---@class Checkbox_CustomDeathKnightRunes : CheckButton
+Checkbox_CustomDeathKnightRunes = CreateFrame("CheckButton",
+                                              "zUICustomDeathKnightRunesCheckbox",
+                                              ClassPage,
+                                              "ChatConfigCheckButtonTemplate")
+local deathKnightRunesCheckbox =
+    Checkbox_CustomDeathKnightRunes:CreateFontString(nil, "OVERLAY",
+                                                     "GameFontNormal")
+deathKnightRunesCheckbox:SetPoint("LEFT", Checkbox_CustomDeathKnightRunes,
+                                  "RIGHT", 20, 0)
+deathKnightRunesCheckbox:SetText("Custom Death Knight Runes")
+Checkbox_CustomDeathKnightRunes:SetPoint("TOPLEFT", 20, 0)
+Checkbox_CustomDeathKnightRunes.tooltip =
+    "Hide the texure of the Death Knight Runes, but keep the skulls and animations."
+Checkbox_CustomDeathKnightRunes:SetChecked(
+    zUI_SavedSettings[PlayerIdentifier].CustomDeathKnightRunesSetting)
+
+Checkbox_CustomDeathKnightRunes:SetScript("OnClick", function(self)
+    zUI_SavedSettings[PlayerIdentifier].CustomDeathKnightRunesSetting =
         self:GetChecked()
 end)
 
@@ -984,8 +1009,9 @@ CustomPaladinPowerBarTexture:RegisterEvent("ADDON_LOADED")
 CustomPaladinPowerBarTexture:SetScript("OnEvent",
                                        function(self, event, addonName)
     C_Timer.After(2, function()
-        if SettingsInitialized and event == "ADDON_LOADED" and addonName ==
-            "zUI" then
+        local _, className = UnitClass("player")
+        if className == "PALADIN" and SettingsInitialized and event ==
+            "ADDON_LOADED" and addonName == "zUI" then
             if zUI_SavedSettings[PlayerIdentifier]
                 .CustomPaladinPowerBarTextureSetting then
                 PaladinPowerBarFrame.ActiveTexture:Hide()
@@ -1015,6 +1041,100 @@ CustomPaladinPowerBarTexture:SetScript("OnEvent",
             end
         end
     end)
+end)
+
+local CustomDeathKnightPowerBarTexture = CreateFrame("Frame")
+CustomDeathKnightPowerBarTexture:RegisterEvent("ADDON_LOADED")
+
+CustomDeathKnightPowerBarTexture:SetScript("OnEvent",
+                                           function(self, event, addonName)
+    C_Timer.After(2, function()
+        local _, className = UnitClass("player")
+        if className == "DEATHKNIGHT" and SettingsInitialized and event ==
+            "ADDON_LOADED" and addonName == "zUI" then
+            if zUI_SavedSettings[PlayerIdentifier].CustomDeathKnightRunesSetting then
+                RuneFrame.Rune1.BG_Active:Hide()
+                RuneFrame.Rune1.BG_Inactive:Hide()
+                RuneFrame.Rune1.Rune_Active:SetSize(25, 25)
+                RuneFrame.Rune1.Rune_Inactive:SetSize(25, 25)
+                RuneFrame.Rune1.Rune_Eyes:SetSize(25, 25)
+                RuneFrame.Rune1.Rune_Lines:SetSize(25, 25)
+                RuneFrame.Rune1.Rune_Mid:SetSize(25, 25)
+                RuneFrame.Rune1.Rune_Grad:SetSize(25, 25)
+                RuneFrame.Rune1.Smoke:SetSize(25, 25)
+                RuneFrame.Rune1.BG_Shadow:Hide()
+                RuneFrame.Rune2.BG_Active:Hide()
+                RuneFrame.Rune2.BG_Inactive:Hide()
+                RuneFrame.Rune2.Rune_Active:SetSize(25, 25)
+                RuneFrame.Rune2.Rune_Inactive:SetSize(25, 25)
+                RuneFrame.Rune2.Rune_Eyes:SetSize(25, 25)
+                RuneFrame.Rune2.Rune_Lines:SetSize(25, 25)
+                RuneFrame.Rune2.Rune_Mid:SetSize(25, 25)
+                RuneFrame.Rune2.Rune_Grad:SetSize(25, 25)
+                RuneFrame.Rune2.Smoke:SetSize(25, 25)
+                RuneFrame.Rune2.BG_Shadow:Hide()
+                RuneFrame.Rune3.BG_Active:Hide()
+                RuneFrame.Rune3.BG_Inactive:Hide()
+                RuneFrame.Rune3.Rune_Active:SetSize(25, 25)
+                RuneFrame.Rune3.Rune_Inactive:SetSize(25, 25)
+                RuneFrame.Rune3.Rune_Eyes:SetSize(25, 25)
+                RuneFrame.Rune3.Rune_Lines:SetSize(25, 25)
+                RuneFrame.Rune3.Rune_Mid:SetSize(25, 25)
+                RuneFrame.Rune3.Rune_Grad:SetSize(25, 25)
+                RuneFrame.Rune3.Smoke:SetSize(25, 25)
+                RuneFrame.Rune3.BG_Shadow:Hide()
+                RuneFrame.Rune4.BG_Active:Hide()
+                RuneFrame.Rune4.BG_Inactive:Hide()
+                RuneFrame.Rune4.Rune_Active:SetSize(25, 25)
+                RuneFrame.Rune4.Rune_Inactive:SetSize(25, 25)
+                RuneFrame.Rune4.Rune_Eyes:SetSize(25, 25)
+                RuneFrame.Rune4.Rune_Lines:SetSize(25, 25)
+                RuneFrame.Rune4.Rune_Mid:SetSize(25, 25)
+                RuneFrame.Rune4.Rune_Grad:SetSize(25, 25)
+                RuneFrame.Rune4.Smoke:SetSize(25, 25)
+                RuneFrame.Rune4.BG_Shadow:Hide()
+                RuneFrame.Rune5.BG_Active:Hide()
+                RuneFrame.Rune5.BG_Inactive:Hide()
+                RuneFrame.Rune5.Rune_Active:SetSize(25, 25)
+                RuneFrame.Rune5.Rune_Inactive:SetSize(25, 25)
+                RuneFrame.Rune5.Rune_Eyes:SetSize(25, 25)
+                RuneFrame.Rune5.Rune_Lines:SetSize(25, 25)
+                RuneFrame.Rune5.Rune_Mid:SetSize(25, 25)
+                RuneFrame.Rune5.Rune_Grad:SetSize(25, 25)
+                RuneFrame.Rune5.Smoke:SetSize(25, 25)
+                RuneFrame.Rune5.BG_Shadow:Hide()
+                RuneFrame.Rune6.BG_Active:Hide()
+                RuneFrame.Rune6.BG_Inactive:Hide()
+                RuneFrame.Rune6.Rune_Active:SetSize(25, 25)
+                RuneFrame.Rune6.Rune_Inactive:SetSize(25, 25)
+                RuneFrame.Rune6.Rune_Eyes:SetSize(25, 25)
+                RuneFrame.Rune6.Rune_Lines:SetSize(25, 25)
+                RuneFrame.Rune6.Rune_Mid:SetSize(25, 25)
+                RuneFrame.Rune6.Rune_Grad:SetSize(25, 25)
+                RuneFrame.Rune6.Smoke:SetSize(25, 25)
+                RuneFrame.Rune6.BG_Shadow:Hide()
+            end
+        end
+    end)
+end)
+
+local KeepDeathKnightRunesAtPosition = CreateFrame("Frame")
+KeepDeathKnightRunesAtPosition:SetScript("OnUpdate", function()
+    if SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].CustomDeathKnightRunesSetting then
+        RuneFrame.Rune1:ClearAllPoints()
+        RuneFrame.Rune2:ClearAllPoints()
+        RuneFrame.Rune3:ClearAllPoints()
+        RuneFrame.Rune4:ClearAllPoints()
+        RuneFrame.Rune5:ClearAllPoints()
+        RuneFrame.Rune6:ClearAllPoints()
+        RuneFrame.Rune1:SetPoint("BOTTOM", ActionButton4, "TOP", 0, 10)
+        RuneFrame.Rune2:SetPoint("BOTTOM", ActionButton5, "TOP", 0, 10)
+        RuneFrame.Rune3:SetPoint("BOTTOM", ActionButton6, "TOP", 0, 10)
+        RuneFrame.Rune4:SetPoint("BOTTOM", ActionButton7, "TOP", 0, 10)
+        RuneFrame.Rune5:SetPoint("BOTTOM", ActionButton8, "TOP", 0, 10)
+        RuneFrame.Rune6:SetPoint("BOTTOM", ActionButton9, "TOP", 0, 10)
+    end
 end)
 
 -- THIS AIN'T FINISHED YET

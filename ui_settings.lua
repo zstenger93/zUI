@@ -26,8 +26,6 @@ frame:SetScript("OnEvent", function(self, event)
     zUI_SavedSettings[PlayerIdentifier] =
         zUI_SavedSettings[PlayerIdentifier] or {}
     if TableIsEmpty(zUI_SavedSettings[PlayerIdentifier]) then
-        print("The table is empty")
-        PrintTable(zUI_SavedSettings[PlayerIdentifier])
         zUI_SavedSettings[PlayerIdentifier].HideObjectiveTrackerSetting = false
         zUI_SavedSettings[PlayerIdentifier].HideChatFrameSetting = false
         zUI_SavedSettings[PlayerIdentifier].HideQuickJoinToastButtonSetting =
@@ -56,11 +54,10 @@ frame:SetScript("OnEvent", function(self, event)
         zUI_SavedSettings[PlayerIdentifier].ScenarioHeaderSetting = false
         zUI_SavedSettings[PlayerIdentifier].AdventureHeaderSetting = false
         zUI_SavedSettings[PlayerIdentifier].HideBagBarSettingPerm = false
+        zUI_SavedSettings[PlayerIdentifier].CustomDeathKnightRunesSetting = false
         SettingsInitialized = true
-        PrintTable(zUI_SavedSettings[PlayerIdentifier])
     else
         SettingsInitialized = true
-        print("The table is not empty")
     end
     UpdateCheckboxes()
 end)
@@ -163,6 +160,9 @@ function UpdateCheckboxes()
             zUI_SavedSettings[PlayerIdentifier].ScenarioHeaderSetting or false)
         Checkbox_AdventureHeader:SetChecked(
             zUI_SavedSettings[PlayerIdentifier].AdventureHeaderSetting or false)
+        Checkbox_CustomDeathKnightRunes:SetChecked(
+            zUI_SavedSettings[PlayerIdentifier].CustomDeathKnightRunesSetting or
+                false)
     end
 end
 
