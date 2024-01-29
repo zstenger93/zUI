@@ -1,5 +1,7 @@
 ![zUI](https://github.com/zstenger93/zUI/blob/master/zUI_git.png)
 
+# [CurseForge](https://www.curseforge.com/wow/addons/zui-quality-of-life-settings)
+
 # zUI
 World of Warcraft UI rework/tweaks for General activities, M+, Raids for a minimalistic style.
 
