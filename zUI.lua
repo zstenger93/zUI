@@ -752,11 +752,16 @@ fpsText:SetAllPoints()
 fpsText:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
 
 fpsFrame:SetScript("OnUpdate", function(self, elapsed)
-    self.timeSinceLastUpdate = (self.timeSinceLastUpdate or 0) + elapsed
-    if self.timeSinceLastUpdate >= 1 then
-        local fps = GetFramerate()
-        fpsText:SetText(string.format("FPS: %.1f", fps))
-        self.timeSinceLastUpdate = 0
+    if zUI_SavedSettings[PlayerIdentifier].fpsFrameSetting then
+        self.timeSinceLastUpdate = (self.timeSinceLastUpdate or 0) + elapsed
+        if self.timeSinceLastUpdate >= 1 then
+            local fps = GetFramerate()
+            fpsText:SetText(string.format("FPS: %.1f", fps))
+            self.timeSinceLastUpdate = 0
+        end
+        fpsText:Show()
+    else
+        fpsText:Hide()
     end
 end)
 
@@ -1232,7 +1237,8 @@ local CollapseBuffFrame = CreateFrame("Frame")
 CollapseBuffFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 CollapseBuffFrame:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
-        C_Timer.After(2, function()
+        C_Timer.After(2,
+                      function()
             BuffFrame.CollapseAndExpandButton:Click()
         end)
     end
@@ -1246,6 +1252,5 @@ end)
 --     frame:SetScript("OnDragStart", frame.StartMoving)
 --     frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
 -- end
-
 
 -- MakeChatFrameDraggable(ChatFrame1)
