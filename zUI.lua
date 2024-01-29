@@ -1227,6 +1227,17 @@ QSB:SetScript("OnEvent", function(self, event, ...)
     end
 end)
 
+-- Collapse the Buff Frame on load
+local CollapseBuffFrame = CreateFrame("Frame")
+CollapseBuffFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+CollapseBuffFrame:SetScript("OnEvent", function(self, event, ...)
+    if event == "PLAYER_ENTERING_WORLD" then
+        C_Timer.After(2, function()
+            BuffFrame.CollapseAndExpandButton:Click()
+        end)
+    end
+end)
+
 -- local function MakeChatFrameDraggable(frame)
 --     frame:SetMovable(true)
 --     frame:EnableMouse(true)
@@ -1237,6 +1248,4 @@ end)
 -- end
 
 
--- -- Make the main chat frame draggable
 -- MakeChatFrameDraggable(ChatFrame1)
-
