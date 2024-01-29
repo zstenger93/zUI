@@ -662,7 +662,8 @@ HideBagBar:SetScript("OnEvent", function(self, event)
             MainMenuBarBackpackButton:GetParent():Hide()
         end)
         if not status then zUI:Print(error) end
-    elseif event == "PLAYER_REGEN_ENABLED" then
+    elseif event == "PLAYER_REGEN_ENABLED" and
+        not zUI_SavedSettings[PlayerIdentifier].HideBagBarSettingPerm then
         local status, error = pcall(function()
             MainMenuBarBackpackButton:GetParent():Show()
         end)
@@ -670,6 +671,12 @@ HideBagBar:SetScript("OnEvent", function(self, event)
     end
 end)
 
+--[[
+    Show the target's name and realm in the tooltip
+    Show the target's item level in the tooltip if available <--- NOT WORKING YET
+    Clas type color for the target's name is not working yet <--- NOT WORKING YET
+    for some reason, but it's not that important atm
+]]
 local classColors = {
     ["Warrior"] = {r = 0.78, g = 0.61, b = 0.43},
     ["Paladin"] = {r = 0.96, g = 0.55, b = 0.73},
@@ -684,13 +691,6 @@ local classColors = {
     ["Druid"] = {r = 1.00, g = 0.49, b = 0.04},
     ["Demon Hunter"] = {r = 0.64, g = 0.19, b = 0.79}
 }
-
---[[
-    Show the target's name and realm in the tooltip
-    Show the target's item level in the tooltip if available
-    Clas type color for the target's name is not working yet
-    for some reason, but it's not that important atm
-]]
 local lastTarget = nil
 GameTooltip:HookScript("OnTooltipCleared", function(self) lastTarget = nil end)
 
@@ -704,23 +704,12 @@ GameTooltip:HookScript("OnUpdate", function(self)
         local realmString = targetRealm and "-" .. targetRealm or ""
         local targetInfo = targetName .. realmString
 
-        local totalItemLevel, itemCount = 0, 0
-        for i = 1, 18 do
-            if i ~= 4 then
-                local itemLink = GetInventoryItemLink(unit, i)
-                if itemLink then
-                    local _, _, _, itemLevel = GetItemInfo(itemLink)
-                    totalItemLevel = totalItemLevel + itemLevel
-                    itemCount = itemCount + 1
-                end
-            end
-        end
-        local avgItemLevel = itemCount > 0 and totalItemLevel / itemCount or nil
-        local itemLevelInfo = avgItemLevel and "iLvl: " .. avgItemLevel or ""
+        -- local avgItemLevel = GetAverageItemLevel()
+        -- local itemLevelInfo = avgItemLevel and "iLvl: " .. avgItemLevel or ""
 
         if targetInfo ~= lastTarget then
             self:AddLine(" ", 1, 1, 1)
-            self:AddLine(itemLevelInfo, color.r, color.g, color.b)
+            -- self:AddLine(itemLevelInfo, color.r, color.g, color.b)
             if UnitExists(target) then
                 self:AddDoubleLine("Target: ", targetInfo, color.r, color.g,
                                    color.b)
@@ -839,14 +828,14 @@ microMenuFrame:SetScript("OnEvent", function(self, event, addonName)
 end)
 
 -- Hide Bag Bar Permanently
-local bagBarFrame = CreateFrame("Frame")
-bagBarFrame:RegisterEvent("ADDON_LOADED")
+local HideBagBarFramePermanently = CreateFrame("Frame")
+HideBagBarFramePermanently:RegisterEvent("ADDON_LOADED")
 
-bagBarFrame:SetScript("OnEvent", function(self, event, addonName)
+HideBagBarFramePermanently:SetScript("OnEvent", function(self, event, addonName)
     if event == "ADDON_LOADED" and addonName == "zUI" then
         if zUI_SavedSettings[PlayerIdentifier].HideBagBarSettingPerm then
             MainMenuBarBackpackButton:GetParent():Hide()
-        else
+        elseif not zUI_SavedSettings[PlayerIdentifier].HideBagBarSettingPerm then
             MainMenuBarBackpackButton:GetParent():Show()
         end
     end
@@ -904,7 +893,8 @@ end)
     Hide all textures for empty buttons
     Hide hotkey text for empty buttons
     Resizing and positioning the hotkey text
-    Scaling the buttons back because why would Blizzard give us precise control over the size of the buttons?
+    Scaling the buttons back because why would Blizzard give us
+    precise control over the size of the buttons?
 ]]
 local actionBarMod = CreateFrame("Frame")
 
@@ -927,8 +917,7 @@ actionBarMod:SetScript("OnEvent", function(self, event, ...)
             for i = 1, 12 do
                 local button = _G[actionBar .. i]
 
-                -- Change the scale of the action bar
-                button:SetScale(0.97)
+                button:SetScale(0.99)
 
                 button:HookScript("OnUpdate", function(self)
                     -- Hide the default border
@@ -1156,7 +1145,7 @@ AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
         -- Minimize the entire Objective Tracker
         if ObjectiveTrackerFrame.HeaderMenu.MinimizeButton:IsShown() and
             zUI_SavedSettings[PlayerIdentifier].HeaderMenuSetting then
-            C_Timer.After(3, function()
+            C_Timer.After(4, function()
                 ObjectiveTrackerFrame.HeaderMenu.MinimizeButton:Click()
             end)
         end
@@ -1237,4 +1226,17 @@ QSB:SetScript("OnEvent", function(self, event, ...)
         end)
     end
 end)
+
+-- local function MakeChatFrameDraggable(frame)
+--     frame:SetMovable(true)
+--     frame:EnableMouse(true)
+--     frame:RegisterForDrag("LeftButton")
+
+--     frame:SetScript("OnDragStart", frame.StartMoving)
+--     frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
+-- end
+
+
+-- -- Make the main chat frame draggable
+-- MakeChatFrameDraggable(ChatFrame1)
 
