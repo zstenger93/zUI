@@ -591,6 +591,31 @@ Checkbox_CustomDeathKnightRunes:SetScript("OnClick", function(self)
         self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
+-- Checkbox for hdiding Rogue Energy Point Textures and move it
+---------------------------------------------------------------------------------------------------
+---@class Checkbox_CustomRogueEnergyPoints : CheckButton
+Checkbox_CustomRogueEnergyPoints = CreateFrame("CheckButton",
+                                               "zUICustomRogueEnergyPointsCheckbox",
+                                               ClassPage,
+                                               "ChatConfigCheckButtonTemplate")
+local rogueEnergyPointsCheckbox =
+    Checkbox_CustomRogueEnergyPoints:CreateFontString(nil, "OVERLAY",
+                                                      "GameFontNormal")
+rogueEnergyPointsCheckbox:SetPoint("LEFT", Checkbox_CustomRogueEnergyPoints,
+                                   "RIGHT", 20, 0)
+rogueEnergyPointsCheckbox:SetText("Custom Rogue Energy Points")
+Checkbox_CustomRogueEnergyPoints:SetPoint("TOPLEFT", 20, -30)
+Checkbox_CustomRogueEnergyPoints.tooltip =
+    "Customize the appearance of the Rogue Energy Points."
+Checkbox_CustomRogueEnergyPoints:SetChecked(
+    zUI_SavedSettings[PlayerIdentifier].CustomRogueEnergyPointsSetting)
+
+Checkbox_CustomRogueEnergyPoints:SetScript("OnClick", function(self)
+    zUI_SavedSettings[PlayerIdentifier].CustomRogueEnergyPointsSetting =
+        self:GetChecked()
+end)
+
 ------------------------------------------------- GAME SETTINGS BELOW -------------------------------------------------
 
 ---------------------------------------------------------------------------------------------------
@@ -1043,6 +1068,9 @@ CustomPaladinPowerBarTexture:SetScript("OnEvent",
     end)
 end)
 
+---------------------------------------------------------------------------------------------------
+-- Hide the death knight rune textures except the symbols for runes
+---------------------------------------------------------------------------------------------------
 local CustomDeathKnightPowerBarTexture = CreateFrame("Frame")
 CustomDeathKnightPowerBarTexture:RegisterEvent("ADDON_LOADED")
 
@@ -1120,7 +1148,8 @@ end)
 
 local KeepDeathKnightRunesAtPosition = CreateFrame("Frame")
 KeepDeathKnightRunesAtPosition:SetScript("OnUpdate", function()
-    if SettingsInitialized and
+    local _, className = UnitClass("player")
+    if className == "DEATHKNIGHT" and SettingsInitialized and
         zUI_SavedSettings[PlayerIdentifier].CustomDeathKnightRunesSetting then
         RuneFrame.Rune1:ClearAllPoints()
         RuneFrame.Rune2:ClearAllPoints()
@@ -1134,6 +1163,73 @@ KeepDeathKnightRunesAtPosition:SetScript("OnUpdate", function()
         RuneFrame.Rune4:SetPoint("BOTTOM", ActionButton7, "TOP", 0, 10)
         RuneFrame.Rune5:SetPoint("BOTTOM", ActionButton8, "TOP", 0, 10)
         RuneFrame.Rune6:SetPoint("BOTTOM", ActionButton9, "TOP", 0, 10)
+    end
+end)
+
+---------------------------------------------------------------------------------------------------
+-- Hide the rogue energy points textures except the symbols for combo points
+---------------------------------------------------------------------------------------------------
+local CustomRogueEnergyPoints = CreateFrame("Frame")
+CustomRogueEnergyPoints:RegisterEvent("ADDON_LOADED")
+
+CustomRogueEnergyPoints:SetScript("OnEvent", function(self, event, addonName)
+    C_Timer.After(2, function()
+        local _, className = UnitClass("player")
+        if className == "ROGUE" and SettingsInitialized and event ==
+            "ADDON_LOADED" and addonName == "zUI" then
+            local energy1, energy2, energy3, energy4, energy5, energy6 =
+                RogueComboPointBarFrame:GetChildren()
+
+            if zUI_SavedSettings[PlayerIdentifier]
+                .CustomRogueEnergyPointsSetting then
+                energy1.BGActive:Hide()
+                energy1.BGShadow:Hide()
+                energy1.BGInactive:Hide()
+                energy2.BGActive:Hide()
+                energy2.BGShadow:Hide()
+                energy2.BGInactive:Hide()
+                energy3.BGActive:Hide()
+                energy3.BGShadow:Hide()
+                energy3.BGInactive:Hide()
+                energy4.BGActive:Hide()
+                energy4.BGShadow:Hide()
+                energy4.BGInactive:Hide()
+                energy5.BGActive:Hide()
+                energy5.BGShadow:Hide()
+                energy5.BGInactive:Hide()
+                energy6.BGActive:Hide()
+                energy6.BGShadow:Hide()
+                energy6.BGInactive:Hide()
+                energy1:SetSize(25, 25)
+                energy2:SetSize(25, 25)
+                energy3:SetSize(25, 25)
+                energy4:SetSize(25, 25)
+                energy5:SetSize(25, 25)
+                energy6:SetSize(25, 25)
+            end
+        end
+    end)
+end)
+
+local KeepRogueEnergyPointsAtPosition = CreateFrame("Frame")
+KeepRogueEnergyPointsAtPosition:SetScript("OnUpdate", function()
+    local _, className = UnitClass("player")
+    local energy1, energy2, energy3, energy4, energy5, energy6 =
+        RogueComboPointBarFrame:GetChildren()
+    if className == "ROGUE" and SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].CustomRogueEnergyPointsSetting then
+        energy1:ClearAllPoints()
+        energy2:ClearAllPoints()
+        energy3:ClearAllPoints()
+        energy4:ClearAllPoints()
+        energy5:ClearAllPoints()
+        energy6:ClearAllPoints()
+        energy1:SetPoint("BOTTOM", ActionButton4, "TOP", 0, 10)
+        energy2:SetPoint("BOTTOM", ActionButton5, "TOP", 0, 10)
+        energy3:SetPoint("BOTTOM", ActionButton6, "TOP", 0, 10)
+        energy4:SetPoint("BOTTOM", ActionButton7, "TOP", 0, 10)
+        energy5:SetPoint("BOTTOM", ActionButton8, "TOP", 0, 10)
+        energy6:SetPoint("BOTTOM", ActionButton9, "TOP", 0, 10)
     end
 end)
 

@@ -54,7 +54,10 @@ frame:SetScript("OnEvent", function(self, event)
         zUI_SavedSettings[PlayerIdentifier].ScenarioHeaderSetting = false
         zUI_SavedSettings[PlayerIdentifier].AdventureHeaderSetting = false
         zUI_SavedSettings[PlayerIdentifier].HideBagBarSettingPerm = false
-        zUI_SavedSettings[PlayerIdentifier].CustomDeathKnightRunesSetting = false
+        zUI_SavedSettings[PlayerIdentifier].CustomDeathKnightRunesSetting =
+            false
+        zUI_SavedSettings[PlayerIdentifier].CustomRogueEnergyPointsSetting =
+            false
         SettingsInitialized = true
     else
         SettingsInitialized = true
@@ -162,6 +165,9 @@ function UpdateCheckboxes()
             zUI_SavedSettings[PlayerIdentifier].AdventureHeaderSetting or false)
         Checkbox_CustomDeathKnightRunes:SetChecked(
             zUI_SavedSettings[PlayerIdentifier].CustomDeathKnightRunesSetting or
+                false)
+        Checkbox_CustomRogueEnergyPoints:SetChecked(
+            zUI_SavedSettings[PlayerIdentifier].CustomRogueEnergyPointsSetting or
                 false)
     end
 end

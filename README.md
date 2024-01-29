@@ -42,8 +42,11 @@ Use `/zui` to show the settings panel (every setting is character specific)
     - Hide all of the original texture (border, background, etc.)
     - Hide Hotkeys on non used slots
     - Bar 4 and 5 visible only on mouseover
-- Paladin
-    - Moved the power bar above the main action bar and removed everything except the glyps and it's effect
+- Class
+    - Moved the power bar above the main action bar and removed everything except the glyps/runes and their effects
+        - Paladin
+        - Death Knight
+        - Rogue
 
 ## Next up
 
