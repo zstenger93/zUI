@@ -616,15 +616,16 @@ local MoveChatFrameEditBox = CreateFrame("Frame")
 MoveChatFrameEditBox:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 MoveChatFrameEditBox:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_ENTERING_WORLD" and
-        zUI_SavedSettings[PlayerIdentifier].MoveChatFrameEditBoxSetting then
-        for i = 1, NUM_CHAT_WINDOWS do
-            local chatFrame = _G["ChatFrame" .. i]
-            local editBox = _G["ChatFrame" .. i .. "EditBox"]
+    if event == "PLAYER_ENTERING_WORLD" then
+        if zUI_SavedSettings[PlayerIdentifier].MoveChatFrameEditBoxSetting then
+            for i = 1, NUM_CHAT_WINDOWS do
+                local chatFrame = _G["ChatFrame" .. i]
+                local editBox = _G["ChatFrame" .. i .. "EditBox"]
 
-            editBox:ClearAllPoints()
-            editBox:SetPoint("BOTTOMLEFT", chatFrame, "TOPLEFT", 0, 0)
-            editBox:SetPoint("BOTTOMRIGHT", chatFrame, "TOPRIGHT", 0, 0)
+                editBox:ClearAllPoints()
+                editBox:SetPoint("BOTTOMLEFT", chatFrame, "TOPLEFT", 0, 0)
+                editBox:SetPoint("BOTTOMRIGHT", chatFrame, "TOPRIGHT", 0, 0)
+            end
         end
     end
 end)
@@ -766,9 +767,9 @@ fpsFrame:SetScript("OnUpdate", function(self, elapsed)
 end)
 
 -- Hide XP bar
-local xpBarFrame = CreateFrame("Frame")
-xpBarFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-xpBarFrame:SetScript("OnEvent", function(self, event)
+XpBarFrame = CreateFrame("Frame")
+XpBarFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+XpBarFrame:SetScript("OnEvent", function(self, event)
     if event == "PLAYER_ENTERING_WORLD" then
         if zUI_SavedSettings[PlayerIdentifier].XPBarSetting then
             MainStatusTrackingBarContainer:Hide()
