@@ -1,5 +1,7 @@
 -------------------------------------------- BUTTON & PAGE CREATION --------------------------------------------
+---------------------------------------------------------------------------------------------------
 -- Create the menu buttons
+---------------------------------------------------------------------------------------------------
 GeneralButton = CreateFrame("Button", nil, ZUI_Panel, "GameMenuButtonTemplate")
 GeneralButton:SetPoint("TOPLEFT", 10, -30)
 GeneralButton:SetSize(100, 20)
@@ -27,13 +29,17 @@ ClassPageButton:SetText("Class")
 ClassPageButton:SetNormalFontObject("GameFontNormal")
 
 -- Create the pages
+---------------------------------------------------------------------------------------------------
 -- General
+---------------------------------------------------------------------------------------------------
 GeneralPage = CreateFrame("Frame", nil, ZUI_Panel)
 GeneralPage:SetSize(600, 500)
 GeneralPage:SetPoint("TOPLEFT", GeneralButton, "TOPRIGHT", 10, 0)
 GeneralPage:Show()
 
+---------------------------------------------------------------------------------------------------
 -- Hide & Show
+---------------------------------------------------------------------------------------------------
 HideShowPage = CreateFrame("Frame", nil, ZUI_Panel)
 HideShowPage:SetSize(600, 500)
 HideShowPage:SetPoint("TOPLEFT", HideShowButton, "TOPRIGHT", 10, 0)
@@ -66,7 +72,9 @@ HideType2:SetFontObject("GameFontNormalLarge")
 HideType2:SetPoint("TOP", HideShowPage, "TOP", 50, 0)
 HideType2:SetText("Hide Permanently")
 
+---------------------------------------------------------------------------------------------------
 -- ActionBars
+---------------------------------------------------------------------------------------------------
 ActionBarsPage = CreateFrame("Frame", nil, ZUI_Panel)
 ActionBarsPage:SetSize(600, 500)
 ActionBarsPage:SetPoint("TOPLEFT", ActionBarsButton, "TOPRIGHT", 10, 0)
@@ -77,7 +85,9 @@ ClassPage:SetSize(600, 500)
 ClassPage:SetPoint("TOPLEFT", ActionBarsButton, "TOPRIGHT", 10, 0)
 ClassPage:Hide()
 
+---------------------------------------------------------------------------------------------------
 -- Set which page is shown when a button is clicked
+---------------------------------------------------------------------------------------------------
 GeneralButton:SetScript("OnClick", function()
     GeneralPage:Show()
     HideShowPage:Hide()

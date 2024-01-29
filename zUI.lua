@@ -1,5 +1,7 @@
 ---------------------------------------------- CHECKBOXES ON GENERAL PAGE ----------------------------------------------
+---------------------------------------------------------------------------------------------------
 -- Checkbox for fps display
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_fpsFrame : CheckButton
 Checkbox_fpsFrame = CreateFrame("CheckButton", "zUIfpsFrameCheckbox",
                                 GeneralPage, "ChatConfigCheckButtonTemplate")
@@ -15,7 +17,9 @@ Checkbox_fpsFrame:SetScript("OnClick", function(self)
     zUI_SavedSettings[PlayerIdentifier].fpsFrameSetting = self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Checkbox for chat frame edit box
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_MoveChatFrameEditBox : CheckButton
 Checkbox_MoveChatFrameEditBox = CreateFrame("CheckButton",
                                             "zUIMoveChatFrameEditBoxCheckbox",
@@ -37,7 +41,9 @@ Checkbox_MoveChatFrameEditBox:SetScript("OnClick", function(self)
         self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Checkbox for MoveQSB function
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_MoveQSB : CheckButton
 Checkbox_MoveQSB = CreateFrame("CheckButton", "zUIMoveQSBCheckbox", GeneralPage,
                                "ChatConfigCheckButtonTemplate")
@@ -54,13 +60,17 @@ Checkbox_MoveQSB:SetScript("OnClick", function(self)
     zUI_SavedSettings[PlayerIdentifier].MoveQSBSetting = self:GetChecked()
 end)
 
--- Create a new font string
+---------------------------------------------------------------------------------------------------
+-- Text on General Page
+---------------------------------------------------------------------------------------------------
 local headerMenuLabel = GeneralPage:CreateFontString(nil, "OVERLAY",
                                                      "GameFontNormal")
 headerMenuLabel:SetPoint("TOPLEFT", 20, -130)
 headerMenuLabel:SetText("Auto Collapse On Loading Screens")
 
+---------------------------------------------------------------------------------------------------
 -- Checkbox for HeaderMenu
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_HeaderMenu : CheckButton
 Checkbox_HeaderMenu = CreateFrame("CheckButton", "zUIHeaderMenuCheckbox",
                                   GeneralPage, "ChatConfigCheckButtonTemplate")
@@ -78,7 +88,9 @@ Checkbox_HeaderMenu:SetScript("OnClick", function(self)
     zUI_SavedSettings[PlayerIdentifier].HeaderMenuSetting = self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Checkbox for CampaignQuestHeader
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_CampaignQuestHeader : CheckButton
 Checkbox_CampaignQuestHeader = CreateFrame("CheckButton",
                                            "zUICampaignQuestHeaderCheckbox",
@@ -101,7 +113,9 @@ Checkbox_CampaignQuestHeader:SetScript("OnClick", function(self)
         self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Checkbox for quest section
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_QuestSection : CheckButton
 Checkbox_QuestSection = CreateFrame("CheckButton", "zUIQuestSectionCheckbox",
                                     GeneralPage, "ChatConfigCheckButtonTemplate")
@@ -120,7 +134,9 @@ Checkbox_QuestSection:SetScript("OnClick", function(self)
     zUI_SavedSettings[PlayerIdentifier].QuestSectionSetting = self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Checkbox for AchievementHeader
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_AchievementHeader : CheckButton
 Checkbox_AchievementHeader = CreateFrame("CheckButton",
                                          "zUIAchievementHeaderCheckbox",
@@ -142,7 +158,9 @@ Checkbox_AchievementHeader:SetScript("OnClick", function(self)
         self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Checkbox for ScenarioHeader
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_ScenarioHeader : CheckButton
 Checkbox_ScenarioHeader = CreateFrame("CheckButton",
                                       "zUIScenarioHeaderCheckbox", GeneralPage,
@@ -163,7 +181,9 @@ Checkbox_ScenarioHeader:SetScript("OnClick", function(self)
         self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Checkbox for AdventureHeader
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_AdventureHeader : CheckButton
 Checkbox_AdventureHeader = CreateFrame("CheckButton",
                                        "zUIAdventureHeaderCheckbox",
@@ -186,7 +206,9 @@ Checkbox_AdventureHeader:SetScript("OnClick", function(self)
         self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Checkbox for WorldQuestHeader
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_WorldQuestHeader : CheckButton
 Checkbox_WorldQuestHeader = CreateFrame("CheckButton",
                                         "zUIWorldQuestHeaderCheckbox",
@@ -211,7 +233,9 @@ end)
 
 -------------------------------------------- CHECKBOXES ON SHOW & HIDE PAGE --------------------------------------------
 
+---------------------------------------------------------------------------------------------------
 -- Create the setting for HideObjectiveTrackerSetting
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_HideObjectiveTrackerInCombat : CheckButton
 Checkbox_HideObjectiveTrackerInCombat = CreateFrame("CheckButton",
                                                     "zUIHideObjectiveTrackerCheckbox",
@@ -234,7 +258,9 @@ Checkbox_HideObjectiveTrackerInCombat:SetScript("OnClick", function(self)
         self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Create the setting for HideChatFrameSetting
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_HideChatFrameInCombat : CheckButton
 Checkbox_HideChatFrameInCombat = CreateFrame("CheckButton",
                                              "zUIHideChatFrameCheckbox",
@@ -255,7 +281,9 @@ Checkbox_HideChatFrameInCombat:SetScript("OnClick", function(self)
     zUI_SavedSettings[PlayerIdentifier].HideChatFrameSetting = self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Create the setting for HideBagBarSetting
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_HideBagBarInCombat : CheckButton
 Checkbox_HideBagBarInCombat = CreateFrame("CheckButton",
                                           "zUIHideBagBarCheckbox", HideShowPage,
@@ -275,7 +303,9 @@ Checkbox_HideBagBarInCombat:SetScript("OnClick", function(self)
     zUI_SavedSettings[PlayerIdentifier].HideBagBarSetting = self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Create the setting for HideHudTooltipSetting
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_HideHudTooltipInCombat : CheckButton
 Checkbox_HideHudTooltipInCombat = CreateFrame("CheckButton",
                                               "zUIHideHudTooltipCheckbox",
@@ -297,7 +327,9 @@ Checkbox_HideHudTooltipInCombat:SetScript("OnClick", function(self)
         self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Checkbox for XP bar
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_XPBar : CheckButton
 Checkbox_XPBar = CreateFrame("CheckButton", "zUIXPBarCheckbox", HideShowPage,
                              "ChatConfigCheckButtonTemplate")
@@ -311,7 +343,9 @@ Checkbox_XPBar:SetScript("OnClick", function(self)
     zUI_SavedSettings[PlayerIdentifier].XPBarSetting = self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Checkbox for Reputation bar
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_RepBar : CheckButton
 Checkbox_RepBar = CreateFrame("CheckButton", "zUIRepBarCheckbox", HideShowPage,
                               "ChatConfigCheckButtonTemplate")
@@ -325,7 +359,9 @@ Checkbox_RepBar:SetScript("OnClick", function(self)
     zUI_SavedSettings[PlayerIdentifier].RepBarSetting = self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Checkbox for Micro Menu
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_MicroMenu : CheckButton
 Checkbox_MicroMenu = CreateFrame("CheckButton", "zUIMicroMenuCheckbox",
                                  HideShowPage, "ChatConfigCheckButtonTemplate")
@@ -340,7 +376,9 @@ Checkbox_MicroMenu:SetScript("OnClick", function(self)
     zUI_SavedSettings[PlayerIdentifier].MicroMenuSetting = self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Checkbox for Chat Sidebar
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_HideChatSidebar : CheckButton
 Checkbox_HideChatSidebar = CreateFrame("CheckButton",
                                        "zUIHideChatSidebarCheckbox",
@@ -358,7 +396,9 @@ Checkbox_HideChatSidebar:SetScript("OnClick", function(self)
         self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Create the setting for HideQuickJoinToastButtonSetting
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_HideQuickJoinToastButton : CheckButton
 Checkbox_HideQuickJoinToastButton = CreateFrame("CheckButton",
                                                 "zUIHideQuickJoinToastButtonCheckbox",
@@ -380,7 +420,9 @@ Checkbox_HideQuickJoinToastButton:SetScript("OnClick", function(self)
         self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Create the setting for HideBagBarSetting
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_HideBagBar : CheckButton
 Checkbox_HideBagBar = CreateFrame("CheckButton", "zUIHideBagBarCheckbox",
                                   HideShowPage, "ChatConfigCheckButtonTemplate")
@@ -398,7 +440,9 @@ Checkbox_HideBagBar:SetScript("OnClick", function(self)
         self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Checkbox for HideObjectiveTrackerArtwork
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_HideObjectiveTrackerArtwork : CheckButton
 Checkbox_HideObjectiveTrackerArtwork = CreateFrame("CheckButton",
                                                    "zUIHideObjectiveTrackerArtworkCheckbox",
@@ -424,7 +468,9 @@ end)
 
 -------------------------------------------- CHECKBOXES ON ACTIONBARS PAGE --------------------------------------------
 
+---------------------------------------------------------------------------------------------------
 -- Create the setting for actionBarMod
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_actionBarMod : CheckButton
 Checkbox_actionBarMod = CreateFrame("CheckButton", "zUIactionBarModCheckbox",
                                     ActionBarsPage,
@@ -443,7 +489,9 @@ Checkbox_actionBarMod:SetScript("OnClick", function(self)
     zUI_SavedSettings[PlayerIdentifier].actionBarModSetting = self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Create the setting for MultiBarLeft
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_MultiBarLeft : CheckButton
 Checkbox_MultiBarLeft = CreateFrame("CheckButton", "zUIMultiBarLeftCheckbox",
                                     ActionBarsPage,
@@ -462,7 +510,9 @@ Checkbox_MultiBarLeft:SetScript("OnClick", function(self)
     zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting = self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Create the setting for MultiBarRight
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_MultiBarRight : CheckButton
 Checkbox_MultiBarRight = CreateFrame("CheckButton", "zUIMultiBarRightCheckbox",
                                      ActionBarsPage,
@@ -483,7 +533,9 @@ end)
 
 ---------------------------------------------- CHECKBOXES ON CLASS PAGE ----------------------------------------------
 
+---------------------------------------------------------------------------------------------------
 -- Checkbox for hiding Paladin Power Bar Texture
+---------------------------------------------------------------------------------------------------
 ---@class Checkbox_CustomPaladinPowerBarTexture : CheckButton
 Checkbox_CustomPaladinPowerBarTexture = CreateFrame("CheckButton",
                                                     "zUICustomPaladinPowerBarTextureCheckbox",
@@ -508,7 +560,9 @@ end)
 
 ------------------------------------------------- GAME SETTINGS BELOW -------------------------------------------------
 
+---------------------------------------------------------------------------------------------------
 -- Hide the objective tracker when combat starts
+---------------------------------------------------------------------------------------------------
 local HideObjectiveTracker = CreateFrame("Frame")
 HideObjectiveTracker:RegisterEvent("PLAYER_REGEN_DISABLED")
 HideObjectiveTracker:RegisterEvent("PLAYER_REGEN_ENABLED")
@@ -530,7 +584,9 @@ HideObjectiveTracker:SetScript("OnEvent", function(self, event)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Hide the chat frame when combat starts
+---------------------------------------------------------------------------------------------------
 local HideChatFrameObject = CreateFrame("Frame")
 
 HideChatFrameObject:RegisterEvent("PLAYER_REGEN_DISABLED")
@@ -552,7 +608,9 @@ HideChatFrameObject:SetScript("OnEvent", function(self, event)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Hide side buttons and their background on the chat frame
+---------------------------------------------------------------------------------------------------
 local HideChatSidebar = CreateFrame("Frame")
 
 HideChatSidebar:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -578,7 +636,9 @@ HideChatSidebar:SetScript("OnEvent", function(self, event)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Hide the original chat frame style
+---------------------------------------------------------------------------------------------------
 local HideChatFrameStyle = CreateFrame("Frame")
 
 HideChatFrameStyle:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -633,7 +693,9 @@ HideChatFrameStyle:SetScript("OnEvent", function(self, event)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Move the chat frame edit box to the top of the chat frame
+---------------------------------------------------------------------------------------------------
 local MoveChatFrameEditBox = CreateFrame("Frame")
 
 MoveChatFrameEditBox:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -653,7 +715,9 @@ MoveChatFrameEditBox:SetScript("OnEvent", function(self, event)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Hide the social quick join toast button when combat starts
+---------------------------------------------------------------------------------------------------
 local HideQuickJoinToastButton = CreateFrame("Frame")
 
 HideQuickJoinToastButton:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -673,7 +737,9 @@ HideQuickJoinToastButton:SetScript("OnEvent", function(self, event)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Hide the bag bar when combat starts
+---------------------------------------------------------------------------------------------------
 local HideBagBar = CreateFrame("Frame")
 
 HideBagBar:RegisterEvent("PLAYER_REGEN_DISABLED")
@@ -695,8 +761,10 @@ HideBagBar:SetScript("OnEvent", function(self, event)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
+-- Show the target's name and realm in the tooltip
+---------------------------------------------------------------------------------------------------
 --[[
-    Show the target's name and realm in the tooltip
     Show the target's item level in the tooltip if available <--- NOT WORKING YET
     Clas type color for the target's name is not working yet <--- NOT WORKING YET
     for some reason, but it's not that important atm
@@ -744,7 +812,9 @@ GameTooltip:HookScript("OnUpdate", function(self)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Hide HUD tooltips when combat starts
+---------------------------------------------------------------------------------------------------
 local HideHudTooltip = CreateFrame("Frame")
 local inCombat = false
 HideHudTooltip:RegisterEvent("PLAYER_REGEN_DISABLED")
@@ -766,7 +836,9 @@ GameTooltip:SetScript("OnShow", function(self)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Show FPS Frame
+---------------------------------------------------------------------------------------------------
 local fpsFrame = CreateFrame("Frame", nil, UIParent)
 fpsFrame:SetSize(100, 20)
 fpsFrame:SetPoint("TOP", 0, 0)
@@ -781,6 +853,7 @@ fpsFrame:SetScript("OnUpdate", function(self, elapsed)
         if self.timeSinceLastUpdate >= 1 then
             local fps = GetFramerate()
             fpsText:SetText(string.format("FPS: %.1f", fps))
+            fpsText:SetFont(STANDARD_TEXT_FONT, 18, "OUTLINE")
             self.timeSinceLastUpdate = 0
         end
         fpsText:Show()
@@ -789,7 +862,9 @@ fpsFrame:SetScript("OnUpdate", function(self, elapsed)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Hide XP bar
+---------------------------------------------------------------------------------------------------
 XpBarFrame = CreateFrame("Frame")
 XpBarFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 XpBarFrame:SetScript("OnEvent", function(self, event)
@@ -802,7 +877,9 @@ XpBarFrame:SetScript("OnEvent", function(self, event)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Hide Reputation bar
+---------------------------------------------------------------------------------------------------
 local repBarFrame = CreateFrame("Frame")
 repBarFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 repBarFrame:SetScript("OnEvent", function(self, event)
@@ -815,8 +892,10 @@ repBarFrame:SetScript("OnEvent", function(self, event)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
+-- Hide Micro Menu except the Queue Status Button
+---------------------------------------------------------------------------------------------------
 --[[
-    Hide Micro Menu except the Queue Status Button
     Change the alpha of the Store Button, because it's the only one
     where Hide() doesn't work, not sure why 💰💰💰💰💰
 ]]
@@ -856,7 +935,9 @@ microMenuFrame:SetScript("OnEvent", function(self, event, addonName)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Hide Bag Bar Permanently
+---------------------------------------------------------------------------------------------------
 local HideBagBarFramePermanently = CreateFrame("Frame")
 HideBagBarFramePermanently:RegisterEvent("ADDON_LOADED")
 
@@ -870,8 +951,10 @@ HideBagBarFramePermanently:SetScript("OnEvent", function(self, event, addonName)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
+-- Hide the paladin power bar textures except the symbols for holy power
+---------------------------------------------------------------------------------------------------
 --[[
-    Hide the paladin power bar textures except the symbols for holy power
     Change the size of the holy power symbols
     Clear the anchor points for the holy power symbols
     Move it to the middle, over the main action bar
@@ -914,7 +997,9 @@ end)
 
 -- THIS AIN'T FINISHED YET
 
+---------------------------------------------------------------------------------------------------
 -- Custom Action Bar
+---------------------------------------------------------------------------------------------------
 --[[
     Hide the default border
     Hide the border when the button is pressed
@@ -1050,7 +1135,9 @@ actionBarMod:SetScript("OnEvent", function(self, event, ...)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Make MultiBarLeft visible only on mouseover
+---------------------------------------------------------------------------------------------------
 local MouseOverActionBar4 = CreateFrame("Frame", nil, UIParent)
 MouseOverActionBar4:RegisterEvent("PLAYER_ENTERING_WORLD")
 MouseOverActionBar4:SetSize(40, 40 * 12)
@@ -1059,7 +1146,6 @@ MouseOverActionBar4:SetPoint("BOTTOMRIGHT", MultiBarLeftButton12, "BOTTOMRIGHT",
 MouseOverActionBar4:EnableMouse(true)
 MouseOverActionBar4:Show()
 
--- Initially hide the buttons
 MouseOverActionBar4:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" and
         zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting then
@@ -1092,7 +1178,9 @@ MouseOverActionBar4:SetScript("OnLeave", function(self)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Make MultiBarRight visible only on mouseover
+---------------------------------------------------------------------------------------------------
 local MouseOverActionBar5 = CreateFrame("Frame", nil, UIParent)
 MouseOverActionBar5:RegisterEvent("PLAYER_ENTERING_WORLD")
 MouseOverActionBar5:SetSize(40, 40 * 12)
@@ -1101,7 +1189,6 @@ MouseOverActionBar5:SetPoint("BOTTOMRIGHT", MultiBarRightButton12,
 MouseOverActionBar5:EnableMouse(true)
 MouseOverActionBar5:Show()
 
--- Initially hide the buttons
 MouseOverActionBar5:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" and
         zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting then
@@ -1134,7 +1221,9 @@ MouseOverActionBar5:SetScript("OnLeave", function(self, event, ...)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Hide the Objective Tracker Artwork
+---------------------------------------------------------------------------------------------------
 local HideObjectiveTrackerArtwork = CreateFrame("Frame")
 HideObjectiveTrackerArtwork:RegisterEvent("PLAYER_ENTERING_WORLD")
 
@@ -1155,8 +1244,10 @@ HideObjectiveTrackerArtwork:SetScript("OnEvent", function(self, event, ...)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
+-- Automatic collapse options for each part of the objective tracker
+---------------------------------------------------------------------------------------------------
 --[[
-    Automatic collapse options for each part of the objective tracker
     on load (login, loading screen, etc.)
     - Campaign Quest
     - Quests
@@ -1175,15 +1266,6 @@ AutomaticObjectiveTrackerCollapseOnLoad:RegisterEvent("PLAYER_ENTERING_WORLD")
 AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
                                                   function(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
-        -- Minimize the entire Objective Tracker
-        if ObjectiveTrackerFrame.HeaderMenu.MinimizeButton:IsShown() and
-            zUI_SavedSettings[PlayerIdentifier].HeaderMenuSetting then
-            C_Timer.After(4, function()
-                ObjectiveTrackerFrame.HeaderMenu.MinimizeButton:Click()
-            end)
-        end
-
-        -- Minimize the campaign quest section
         if ObjectiveTrackerBlocksFrame.CampaignQuestHeader.MinimizeButton:IsShown() and
             zUI_SavedSettings[PlayerIdentifier].CampaignQuestHeaderSetting then
             C_Timer.After(3, function()
@@ -1191,7 +1273,6 @@ AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
             end)
         end
 
-        -- Minimize the quest section
         if ObjectiveTrackerBlocksFrame.QuestHeader.MinimizeButton:IsShown() and
             zUI_SavedSettings[PlayerIdentifier].QuestSectionSetting then
             C_Timer.After(3, function()
@@ -1200,14 +1281,12 @@ AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
         end
 
         if WORLD_QUEST_TRACKER_MODULE.Header.MinimizeButton:IsShown() and
-            zUI_SavedSettings[PlayerIdentifier]
-                .WorldQuestHeaderSetting then
+            zUI_SavedSettings[PlayerIdentifier].WorldQuestHeaderSetting then
             C_Timer.After(3, function()
                 WORLD_QUEST_TRACKER_MODULE.Header.MinimizeButton:Click()
             end)
         end
 
-        -- Minimize the achievement section
         if ObjectiveTrackerBlocksFrame.AchievementHeader.MinimizeButton:IsShown() and
             zUI_SavedSettings[PlayerIdentifier].AchievementHeaderSetting then
             C_Timer.After(3, function()
@@ -1215,7 +1294,6 @@ AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
             end)
         end
 
-        -- Minimize the scenario section
         if ObjectiveTrackerBlocksFrame.ScenarioHeader.MinimizeButton:IsShown() and
             zUI_SavedSettings[PlayerIdentifier].ScenarioHeaderSetting then
             C_Timer.After(3, function()
@@ -1223,7 +1301,6 @@ AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
             end)
         end
 
-        -- Minimize the adventure section
         if ObjectiveTrackerBlocksFrame.AdventureHeader.MinimizeButton:IsShown() and
             zUI_SavedSettings[PlayerIdentifier].AdventureHeaderSetting then
             C_Timer.After(3, function()
@@ -1231,7 +1308,6 @@ AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
             end)
         end
 
-        -- Minimize the monthly activities section
         if ObjectiveTrackerBlocksFrame.MonthlyActivitiesHeader.MinimizeButton:IsShown() then
             C_Timer.After(3, function()
                 ObjectiveTrackerBlocksFrame.MonthlyActivitiesHeader
@@ -1239,19 +1315,24 @@ AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
             end)
         end
 
-        -- Minimize the profession section
         if ObjectiveTrackerBlocksFrame.ProfessionHeader.MinimizeButton:IsShown() then
             C_Timer.After(3, function()
                 ObjectiveTrackerBlocksFrame.ProfessionHeader.MinimizeButton:Click()
             end)
         end
-        for key, value in pairs(ObjectiveTrackerBlocksFrame) do
-            print(key, value)
+
+        if ObjectiveTrackerFrame.HeaderMenu.MinimizeButton:IsShown() and
+            zUI_SavedSettings[PlayerIdentifier].HeaderMenuSetting then
+            C_Timer.After(4, function()
+                ObjectiveTrackerFrame.HeaderMenu.MinimizeButton:Click()
+            end)
         end
     end
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Move the Queue Status Button to the left of the minimap
+---------------------------------------------------------------------------------------------------
 local function MoveQSB()
     UIParent.ClearAllPoints(QueueStatusButton)
     UIParent.SetPoint(QueueStatusButton, "RIGHT", Minimap, "LEFT", -20, -100)
@@ -1270,7 +1351,9 @@ QSB:SetScript("OnEvent", function(self, event, ...)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Collapse the Buff Frame on load
+---------------------------------------------------------------------------------------------------
 local CollapseBuffFrame = CreateFrame("Frame")
 CollapseBuffFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 CollapseBuffFrame:SetScript("OnEvent", function(self, event, ...)

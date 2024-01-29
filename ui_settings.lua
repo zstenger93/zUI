@@ -1,13 +1,16 @@
---[[
-    create tables and enable multichar settings
-]] zUI = zUI or {}
+---------------------------------------------------------------------------------------------------
+-- create tables and enable multichar settings
+---------------------------------------------------------------------------------------------------
+zUI = zUI or {}
 zUI_SavedSettings = zUI_SavedSettings or {}
 local playerName = UnitName("player")
 local playerRealm = GetRealmName()
 PlayerIdentifier = playerName .. "-" .. playerRealm
 zUI_SavedSettings[PlayerIdentifier] = zUI_SavedSettings[PlayerIdentifier] or {}
 
+---------------------------------------------------------------------------------------------------
 -- Welcome to the zUI Settings UI!
+---------------------------------------------------------------------------------------------------
 local welcomeMessage = CreateFrame("Frame")
 welcomeMessage:RegisterEvent("PLAYER_LOGIN")
 
@@ -41,7 +44,9 @@ welcomeMessage:SetScript("OnEvent", function(self, event, ...)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Update the checkboxes based on the saved settings (set to false by default if it's nil)
+---------------------------------------------------------------------------------------------------
 local ShowTicksIfAttributeIsSet = CreateFrame("Frame")
 ShowTicksIfAttributeIsSet:RegisterEvent("ADDON_LOADED")
 
@@ -107,6 +112,8 @@ ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, addonName)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
 -- Create a Slash Command to show the settings UI
+---------------------------------------------------------------------------------------------------
 SLASH_ZUI1 = "/zui"
 SlashCmdList["ZUI"] = function(msg) ZUI_Panel:Show() end
