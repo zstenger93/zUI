@@ -89,7 +89,7 @@ local campaignQuestHeaderCheckbox =
                                                   "GameFontNormal")
 campaignQuestHeaderCheckbox:SetPoint("LEFT", Checkbox_CampaignQuestHeader,
                                      "RIGHT", 20, 0)
-campaignQuestHeaderCheckbox:SetText("Campaign Quest Header")
+campaignQuestHeaderCheckbox:SetText("Campaign Quest")
 Checkbox_CampaignQuestHeader:SetPoint("TOPLEFT", 20, -180)
 Checkbox_CampaignQuestHeader.tooltip =
     "Minimize the campaign quest header of the Objective Tracker on loading screens."
@@ -130,7 +130,7 @@ local achievementHeaderCheckbox = Checkbox_AchievementHeader:CreateFontString(
                                       nil, "OVERLAY", "GameFontNormal")
 achievementHeaderCheckbox:SetPoint("LEFT", Checkbox_AchievementHeader, "RIGHT",
                                    20, 0)
-achievementHeaderCheckbox:SetText("Achievement Header")
+achievementHeaderCheckbox:SetText("Achievement")
 Checkbox_AchievementHeader:SetPoint("TOPLEFT", 20, -240)
 Checkbox_AchievementHeader.tooltip =
     "Minimize the achievement header of the Objective Tracker on loading screens."
@@ -151,7 +151,7 @@ local scenarioHeaderCheckbox = Checkbox_ScenarioHeader:CreateFontString(nil,
                                                                         "OVERLAY",
                                                                         "GameFontNormal")
 scenarioHeaderCheckbox:SetPoint("LEFT", Checkbox_ScenarioHeader, "RIGHT", 20, 0)
-scenarioHeaderCheckbox:SetText("Scenario Header")
+scenarioHeaderCheckbox:SetText("Scenario")
 Checkbox_ScenarioHeader:SetPoint("TOPLEFT", 20, -270)
 Checkbox_ScenarioHeader.tooltip =
     "Minimize the scenario header of the Objective Tracker on loading screens."
@@ -174,7 +174,7 @@ local adventureHeaderCheckbox = Checkbox_AdventureHeader:CreateFontString(nil,
                                                                           "GameFontNormal")
 adventureHeaderCheckbox:SetPoint("LEFT", Checkbox_AdventureHeader, "RIGHT", 20,
                                  0)
-adventureHeaderCheckbox:SetText("Adventure Header")
+adventureHeaderCheckbox:SetText("Adventure")
 Checkbox_AdventureHeader:SetPoint("TOPLEFT", 20, -300)
 Checkbox_AdventureHeader.tooltip =
     "Minimize the adventure header of the Objective Tracker on loading screens."
@@ -183,6 +183,29 @@ Checkbox_AdventureHeader:SetChecked(zUI_SavedSettings[PlayerIdentifier]
 
 Checkbox_AdventureHeader:SetScript("OnClick", function(self)
     zUI_SavedSettings[PlayerIdentifier].AdventureHeaderSetting =
+        self:GetChecked()
+end)
+
+-- Checkbox for WorldQuestHeader
+---@class Checkbox_WorldQuestHeader : CheckButton
+Checkbox_WorldQuestHeader = CreateFrame("CheckButton",
+                                        "zUIWorldQuestHeaderCheckbox",
+                                        GeneralPage,
+                                        "ChatConfigCheckButtonTemplate")
+local worldQuestHeaderCheckbox = Checkbox_WorldQuestHeader:CreateFontString(nil,
+                                                                            "OVERLAY",
+                                                                            "GameFontNormal")
+worldQuestHeaderCheckbox:SetPoint("LEFT", Checkbox_WorldQuestHeader, "RIGHT",
+                                  20, 0)
+worldQuestHeaderCheckbox:SetText("World Quest")
+Checkbox_WorldQuestHeader:SetPoint("TOPLEFT", 20, -330)
+Checkbox_WorldQuestHeader.tooltip =
+    "Minimize the world quest header of the Objective Tracker on loading screens."
+Checkbox_WorldQuestHeader:SetChecked(zUI_SavedSettings[PlayerIdentifier]
+                                         .WorldQuestHeaderSetting)
+
+Checkbox_WorldQuestHeader:SetScript("OnClick", function(self)
+    zUI_SavedSettings[PlayerIdentifier].WorldQuestHeaderSetting =
         self:GetChecked()
 end)
 
@@ -1125,6 +1148,10 @@ HideObjectiveTrackerArtwork:SetScript("OnEvent", function(self, event, ...)
         ObjectiveTrackerBlocksFrame.AdventureHeader.Background:Hide()
         ObjectiveTrackerBlocksFrame.MonthlyActivitiesHeader.Background:Hide()
         ObjectiveTrackerBlocksFrame.ProfessionHeader.Background:Hide()
+        BONUS_OBJECTIVE_TRACKER_MODULE.Header.Background:Hide()
+        WORLD_QUEST_TRACKER_MODULE.Header.Background:Hide()
+        ObjectiveTrackerFrame.BlocksFrame.UIWidgetsHeader.Background:Hide()
+        ObjectiveTrackerFrame.HeaderMenu.Title:SetAlpha(0)
     end
 end)
 
@@ -1172,6 +1199,14 @@ AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
             end)
         end
 
+        if WORLD_QUEST_TRACKER_MODULE.Header.MinimizeButton:IsShown() and
+            zUI_SavedSettings[PlayerIdentifier]
+                .WorldQuestHeaderSetting then
+            C_Timer.After(3, function()
+                WORLD_QUEST_TRACKER_MODULE.Header.MinimizeButton:Click()
+            end)
+        end
+
         -- Minimize the achievement section
         if ObjectiveTrackerBlocksFrame.AchievementHeader.MinimizeButton:IsShown() and
             zUI_SavedSettings[PlayerIdentifier].AchievementHeaderSetting then
@@ -1210,7 +1245,9 @@ AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
                 ObjectiveTrackerBlocksFrame.ProfessionHeader.MinimizeButton:Click()
             end)
         end
-
+        for key, value in pairs(ObjectiveTrackerBlocksFrame) do
+            print(key, value)
+        end
     end
 end)
 

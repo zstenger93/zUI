@@ -95,6 +95,15 @@ ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, addonName)
                 .HideObjectiveTrackerArtworkSetting or false)
         Checkbox_MoveQSB:SetChecked(zUI_SavedSettings[PlayerIdentifier]
                                         .MoveQSBSetting or false)
+        Checkbox_WorldQuestHeader:SetChecked(
+            zUI_SavedSettings[PlayerIdentifier].WorldQuestHeaderSetting or false)
+        Checkbox_AchievementHeader:SetChecked(
+            zUI_SavedSettings[PlayerIdentifier].AchievementHeaderSetting or
+                false)
+        Checkbox_ScenarioHeader:SetChecked(
+            zUI_SavedSettings[PlayerIdentifier].ScenarioHeaderSetting or false)
+        Checkbox_AdventureHeader:SetChecked(
+            zUI_SavedSettings[PlayerIdentifier].AdventureHeaderSetting or false)
     end
 end)
 
