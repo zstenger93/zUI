@@ -11,10 +11,18 @@ fpsCheckbox:SetPoint("LEFT", Checkbox_fpsFrame, "RIGHT", 20, 0)
 fpsCheckbox:SetText("Display the FPS")
 Checkbox_fpsFrame:SetPoint("TOPLEFT", 20, -30)
 Checkbox_fpsFrame.tooltip = "Show FPS Frame at the top-middle of the screen."
-Checkbox_fpsFrame:SetChecked(zUI_SavedSettings[PlayerIdentifier].fpsFrameSetting)
+
+-- Check if the settings are initialized
+if SettingsInitialized then
+    Checkbox_fpsFrame:SetChecked(zUI_SavedSettings[PlayerIdentifier]
+                                     .fpsFrameSetting)
+end
 
 Checkbox_fpsFrame:SetScript("OnClick", function(self)
-    zUI_SavedSettings[PlayerIdentifier].fpsFrameSetting = self:GetChecked()
+    -- Check if the settings are initialized
+    if SettingsInitialized then
+        zUI_SavedSettings[PlayerIdentifier].fpsFrameSetting = self:GetChecked()
+    end
 end)
 
 ---------------------------------------------------------------------------------------------------
@@ -568,7 +576,7 @@ HideObjectiveTracker:RegisterEvent("PLAYER_REGEN_DISABLED")
 HideObjectiveTracker:RegisterEvent("PLAYER_REGEN_ENABLED")
 
 HideObjectiveTracker:SetScript("OnEvent", function(self, event)
-    if ObjectiveTrackerFrame and
+    if SettingsInitialized and ObjectiveTrackerFrame and
         zUI_SavedSettings[PlayerIdentifier].HideObjectiveTrackerSetting then
         if event == "PLAYER_REGEN_DISABLED" then
             local status, error = pcall(function()
@@ -593,13 +601,13 @@ HideChatFrameObject:RegisterEvent("PLAYER_REGEN_DISABLED")
 HideChatFrameObject:RegisterEvent("PLAYER_REGEN_ENABLED")
 
 HideChatFrameObject:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_REGEN_DISABLED" then
+    if SettingsInitialized and event == "PLAYER_REGEN_DISABLED" then
         local status, error = pcall(function()
             GeneralDockManager:Hide()
             ChatFrame1:Hide()
         end)
         if not status then zUI:Print(error) end
-    elseif event == "PLAYER_REGEN_ENABLED" then
+    elseif SettingsInitialized and event == "PLAYER_REGEN_ENABLED" then
         local status, error = pcall(function()
             GeneralDockManager:Show()
             ChatFrame1:Show()
@@ -616,7 +624,7 @@ local HideChatSidebar = CreateFrame("Frame")
 HideChatSidebar:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 HideChatSidebar:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_ENTERING_WORLD" and
+    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
         zUI_SavedSettings[PlayerIdentifier].HideChatSidebarSetting then
         ChatFrameMenuButton:Hide()
         ChatFrameChannelButton:Hide()
@@ -644,7 +652,7 @@ local HideChatFrameStyle = CreateFrame("Frame")
 HideChatFrameStyle:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 HideChatFrameStyle:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_ENTERING_WORLD" then
+    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" then
         for i = 1, NUM_CHAT_WINDOWS do
             local chatFrame = _G["ChatFrame" .. i]
             local chatTab = _G["ChatFrame" .. i .. "Tab"]
@@ -701,7 +709,7 @@ local MoveChatFrameEditBox = CreateFrame("Frame")
 MoveChatFrameEditBox:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 MoveChatFrameEditBox:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_ENTERING_WORLD" then
+    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" then
         if zUI_SavedSettings[PlayerIdentifier].MoveChatFrameEditBoxSetting then
             for i = 1, NUM_CHAT_WINDOWS do
                 local chatFrame = _G["ChatFrame" .. i]
@@ -723,13 +731,14 @@ local HideQuickJoinToastButton = CreateFrame("Frame")
 HideQuickJoinToastButton:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 HideQuickJoinToastButton:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_ENTERING_WORLD" and
+    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
         zUI_SavedSettings[PlayerIdentifier].HideQuickJoinToastButtonSetting then
         local status, error = pcall(function()
             QuickJoinToastButton:Hide()
         end)
         if not status then zUI:Print(error) end
-    else
+    elseif SettingsInitialized and
+        not zUI_SavedSettings[PlayerIdentifier].HideQuickJoinToastButtonSetting then
         local status, error = pcall(function()
             QuickJoinToastButton:Show()
         end)
@@ -746,13 +755,13 @@ HideBagBar:RegisterEvent("PLAYER_REGEN_DISABLED")
 HideBagBar:RegisterEvent("PLAYER_REGEN_ENABLED")
 
 HideBagBar:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_REGEN_DISABLED" and
+    if SettingsInitialized and event == "PLAYER_REGEN_DISABLED" and
         zUI_SavedSettings[PlayerIdentifier].HideBagBarSetting then
         local status, error = pcall(function()
             MainMenuBarBackpackButton:GetParent():Hide()
         end)
         if not status then zUI:Print(error) end
-    elseif event == "PLAYER_REGEN_ENABLED" and
+    elseif SettingsInitialized and event == "PLAYER_REGEN_ENABLED" and
         not zUI_SavedSettings[PlayerIdentifier].HideBagBarSettingPerm then
         local status, error = pcall(function()
             MainMenuBarBackpackButton:GetParent():Show()
@@ -788,7 +797,7 @@ GameTooltip:HookScript("OnTooltipCleared", function(self) lastTarget = nil end)
 
 GameTooltip:HookScript("OnUpdate", function(self)
     local _, unit = self:GetUnit()
-    if unit then
+    if SettingsInitialized and unit then
         local target = unit .. "target"
         local targetName, targetRealm = UnitName(unit)
         local _, targetClass = UnitClass(unit)
@@ -821,17 +830,18 @@ HideHudTooltip:RegisterEvent("PLAYER_REGEN_DISABLED")
 HideHudTooltip:RegisterEvent("PLAYER_REGEN_ENABLED")
 
 HideHudTooltip:SetScript("OnEvent", function(self, event, ...)
-    if event == "PLAYER_REGEN_DISABLED" and
+    if SettingsInitialized and event == "PLAYER_REGEN_DISABLED" and
         zUI_SavedSettings[PlayerIdentifier].HideHudTooltipSetting then
         inCombat = true
         GameTooltip:Hide()
-    elseif event == "PLAYER_REGEN_ENABLED" then
+    elseif SettingsInitialized and event == "PLAYER_REGEN_ENABLED" then
         inCombat = false
     end
 end)
 
 GameTooltip:SetScript("OnShow", function(self)
-    if inCombat and zUI_SavedSettings[PlayerIdentifier].HideHudTooltipSetting then
+    if SettingsInitialized and inCombat and
+        zUI_SavedSettings[PlayerIdentifier].HideHudTooltipSetting then
         self:Hide()
     end
 end)
@@ -848,7 +858,8 @@ fpsText:SetAllPoints()
 fpsText:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
 
 fpsFrame:SetScript("OnUpdate", function(self, elapsed)
-    if zUI_SavedSettings[PlayerIdentifier].fpsFrameSetting then
+    if SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].fpsFrameSetting then
         self.timeSinceLastUpdate = (self.timeSinceLastUpdate or 0) + elapsed
         if self.timeSinceLastUpdate >= 1 then
             local fps = GetFramerate()
@@ -868,7 +879,7 @@ end)
 XpBarFrame = CreateFrame("Frame")
 XpBarFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 XpBarFrame:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_ENTERING_WORLD" then
+    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" then
         if zUI_SavedSettings[PlayerIdentifier].XPBarSetting then
             MainStatusTrackingBarContainer:Hide()
         else
@@ -883,7 +894,7 @@ end)
 local repBarFrame = CreateFrame("Frame")
 repBarFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 repBarFrame:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_ENTERING_WORLD" then
+    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" then
         if zUI_SavedSettings[PlayerIdentifier].RepBarSetting then
             SecondaryStatusTrackingBarContainer:Hide()
         else
@@ -903,35 +914,39 @@ local microMenuFrame = CreateFrame("Frame")
 microMenuFrame:RegisterEvent("ADDON_LOADED")
 microMenuFrame:SetScript("OnEvent", function(self, event, addonName)
     if event == "ADDON_LOADED" and addonName == "zUI" then
-        if zUI_SavedSettings[PlayerIdentifier].MicroMenuSetting then
-            AchievementMicroButton:Hide()
-            GuildMicroButton:Hide()
-            LFDMicroButton:Hide()
-            CollectionsMicroButton:Hide()
-            EJMicroButton:Hide()
-            MainMenuMicroButton:Hide()
-            HelpMicroButton:Hide()
-            StoreMicroButton:SetAlpha(0)
-            TalentMicroButton:Hide()
-            QuestLogMicroButton:Hide()
-            CharacterMicroButton:Hide()
-            SpellbookMicroButton:Hide()
-            TalentMicroButton:Hide()
-        else
-            AchievementMicroButton:Show()
-            GuildMicroButton:Show()
-            LFDMicroButton:Show()
-            CollectionsMicroButton:Show()
-            EJMicroButton:Show()
-            MainMenuMicroButton:Show()
-            HelpMicroButton:Show()
-            StoreMicroButton:SetAlpha(1)
-            TalentMicroButton:Show()
-            QuestLogMicroButton:Show()
-            CharacterMicroButton:Show()
-            SpellbookMicroButton:Show()
-            TalentMicroButton:Show()
-        end
+        C_Timer.After(2, function()
+            if SettingsInitialized and
+                zUI_SavedSettings[PlayerIdentifier].MicroMenuSetting then
+                AchievementMicroButton:Hide()
+                GuildMicroButton:Hide()
+                LFDMicroButton:Hide()
+                CollectionsMicroButton:Hide()
+                EJMicroButton:Hide()
+                MainMenuMicroButton:Hide()
+                HelpMicroButton:Hide()
+                StoreMicroButton:SetAlpha(0)
+                TalentMicroButton:Hide()
+                QuestLogMicroButton:Hide()
+                CharacterMicroButton:Hide()
+                SpellbookMicroButton:Hide()
+                TalentMicroButton:Hide()
+            elseif SettingsInitialized and
+                not zUI_SavedSettings[PlayerIdentifier].MicroMenuSetting then
+                AchievementMicroButton:Show()
+                GuildMicroButton:Show()
+                LFDMicroButton:Show()
+                CollectionsMicroButton:Show()
+                EJMicroButton:Show()
+                MainMenuMicroButton:Show()
+                HelpMicroButton:Show()
+                StoreMicroButton:SetAlpha(1)
+                TalentMicroButton:Show()
+                QuestLogMicroButton:Show()
+                CharacterMicroButton:Show()
+                SpellbookMicroButton:Show()
+                TalentMicroButton:Show()
+            end
+        end)
     end
 end)
 
@@ -943,11 +958,15 @@ HideBagBarFramePermanently:RegisterEvent("ADDON_LOADED")
 
 HideBagBarFramePermanently:SetScript("OnEvent", function(self, event, addonName)
     if event == "ADDON_LOADED" and addonName == "zUI" then
-        if zUI_SavedSettings[PlayerIdentifier].HideBagBarSettingPerm then
-            MainMenuBarBackpackButton:GetParent():Hide()
-        elseif not zUI_SavedSettings[PlayerIdentifier].HideBagBarSettingPerm then
-            MainMenuBarBackpackButton:GetParent():Show()
-        end
+        C_Timer.After(2, function()
+            if SettingsInitialized and
+                zUI_SavedSettings[PlayerIdentifier].HideBagBarSettingPerm then
+                MainMenuBarBackpackButton:GetParent():Hide()
+            elseif SettingsInitialized and
+                not zUI_SavedSettings[PlayerIdentifier].HideBagBarSettingPerm then
+                MainMenuBarBackpackButton:GetParent():Show()
+            end
+        end)
     end
 end)
 
@@ -964,7 +983,7 @@ CustomPaladinPowerBarTexture:RegisterEvent("ADDON_LOADED")
 
 CustomPaladinPowerBarTexture:SetScript("OnEvent",
                                        function(self, event, addonName)
-    if event == "ADDON_LOADED" and addonName == "zUI" then
+    if SettingsInitialized and event == "ADDON_LOADED" and addonName == "zUI" then
         if zUI_SavedSettings[PlayerIdentifier]
             .CustomPaladinPowerBarTextureSetting then
             PaladinPowerBarFrame.ActiveTexture:Hide()
@@ -1015,10 +1034,11 @@ local actionBarMod = CreateFrame("Frame")
 actionBarMod:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 actionBarMod:SetScript("OnEvent", function(self, event, ...)
-    if not zUI_SavedSettings[PlayerIdentifier].actionBarModSetting then
+    if SettingsInitialized and
+        not zUI_SavedSettings[PlayerIdentifier].actionBarModSetting then
         return
     end
-    if event == "PLAYER_ENTERING_WORLD" then
+    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" then
         local actionBars = {
             "ActionButton", "MultiBarBottomLeftButton",
             "MultiBarBottomRightButton", "MultiBarLeftButton",
@@ -1147,7 +1167,7 @@ MouseOverActionBar4:EnableMouse(true)
 MouseOverActionBar4:Show()
 
 MouseOverActionBar4:SetScript("OnEvent", function(self, event, ...)
-    if event == "PLAYER_ENTERING_WORLD" and
+    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
         zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting then
         C_Timer.After(3, function()
             for i = 1, 12 do
@@ -1159,7 +1179,8 @@ MouseOverActionBar4:SetScript("OnEvent", function(self, event, ...)
 end)
 
 MouseOverActionBar4:SetScript("OnEnter", function(self)
-    if not zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting then
+    if SettingsInitialized and
+        not zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting then
         return
     end
     for i = 1, 12 do
@@ -1169,7 +1190,8 @@ MouseOverActionBar4:SetScript("OnEnter", function(self)
 end)
 
 MouseOverActionBar4:SetScript("OnLeave", function(self)
-    if not zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting then
+    if SettingsInitialized and
+        not zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting then
         return
     end
     for i = 1, 12 do
@@ -1190,7 +1212,7 @@ MouseOverActionBar5:EnableMouse(true)
 MouseOverActionBar5:Show()
 
 MouseOverActionBar5:SetScript("OnEvent", function(self, event, ...)
-    if event == "PLAYER_ENTERING_WORLD" and
+    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
         zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting then
         C_Timer.After(3, function()
             for i = 1, 12 do
@@ -1202,7 +1224,8 @@ MouseOverActionBar5:SetScript("OnEvent", function(self, event, ...)
 end)
 
 MouseOverActionBar5:SetScript("OnEnter", function(self)
-    if not zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting then
+    if SettingsInitialized and
+        not zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting then
         return
     end
     for i = 1, 12 do
@@ -1212,7 +1235,8 @@ MouseOverActionBar5:SetScript("OnEnter", function(self)
 end)
 
 MouseOverActionBar5:SetScript("OnLeave", function(self, event, ...)
-    if not zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting then
+    if SettingsInitialized and
+        not zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting then
         return
     end
     for i = 1, 12 do
@@ -1228,7 +1252,7 @@ local HideObjectiveTrackerArtwork = CreateFrame("Frame")
 HideObjectiveTrackerArtwork:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 HideObjectiveTrackerArtwork:SetScript("OnEvent", function(self, event, ...)
-    if event == "PLAYER_ENTERING_WORLD" and
+    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
         zUI_SavedSettings[PlayerIdentifier].HideObjectiveTrackerArtworkSetting then
         ObjectiveTrackerBlocksFrame.CampaignQuestHeader.Background:Hide()
         ObjectiveTrackerBlocksFrame.QuestHeader.Background:Hide()
@@ -1265,7 +1289,7 @@ AutomaticObjectiveTrackerCollapseOnLoad:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
                                                   function(self, event, ...)
-    if event == "PLAYER_ENTERING_WORLD" then
+    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" then
         if ObjectiveTrackerBlocksFrame.CampaignQuestHeader.MinimizeButton:IsShown() and
             zUI_SavedSettings[PlayerIdentifier].CampaignQuestHeaderSetting then
             C_Timer.After(3, function()
@@ -1342,7 +1366,7 @@ end
 local QSB = CreateFrame("Frame")
 QSB:RegisterEvent("PLAYER_ENTERING_WORLD")
 QSB:SetScript("OnEvent", function(self, event, ...)
-    if event == "PLAYER_ENTERING_WORLD" and
+    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
         zUI_SavedSettings[PlayerIdentifier].MoveQSBSetting then
         C_Timer.After(3, function()
             MoveQSB()
@@ -1357,7 +1381,7 @@ end)
 local CollapseBuffFrame = CreateFrame("Frame")
 CollapseBuffFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 CollapseBuffFrame:SetScript("OnEvent", function(self, event, ...)
-    if event == "PLAYER_ENTERING_WORLD" then
+    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" then
         C_Timer.After(2,
                       function()
             BuffFrame.CollapseAndExpandButton:Click()

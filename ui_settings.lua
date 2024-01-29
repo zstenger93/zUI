@@ -1,12 +1,69 @@
+SettingsInitialized = false
 ---------------------------------------------------------------------------------------------------
 -- create tables and enable multichar settings
 ---------------------------------------------------------------------------------------------------
 zUI = zUI or {}
 zUI_SavedSettings = zUI_SavedSettings or {}
-local playerName = UnitName("player")
-local playerRealm = GetRealmName()
-PlayerIdentifier = playerName .. "-" .. playerRealm
+PlayerIdentifier = PlayerIdentifier or UnitName("player") .. "-" ..
+                       GetRealmName()
 zUI_SavedSettings[PlayerIdentifier] = zUI_SavedSettings[PlayerIdentifier] or {}
+
+function TableIsEmpty(t)
+    if next(t) == nil then
+        return true
+    else
+        return false
+    end
+end
+
+function PrintTable(t) for key, value in pairs(t) do print(key, value) end end
+
+local frame = CreateFrame("Frame")
+frame:RegisterEvent("PLAYER_LOGIN")
+frame:SetScript("OnEvent", function(self, event)
+    PlayerIdentifier = PlayerIdentifier or UnitName("player") .. "-" ..
+                           GetRealmName()
+    zUI_SavedSettings[PlayerIdentifier] =
+        zUI_SavedSettings[PlayerIdentifier] or {}
+    if TableIsEmpty(zUI_SavedSettings[PlayerIdentifier]) then
+        print("The table is empty")
+        PrintTable(zUI_SavedSettings[PlayerIdentifier])
+        zUI_SavedSettings[PlayerIdentifier].HideObjectiveTrackerSetting = false
+        zUI_SavedSettings[PlayerIdentifier].HideChatFrameSetting = false
+        zUI_SavedSettings[PlayerIdentifier].HideQuickJoinToastButtonSetting =
+            false
+        zUI_SavedSettings[PlayerIdentifier].HideBagBarSetting = false
+        zUI_SavedSettings[PlayerIdentifier].HideHudTooltipSetting = false
+        zUI_SavedSettings[PlayerIdentifier].fpsFrameSetting = false
+        zUI_SavedSettings[PlayerIdentifier].actionBarModSetting = false
+        zUI_SavedSettings[PlayerIdentifier].XPBarSetting = false
+        zUI_SavedSettings[PlayerIdentifier].RepBarSetting = false
+        zUI_SavedSettings[PlayerIdentifier].MicroMenuSetting = false
+        zUI_SavedSettings[PlayerIdentifier].HideChatSidebarSetting = false
+        zUI_SavedSettings[PlayerIdentifier].MoveChatFrameEditBoxSetting = false
+        zUI_SavedSettings[PlayerIdentifier].CustomPaladinPowerBarTextureSetting =
+            false
+        zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting = false
+        zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting = false
+        zUI_SavedSettings[PlayerIdentifier].HeaderMenuSetting = false
+        zUI_SavedSettings[PlayerIdentifier].CampaignQuestHeaderSetting = false
+        zUI_SavedSettings[PlayerIdentifier].QuestSectionSetting = false
+        zUI_SavedSettings[PlayerIdentifier].HideObjectiveTrackerArtworkSetting =
+            false
+        zUI_SavedSettings[PlayerIdentifier].MoveQSBSetting = false
+        zUI_SavedSettings[PlayerIdentifier].WorldQuestHeaderSetting = false
+        zUI_SavedSettings[PlayerIdentifier].AchievementHeaderSetting = false
+        zUI_SavedSettings[PlayerIdentifier].ScenarioHeaderSetting = false
+        zUI_SavedSettings[PlayerIdentifier].AdventureHeaderSetting = false
+        zUI_SavedSettings[PlayerIdentifier].HideBagBarSettingPerm = false
+        SettingsInitialized = true
+        PrintTable(zUI_SavedSettings[PlayerIdentifier])
+    else
+        SettingsInitialized = true
+        print("The table is not empty")
+    end
+    UpdateCheckboxes()
+end)
 
 ---------------------------------------------------------------------------------------------------
 -- Welcome to the zUI Settings UI!
@@ -47,11 +104,8 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Update the checkboxes based on the saved settings (set to false by default if it's nil)
 ---------------------------------------------------------------------------------------------------
-local ShowTicksIfAttributeIsSet = CreateFrame("Frame")
-ShowTicksIfAttributeIsSet:RegisterEvent("ADDON_LOADED")
-
-ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, addonName)
-    if event == "ADDON_LOADED" and addonName == "zUI" then
+function UpdateCheckboxes()
+    if SettingsInitialized then
         Checkbox_HideObjectiveTrackerInCombat:SetChecked(
             zUI_SavedSettings[PlayerIdentifier].HideObjectiveTrackerSetting or
                 false)
@@ -110,7 +164,7 @@ ShowTicksIfAttributeIsSet:SetScript("OnEvent", function(self, event, addonName)
         Checkbox_AdventureHeader:SetChecked(
             zUI_SavedSettings[PlayerIdentifier].AdventureHeaderSetting or false)
     end
-end)
+end
 
 ---------------------------------------------------------------------------------------------------
 -- Create a Slash Command to show the settings UI
