@@ -983,35 +983,38 @@ CustomPaladinPowerBarTexture:RegisterEvent("ADDON_LOADED")
 
 CustomPaladinPowerBarTexture:SetScript("OnEvent",
                                        function(self, event, addonName)
-    if SettingsInitialized and event == "ADDON_LOADED" and addonName == "zUI" then
-        if zUI_SavedSettings[PlayerIdentifier]
-            .CustomPaladinPowerBarTextureSetting then
-            PaladinPowerBarFrame.ActiveTexture:Hide()
-            PaladinPowerBarFrame.Background:Hide()
-            PaladinPowerBarFrame.ThinGlow:Hide()
-            PaladinPowerBarFrame.Glow:Hide()
-            PaladinPowerBarFrameRune1.ActiveTexture:SetSize(30, 30)
-            PaladinPowerBarFrameRune2.ActiveTexture:SetSize(30, 30)
-            PaladinPowerBarFrameRune3.ActiveTexture:SetSize(30, 30)
-            PaladinPowerBarFrameRune4.ActiveTexture:SetSize(30, 30)
-            PaladinPowerBarFrameRune5.ActiveTexture:SetSize(30, 30)
-            PaladinPowerBarFrameRune1:ClearAllPoints()
-            PaladinPowerBarFrameRune2:ClearAllPoints()
-            PaladinPowerBarFrameRune3:ClearAllPoints()
-            PaladinPowerBarFrameRune4:ClearAllPoints()
-            PaladinPowerBarFrameRune5:ClearAllPoints()
-            PaladinPowerBarFrameRune1:SetPoint("BOTTOM", ActionButton4, "TOP",
-                                               0, 10)
-            PaladinPowerBarFrameRune2:SetPoint("BOTTOM", ActionButton5, "TOP",
-                                               0, 10)
-            PaladinPowerBarFrameRune3:SetPoint("BOTTOM", ActionButton6, "TOP",
-                                               0, 10)
-            PaladinPowerBarFrameRune4:SetPoint("BOTTOM", ActionButton7, "TOP",
-                                               0, 10)
-            PaladinPowerBarFrameRune5:SetPoint("BOTTOM", ActionButton8, "TOP",
-                                               0, 10)
+    C_Timer.After(2, function()
+        if SettingsInitialized and event == "ADDON_LOADED" and addonName ==
+            "zUI" then
+            if zUI_SavedSettings[PlayerIdentifier]
+                .CustomPaladinPowerBarTextureSetting then
+                PaladinPowerBarFrame.ActiveTexture:Hide()
+                PaladinPowerBarFrame.Background:Hide()
+                PaladinPowerBarFrame.ThinGlow:Hide()
+                PaladinPowerBarFrame.Glow:Hide()
+                PaladinPowerBarFrameRune1.ActiveTexture:SetSize(30, 30)
+                PaladinPowerBarFrameRune2.ActiveTexture:SetSize(30, 30)
+                PaladinPowerBarFrameRune3.ActiveTexture:SetSize(30, 30)
+                PaladinPowerBarFrameRune4.ActiveTexture:SetSize(30, 30)
+                PaladinPowerBarFrameRune5.ActiveTexture:SetSize(30, 30)
+                PaladinPowerBarFrameRune1:ClearAllPoints()
+                PaladinPowerBarFrameRune2:ClearAllPoints()
+                PaladinPowerBarFrameRune3:ClearAllPoints()
+                PaladinPowerBarFrameRune4:ClearAllPoints()
+                PaladinPowerBarFrameRune5:ClearAllPoints()
+                PaladinPowerBarFrameRune1:SetPoint("BOTTOM", ActionButton4,
+                                                   "TOP", 0, 10)
+                PaladinPowerBarFrameRune2:SetPoint("BOTTOM", ActionButton5,
+                                                   "TOP", 0, 10)
+                PaladinPowerBarFrameRune3:SetPoint("BOTTOM", ActionButton6,
+                                                   "TOP", 0, 10)
+                PaladinPowerBarFrameRune4:SetPoint("BOTTOM", ActionButton7,
+                                                   "TOP", 0, 10)
+                PaladinPowerBarFrameRune5:SetPoint("BOTTOM", ActionButton8,
+                                                   "TOP", 0, 10)
+            end
         end
-    end
+    end)
 end)
 
 -- THIS AIN'T FINISHED YET
