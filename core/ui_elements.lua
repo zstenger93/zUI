@@ -43,7 +43,7 @@ MainPageTopHorizontalLine:SetColorTexture(0.7, 0.7, 0.7, 0.7)
 MainPageTopHorizontalLine:SetPoint("TOP", UI_Title, "BOTTOM", 0, -10)
 
 ---------------------------------------------------------------------------------------------------
--- Set the backdrop color to 50% transparent black
+-- Set it to center and hide it by default
 ---------------------------------------------------------------------------------------------------
 ZUI_Panel:SetPoint("CENTER")
 ZUI_Panel:Hide()

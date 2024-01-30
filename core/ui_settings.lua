@@ -18,9 +18,12 @@ end
 
 function PrintTable(t) for key, value in pairs(t) do print(key, value) end end
 
-local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_LOGIN")
-frame:SetScript("OnEvent", function(self, event)
+---------------------------------------------------------------------------------------------------
+-- Initialize the settings if the table is empty
+---------------------------------------------------------------------------------------------------
+local initializeSettingsIfNewTable = CreateFrame("Frame")
+initializeSettingsIfNewTable:RegisterEvent("PLAYER_LOGIN")
+initializeSettingsIfNewTable:SetScript("OnEvent", function(self, event)
     PlayerIdentifier = PlayerIdentifier or UnitName("player") .. "-" ..
                            GetRealmName()
     zUI_SavedSettings[PlayerIdentifier] =
@@ -92,6 +95,9 @@ welcomeMessage:SetScript("OnEvent", function(self, event, ...)
         DEFAULT_CHAT_FRAME:AddMessage(purple ..
                                           "                     What are you going to waste your time on today?" ..
                                           endColor)
+        DEFAULT_CHAT_FRAME:AddMessage(" ")
+        DEFAULT_CHAT_FRAME:AddMessage(
+            "                                 /zui to open the settings panel")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
         DEFAULT_CHAT_FRAME:AddMessage(" ")
         DEFAULT_CHAT_FRAME:AddMessage(" ")

@@ -80,6 +80,9 @@ ActionBarsPage:SetSize(600, 500)
 ActionBarsPage:SetPoint("TOPLEFT", ActionBarsButton, "TOPRIGHT", 10, 0)
 ActionBarsPage:Hide()
 
+---------------------------------------------------------------------------------------------------
+-- Class
+---------------------------------------------------------------------------------------------------
 ClassPage = CreateFrame("Frame", nil, ZUI_Panel)
 ClassPage:SetSize(600, 500)
 ClassPage:SetPoint("TOPLEFT", ActionBarsButton, "TOPRIGHT", 10, 0)
