@@ -41,7 +41,8 @@ Use `/zui` to show the settings panel (every setting is character specific)
 - Actionbars
     - Hide all of the original texture (border, background, etc.)
     - Hide Hotkeys on non used slots
-    - Bar 4 and 5 visible only on mouseover
+    - Bar 4 and 5 visible only on mouseover, if something is dragged or the spellbook is closed
+    - Skider to change the icon size
 - Class
     - Moved the power bar above the main action bar and removed everything except the glyps/runes and their effects
         - Paladin
@@ -53,7 +54,6 @@ Use `/zui` to show the settings panel (every setting is character specific)
 - Move the whole chatframe to the bottomleft corner without having a gap
 - Displayin more useful info next to the fps, like durabilty etc, will 
 - Other classes with power bar
-- Hiding hotkeys on empty buttons needs a check
 
 ## Works but could use a check
 
