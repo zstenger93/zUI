@@ -239,6 +239,28 @@ Checkbox_WorldQuestHeader:SetScript("OnClick", function(self)
         self:GetChecked()
 end)
 
+---@class Checkbox_ChatFrameMovable : CheckButton
+Checkbox_ChatFrameMovable = CreateFrame("CheckButton",
+                                        "zUIChatFrameMovableCheckbox",
+                                        GeneralPage,
+                                        "ChatConfigCheckButtonTemplate")
+local chatFrameMovableCheckbox = Checkbox_ChatFrameMovable:CreateFontString(nil,
+                                                                            "OVERLAY",
+                                                                            "GameFontNormal")
+chatFrameMovableCheckbox:SetPoint("LEFT", Checkbox_ChatFrameMovable, "RIGHT",
+                                  20, 0)
+chatFrameMovableCheckbox:SetText("Chat Frame Movable")
+Checkbox_ChatFrameMovable:SetPoint("TOPLEFT", 20, -360)
+Checkbox_ChatFrameMovable.tooltip =
+    "Enable or disable moving of the chat frame."
+Checkbox_ChatFrameMovable:SetChecked(zUI_SavedSettings[PlayerIdentifier]
+                                         .ChatFrameMovableSetting)
+
+Checkbox_ChatFrameMovable:SetScript("OnClick", function(self)
+    zUI_SavedSettings[PlayerIdentifier].ChatFrameMovableSetting =
+        self:GetChecked()
+end)
+
 -------------------------------------------- CHECKBOXES ON SHOW & HIDE PAGE --------------------------------------------
 
 ---------------------------------------------------------------------------------------------------
@@ -811,9 +833,17 @@ MoveChatFrameEditBox:SetScript("OnEvent", function(self, event)
                 local chatFrame = _G["ChatFrame" .. i]
                 local editBox = _G["ChatFrame" .. i .. "EditBox"]
 
+                local name = chatFrame:GetName()
+                _G[name .. "ButtonFrame"]:Hide()
+                _G[name .. "EditBoxLeft"]:Hide()
+                _G[name .. "EditBoxMid"]:Hide()
+                _G[name .. "EditBoxRight"]:Hide()
+
                 editBox:ClearAllPoints()
                 editBox:SetPoint("BOTTOMLEFT", chatFrame, "TOPLEFT", 0, 0)
                 editBox:SetPoint("BOTTOMRIGHT", chatFrame, "TOPRIGHT", 0, 0)
+                editBox:SetAltArrowKeyMode(false)
+                editBox:SetHistoryLines(50)
             end
         end
     end
@@ -1748,13 +1778,58 @@ CollapseBuffFrame:SetScript("OnEvent", function(self, event, ...)
     end
 end)
 
--- local function MakeChatFrameDraggable(frame)
---     frame:SetMovable(true)
---     frame:EnableMouse(true)
---     frame:RegisterForDrag("LeftButton")
+---------------------------------------------------------------------------------------------------
+-- Movable chat frame ANYWHERE on the ui, welcome my corner friends
+---------------------------------------------------------------------------------------------------
+--[[
+    Saves the current position, so it can be restored next time the ui is loaded
+    Make it movable, but most importantly set SetClampedToScreen to false so you can drag it anywhere
+    On stop it drops th frame and saves the position
+    Sets the frame to the point it was last time
+]]
+local function SaveChatFramePosition(frame)
+    local point, _, relativePoint, xOfs, yOfs = frame:GetPoint()
+    zUI_SavedSettings[PlayerIdentifier].ChatFramePosition = {
+        point, _, relativePoint, xOfs, yOfs
+    }
+end
 
---     frame:SetScript("OnDragStart", frame.StartMoving)
---     frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
--- end
+local function MakeChatFrameDraggableToCorner(frame)
+    local savedPosition = zUI_SavedSettings[PlayerIdentifier].ChatFramePosition
 
--- MakeChatFrameDraggable(ChatFrame1)
+    if savedPosition then
+        frame:SetClampedToScreen(false)
+        frame:ClearAllPoints()
+        frame:SetPoint(savedPosition[1], savedPosition[2], savedPosition[3],
+                       savedPosition[4], savedPosition[5])
+    end
+
+    if zUI_SavedSettings[PlayerIdentifier].ChatFrameMovableSetting then
+        frame:SetMovable(true)
+        frame:EnableMouse(true)
+        frame:RegisterForDrag("LeftButton")
+        frame:SetClampedToScreen(false)
+        frame:SetScript("OnDragStart", frame.StartMoving)
+        frame:SetScript("OnDragStop", function(self)
+            self:StopMovingOrSizing()
+            SaveChatFramePosition(self)
+        end)
+    else
+        frame:SetScript("OnDragStart", nil)
+        frame:SetScript("OnDragStop", nil)
+    end
+end
+
+local frame = CreateFrame("Frame")
+frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+frame:SetScript("OnEvent", function(self, event, ...)
+    if event == "PLAYER_ENTERING_WORLD" then
+        C_Timer.After(2, function()
+            if SettingsInitialized then
+                for i = 1, NUM_CHAT_WINDOWS do
+                    MakeChatFrameDraggableToCorner(_G["ChatFrame" .. i])
+                end
+            end
+        end)
+    end
+end)
