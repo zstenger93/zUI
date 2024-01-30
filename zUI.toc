@@ -4,7 +4,7 @@
 ## Author: zstenger93
 ## Version: 1.0
 ## SavedVariables: zUI_SavedSettings
-## IconTexture: Interface\AddOns\zUI\images\icon.blp
+## IconTexture: Interface\AddOns\zUI\core\images\icon.blp
 
 core\ui_settings.lua
 core\ui_elements.lua
