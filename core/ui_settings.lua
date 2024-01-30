@@ -61,6 +61,7 @@ initializeSettingsIfNewTable:SetScript("OnEvent", function(self, event)
             false
         zUI_SavedSettings[PlayerIdentifier].CustomRogueEnergyPointsSetting =
             false
+        zUI_SavedSettings[PlayerIdentifier].ButtonScale = 1
         SettingsInitialized = true
     else
         SettingsInitialized = true
@@ -175,6 +176,8 @@ function UpdateCheckboxes()
         Checkbox_CustomRogueEnergyPoints:SetChecked(
             zUI_SavedSettings[PlayerIdentifier].CustomRogueEnergyPointsSetting or
                 false)
+        ScaleSlider:SetValue(zUI_SavedSettings[PlayerIdentifier].ButtonScale or
+                                 1)
     end
 end
 

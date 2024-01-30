@@ -539,6 +539,50 @@ Checkbox_MultiBarRight:SetScript("OnClick", function(self)
     zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting = self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
+-- Create a slider on the ActionBarsPage for the scale of the buttons
+---------------------------------------------------------------------------------------------------
+ScaleSlider = CreateFrame("Slider", "ScaleSlider", ActionBarsPage, "OptionsSliderTemplate")
+ScaleSlider:SetWidth(200)
+ScaleSlider:SetHeight(20)
+ScaleSlider:SetPoint("TOPLEFT", Checkbox_MultiBarRight, "BOTTOMLEFT", 0, -40)
+ScaleSlider:SetMinMaxValues(0.5, 1.5)
+ScaleSlider:SetValueStep(0.01)
+ScaleSlider:SetObeyStepOnDrag(true)
+
+local labelText = ActionBarsPage:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+labelText:SetPoint("BOTTOM", ScaleSlider, "TOP", 0, 5)
+labelText:SetText("Adjust the Icon size")
+
+ScaleSlider:SetScript("OnShow", function(self)
+    self.Low:SetText("0.5")
+    self.High:SetText("1.5")
+end)
+
+local initialScale = zUI_SavedSettings[PlayerIdentifier].buttonScale or ActionButton1:GetScale()
+ScaleSlider:SetValue(initialScale)
+
+local valueText = ScaleSlider:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+valueText:SetPoint("TOP", ScaleSlider, "BOTTOM", 0, -5)
+valueText:SetText(string.format("%.2f", initialScale))
+
+ScaleSlider:SetScript("OnValueChanged", function(self, value)
+    local actionBars = {
+        "ActionButton", "MultiBarBottomLeftButton",
+        "MultiBarBottomRightButton", "MultiBarLeftButton",
+        "MultiBarRightButton"
+    }
+
+    for _, actionBar in ipairs(actionBars) do
+        for i = 1, 12 do
+            local button = _G[actionBar .. i]
+            button:SetScale(value)
+        end
+    end
+    zUI_SavedSettings[PlayerIdentifier].ButtonScale = value
+    valueText:SetText(string.format("%.2f", value))
+end)
+
 ---------------------------------------------- CHECKBOXES ON CLASS PAGE ----------------------------------------------
 
 ---------------------------------------------------------------------------------------------------
@@ -1293,7 +1337,7 @@ actionBarMod:SetScript("OnEvent", function(self, event, ...)
             for i = 1, 12 do
                 local button = _G[actionBar .. i]
 
-                button:SetScale(0.99)
+                -- button:SetScale(0.99) here
 
                 button:HookScript("OnUpdate", function(self)
                     -- Hide the default border
