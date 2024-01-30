@@ -1,4 +1,4 @@
-![zUI](https://github.com/zstenger93/zUI/blob/master/zUI_git.png)
+![zUI](https://github.com/zstenger93/zUI/blob/master/core/images/zUI_git.png)
 
 # [CurseForge](https://www.curseforge.com/wow/addons/zui-quality-of-life-settings)
 

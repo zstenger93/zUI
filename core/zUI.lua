@@ -542,7 +542,8 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Create a slider on the ActionBarsPage for the scale of the buttons
 ---------------------------------------------------------------------------------------------------
-ScaleSlider = CreateFrame("Slider", "ScaleSlider", ActionBarsPage, "OptionsSliderTemplate")
+ScaleSlider = CreateFrame("Slider", "ScaleSlider", ActionBarsPage,
+                          "OptionsSliderTemplate")
 ScaleSlider:SetWidth(200)
 ScaleSlider:SetHeight(20)
 ScaleSlider:SetPoint("TOPLEFT", Checkbox_MultiBarRight, "BOTTOMLEFT", 0, -40)
@@ -550,7 +551,8 @@ ScaleSlider:SetMinMaxValues(0.5, 1.5)
 ScaleSlider:SetValueStep(0.01)
 ScaleSlider:SetObeyStepOnDrag(true)
 
-local labelText = ActionBarsPage:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+local labelText = ActionBarsPage:CreateFontString(nil, "OVERLAY",
+                                                  "GameFontNormal")
 labelText:SetPoint("BOTTOM", ScaleSlider, "TOP", 0, 5)
 labelText:SetText("Adjust the Icon size")
 
@@ -559,7 +561,8 @@ ScaleSlider:SetScript("OnShow", function(self)
     self.High:SetText("1.5")
 end)
 
-local initialScale = zUI_SavedSettings[PlayerIdentifier].buttonScale or ActionButton1:GetScale()
+local initialScale = zUI_SavedSettings[PlayerIdentifier].buttonScale or
+                         ActionButton1:GetScale()
 ScaleSlider:SetValue(initialScale)
 
 local valueText = ScaleSlider:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -568,9 +571,8 @@ valueText:SetText(string.format("%.2f", initialScale))
 
 ScaleSlider:SetScript("OnValueChanged", function(self, value)
     local actionBars = {
-        "ActionButton", "MultiBarBottomLeftButton",
-        "MultiBarBottomRightButton", "MultiBarLeftButton",
-        "MultiBarRightButton"
+        "ActionButton", "MultiBarBottomLeftButton", "MultiBarBottomRightButton",
+        "MultiBarLeftButton", "MultiBarRightButton"
     }
 
     for _, actionBar in ipairs(actionBars) do
