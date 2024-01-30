@@ -1420,6 +1420,7 @@ MouseOverActionBar4:SetScript("OnEnter", function(self)
         not zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting then
         return
     end
+
     for i = 1, 12 do
         local button = _G["MultiBarLeftButton" .. i]
         button:Show()
@@ -1431,6 +1432,7 @@ MouseOverActionBar4:SetScript("OnLeave", function(self)
         not zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting then
         return
     end
+
     for i = 1, 12 do
         local button = _G["MultiBarLeftButton" .. i]
         button:Hide()
@@ -1487,6 +1489,7 @@ MouseOverActionBar5:SetScript("OnEnter", function(self)
         not zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting then
         return
     end
+
     for i = 1, 12 do
         local button = _G["MultiBarRightButton" .. i]
         button:Show()
@@ -1498,6 +1501,7 @@ MouseOverActionBar5:SetScript("OnLeave", function(self, event, ...)
         not zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting then
         return
     end
+
     for i = 1, 12 do
         local button = _G["MultiBarRightButton" .. i]
         button:Hide()
@@ -1525,6 +1529,34 @@ DragCheckFrameActionBar5:SetScript("OnUpdate", function()
         end
     end
 end)
+
+---------------------------------------------------------------------------------------------------
+-- Hide mouseover bars when the spellbook has been closed after opening it
+---------------------------------------------------------------------------------------------------
+function HideBarWhenSpellbookClosed(barName, barSetting)
+    if SettingsInitialized and not barSetting then return end
+    local frameState = {spellbookWasOpen = false}
+
+    SpellBookFrame:HookScript("OnShow",
+                              function() frameState.spellbookWasOpen = true end)
+
+    SpellBookFrame:HookScript("OnHide", function()
+        if frameState.spellbookWasOpen then
+            for i = 1, 12 do
+                local button = _G[barName .. i]
+                if button then button:Hide() end
+            end
+            frameState.spellbookWasOpen = false
+        end
+    end)
+end
+
+HideBarWhenSpellbookClosed("MultiBarLeftButton",
+                           zUI_SavedSettings[PlayerIdentifier]
+                               .multiBarLeftSetting)
+HideBarWhenSpellbookClosed("MultiBarRightButton",
+                           zUI_SavedSettings[PlayerIdentifier]
+                               .multiBarRightSetting)
 
 ---------------------------------------------------------------------------------------------------
 -- Hide the Objective Tracker Artwork
