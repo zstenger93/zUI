@@ -1271,6 +1271,7 @@ end
     precise control over the size of the buttons?
 ]]
 local actionBarMod = CreateFrame("Frame")
+
 actionBarMod:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 actionBarMod:SetScript("OnEvent", function(self, event, ...)
@@ -1392,7 +1393,7 @@ end)
 -- end
 
 ---------------------------------------------------------------------------------------------------
--- Make MultiBarLeft visible only on mouseover
+-- Make MultiBarLeft visible only on mouseover or if something being dragged
 ---------------------------------------------------------------------------------------------------
 local MouseOverActionBar4 = CreateFrame("Frame", nil, UIParent)
 MouseOverActionBar4:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -1436,8 +1437,30 @@ MouseOverActionBar4:SetScript("OnLeave", function(self)
     end
 end)
 
+local DragCheckFrameActionBar4 = CreateFrame("Frame", nil, UIParent)
+
+DragCheckFrameActionBar4:SetScript("OnUpdate", function()
+    if SettingsInitialized and
+        not zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting then
+        return
+    end
+
+    for i = 1, 12 do
+        local button = _G["MultiBarLeftButton" .. i]
+        button.wasDragging = button.wasDragging or false
+
+        if GetCursorInfo() then
+            button:Show()
+            button.wasDragging = true
+        elseif not GetCursorInfo() and button.wasDragging then
+            button:Hide()
+            button.wasDragging = false
+        end
+    end
+end)
+
 ---------------------------------------------------------------------------------------------------
--- Make MultiBarRight visible only on mouseover
+-- Make MultiBarRight visible only on mouseover or if something being dragged
 ---------------------------------------------------------------------------------------------------
 local MouseOverActionBar5 = CreateFrame("Frame", nil, UIParent)
 MouseOverActionBar5:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -1478,6 +1501,28 @@ MouseOverActionBar5:SetScript("OnLeave", function(self, event, ...)
     for i = 1, 12 do
         local button = _G["MultiBarRightButton" .. i]
         button:Hide()
+    end
+end)
+
+local DragCheckFrameActionBar5 = CreateFrame("Frame", nil, UIParent)
+
+DragCheckFrameActionBar5:SetScript("OnUpdate", function()
+    if SettingsInitialized and
+        not zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting then
+        return
+    end
+
+    for i = 1, 12 do
+        local button = _G["MultiBarRightButton" .. i]
+        button.wasDragging = button.wasDragging or false
+
+        if GetCursorInfo() then
+            button:Show()
+            button.wasDragging = true
+        elseif not GetCursorInfo() and button.wasDragging then
+            button:Hide()
+            button.wasDragging = false
+        end
     end
 end)
 
