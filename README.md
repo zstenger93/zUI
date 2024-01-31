@@ -22,7 +22,8 @@ Use `/zui` to show the settings panel (every setting is character specific)
     - FPS
     - Target on tooltip
 - Move
-    - Editbox from bottom to top of the Chat
+    - Chat frame is now freely movable where you would like to move it, from corner to corner to crash report (okay, okay hopefully not to the last one)
+    - Editbox from bottom to top of the Chat (removed the Blizzard art textures)
     - Queue Status Button next to the Minimap
 - Auto collapse Objective Tracker on loading screens
     - Entire Tracker
@@ -51,7 +52,6 @@ Use `/zui` to show the settings panel (every setting is character specific)
 
 ## Next up
 
-- Move the whole chatframe to the bottomleft corner without having a gap
 - Displayin more useful info next to the fps, like durabilty etc, will 
 - Other classes with power bar
 
