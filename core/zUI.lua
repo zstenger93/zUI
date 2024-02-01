@@ -1855,14 +1855,16 @@ function HidePlayerAndTargetFrames()
         .PlayerPortraitCornerIcon:Hide()
     PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
         .PlayerPortraitCornerIcon:Hide()
-    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigeBadge:Hide()
-    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigePortrait:Hide()
 
     hooksecurefunc("PlayerFrame_UpdateStatus", function()
         PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
             .PlayerPortraitCornerIcon:Hide()
         PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
             .PlayerPortraitCornerIcon:Hide()
+        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
+            .PrestigeBadge:Hide()
+        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
+            .PrestigePortrait:Hide()
     end)
 end
 
@@ -1872,3 +1874,7 @@ C_Timer.After(2, function()
         HidePlayerAndTargetFrames()
     end
 end)
+
+for key, value in pairs(UIWidgetPowerBarContainerFrame:GetChildren()) do
+    print(key, value)
+end
