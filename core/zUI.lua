@@ -1855,6 +1855,8 @@ function HidePlayerAndTargetFrames()
         .PlayerPortraitCornerIcon:Hide()
     PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
         .PlayerPortraitCornerIcon:Hide()
+    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigeBadge:Hide()
+    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigePortrait:Hide()
 
     hooksecurefunc("PlayerFrame_UpdateStatus", function()
         PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
