@@ -1473,7 +1473,6 @@ end)
 ---------------------------------------------------------------------------------------------------
 local MouseOverActionBar4 = CreateFrame("Frame", nil, UIParent)
 MouseOverActionBar4:RegisterEvent("PLAYER_ENTERING_WORLD")
-MouseOverActionBar4:SetSize(40, 40 * 12)
 MouseOverActionBar4:SetPoint("BOTTOMRIGHT", MultiBarLeftButton12, "BOTTOMRIGHT",
                              0, 0)
 MouseOverActionBar4:EnableMouse(true)
@@ -1483,6 +1482,13 @@ MouseOverActionBar4:SetScript("OnEvent", function(self, event, ...)
     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
         zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting then
         C_Timer.After(3, function()
+            local multiBarLeftWidth, multiBarLeftHeight = MultiBarLeft:GetSize()
+
+            if multiBarLeftHeight > multiBarLeftWidth then
+                MouseOverActionBar4:SetSize(40, 40 * 12)
+            else
+                MouseOverActionBar4:SetSize(40 * 12, 40)
+            end
             for i = 1, 12 do
                 local button = _G["MultiBarLeftButton" .. i]
                 button:Hide()
@@ -1542,7 +1548,6 @@ end)
 ---------------------------------------------------------------------------------------------------
 local MouseOverActionBar5 = CreateFrame("Frame", nil, UIParent)
 MouseOverActionBar5:RegisterEvent("PLAYER_ENTERING_WORLD")
-MouseOverActionBar5:SetSize(40, 40 * 12)
 MouseOverActionBar5:SetPoint("BOTTOMRIGHT", MultiBarRightButton12,
                              "BOTTOMRIGHT", 0, 0)
 MouseOverActionBar5:EnableMouse(true)
@@ -1552,6 +1557,14 @@ MouseOverActionBar5:SetScript("OnEvent", function(self, event, ...)
     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
         zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting then
         C_Timer.After(3, function()
+            local multiBarRightWidth, multiBarRightHeight =
+                MultiBarRight:GetSize()
+
+            if multiBarRightHeight > multiBarRightWidth then
+                MouseOverActionBar5:SetSize(40, 40 * 12)
+            else
+                MouseOverActionBar5:SetSize(40 * 12, 40)
+            end
             for i = 1, 12 do
                 local button = _G["MultiBarRightButton" .. i]
                 button:Hide()
@@ -1797,7 +1810,8 @@ end
 local function MakeChatFrameDraggableToCorner(frame)
     local savedPosition = zUI_SavedSettings[PlayerIdentifier].ChatFramePosition
 
-    if savedPosition then
+    if savedPosition and
+        zUI_SavedSettings[PlayerIdentifier].ChatFrameMovableSetting then
         frame:SetClampedToScreen(false)
         frame:ClearAllPoints()
         frame:SetPoint(savedPosition[1], savedPosition[2], savedPosition[3],
