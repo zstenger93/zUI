@@ -252,7 +252,7 @@ chatFrameMovableCheckbox:SetPoint("LEFT", Checkbox_ChatFrameMovable, "RIGHT",
 chatFrameMovableCheckbox:SetText("Chat Frame Movable")
 Checkbox_ChatFrameMovable:SetPoint("TOPLEFT", 20, -360)
 Checkbox_ChatFrameMovable.tooltip =
-    "Enable or disable moving of the chat frame."
+    "Enable or disable moving of the chat frame. (After moving can be turned off. Position is saved.)"
 Checkbox_ChatFrameMovable:SetChecked(zUI_SavedSettings[PlayerIdentifier]
                                          .ChatFrameMovableSetting)
 
@@ -513,7 +513,7 @@ hidePlayerAndTargetFramesCheckbox:SetPoint("LEFT",
 hidePlayerAndTargetFramesCheckbox:SetText("Player and Target Frames")
 Checkbox_HidePlayerAndTargetFrames:SetPoint("TOPLEFT", 250, -250)
 Checkbox_HidePlayerAndTargetFrames.tooltip =
-    "Hide Player and Target Frames permanently."
+    "Hide Player and Target Frame textures and prestigue banners."
 Checkbox_HidePlayerAndTargetFrames:SetChecked(
     zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting)
 

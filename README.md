@@ -39,6 +39,8 @@ Use `/zui` to show the settings panel (every setting is character specific)
     - Chat Sidebar with it's Buttons
     - Bagbar
     - Quick Join Button
+    - Player & Target frame textures + Prestige banners
+    - Objective Tracker artwork
 - Actionbars
     - Hide all of the original texture (border, background, etc.)
     - Hide Hotkeys on non used slots
