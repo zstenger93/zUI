@@ -496,6 +496,32 @@ Checkbox_HideObjectiveTrackerArtwork:SetScript("OnClick", function(self)
         self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
+-- Checkbox for Checkbox_HidePlayerAndTargetFrames
+---------------------------------------------------------------------------------------------------
+---@class Checkbox_HidePlayerAndTargetFrames : CheckButton
+Checkbox_HidePlayerAndTargetFrames = CreateFrame("CheckButton",
+                                                 "zUIHidePlayerAndTargetFramesCheckbox",
+                                                 HideShowPage,
+                                                 "ChatConfigCheckButtonTemplate")
+local hidePlayerAndTargetFramesCheckbox =
+    Checkbox_HidePlayerAndTargetFrames:CreateFontString(nil, "OVERLAY",
+                                                        "GameFontNormal")
+hidePlayerAndTargetFramesCheckbox:SetPoint("LEFT",
+                                           Checkbox_HidePlayerAndTargetFrames,
+                                           "RIGHT", 20, 0)
+hidePlayerAndTargetFramesCheckbox:SetText("Player and Target Frames")
+Checkbox_HidePlayerAndTargetFrames:SetPoint("TOPLEFT", 250, -250)
+Checkbox_HidePlayerAndTargetFrames.tooltip =
+    "Hide Player and Target Frames permanently."
+Checkbox_HidePlayerAndTargetFrames:SetChecked(
+    zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting)
+
+Checkbox_HidePlayerAndTargetFrames:SetScript("OnClick", function(self)
+    zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting =
+        self:GetChecked()
+end)
+
 -------------------------------------------- CHECKBOXES ON ACTIONBARS PAGE --------------------------------------------
 
 ---------------------------------------------------------------------------------------------------
@@ -844,6 +870,8 @@ MoveChatFrameEditBox:SetScript("OnEvent", function(self, event)
                 editBox:SetPoint("BOTTOMRIGHT", chatFrame, "TOPRIGHT", 0, 0)
                 editBox:SetAltArrowKeyMode(false)
                 editBox:SetHistoryLines(50)
+
+                chatFrame:SetMaxLines(500)
             end
         end
     end
@@ -1806,5 +1834,39 @@ frame:SetScript("OnEvent", function(self, event, ...)
                 end
             end
         end)
+    end
+end)
+
+---------------------------------------------------------------------------------------------------
+-- Player frame modifications
+---------------------------------------------------------------------------------------------------
+function HidePlayerAndTargetFrames()
+    PlayerFrame.PlayerFrameContainer.PlayerPortraitMask:Hide()
+    PlayerFrame.PlayerFrameContainer.FrameTexture:SetTexture("")
+    PlayerFrame.PlayerFrameContainer.PlayerPortrait:Show()
+    PlayerFrame.PlayerFrameContainer.FrameFlash:SetTexture("")
+    PlayerFrame.PlayerFrameContainer.VehicleFrameTexture:Hide()
+
+    TargetFrame.TargetFrameContainer.FrameTexture:Hide()
+    TargetFrame.TargetFrameContainer.PortraitMask:Hide()
+    TargetFrame.TargetFrameContainer.Flash:SetTexture("")
+    TargetFrame.TargetFrameContainer.BossPortraitFrameTexture:Hide()
+    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
+        .PlayerPortraitCornerIcon:Hide()
+    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
+        .PlayerPortraitCornerIcon:Hide()
+
+    hooksecurefunc("PlayerFrame_UpdateStatus", function()
+        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
+            .PlayerPortraitCornerIcon:Hide()
+        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
+            .PlayerPortraitCornerIcon:Hide()
+    end)
+end
+
+C_Timer.After(2, function()
+    if SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting then
+        HidePlayerAndTargetFrames()
     end
 end)

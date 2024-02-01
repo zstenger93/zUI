@@ -65,6 +65,8 @@ initializeSettingsIfNewTable:SetScript("OnEvent", function(self, event)
         zUI_SavedSettings[PlayerIdentifier].ChatFramePosition = {
             "BOTTOMLEFT", nil, "BOTTOMLEFT", 6.99995756149292, 5.000070095062256
         }
+        zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting =
+            false
         SettingsInitialized = true
     else
         SettingsInitialized = true
@@ -189,6 +191,9 @@ function UpdateCheckboxes()
                 }
         Checkbox_ChatFrameMovable:SetChecked(
             zUI_SavedSettings[PlayerIdentifier].ChatFrameMovableSetting or false)
+        Checkbox_HidePlayerAndTargetFrames:SetChecked(
+            zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting or
+                false)
     end
 end
 
