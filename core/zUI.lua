@@ -652,13 +652,19 @@ paladinPowerBarCheckbox:SetText("Custom Paladin Power Bar")
 Checkbox_CustomPaladinPowerBarTexture:SetPoint("TOPLEFT", 20, 30)
 Checkbox_CustomPaladinPowerBarTexture.tooltip =
     "Hide the texture of the Paladin Power Bar, but keep the glowing runes and animations."
-Checkbox_CustomPaladinPowerBarTexture:SetChecked(
-    zUI_SavedSettings[PlayerIdentifier].CustomPaladinPowerBarTextureSetting)
+local _, paladin = UnitClass("player")
+if paladin == "PALADIN" then
+    Checkbox_CustomPaladinPowerBarTexture:SetChecked(
+        zUI_SavedSettings[PlayerIdentifier].CustomPaladinPowerBarTextureSetting)
 
-Checkbox_CustomPaladinPowerBarTexture:SetScript("OnClick", function(self)
-    zUI_SavedSettings[PlayerIdentifier].CustomPaladinPowerBarTextureSetting =
-        self:GetChecked()
-end)
+    Checkbox_CustomPaladinPowerBarTexture:SetScript("OnClick", function(self)
+        zUI_SavedSettings[PlayerIdentifier].CustomPaladinPowerBarTextureSetting =
+            self:GetChecked()
+    end)
+else
+    Checkbox_CustomPaladinPowerBarTexture:SetChecked(false)
+    Checkbox_CustomPaladinPowerBarTexture:Disable()
+end
 
 ---------------------------------------------------------------------------------------------------
 -- Checkbox for hiding Death Knight Rune Textures and move it
@@ -677,13 +683,19 @@ deathKnightRunesCheckbox:SetText("Custom Death Knight Runes")
 Checkbox_CustomDeathKnightRunes:SetPoint("TOPLEFT", 20, 0)
 Checkbox_CustomDeathKnightRunes.tooltip =
     "Hide the texure of the Death Knight Runes, but keep the skulls and animations."
-Checkbox_CustomDeathKnightRunes:SetChecked(
-    zUI_SavedSettings[PlayerIdentifier].CustomDeathKnightRunesSetting)
+local _, deathknight = UnitClass("player")
+if deathknight == "DEATHKNIGHT" then
+    Checkbox_CustomDeathKnightRunes:SetChecked(
+        zUI_SavedSettings[PlayerIdentifier].CustomDeathKnightRunesSetting)
 
-Checkbox_CustomDeathKnightRunes:SetScript("OnClick", function(self)
-    zUI_SavedSettings[PlayerIdentifier].CustomDeathKnightRunesSetting =
-        self:GetChecked()
-end)
+    Checkbox_CustomDeathKnightRunes:SetScript("OnClick", function(self)
+        zUI_SavedSettings[PlayerIdentifier].CustomDeathKnightRunesSetting =
+            self:GetChecked()
+    end)
+else
+    Checkbox_CustomDeathKnightRunes:SetChecked(false)
+    Checkbox_CustomDeathKnightRunes:Disable()
+end
 
 ---------------------------------------------------------------------------------------------------
 -- Checkbox for hdiding Rogue Energy Point Textures and move it
@@ -702,13 +714,19 @@ rogueEnergyPointsCheckbox:SetText("Custom Rogue Energy Points")
 Checkbox_CustomRogueEnergyPoints:SetPoint("TOPLEFT", 20, -30)
 Checkbox_CustomRogueEnergyPoints.tooltip =
     "Customize the appearance of the Rogue Energy Points."
-Checkbox_CustomRogueEnergyPoints:SetChecked(
-    zUI_SavedSettings[PlayerIdentifier].CustomRogueEnergyPointsSetting)
+local _, rogue = UnitClass("player")
+if rogue == "ROGUE" then
+    Checkbox_CustomRogueEnergyPoints:SetChecked(
+        zUI_SavedSettings[PlayerIdentifier].CustomRogueEnergyPointsSetting)
 
-Checkbox_CustomRogueEnergyPoints:SetScript("OnClick", function(self)
-    zUI_SavedSettings[PlayerIdentifier].CustomRogueEnergyPointsSetting =
-        self:GetChecked()
-end)
+    Checkbox_CustomRogueEnergyPoints:SetScript("OnClick", function(self)
+        zUI_SavedSettings[PlayerIdentifier].CustomRogueEnergyPointsSetting =
+            self:GetChecked()
+    end)
+else
+    Checkbox_CustomRogueEnergyPoints:SetChecked(false)
+    Checkbox_CustomRogueEnergyPoints:Disable()
+end
 
 ---------------------------------------------------------------------------------------------------
 -- Checkbox for customizing Warlock Soul Shards
@@ -727,13 +745,19 @@ warlockSoulShardsCheckbox:SetText("Custom Warlock Soul Shards")
 Checkbox_CustomWarlockSoulShards:SetPoint("TOPLEFT", 20, -60)
 Checkbox_CustomWarlockSoulShards.tooltip =
     "Customize the appearance of the Warlock Soul Shards."
-Checkbox_CustomWarlockSoulShards:SetChecked(
-    zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting)
+local _, warlock = UnitClass("player")
+if warlock == "WARLOCK" then
+    Checkbox_CustomWarlockSoulShards:SetChecked(
+        zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting)
 
-Checkbox_CustomWarlockSoulShards:SetScript("OnClick", function(self)
-    zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting =
-        self:GetChecked()
-end)
+    Checkbox_CustomWarlockSoulShards:SetScript("OnClick", function(self)
+        zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting =
+            self:GetChecked()
+    end)
+else
+    Checkbox_CustomWarlockSoulShards:SetChecked(false)
+    Checkbox_CustomWarlockSoulShards:Disable()
+end
 
 ------------------------------------------------- GAME SETTINGS BELOW -------------------------------------------------
 

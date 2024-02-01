@@ -45,20 +45,21 @@ Use `/zui` to show the settings panel (every setting is character specific)
     - Hide all of the original texture (border, background, etc.)
     - Hide Hotkeys on non used slots
     - Bar 4 and 5 visible only on mouseover, if something is dragged or the spellbook is closed
-    - Skider to change the icon size
+    - Slider to change the icon size
 - Class
     - Moved the power bar above the main action bar and removed everything except the glyps/runes and their effects
         - Paladin
         - Death Knight
         - Rogue
+        - Warlock
 
 ## Next up
 
-- Displayin more useful info next to the fps, like durabilty etc, will 
 - Other classes with power bar
 
 ## Works but could use a check
 
 - Mouseover sometimes not working properly on bar 4 and 5, OnLeave sometimes ain't hidin them
+- Sometimes prestige banner is not being hidden
 
 
