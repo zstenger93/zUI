@@ -710,6 +710,31 @@ Checkbox_CustomRogueEnergyPoints:SetScript("OnClick", function(self)
         self:GetChecked()
 end)
 
+---------------------------------------------------------------------------------------------------
+-- Checkbox for customizing Warlock Soul Shards
+---------------------------------------------------------------------------------------------------
+---@class Checkbox_CustomWarlockSoulShards : CheckButton
+Checkbox_CustomWarlockSoulShards = CreateFrame("CheckButton",
+                                               "zUICustomWarlockSoulShardsCheckbox",
+                                               ClassPage,
+                                               "ChatConfigCheckButtonTemplate")
+local warlockSoulShardsCheckbox =
+    Checkbox_CustomWarlockSoulShards:CreateFontString(nil, "OVERLAY",
+                                                      "GameFontNormal")
+warlockSoulShardsCheckbox:SetPoint("LEFT", Checkbox_CustomWarlockSoulShards,
+                                   "RIGHT", 20, 0)
+warlockSoulShardsCheckbox:SetText("Custom Warlock Soul Shards")
+Checkbox_CustomWarlockSoulShards:SetPoint("TOPLEFT", 20, -60)
+Checkbox_CustomWarlockSoulShards.tooltip =
+    "Customize the appearance of the Warlock Soul Shards."
+Checkbox_CustomWarlockSoulShards:SetChecked(
+    zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting)
+
+Checkbox_CustomWarlockSoulShards:SetScript("OnClick", function(self)
+    zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting =
+        self:GetChecked()
+end)
+
 ------------------------------------------------- GAME SETTINGS BELOW -------------------------------------------------
 
 ---------------------------------------------------------------------------------------------------
@@ -1125,7 +1150,7 @@ HideBagBarFramePermanently:SetScript("OnEvent", function(self, event, addonName)
 end)
 
 ---------------------------------------------------------------------------------------------------
--- Hide the paladin power bar textures except the symbols for holy power
+-- Hide the paladin power bar textures except the symbols for holy power and move them
 ---------------------------------------------------------------------------------------------------
 --[[
     Change the size of the holy power symbols
@@ -1173,7 +1198,7 @@ CustomPaladinPowerBarTexture:SetScript("OnEvent",
 end)
 
 ---------------------------------------------------------------------------------------------------
--- Hide the death knight rune textures except the symbols for runes
+-- Hide the death knight rune textures except the symbols for runes and move them
 ---------------------------------------------------------------------------------------------------
 local CustomDeathKnightPowerBarTexture = CreateFrame("Frame")
 CustomDeathKnightPowerBarTexture:RegisterEvent("ADDON_LOADED")
@@ -1271,7 +1296,7 @@ KeepDeathKnightRunesAtPosition:SetScript("OnUpdate", function()
 end)
 
 ---------------------------------------------------------------------------------------------------
--- Hide the rogue energy points textures except the symbols for combo points
+-- Hide the rogue energy points textures except the symbols for combo points and move them
 ---------------------------------------------------------------------------------------------------
 local CustomRogueEnergyPoints = CreateFrame("Frame")
 CustomRogueEnergyPoints:RegisterEvent("ADDON_LOADED")
@@ -1279,8 +1304,10 @@ CustomRogueEnergyPoints:RegisterEvent("ADDON_LOADED")
 CustomRogueEnergyPoints:SetScript("OnEvent", function(self, event, addonName)
     C_Timer.After(2, function()
         local _, className = UnitClass("player")
-        if className == "ROGUE" and SettingsInitialized and event ==
-            "ADDON_LOADED" and addonName == "zUI" then
+        if className == "ROGUE" and
+            zUI_SavedSettings[PlayerIdentifier].CustomRogueEnergyPointsSetting and
+            SettingsInitialized and event == "ADDON_LOADED" and addonName ==
+            "zUI" then
             local energy1, energy2, energy3, energy4, energy5, energy6 =
                 RogueComboPointBarFrame:GetChildren()
 
@@ -1334,6 +1361,58 @@ KeepRogueEnergyPointsAtPosition:SetScript("OnUpdate", function()
         energy4:SetPoint("BOTTOM", ActionButton7, "TOP", 0, 10)
         energy5:SetPoint("BOTTOM", ActionButton8, "TOP", 0, 10)
         energy6:SetPoint("BOTTOM", ActionButton9, "TOP", 0, 10)
+    end
+end)
+
+---------------------------------------------------------------------------------------------------
+-- Hide the Warlock soul shard textures except the shards itself and move them
+---------------------------------------------------------------------------------------------------
+local CustomWarlockSoulShards = CreateFrame("Frame")
+CustomWarlockSoulShards:RegisterEvent("ADDON_LOADED")
+
+CustomWarlockSoulShards:SetScript("OnEvent", function(self, event, addonName)
+    C_Timer.After(2, function()
+        local _, className = UnitClass("player")
+        if className == "WARLOCK" and
+            zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting and
+            SettingsInitialized and event == "ADDON_LOADED" and addonName ==
+            "zUI" then
+            local soulShard1, soulShard2, soulShard3, soulShard4, soulShard5 =
+                WarlockPowerFrame:GetChildren()
+
+            if zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting then
+                soulShard1.Background:Hide()
+                soulShard2.Background:Hide()
+                soulShard3.Background:Hide()
+                soulShard4.Background:Hide()
+                soulShard5.Background:Hide()
+                soulShard1:SetSize(30, 30)
+                soulShard2:SetSize(30, 30)
+                soulShard3:SetSize(30, 30)
+                soulShard4:SetSize(30, 30)
+                soulShard5:SetSize(30, 30)
+            end
+        end
+    end)
+end)
+
+local KeepWarlockSoulShardsAtPosition = CreateFrame("Frame")
+KeepWarlockSoulShardsAtPosition:SetScript("OnUpdate", function()
+    local _, className = UnitClass("player")
+    local soulShard1, soulShard2, soulShard3, soulShard4, soulShard5 =
+        WarlockPowerFrame:GetChildren()
+    if className == "WARLOCK" and SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting then
+        soulShard1:ClearAllPoints()
+        soulShard2:ClearAllPoints()
+        soulShard3:ClearAllPoints()
+        soulShard4:ClearAllPoints()
+        soulShard5:ClearAllPoints()
+        soulShard1:SetPoint("BOTTOM", ActionButton4, "TOP", 15, 10)
+        soulShard2:SetPoint("BOTTOM", ActionButton5, "TOP", 15, 10)
+        soulShard3:SetPoint("BOTTOM", ActionButton6, "TOP", 15, 10)
+        soulShard4:SetPoint("BOTTOM", ActionButton7, "TOP", 15, 10)
+        soulShard5:SetPoint("BOTTOM", ActionButton8, "TOP", 15, 10)
     end
 end)
 
@@ -1817,9 +1896,6 @@ local function MakeChatFrameDraggableToCorner(frame)
             self:StopMovingOrSizing()
             SaveChatFramePosition(self)
         end)
-    else
-        frame:SetScript("OnDragStart", nil)
-        frame:SetScript("OnDragStop", nil)
     end
 end
 
@@ -1866,15 +1942,11 @@ local function HookStatusUpdate()
         .PlayerPortraitCornerIcon:Hide()
     PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
         .PlayerPortraitCornerIcon:Hide()
-    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
-        .PrestigeBadge:Hide()
-    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
-        .PrestigePortrait:Hide()
+    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigeBadge:Hide()
+    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigePortrait:Hide()
 
-    TargetFrame.TargetFrameContent.TargetFrameContentContextual
-        .PrestigeBadge:Hide()
-    TargetFrame.TargetFrameContent.TargetFrameContentContextual
-        .PrestigePortrait:Hide()
+    TargetFrame.TargetFrameContent.TargetFrameContentContextual.PrestigeBadge:Hide()
+    TargetFrame.TargetFrameContent.TargetFrameContentContextual.PrestigePortrait:Hide()
 end
 
 local frame = CreateFrame("Frame")

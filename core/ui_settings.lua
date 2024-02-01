@@ -67,6 +67,8 @@ initializeSettingsIfNewTable:SetScript("OnEvent", function(self, event)
         }
         zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting =
             false
+        zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting =
+            false
         SettingsInitialized = true
     else
         SettingsInitialized = true
@@ -193,6 +195,9 @@ function UpdateCheckboxes()
             zUI_SavedSettings[PlayerIdentifier].ChatFrameMovableSetting or false)
         Checkbox_HidePlayerAndTargetFrames:SetChecked(
             zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting or
+                false)
+        Checkbox_CustomWarlockSoulShards:SetChecked(
+            zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting or
                 false)
     end
 end
