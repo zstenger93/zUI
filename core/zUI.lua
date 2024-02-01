@@ -1343,8 +1343,7 @@ end
     Hide all textures for empty buttons
     Hide hotkey text for empty buttons
     Resizing and positioning the hotkey text
-    Scaling the buttons back because why would Blizzard give us
-    precise control over the size of the buttons?
+    Showing button texture on drag
 ]]
 local actionBarMod = CreateFrame("Frame")
 
@@ -1368,8 +1367,6 @@ actionBarMod:SetScript("OnEvent", function(self, event, ...)
         for _, actionBar in ipairs(actionBars) do
             for i = 1, 12 do
                 local button = _G[actionBar .. i]
-
-                -- button:SetScale(0.99) here
 
                 button:HookScript("OnUpdate", function(self)
                     -- Hide the default border
@@ -1412,61 +1409,21 @@ actionBarMod:SetScript("OnEvent", function(self, event, ...)
                             hotkey:Hide()
                         end
                     end
+
+                    -- Showing button texture on drag
+                    if GetCursorInfo() then
+                        button:Show()
+                        button:GetNormalTexture():Show()
+                        button.wasDragging = true
+                    elseif not GetCursorInfo() and button.wasDragging then
+                        button:GetNormalTexture():Hide()
+                        button.wasDragging = false
+                    end
                 end)
             end
         end
     end
 end)
-
--- preferably need to find a way to make this work on drag, but ain't workin atm
-
--- Show the border when a drag operation starts
--- self:SetScript("OnDragStart", function(self)
---     self:StartMoving()
---     if normalTexture then normalTexture:Show() end
--- end)
-
--- -- Hide the border again when a drag operation ends
--- self:SetScript("OnDragStop", function(self)
---     self:StopMovingOrSizing()
---     if normalTexture then normalTexture:Hide() end
--- end)
-
--- they way it's drawn is kinda thrash, but it works. need to find a better way to do this
-
--- local borderSize = 2
-
--- Create a border for each side of the button
--- for _, point in ipairs({"TOP", "BOTTOM", "LEFT", "RIGHT"}) do
---     local border = button:CreateTexture(nil, "OVERLAY")
---     border:SetDrawLayer("OVERLAY", 7)
---     border:SetColorTexture(0, 0, 0)
---     if point == "TOP" then
---         border:SetPoint("BOTTOMLEFT", button, "TOPLEFT", borderSize,
---                         -borderSize)
---         border:SetPoint("BOTTOMRIGHT", button, "TOPRIGHT",
---                         -borderSize, -borderSize)
---         border:SetHeight(borderSize)
---     elseif point == "BOTTOM" then
---         border:SetPoint("TOPLEFT", button, "BOTTOMLEFT", borderSize,
---                         borderSize)
---         border:SetPoint("TOPRIGHT", button, "BOTTOMRIGHT",
---                         -borderSize, borderSize)
---         border:SetHeight(borderSize)
---     elseif point == "LEFT" then
---         border:SetPoint("TOPRIGHT", button, "TOPLEFT", borderSize,
---                         -borderSize)
---         border:SetPoint("BOTTOMRIGHT", button, "BOTTOMLEFT",
---                         borderSize, borderSize)
---         border:SetWidth(borderSize)
---     else
---         border:SetPoint("TOPLEFT", button, "TOPRIGHT", -borderSize,
---                         -borderSize)
---         border:SetPoint("BOTTOMLEFT", button, "BOTTOMRIGHT",
---                         -borderSize, borderSize)
---         border:SetWidth(borderSize)
---     end
--- end
 
 ---------------------------------------------------------------------------------------------------
 -- Make MultiBarLeft visible only on mouseover or if something being dragged
@@ -1535,9 +1492,11 @@ DragCheckFrameActionBar4:SetScript("OnUpdate", function()
 
         if GetCursorInfo() then
             button:Show()
+            button:GetNormalTexture():Show()
             button.wasDragging = true
         elseif not GetCursorInfo() and button.wasDragging then
             button:Hide()
+            button:GetNormalTexture():Hide()
             button.wasDragging = false
         end
     end
@@ -1611,9 +1570,11 @@ DragCheckFrameActionBar5:SetScript("OnUpdate", function()
 
         if GetCursorInfo() then
             button:Show()
+            button:GetNormalTexture():Show()
             button.wasDragging = true
         elseif not GetCursorInfo() and button.wasDragging then
             button:Hide()
+            button:GetNormalTexture():Hide()
             button.wasDragging = false
         end
     end
