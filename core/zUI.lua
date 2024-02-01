@@ -1823,9 +1823,9 @@ local function MakeChatFrameDraggableToCorner(frame)
     end
 end
 
-local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_ENTERING_WORLD")
-frame:SetScript("OnEvent", function(self, event, ...)
+local playerFrame = CreateFrame("Frame")
+playerFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+playerFrame:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         C_Timer.After(2, function()
             if SettingsInitialized then
@@ -1846,35 +1846,47 @@ function HidePlayerAndTargetFrames()
     PlayerFrame.PlayerFrameContainer.PlayerPortrait:Show()
     PlayerFrame.PlayerFrameContainer.FrameFlash:SetTexture("")
     PlayerFrame.PlayerFrameContainer.VehicleFrameTexture:Hide()
+    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
+        .PlayerPortraitCornerIcon:Hide()
+    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
+        .PlayerPortraitCornerIcon:Hide()
+    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigeBadge:Hide()
+    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigePortrait:Hide()
 
     TargetFrame.TargetFrameContainer.FrameTexture:Hide()
     TargetFrame.TargetFrameContainer.PortraitMask:Hide()
     TargetFrame.TargetFrameContainer.Flash:SetTexture("")
     TargetFrame.TargetFrameContainer.BossPortraitFrameTexture:Hide()
-    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
-        .PlayerPortraitCornerIcon:Hide()
-    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
-        .PlayerPortraitCornerIcon:Hide()
-
-    hooksecurefunc("PlayerFrame_UpdateStatus", function()
-        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
-            .PlayerPortraitCornerIcon:Hide()
-        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
-            .PlayerPortraitCornerIcon:Hide()
-        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
-            .PrestigeBadge:Hide()
-        PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
-            .PrestigePortrait:Hide()
-    end)
+    TargetFrame.TargetFrameContent.TargetFrameContentContextual.PrestigeBadge:Hide()
+    TargetFrame.TargetFrameContent.TargetFrameContentContextual.PrestigePortrait:Hide()
 end
 
-C_Timer.After(2, function()
-    if SettingsInitialized and
-        zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting then
-        HidePlayerAndTargetFrames()
-    end
+local function HookStatusUpdate()
+    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
+        .PlayerPortraitCornerIcon:Hide()
+    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
+        .PlayerPortraitCornerIcon:Hide()
+    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
+        .PrestigeBadge:Hide()
+    PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual
+        .PrestigePortrait:Hide()
+
+    TargetFrame.TargetFrameContent.TargetFrameContentContextual
+        .PrestigeBadge:Hide()
+    TargetFrame.TargetFrameContent.TargetFrameContentContextual
+        .PrestigePortrait:Hide()
+end
+
+local frame = CreateFrame("Frame")
+frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+frame:SetScript("OnEvent", function(self, event, ...)
+    C_Timer.After(2, function()
+        if SettingsInitialized and
+            zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting then
+            HidePlayerAndTargetFrames()
+            hooksecurefunc("PlayerFrame_UpdateStatus", HookStatusUpdate)
+            hooksecurefunc("CompactUnitFrame_UpdateStatusText", HookStatusUpdate)
+        end
+    end)
 end)
 
-for key, value in pairs(UIWidgetPowerBarContainerFrame:GetChildren()) do
-    print(key, value)
-end
