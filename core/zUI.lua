@@ -69,11 +69,36 @@ Checkbox_MoveQSB:SetScript("OnClick", function(self)
 end)
 
 ---------------------------------------------------------------------------------------------------
+-- Checkbox for ChatFrameMovable
+---------------------------------------------------------------------------------------------------
+---@class Checkbox_ChatFrameMovable : CheckButton
+Checkbox_ChatFrameMovable = CreateFrame("CheckButton",
+                                        "zUIChatFrameMovableCheckbox",
+                                        GeneralPage,
+                                        "ChatConfigCheckButtonTemplate")
+local chatFrameMovableCheckbox = Checkbox_ChatFrameMovable:CreateFontString(nil,
+                                                                            "OVERLAY",
+                                                                            "GameFontNormal")
+chatFrameMovableCheckbox:SetPoint("LEFT", Checkbox_ChatFrameMovable, "RIGHT",
+                                  20, 0)
+chatFrameMovableCheckbox:SetText("Chat Frame Movable")
+Checkbox_ChatFrameMovable:SetPoint("TOPLEFT", 20, -120)
+Checkbox_ChatFrameMovable.tooltip =
+    "Enable or disable moving of the chat frame. (After moving can be turned off. Position is saved.)"
+Checkbox_ChatFrameMovable:SetChecked(zUI_SavedSettings[PlayerIdentifier]
+                                         .ChatFrameMovableSetting)
+
+Checkbox_ChatFrameMovable:SetScript("OnClick", function(self)
+    zUI_SavedSettings[PlayerIdentifier].ChatFrameMovableSetting =
+        self:GetChecked()
+end)
+
+---------------------------------------------------------------------------------------------------
 -- Text on General Page
 ---------------------------------------------------------------------------------------------------
 local headerMenuLabel = GeneralPage:CreateFontString(nil, "OVERLAY",
                                                      "GameFontNormal")
-headerMenuLabel:SetPoint("TOPLEFT", 20, -130)
+headerMenuLabel:SetPoint("TOPLEFT", 20, -170)
 headerMenuLabel:SetText("Auto Collapse On Loading Screens")
 
 ---------------------------------------------------------------------------------------------------
@@ -86,7 +111,7 @@ local headerMenuCheckbox = Checkbox_HeaderMenu:CreateFontString(nil, "OVERLAY",
                                                                 "GameFontNormal")
 headerMenuCheckbox:SetPoint("LEFT", Checkbox_HeaderMenu, "RIGHT", 20, 0)
 headerMenuCheckbox:SetText("Entire Objective Tracker")
-Checkbox_HeaderMenu:SetPoint("TOPLEFT", 20, -150)
+Checkbox_HeaderMenu:SetPoint("TOPLEFT", 20, -190)
 Checkbox_HeaderMenu.tooltip =
     "Minimize the entire Objective Tracker on loading screens."
 Checkbox_HeaderMenu:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -110,7 +135,7 @@ local campaignQuestHeaderCheckbox =
 campaignQuestHeaderCheckbox:SetPoint("LEFT", Checkbox_CampaignQuestHeader,
                                      "RIGHT", 20, 0)
 campaignQuestHeaderCheckbox:SetText("Campaign Quest")
-Checkbox_CampaignQuestHeader:SetPoint("TOPLEFT", 20, -180)
+Checkbox_CampaignQuestHeader:SetPoint("TOPLEFT", 20, -220)
 Checkbox_CampaignQuestHeader.tooltip =
     "Minimize the campaign quest header of the Objective Tracker on loading screens."
 Checkbox_CampaignQuestHeader:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -132,7 +157,7 @@ local questSectionCheckbox = Checkbox_QuestSection:CreateFontString(nil,
                                                                     "GameFontNormal")
 questSectionCheckbox:SetPoint("LEFT", Checkbox_QuestSection, "RIGHT", 20, 0)
 questSectionCheckbox:SetText("Quest Section")
-Checkbox_QuestSection:SetPoint("TOPLEFT", 20, -210)
+Checkbox_QuestSection:SetPoint("TOPLEFT", 20, -250)
 Checkbox_QuestSection.tooltip =
     "Minimize the quest section of the Objective Tracker on loading screens."
 Checkbox_QuestSection:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -155,7 +180,7 @@ local achievementHeaderCheckbox = Checkbox_AchievementHeader:CreateFontString(
 achievementHeaderCheckbox:SetPoint("LEFT", Checkbox_AchievementHeader, "RIGHT",
                                    20, 0)
 achievementHeaderCheckbox:SetText("Achievement")
-Checkbox_AchievementHeader:SetPoint("TOPLEFT", 20, -240)
+Checkbox_AchievementHeader:SetPoint("TOPLEFT", 20, -280)
 Checkbox_AchievementHeader.tooltip =
     "Minimize the achievement header of the Objective Tracker on loading screens."
 Checkbox_AchievementHeader:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -178,7 +203,7 @@ local scenarioHeaderCheckbox = Checkbox_ScenarioHeader:CreateFontString(nil,
                                                                         "GameFontNormal")
 scenarioHeaderCheckbox:SetPoint("LEFT", Checkbox_ScenarioHeader, "RIGHT", 20, 0)
 scenarioHeaderCheckbox:SetText("Scenario")
-Checkbox_ScenarioHeader:SetPoint("TOPLEFT", 20, -270)
+Checkbox_ScenarioHeader:SetPoint("TOPLEFT", 20, -310)
 Checkbox_ScenarioHeader.tooltip =
     "Minimize the scenario header of the Objective Tracker on loading screens."
 Checkbox_ScenarioHeader:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -203,7 +228,7 @@ local adventureHeaderCheckbox = Checkbox_AdventureHeader:CreateFontString(nil,
 adventureHeaderCheckbox:SetPoint("LEFT", Checkbox_AdventureHeader, "RIGHT", 20,
                                  0)
 adventureHeaderCheckbox:SetText("Adventure")
-Checkbox_AdventureHeader:SetPoint("TOPLEFT", 20, -300)
+Checkbox_AdventureHeader:SetPoint("TOPLEFT", 20, -340)
 Checkbox_AdventureHeader.tooltip =
     "Minimize the adventure header of the Objective Tracker on loading screens."
 Checkbox_AdventureHeader:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -228,7 +253,7 @@ local worldQuestHeaderCheckbox = Checkbox_WorldQuestHeader:CreateFontString(nil,
 worldQuestHeaderCheckbox:SetPoint("LEFT", Checkbox_WorldQuestHeader, "RIGHT",
                                   20, 0)
 worldQuestHeaderCheckbox:SetText("World Quest")
-Checkbox_WorldQuestHeader:SetPoint("TOPLEFT", 20, -330)
+Checkbox_WorldQuestHeader:SetPoint("TOPLEFT", 20, -370)
 Checkbox_WorldQuestHeader.tooltip =
     "Minimize the world quest header of the Objective Tracker on loading screens."
 Checkbox_WorldQuestHeader:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -236,28 +261,6 @@ Checkbox_WorldQuestHeader:SetChecked(zUI_SavedSettings[PlayerIdentifier]
 
 Checkbox_WorldQuestHeader:SetScript("OnClick", function(self)
     zUI_SavedSettings[PlayerIdentifier].WorldQuestHeaderSetting =
-        self:GetChecked()
-end)
-
----@class Checkbox_ChatFrameMovable : CheckButton
-Checkbox_ChatFrameMovable = CreateFrame("CheckButton",
-                                        "zUIChatFrameMovableCheckbox",
-                                        GeneralPage,
-                                        "ChatConfigCheckButtonTemplate")
-local chatFrameMovableCheckbox = Checkbox_ChatFrameMovable:CreateFontString(nil,
-                                                                            "OVERLAY",
-                                                                            "GameFontNormal")
-chatFrameMovableCheckbox:SetPoint("LEFT", Checkbox_ChatFrameMovable, "RIGHT",
-                                  20, 0)
-chatFrameMovableCheckbox:SetText("Chat Frame Movable")
-Checkbox_ChatFrameMovable:SetPoint("TOPLEFT", 20, -360)
-Checkbox_ChatFrameMovable.tooltip =
-    "Enable or disable moving of the chat frame. (After moving can be turned off. Position is saved.)"
-Checkbox_ChatFrameMovable:SetChecked(zUI_SavedSettings[PlayerIdentifier]
-                                         .ChatFrameMovableSetting)
-
-Checkbox_ChatFrameMovable:SetScript("OnClick", function(self)
-    zUI_SavedSettings[PlayerIdentifier].ChatFrameMovableSetting =
         self:GetChecked()
 end)
 
@@ -1987,7 +1990,7 @@ frame:SetScript("OnEvent", function(self, event, ...)
 end)
 
 ---------------------------------------------------------------------------------------------------
--- Move the BNToastFrame
+-- Move the BNToastFrame <- don't think it's working
 ---------------------------------------------------------------------------------------------------
 BNToastFrame:ClearAllPoints();
 BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPLEFT", 0, 0)

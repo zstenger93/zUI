@@ -234,3 +234,8 @@ zUIOptionsButton:SetScript("OnClick", function()
     ZUI_Panel:Show()
     ToggleGameMenu()
 end)
+
+---------------------------------------------------------------------------------------------------
+-- Add the addon to the list of special frames so that it can be closed with the escape key
+---------------------------------------------------------------------------------------------------
+table.insert(UISpecialFrames, "ZUI_Panel")
