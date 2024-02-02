@@ -9,7 +9,7 @@ Because I'm bored of slow updates and overcomplicated ui panels.
 
 God damnit if I want something overcomplicated I'll start to customize vim
 
-Use `/zui` to show the settings panel (every setting is character specific)
+Use `/zui` or `ESC` -> `zUI Settings` to show the settings panel (every setting is character specific)
 
 ## Currently available settings
 
