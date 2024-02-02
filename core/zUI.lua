@@ -1986,3 +1986,8 @@ frame:SetScript("OnEvent", function(self, event, ...)
     end)
 end)
 
+---------------------------------------------------------------------------------------------------
+-- Move the BNToastFrame
+---------------------------------------------------------------------------------------------------
+BNToastFrame:ClearAllPoints();
+BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPLEFT", 0, 0)
