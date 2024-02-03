@@ -10,12 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout master branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: master
 
       - name: Checkout release branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: release
           path: release
