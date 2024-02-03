@@ -1556,6 +1556,12 @@ actionBarMod:SetScript("OnEvent", function(self, event, ...)
                         button.wasDragging = true
                     elseif not GetCursorInfo() and button.wasDragging then
                         button:GetNormalTexture():Hide()
+                        local buttonName = button:GetName()
+
+                        if buttonName:find("^MultiBarLeftButton") or
+                            buttonName:find("^MultiBarRightButton") then
+                            button:Hide()
+                        end
                         button.wasDragging = false
                     end
                 end)
@@ -1634,8 +1640,8 @@ DragCheckFrameActionBar4:SetScript("OnUpdate", function()
             button:GetNormalTexture():Show()
             button.wasDragging = true
         elseif not GetCursorInfo() and button.wasDragging then
-            button:Hide()
             button:GetNormalTexture():Hide()
+            button:Hide()
             button.wasDragging = false
         end
     end
@@ -1712,8 +1718,8 @@ DragCheckFrameActionBar5:SetScript("OnUpdate", function()
             button:GetNormalTexture():Show()
             button.wasDragging = true
         elseif not GetCursorInfo() and button.wasDragging then
-            button:Hide()
             button:GetNormalTexture():Hide()
+            button:Hide()
             button.wasDragging = false
         end
     end
@@ -1752,16 +1758,17 @@ HideBarWhenSpellbookClosed("MultiBarRightButton",
 ---------------------------------------------------------------------------------------------------
 function HideBarWhenTalentFrameClosed(barName, barSetting)
     if SettingsInitialized and not barSetting then return end
-    local frameState = {talentFrameWasOpen = false}
+    local frameState = {talentFrameWasOpen = false, spellbookWasOpen = false}
 
     hooksecurefunc("ToggleTalentFrame", function()
-        if frameState.talentFrameWasOpen then
+        if frameState.talentFrameWasOpen and not frameState.spellbookWasOpen then
             for i = 1, 12 do
                 local button = _G[barName .. i]
                 if button then button:Hide() end
             end
         end
         frameState.talentFrameWasOpen = not frameState.talentFrameWasOpen
+        frameState.spellbookWasOpen = SpellBookFrame:IsShown()
     end)
 end
 
