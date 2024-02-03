@@ -51,22 +51,23 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
             });
+            echo releases[0].tag_name;
             return releases[0].tag_name; 
       - name: Compare versions and create release
-        id: create_release
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const semver = require('semver');
-            const newVersion = "${{ steps.extract_version.outputs.version }}";
-            const latestReleaseVersion = "${{ steps.latest_release.outputs.result }}".replace('zUI-v', '');
-            if (semver.gt(newVersion, latestReleaseVersion)) {
-              await github.repos.createRelease({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                tag_name: `zUI-v${newVersion}-beta`,
-                name: `zUI-v${newVersion}`,
-                draft: false,
-                prerelease: false,
-              });
-            }
+      id: create_release
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const semver = require('semver');
+          const newVersion = "${{ steps.extract_version.outputs.version }}";
+          const latestReleaseVersion = "${{ steps.latest_release.outputs.result.replace('zUI-v', '') }}";
+          if (semver.gt(newVersion, latestReleaseVersion)) {
+            await github.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: `zUI-v${newVersion}-beta`,
+              name: `zUI-v${newVersion}`,
+              draft: false,
+              prerelease: false,
+            });
+          }
