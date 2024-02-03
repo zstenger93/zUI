@@ -59,6 +59,8 @@ jobs:
           script: |
             const newVersion = "${{ steps.extract_version.outputs.version }}";
             const latestReleaseVersion = `${{ steps.latest_release.outputs.result }}`.replace('zUI-v', '').replace('-beta', '').replace(/"/g, '');
+            console.log(`newVersion: ${newVersion}`);
+            console.log(`latestReleaseVersion: ${latestReleaseVersion}`);
           
             function compareVersions(v1, v2) {
               const v1Parts = v1.split('.').map(Number);
@@ -74,6 +76,8 @@ jobs:
           
               return false;
             }
+            
+            console.log(`compareVersions result: ${compareVersions(newVersion, latestReleaseVersion)}`);
           
             if (compareVersions(newVersion, latestReleaseVersion)) {
               await github.repos.createRelease({
