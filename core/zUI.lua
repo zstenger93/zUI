@@ -980,46 +980,51 @@ end)
 -- Show the target's name and realm in the tooltip
 ---------------------------------------------------------------------------------------------------
 --[[
+    Class type color for the target's name in the tooltip
     Show the target's item level in the tooltip if available <--- NOT WORKING YET
-    Clas type color for the target's name is not working yet <--- NOT WORKING YET
-    for some reason, but it's not that important atm
 ]]
 local classColors = {
-    ["Warrior"] = {r = 0.78, g = 0.61, b = 0.43},
-    ["Paladin"] = {r = 0.96, g = 0.55, b = 0.73},
-    ["Hunter"] = {r = 0.67, g = 0.83, b = 0.45},
-    ["Rogue"] = {r = 1.00, g = 0.96, b = 0.41},
-    ["Priest"] = {r = 1.00, g = 1.00, b = 1.00},
-    ["Death Knight"] = {r = 0.77, g = 0.12, b = 0.23},
-    ["Shaman"] = {r = 0.00, g = 0.44, b = 0.87},
-    ["Mage"] = {r = 0.41, g = 0.8, b = 0.94},
-    ["Warlock"] = {r = 0.58, g = 0.51, b = 0.79},
-    ["Monk"] = {r = 0.00, g = 1.00, b = 0.59},
-    ["Druid"] = {r = 1.00, g = 0.49, b = 0.04},
-    ["Demon Hunter"] = {r = 0.64, g = 0.19, b = 0.79}
+    ["WARRIOR"] = {r = 0.78, g = 0.61, b = 0.43},
+    ["PALADIN"] = {r = 0.96, g = 0.55, b = 0.73},
+    ["HUNTER"] = {r = 0.67, g = 0.83, b = 0.45},
+    ["ROGUE"] = {r = 1.00, g = 0.96, b = 0.41},
+    ["PRIEST"] = {r = 1.00, g = 1.00, b = 1.00},
+    ["DEATHKNIGHT"] = {r = 0.77, g = 0.12, b = 0.23},
+    ["SHAMAN"] = {r = 0.00, g = 0.44, b = 0.87},
+    ["MAGE"] = {r = 0.41, g = 0.8, b = 0.94},
+    ["WARLOCK"] = {r = 0.58, g = 0.51, b = 0.79},
+    ["MONK"] = {r = 0.00, g = 1.00, b = 0.59},
+    ["DRUID"] = {r = 1.00, g = 0.49, b = 0.04},
+    ["DEMONHUNTER"] = {r = 0.64, g = 0.19, b = 0.79},
+    ["EVOKER"] = {r = 0.20, g = 0.58, b = 0.50}
 }
 local lastTarget = nil
 GameTooltip:HookScript("OnTooltipCleared", function(self) lastTarget = nil end)
+
+local function RGBToHex(color)
+    local r = color.r * 255
+    local g = color.g * 255
+    local b = color.b * 255
+    return string.format("FF%02X%02X%02X", r, g, b)
+end
 
 GameTooltip:HookScript("OnUpdate", function(self)
     local _, unit = self:GetUnit()
     if SettingsInitialized and unit then
         local target = unit .. "target"
-        local targetName, targetRealm = UnitName(unit)
-        local _, targetClass = UnitClass(unit)
+        local targetName, targetRealm = UnitName(target)
+        local _, targetClass = UnitClass(target)
         local color = classColors[targetClass] or {r = 1, g = 1, b = 1}
+        local colorCode = RGBToHex(color)
+        local coloredTargetName =
+            targetName and "|c" .. colorCode .. targetName .. "|r" or ""
         local realmString = targetRealm and "-" .. targetRealm or ""
-        local targetInfo = targetName .. realmString
-
-        -- local avgItemLevel = GetAverageItemLevel()
-        -- local itemLevelInfo = avgItemLevel and "iLvl: " .. avgItemLevel or ""
+        local targetInfo = coloredTargetName .. realmString
 
         if targetInfo ~= lastTarget then
             self:AddLine(" ", 1, 1, 1)
-            -- self:AddLine(itemLevelInfo, color.r, color.g, color.b)
             if UnitExists(target) then
-                self:AddDoubleLine("Target: ", targetInfo, color.r, color.g,
-                                   color.b)
+                self:AddDoubleLine("Target: ", targetInfo)
             end
             self:Show()
             lastTarget = targetInfo
