@@ -1997,5 +1997,8 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Move the BNToastFrame <- don't think it's working
 ---------------------------------------------------------------------------------------------------
-BNToastFrame:ClearAllPoints();
-BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPLEFT", 0, 0)
+-- this is not working as it supposed to be
+ChatFrame1Tab:HookScript("OnUpdate", function()
+    BNToastFrame:ClearAllPoints();
+    BNToastFrame:SetPoint("BOTTOMRIGHT", ChatFrame1Tab, "TOPRIGHT", 0, 0)
+end)
