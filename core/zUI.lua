@@ -1949,6 +1949,7 @@ end)
 -- Player, Target, Target of Target, Party, Pet frame modifications
 ---------------------------------------------------------------------------------------------------
 function HidePlayerAndTargetFrames()
+    -- Player frame
     PlayerFrame.PlayerFrameContainer.PlayerPortraitMask:Hide()
     PlayerFrame.PlayerFrameContainer.FrameTexture:SetTexture("")
     PlayerFrame.PlayerFrameContainer.PlayerPortrait:Show()
@@ -1961,12 +1962,28 @@ function HidePlayerAndTargetFrames()
     PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigeBadge:Hide()
     PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigePortrait:Hide()
 
+    -- Target frame
     TargetFrame.TargetFrameContainer.FrameTexture:Hide()
     TargetFrame.TargetFrameContainer.PortraitMask:Hide()
     TargetFrame.TargetFrameContainer.Flash:SetTexture("")
     TargetFrame.TargetFrameContainer.BossPortraitFrameTexture:Hide()
     TargetFrame.TargetFrameContent.TargetFrameContentContextual.PrestigeBadge:Hide()
     TargetFrame.TargetFrameContent.TargetFrameContentContextual.PrestigePortrait:Hide()
+
+    -- Target of Target frame
+    TargetFrameToT.FrameTexture:Hide()
+
+    -- Focus frame
+    FocusFrame.TargetFrameContainer.FrameTexture:Hide()
+
+    -- Pet frame
+    PetFrameTexture:Hide()
+
+    -- Party frames
+    PartyFrame.MemberFrame1.Texture:Hide()
+    PartyFrame.MemberFrame2.Texture:Hide()
+    PartyFrame.MemberFrame3.Texture:Hide()
+    PartyFrame.MemberFrame4.Texture:Hide()
 end
 
 local function HookStatusUpdate()
