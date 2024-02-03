@@ -513,10 +513,10 @@ local hidePlayerAndTargetFramesCheckbox =
 hidePlayerAndTargetFramesCheckbox:SetPoint("LEFT",
                                            Checkbox_HidePlayerAndTargetFrames,
                                            "RIGHT", 20, 0)
-hidePlayerAndTargetFramesCheckbox:SetText("Player and Target Frames")
+hidePlayerAndTargetFramesCheckbox:SetText("Unit Frame textures")
 Checkbox_HidePlayerAndTargetFrames:SetPoint("TOPLEFT", 250, -250)
 Checkbox_HidePlayerAndTargetFrames.tooltip =
-    "Hide Player and Target Frame textures and prestigue banners."
+    "Hide Player, Target, Pet, Party, Target of Target Frame textures and prestigue banners."
 Checkbox_HidePlayerAndTargetFrames:SetChecked(
     zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting)
 
