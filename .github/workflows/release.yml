@@ -20,6 +20,8 @@ jobs:
 
       - name: Delete everything
         run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
           git rm -rf .
           git commit -m "Clear release branch"
 
