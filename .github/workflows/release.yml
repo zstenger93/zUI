@@ -58,7 +58,7 @@ jobs:
         with:
           script: |
             const newVersion = "${{ steps.extract_version.outputs.version }}";
-            const latestReleaseVersion = `${{ steps.latest_release.outputs.result }}`.replace('zUI-v', '').replace('-beta', '');
+            const latestReleaseVersion = `${{ steps.latest_release.outputs.result }}`.replace('zUI-v', '').replace('-beta', '').replace(/"/g, '');
             console.log(`newVersion: ${newVersion}`);
             console.log(`latestReleaseVersion: ${latestReleaseVersion}`);
           
