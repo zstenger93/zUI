@@ -1,0 +1,30 @@
+name: zUI release
+
+on:
+    push:
+        branches:
+            - release
+
+jobs:
+    merge:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: xxxxxxxxxxxxxxxx@xx
+            - name: Set up Node.js
+              uses: xxxxxxxxxxxxxxxxxx@xx
+              with:
+                  node-version: 14
+            - name: Install dependencies
+              run: npm install
+            - name: Build
+              run: npm run build
+            - name: Release
+              uses: xxxxxxxxxxxxxxxxxxxxxxxxxxx@xx
+              with:
+                  files: dist/*
+                  tag_name: ${{ github.ref }}
+                  release_name: ${{ github.ref }}
+                  body: ${{ github.ref }}
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
