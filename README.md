@@ -32,6 +32,7 @@ Use `/zui` or `ESC` -> `zUI Settings` to show the settings panel (every setting 
     - Achievements
     - Scenario
     - Adventure
+    - World Quest
 - Hide / Show Permanently
     - Reputation Bar
     - XP bar
