@@ -59,7 +59,7 @@ jobs:
           script: |
             const semver = require('semver');
             const newVersion = "${{ steps.extract_version.outputs.version }}";
-            const latestReleaseVersion = "${{ steps.latest_release.outputs.result }}".replace('zUI-v', '');
+            const latestReleaseVersion = `${{ steps.latest_release.outputs.result }}`.replace('zUI-v', '');
             if (semver.gt(newVersion, latestReleaseVersion)) {
               await github.repos.createRelease({
                 owner: context.repo.owner,
