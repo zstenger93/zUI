@@ -1,3 +1,5 @@
+_VERSION = "1.0.9"
+
 SettingsInitialized = false
 ---------------------------------------------------------------------------------------------------
 -- create tables and enable multichar settings
