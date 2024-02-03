@@ -64,8 +64,8 @@ jobs:
               await github.repos.createRelease({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                tag_name: `zUI-v${newVersion}-beta`,
-                name: `zUI-v${newVersion}`,
+                tag_name: "zUI-v" + newVersion + "-beta",
+                name: "zUI-v" + newVersion,
                 draft: false,
                 prerelease: false,
               });
