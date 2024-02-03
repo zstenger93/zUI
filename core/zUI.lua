@@ -1946,7 +1946,7 @@ playerFrame:SetScript("OnEvent", function(self, event, ...)
 end)
 
 ---------------------------------------------------------------------------------------------------
--- Player frame modifications
+-- Player, Target, Target of Target, Party, Pet frame modifications
 ---------------------------------------------------------------------------------------------------
 function HidePlayerAndTargetFrames()
     PlayerFrame.PlayerFrameContainer.PlayerPortraitMask:Hide()
@@ -2002,3 +2002,7 @@ ChatFrame1Tab:HookScript("OnUpdate", function()
     BNToastFrame:ClearAllPoints();
     BNToastFrame:SetPoint("BOTTOMRIGHT", ChatFrame1Tab, "TOPRIGHT", 0, 0)
 end)
+
+---------------------------------------------------------------------------------------------------
+-- Raid frame modifications
+---------------------------------------------------------------------------------------------------
