@@ -58,7 +58,7 @@ jobs:
         with:
           script: |
             const newVersion = "${{ steps.extract_version.outputs.version }}";
-            const latestReleaseVersion = `${{ steps.latest_release.outputs.result }}`.replace('zUI-v', '');
+            const latestReleaseVersion = `${{ steps.latest_release.outputs.result }}`.replace('zUI-v', '').replace('-beta', '');
           
             function compareVersions(v1, v2) {
               const v1Parts = v1.split('.').map(Number);
