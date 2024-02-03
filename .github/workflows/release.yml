@@ -18,9 +18,17 @@ jobs:
         run: |
           git checkout release
 
+      - name: Delete everything
+        run: |
+          git rm -rf .
+          git commit -m "Clear release branch"
+
       - name: Pull latest changes from master branch
         run: |
-          git pull --strategy=merge origin master
+          git checkout master
+          git pull origin master
+          git checkout release
+          git merge master --allow-unrelated-histories -X theirs
 
       - name: Remove .gitignore and .github
         run: |
