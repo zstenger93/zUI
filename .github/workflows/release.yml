@@ -1,30 +1,31 @@
-name: zUI release
+name: Merge on push to master branch
 
 on:
-    push:
-        branches:
-            - release
+  push:
+    branches:
+      - master
 
 jobs:
-    merge:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: xxxxxxxxxxxxxxxx@xx
-            - name: Set up Node.js
-              uses: xxxxxxxxxxxxxxxxxx@xx
-              with:
-                  node-version: 14
-            - name: Install dependencies
-              run: npm install
-            - name: Build
-              run: npm run build
-            - name: Release
-              uses: xxxxxxxxxxxxxxxxxxxxxxxxxxx@xx
-              with:
-                  files: dist/*
-                  tag_name: ${{ github.ref }}
-                  release_name: ${{ github.ref }}
-                  body: ${{ github.ref }}
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout master branch
+        uses: actions/checkout@v2
+        with:
+          ref: master
+
+      - name: Checkout release branch
+        uses: actions/checkout@v2
+        with:
+          ref: release
+          path: release
+
+      - name: Copy files
+        run: |
+          rsync -av --progress . release --exclude .gitignore --exclude .github
+          cd release
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Merge changes from master branch" || echo "No changes to commit"
+          git push origin release
