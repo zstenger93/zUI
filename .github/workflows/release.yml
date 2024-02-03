@@ -20,7 +20,7 @@ jobs:
 
       - name: Pull latest changes from master branch
         run: |
-          git pull origin master
+          git pull --strategy=merge origin master
 
       - name: Remove .gitignore and .github
         run: |
