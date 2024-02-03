@@ -80,7 +80,7 @@ jobs:
             console.log(`compareVersions result: ${compareVersions(newVersion, latestReleaseVersion)}`);
           
             if (compareVersions(newVersion, latestReleaseVersion)) {
-              await github.repos.createRelease({
+              await github.rest.repos.createRelease({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 tag_name: "zUI-v" + newVersion + "-beta",
