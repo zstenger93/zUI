@@ -9,23 +9,24 @@ jobs:
   merge:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout master branch
+      - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          ref: master
 
-      - name: Checkout release branch
-        uses: actions/checkout@v4
-        with:
-          ref: release
-          path: release
-
-      - name: Copy files
+      - name: Switch to release branch
         run: |
-          rsync -av --progress . release --exclude .gitignore --exclude .github
-          cd release
+          git checkout release
+
+      - name: Pull latest changes from master branch
+        run: |
+          git pull origin master
+
+      - name: Remove .gitignore and .github
+        run: |
+          git rm -r --cached .gitignore .github
+
+      - name: Commit and push changes
+        run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add .
           git commit -m "New release" || echo "No changes to commit"
           git push origin release
