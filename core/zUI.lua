@@ -1748,6 +1748,31 @@ HideBarWhenSpellbookClosed("MultiBarRightButton",
                                .multiBarRightSetting)
 
 ---------------------------------------------------------------------------------------------------
+-- Hide mouseover bars when the talent frame has been closed after opening it
+---------------------------------------------------------------------------------------------------
+function HideBarWhenTalentFrameClosed(barName, barSetting)
+    if SettingsInitialized and not barSetting then return end
+    local frameState = {talentFrameWasOpen = false}
+
+    hooksecurefunc("ToggleTalentFrame", function()
+        if frameState.talentFrameWasOpen then
+            for i = 1, 12 do
+                local button = _G[barName .. i]
+                if button then button:Hide() end
+            end
+        end
+        frameState.talentFrameWasOpen = not frameState.talentFrameWasOpen
+    end)
+end
+
+HideBarWhenTalentFrameClosed("MultiBarLeftButton",
+                             zUI_SavedSettings[PlayerIdentifier]
+                                 .multiBarLeftSetting)
+HideBarWhenTalentFrameClosed("MultiBarRightButton",
+                             zUI_SavedSettings[PlayerIdentifier]
+                                 .multiBarRightSetting)
+
+---------------------------------------------------------------------------------------------------
 -- Hide the Objective Tracker Artwork
 ---------------------------------------------------------------------------------------------------
 local HideObjectiveTrackerArtwork = CreateFrame("Frame")
@@ -1933,9 +1958,18 @@ end
 
 local playerFrame = CreateFrame("Frame")
 playerFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+playerFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
 playerFrame:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         C_Timer.After(2, function()
+            if SettingsInitialized then
+                for i = 1, NUM_CHAT_WINDOWS do
+                    MakeChatFrameDraggableToCorner(_G["ChatFrame" .. i])
+                end
+            end
+        end)
+    elseif event == "PLAYER_TALENT_UPDATE" then
+        C_Timer.After(0.5, function()
             if SettingsInitialized then
                 for i = 1, NUM_CHAT_WINDOWS do
                     MakeChatFrameDraggableToCorner(_G["ChatFrame" .. i])
@@ -2017,7 +2051,7 @@ end)
 -- this is not working as it supposed to be
 ChatFrame1Tab:HookScript("OnUpdate", function()
     BNToastFrame:ClearAllPoints();
-    BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 0, 0)
+    BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 30, 0)
 end)
 
 ---------------------------------------------------------------------------------------------------
