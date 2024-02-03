@@ -57,10 +57,25 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const semver = require('semver');
             const newVersion = "${{ steps.extract_version.outputs.version }}";
             const latestReleaseVersion = `${{ steps.latest_release.outputs.result }}`.replace('zUI-v', '');
-            if (semver.gt(newVersion, latestReleaseVersion)) {
+          
+            function compareVersions(v1, v2) {
+              const v1Parts = v1.split('.').map(Number);
+              const v2Parts = v2.split('.').map(Number);
+          
+              for (let i = 0; i < v1Parts.length; i++) {
+                if (v1Parts[i] > v2Parts[i]) {
+                  return true;
+                } else if (v1Parts[i] < v2Parts[i]) {
+                  return false;
+                }
+              }
+          
+              return false;
+            }
+          
+            if (compareVersions(newVersion, latestReleaseVersion)) {
               await github.repos.createRelease({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
