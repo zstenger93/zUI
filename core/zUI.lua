@@ -797,13 +797,17 @@ HideChatFrameObject:RegisterEvent("PLAYER_REGEN_DISABLED")
 HideChatFrameObject:RegisterEvent("PLAYER_REGEN_ENABLED")
 
 HideChatFrameObject:SetScript("OnEvent", function(self, event)
-    if SettingsInitialized and event == "PLAYER_REGEN_DISABLED" then
+    if SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].HideChatFrameSetting and event ==
+        "PLAYER_REGEN_DISABLED" then
         local status, error = pcall(function()
             GeneralDockManager:Hide()
             ChatFrame1:Hide()
         end)
         if not status then zUI:Print(error) end
-    elseif SettingsInitialized and event == "PLAYER_REGEN_ENABLED" then
+    elseif SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].HideChatFrameSetting and event ==
+        "PLAYER_REGEN_ENABLED" then
         local status, error = pcall(function()
             GeneralDockManager:Show()
             ChatFrame1:Show()
