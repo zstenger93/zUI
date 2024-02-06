@@ -71,6 +71,8 @@ initializeSettingsIfNewTable:SetScript("OnEvent", function(self, event)
             false
         zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting =
             false
+        zUI_SavedSettings[PlayerIdentifier].CustomDruidCatFormComboPointsSetting =
+            false
         SettingsInitialized = true
     else
         SettingsInitialized = true
@@ -201,6 +203,9 @@ function UpdateCheckboxes()
         Checkbox_CustomWarlockSoulShards:SetChecked(
             zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting or
                 false)
+        Checkbox_CustomDruidCatForm:SetChecked(
+            zUI_SavedSettings[PlayerIdentifier]
+                .CustomDruidCatFormComboPointsSetting or false)
     end
 end
 

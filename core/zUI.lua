@@ -762,6 +762,37 @@ else
     Checkbox_CustomWarlockSoulShards:Disable()
 end
 
+---------------------------------------------------------------------------------------------------
+-- Checkbox for customizing Druid Cat Form
+---------------------------------------------------------------------------------------------------
+---@class Checkbox_CustomDruidCatForm : CheckButton
+Checkbox_CustomDruidCatForm = CreateFrame("CheckButton",
+                                          "zUICustomDruidCatFormCheckbox",
+                                          ClassPage,
+                                          "ChatConfigCheckButtonTemplate")
+local druidCatFormCheckbox =
+    Checkbox_CustomDruidCatForm:CreateFontString(nil, "OVERLAY",
+                                                 "GameFontNormal")
+druidCatFormCheckbox:SetPoint("LEFT", Checkbox_CustomDruidCatForm,
+                              "RIGHT", 20, 0)
+druidCatFormCheckbox:SetText("Custom Druid Cat Form")
+Checkbox_CustomDruidCatForm:SetPoint("TOPLEFT", 20, -90)
+Checkbox_CustomDruidCatForm.tooltip =
+    "Customize the appearance of the Druid Cat Form."
+local _, druid = UnitClass("player")
+if druid == "DRUID" then
+    Checkbox_CustomDruidCatForm:SetChecked(
+        zUI_SavedSettings[PlayerIdentifier].CustomDruidCatFormComboPointsSetting)
+
+    Checkbox_CustomDruidCatForm:SetScript("OnClick", function(self)
+        zUI_SavedSettings[PlayerIdentifier].CustomDruidCatFormComboPointsSetting =
+            self:GetChecked()
+    end)
+else
+    Checkbox_CustomDruidCatForm:SetChecked(false)
+    Checkbox_CustomDruidCatForm:Disable()
+end
+
 ------------------------------------------------- GAME SETTINGS BELOW -------------------------------------------------
 
 ---------------------------------------------------------------------------------------------------
@@ -1453,6 +1484,79 @@ KeepWarlockSoulShardsAtPosition:SetScript("OnUpdate", function()
 end)
 
 ---------------------------------------------------------------------------------------------------
+-- Hide the Druid cat form combo points textures except the points itself and move them
+---------------------------------------------------------------------------------------------------
+local CustomDruidCatFormComboPoints = CreateFrame("Frame")
+CustomDruidCatFormComboPoints:RegisterEvent("ADDON_LOADED")
+
+CustomDruidCatFormComboPoints:SetScript("OnEvent", function(self, event, addonName)
+    C_Timer.After(2, function()
+        local _, className = UnitClass("player")
+        if className == "DRUID" and
+            zUI_SavedSettings[PlayerIdentifier].CustomDruidCatFormComboPointsSetting and
+            SettingsInitialized and event == "ADDON_LOADED" and addonName ==
+            "zUI" then
+            local catComboPoint1, catComboPoint2, catComboPoint3, catComboPoint4, catComboPoint5 =
+                DruidComboPointBarFrame:GetChildren()
+
+            if zUI_SavedSettings[PlayerIdentifier]
+                .CustomDruidCatFormComboPointsSetting then
+                catComboPoint1.BG_Active:Hide()
+                catComboPoint1.BG_Inactive:Hide()
+                catComboPoint1.BG_Shadow:Hide()
+                catComboPoint1.BG_Glow:Hide()
+                catComboPoint1.FX_RingGlow:Hide()
+                catComboPoint2.BG_Active:Hide()
+                catComboPoint2.BG_Inactive:Hide()
+                catComboPoint2.BG_Shadow:Hide()
+                catComboPoint2.BG_Glow:Hide()
+                catComboPoint2.FX_RingGlow:Hide()
+                catComboPoint3.BG_Active:Hide()
+                catComboPoint3.BG_Inactive:Hide()
+                catComboPoint3.BG_Shadow:Hide()
+                catComboPoint3.BG_Glow:Hide()
+                catComboPoint3.FX_RingGlow:Hide()
+                catComboPoint4.BG_Active:Hide()
+                catComboPoint4.BG_Inactive:Hide()
+                catComboPoint4.BG_Shadow:Hide()
+                catComboPoint4.BG_Glow:Hide()
+                catComboPoint4.FX_RingGlow:Hide()
+                catComboPoint5.BG_Active:Hide()
+                catComboPoint5.BG_Inactive:Hide()
+                catComboPoint5.BG_Shadow:Hide()
+                catComboPoint5.BG_Glow:Hide()
+                catComboPoint5.FX_RingGlow:Hide()
+                catComboPoint1:SetSize(30, 30)
+                catComboPoint2:SetSize(30, 30)
+                catComboPoint3:SetSize(30, 30)
+                catComboPoint4:SetSize(30, 30)
+                catComboPoint5:SetSize(30, 30)
+            end
+        end
+    end)
+end)
+
+local KeepDruidCatFormComboPointsAtPosition = CreateFrame("Frame")
+KeepDruidCatFormComboPointsAtPosition:SetScript("OnUpdate", function()
+    local _, className = UnitClass("player")
+    local catComboPoint1, catComboPoint2, catComboPoint3, catComboPoint4, catComboPoint5 =
+        DruidComboPointBarFrame:GetChildren()
+    if className == "DRUID" and SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].CustomDruidCatFormComboPointsSetting then
+        catComboPoint1:ClearAllPoints()
+        catComboPoint2:ClearAllPoints()
+        catComboPoint3:ClearAllPoints()
+        catComboPoint4:ClearAllPoints()
+        catComboPoint5:ClearAllPoints()
+        catComboPoint1:SetPoint("BOTTOM", ActionButton4, "TOP", 15, 10)
+        catComboPoint2:SetPoint("BOTTOM", ActionButton5, "TOP", 15, 10)
+        catComboPoint3:SetPoint("BOTTOM", ActionButton6, "TOP", 15, 10)
+        catComboPoint4:SetPoint("BOTTOM", ActionButton7, "TOP", 15, 10)
+        catComboPoint5:SetPoint("BOTTOM", ActionButton8, "TOP", 15, 10)
+    end
+end)
+
+---------------------------------------------------------------------------------------------------
 -- Check if a key binding is set for a button
 ---------------------------------------------------------------------------------------------------
 local function IsKeyBindingSet(button)
@@ -2059,12 +2163,13 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Move the BNToastFrame <- don't think it's working
 ---------------------------------------------------------------------------------------------------
--- this is not working as it supposed to be
 ChatFrame1Tab:HookScript("OnUpdate", function()
     BNToastFrame:ClearAllPoints();
     BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 30, 0)
 end)
 
 ---------------------------------------------------------------------------------------------------
--- Raid frame modifications
+-- Total amount of Honorable kills
 ---------------------------------------------------------------------------------------------------
+-- local hk, _, _ = GetPVPLifetimeStats()
+-- print("Total Honorable Kills: " .. hk)
