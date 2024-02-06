@@ -2199,6 +2199,12 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Total amount of Honorable kills
 ---------------------------------------------------------------------------------------------------
+--[[
+    Being solved in a tricky way atm, since adding all characters' HKs together
+    is not always accurate (e.g. if you deleted a char and had honorable kills on it,
+    it's still counted)
+    updating the displayed value whenever PLAYER_PVP_KILLS_CHANGED is triggered
+]]
 local TotalAmountOfHonorableKills = CreateFrame("Frame")
 TotalAmountOfHonorableKills:RegisterEvent("PLAYER_ENTERING_WORLD")
 TotalAmountOfHonorableKills:RegisterEvent("PLAYER_PVP_KILLS_CHANGED")
