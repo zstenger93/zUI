@@ -10,6 +10,10 @@ PlayerIdentifier = PlayerIdentifier or UnitName("player") .. "-" ..
                        GetRealmName()
 zUI_SavedSettings[PlayerIdentifier] = zUI_SavedSettings[PlayerIdentifier] or {}
 
+local hk, _, _ = GetPVPLifetimeStats()
+
+zUI_SavedSettings[PlayerIdentifier].HonorableKillsOnCharacter = hk
+
 function TableIsEmpty(t)
     if next(t) == nil then
         return true
@@ -71,6 +75,17 @@ initializeSettingsIfNewTable:SetScript("OnEvent", function(self, event)
             false
         zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting =
             false
+        zUI_SavedSettings[PlayerIdentifier].CustomDruidCatFormComboPointsSetting =
+            false
+        zUI_SavedSettings[PlayerIdentifier].TotalAmountOfHonorableKillsSetting =
+            false
+        zUI_SavedSettings.TotalAmountOfHonorableKills =
+            zUI_SavedSettings.TotalAmountOfHonorableKills or 0
+
+        local honorableKills, _, _ = GetPVPLifetimeStats()
+
+        zUI_SavedSettings[PlayerIdentifier].HonorableKillsOnCharacter =
+            honorableKills
         SettingsInitialized = true
     else
         SettingsInitialized = true
@@ -201,6 +216,12 @@ function UpdateCheckboxes()
         Checkbox_CustomWarlockSoulShards:SetChecked(
             zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting or
                 false)
+        Checkbox_CustomDruidCatForm:SetChecked(
+            zUI_SavedSettings[PlayerIdentifier]
+                .CustomDruidCatFormComboPointsSetting or false)
+        Checkbox_TotalAmountOfHonorableKills:SetChecked(
+            zUI_SavedSettings[PlayerIdentifier]
+                .TotalAmountOfHonorableKillsSetting or false)
     end
 end
 
