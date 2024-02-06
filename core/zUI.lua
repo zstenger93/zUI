@@ -2205,8 +2205,7 @@ TotalAmountOfHonorableKills:RegisterEvent("PLAYER_PVP_KILLS_CHANGED")
 
 local achievementID = 5363
 local criteriaID = 1
-local _, _, _, progress, quantity = GetAchievementCriteriaInfo(achievementID,
-                                                               criteriaID)
+local _, _, _, progress, quantity = 0, 0, 0, nil, nil
 
 local totalHKFrame = CreateFrame("Frame", nil, UIParent)
 totalHKFrame:SetSize(200, 20)
