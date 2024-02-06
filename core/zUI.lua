@@ -94,11 +94,37 @@ Checkbox_ChatFrameMovable:SetScript("OnClick", function(self)
 end)
 
 ---------------------------------------------------------------------------------------------------
+-- Checkbox for TotalAmountOfHonorableKills
+---------------------------------------------------------------------------------------------------
+---@class Checkbox_TotalAmountOfHonorableKills : CheckButton
+Checkbox_TotalAmountOfHonorableKills = CreateFrame("CheckButton",
+                                                   "zUITotalAmountOfHonorableKillsCheckbox",
+                                                   GeneralPage,
+                                                   "ChatConfigCheckButtonTemplate")
+local totalAmountOfHonorableKillsCheckbox =
+    Checkbox_TotalAmountOfHonorableKills:CreateFontString(nil, "OVERLAY",
+                                                          "GameFontNormal")
+totalAmountOfHonorableKillsCheckbox:SetPoint("LEFT",
+                                             Checkbox_TotalAmountOfHonorableKills,
+                                             "RIGHT", 20, 0)
+totalAmountOfHonorableKillsCheckbox:SetText("Total Amount Of Honorable Kills")
+Checkbox_TotalAmountOfHonorableKills:SetPoint("TOPLEFT", 20, -150)
+Checkbox_TotalAmountOfHonorableKills.tooltip =
+    "Enable or disable display to display total amount of honorable kills in the topleft corner."
+Checkbox_TotalAmountOfHonorableKills:SetChecked(
+    zUI_SavedSettings[PlayerIdentifier].TotalAmountOfHonorableKillsSetting)
+
+Checkbox_TotalAmountOfHonorableKills:SetScript("OnClick", function(self)
+    zUI_SavedSettings[PlayerIdentifier].TotalAmountOfHonorableKillsSetting =
+        self:GetChecked()
+end)
+
+---------------------------------------------------------------------------------------------------
 -- Text on General Page
 ---------------------------------------------------------------------------------------------------
 local headerMenuLabel = GeneralPage:CreateFontString(nil, "OVERLAY",
                                                      "GameFontNormal")
-headerMenuLabel:SetPoint("TOPLEFT", 20, -170)
+headerMenuLabel:SetPoint("TOPLEFT", 20, -190)
 headerMenuLabel:SetText("Auto Collapse On Loading Screens")
 
 ---------------------------------------------------------------------------------------------------
@@ -111,7 +137,7 @@ local headerMenuCheckbox = Checkbox_HeaderMenu:CreateFontString(nil, "OVERLAY",
                                                                 "GameFontNormal")
 headerMenuCheckbox:SetPoint("LEFT", Checkbox_HeaderMenu, "RIGHT", 20, 0)
 headerMenuCheckbox:SetText("Entire Objective Tracker")
-Checkbox_HeaderMenu:SetPoint("TOPLEFT", 20, -190)
+Checkbox_HeaderMenu:SetPoint("TOPLEFT", 20, -220)
 Checkbox_HeaderMenu.tooltip =
     "Minimize the entire Objective Tracker on loading screens."
 Checkbox_HeaderMenu:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -135,7 +161,7 @@ local campaignQuestHeaderCheckbox =
 campaignQuestHeaderCheckbox:SetPoint("LEFT", Checkbox_CampaignQuestHeader,
                                      "RIGHT", 20, 0)
 campaignQuestHeaderCheckbox:SetText("Campaign Quest")
-Checkbox_CampaignQuestHeader:SetPoint("TOPLEFT", 20, -220)
+Checkbox_CampaignQuestHeader:SetPoint("TOPLEFT", 20, -250)
 Checkbox_CampaignQuestHeader.tooltip =
     "Minimize the campaign quest header of the Objective Tracker on loading screens."
 Checkbox_CampaignQuestHeader:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -157,7 +183,7 @@ local questSectionCheckbox = Checkbox_QuestSection:CreateFontString(nil,
                                                                     "GameFontNormal")
 questSectionCheckbox:SetPoint("LEFT", Checkbox_QuestSection, "RIGHT", 20, 0)
 questSectionCheckbox:SetText("Quest Section")
-Checkbox_QuestSection:SetPoint("TOPLEFT", 20, -250)
+Checkbox_QuestSection:SetPoint("TOPLEFT", 20, -280)
 Checkbox_QuestSection.tooltip =
     "Minimize the quest section of the Objective Tracker on loading screens."
 Checkbox_QuestSection:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -180,7 +206,7 @@ local achievementHeaderCheckbox = Checkbox_AchievementHeader:CreateFontString(
 achievementHeaderCheckbox:SetPoint("LEFT", Checkbox_AchievementHeader, "RIGHT",
                                    20, 0)
 achievementHeaderCheckbox:SetText("Achievement")
-Checkbox_AchievementHeader:SetPoint("TOPLEFT", 20, -280)
+Checkbox_AchievementHeader:SetPoint("TOPLEFT", 20, -310)
 Checkbox_AchievementHeader.tooltip =
     "Minimize the achievement header of the Objective Tracker on loading screens."
 Checkbox_AchievementHeader:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -203,7 +229,7 @@ local scenarioHeaderCheckbox = Checkbox_ScenarioHeader:CreateFontString(nil,
                                                                         "GameFontNormal")
 scenarioHeaderCheckbox:SetPoint("LEFT", Checkbox_ScenarioHeader, "RIGHT", 20, 0)
 scenarioHeaderCheckbox:SetText("Scenario")
-Checkbox_ScenarioHeader:SetPoint("TOPLEFT", 20, -310)
+Checkbox_ScenarioHeader:SetPoint("TOPLEFT", 20, -340)
 Checkbox_ScenarioHeader.tooltip =
     "Minimize the scenario header of the Objective Tracker on loading screens."
 Checkbox_ScenarioHeader:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -228,7 +254,7 @@ local adventureHeaderCheckbox = Checkbox_AdventureHeader:CreateFontString(nil,
 adventureHeaderCheckbox:SetPoint("LEFT", Checkbox_AdventureHeader, "RIGHT", 20,
                                  0)
 adventureHeaderCheckbox:SetText("Adventure")
-Checkbox_AdventureHeader:SetPoint("TOPLEFT", 20, -340)
+Checkbox_AdventureHeader:SetPoint("TOPLEFT", 20, -370)
 Checkbox_AdventureHeader.tooltip =
     "Minimize the adventure header of the Objective Tracker on loading screens."
 Checkbox_AdventureHeader:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -253,7 +279,7 @@ local worldQuestHeaderCheckbox = Checkbox_WorldQuestHeader:CreateFontString(nil,
 worldQuestHeaderCheckbox:SetPoint("LEFT", Checkbox_WorldQuestHeader, "RIGHT",
                                   20, 0)
 worldQuestHeaderCheckbox:SetText("World Quest")
-Checkbox_WorldQuestHeader:SetPoint("TOPLEFT", 20, -370)
+Checkbox_WorldQuestHeader:SetPoint("TOPLEFT", 20, -400)
 Checkbox_WorldQuestHeader.tooltip =
     "Minimize the world quest header of the Objective Tracker on loading screens."
 Checkbox_WorldQuestHeader:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -770,11 +796,11 @@ Checkbox_CustomDruidCatForm = CreateFrame("CheckButton",
                                           "zUICustomDruidCatFormCheckbox",
                                           ClassPage,
                                           "ChatConfigCheckButtonTemplate")
-local druidCatFormCheckbox =
-    Checkbox_CustomDruidCatForm:CreateFontString(nil, "OVERLAY",
-                                                 "GameFontNormal")
-druidCatFormCheckbox:SetPoint("LEFT", Checkbox_CustomDruidCatForm,
-                              "RIGHT", 20, 0)
+local druidCatFormCheckbox = Checkbox_CustomDruidCatForm:CreateFontString(nil,
+                                                                          "OVERLAY",
+                                                                          "GameFontNormal")
+druidCatFormCheckbox:SetPoint("LEFT", Checkbox_CustomDruidCatForm, "RIGHT", 20,
+                              0)
 druidCatFormCheckbox:SetText("Custom Druid Cat Form")
 Checkbox_CustomDruidCatForm:SetPoint("TOPLEFT", 20, -90)
 Checkbox_CustomDruidCatForm.tooltip =
@@ -1099,7 +1125,7 @@ local fpsFrame = CreateFrame("Frame", nil, UIParent)
 fpsFrame:SetSize(100, 20)
 fpsFrame:SetPoint("TOP", 0, 0)
 
-local fpsText = fpsFrame:CreateFontString(nil, "OVERLAY")
+local fpsText = fpsFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 fpsText:SetAllPoints()
 fpsText:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
 
@@ -1489,14 +1515,16 @@ end)
 local CustomDruidCatFormComboPoints = CreateFrame("Frame")
 CustomDruidCatFormComboPoints:RegisterEvent("ADDON_LOADED")
 
-CustomDruidCatFormComboPoints:SetScript("OnEvent", function(self, event, addonName)
+CustomDruidCatFormComboPoints:SetScript("OnEvent",
+                                        function(self, event, addonName)
     C_Timer.After(2, function()
         local _, className = UnitClass("player")
         if className == "DRUID" and
-            zUI_SavedSettings[PlayerIdentifier].CustomDruidCatFormComboPointsSetting and
-            SettingsInitialized and event == "ADDON_LOADED" and addonName ==
-            "zUI" then
-            local catComboPoint1, catComboPoint2, catComboPoint3, catComboPoint4, catComboPoint5 =
+            zUI_SavedSettings[PlayerIdentifier]
+                .CustomDruidCatFormComboPointsSetting and SettingsInitialized and
+            event == "ADDON_LOADED" and addonName == "zUI" then
+            local catComboPoint1, catComboPoint2, catComboPoint3,
+                  catComboPoint4, catComboPoint5 =
                 DruidComboPointBarFrame:GetChildren()
 
             if zUI_SavedSettings[PlayerIdentifier]
@@ -1539,8 +1567,8 @@ end)
 local KeepDruidCatFormComboPointsAtPosition = CreateFrame("Frame")
 KeepDruidCatFormComboPointsAtPosition:SetScript("OnUpdate", function()
     local _, className = UnitClass("player")
-    local catComboPoint1, catComboPoint2, catComboPoint3, catComboPoint4, catComboPoint5 =
-        DruidComboPointBarFrame:GetChildren()
+    local catComboPoint1, catComboPoint2, catComboPoint3, catComboPoint4,
+          catComboPoint5 = DruidComboPointBarFrame:GetChildren()
     if className == "DRUID" and SettingsInitialized and
         zUI_SavedSettings[PlayerIdentifier].CustomDruidCatFormComboPointsSetting then
         catComboPoint1:ClearAllPoints()
@@ -2147,9 +2175,9 @@ local function HookStatusUpdate()
     TargetFrame.TargetFrameContent.TargetFrameContentContextual.PrestigePortrait:Hide()
 end
 
-local frame = CreateFrame("Frame")
-frame:RegisterEvent("PLAYER_ENTERING_WORLD")
-frame:SetScript("OnEvent", function(self, event, ...)
+local HidePlayerAndTargetFrame = CreateFrame("Frame")
+HidePlayerAndTargetFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+HidePlayerAndTargetFrame:SetScript("OnEvent", function(self, event, ...)
     C_Timer.After(2, function()
         if SettingsInitialized and
             zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting then
@@ -2171,5 +2199,87 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Total amount of Honorable kills
 ---------------------------------------------------------------------------------------------------
--- local hk, _, _ = GetPVPLifetimeStats()
--- print("Total Honorable Kills: " .. hk)
+local TotalAmountOfHonorableKills = CreateFrame("Frame")
+TotalAmountOfHonorableKills:RegisterEvent("PLAYER_ENTERING_WORLD")
+TotalAmountOfHonorableKills:RegisterEvent("PLAYER_PVP_KILLS_CHANGED")
+
+local achievementID = 5363
+local criteriaID = 1
+local _, _, _, progress, quantity = GetAchievementCriteriaInfo(achievementID,
+                                                               criteriaID)
+
+local totalHKFrame = CreateFrame("Frame", nil, UIParent)
+totalHKFrame:SetSize(200, 20)
+totalHKFrame:SetPoint("TOPLEFT", 0, 0)
+
+local totalHKText = totalHKFrame:CreateFontString(nil, "OVERLAY",
+                                                  "GameFontNormal")
+totalHKText:SetAllPoints()
+totalHKText:SetFont(STANDARD_TEXT_FONT, 14, "OUTLINE")
+
+local function RecalculateTotalHonorableKills()
+    if SettingsInitialized then
+        zUI_SavedSettings.TotalAmountOfHonorableKills = 0
+        for _, characterSettings in pairs(zUI_SavedSettings) do
+            if type(characterSettings) == "table" and
+                characterSettings.HonorableKillsOnCharacter then
+                zUI_SavedSettings.TotalAmountOfHonorableKills =
+                    zUI_SavedSettings.TotalAmountOfHonorableKills +
+                        characterSettings.HonorableKillsOnCharacter
+            end
+        end
+    end
+end
+
+TotalAmountOfHonorableKills:SetScript("OnEvent", function(self, event, ...)
+    if zUI_SavedSettings[PlayerIdentifier].TotalAmountOfHonorableKillsSetting then
+        if event == "PLAYER_ENTERING_WORLD" then
+            C_Timer.After(2, function()
+                _, _, _, progress, quantity =
+                    GetAchievementCriteriaInfo(achievementID, criteriaID)
+                if SettingsInitialized then
+                    zUI_SavedSettings.TotalAmountOfHonorableKills =
+                        zUI_SavedSettings.TotalAmountOfHonorableKills or 0
+                    zUI_SavedSettings[PlayerIdentifier]
+                        .HonorableKillsOnCharacter = GetPVPLifetimeStats()
+                    if not zUI_SavedSettings[PlayerIdentifier]
+                        .HonorableKillsAdded then
+                        zUI_SavedSettings.TotalAmountOfHonorableKills =
+                            zUI_SavedSettings.TotalAmountOfHonorableKills +
+                                zUI_SavedSettings[PlayerIdentifier]
+                                    .HonorableKillsOnCharacter
+                        zUI_SavedSettings[PlayerIdentifier].HonorableKillsAdded =
+                            true
+                    end
+                    RecalculateTotalHonorableKills()
+                    if progress > zUI_SavedSettings.TotalAmountOfHonorableKills then
+                        totalHKText:SetText("Total HK: " .. progress)
+                    else
+                        totalHKText:SetText("Total HK: " ..
+                                                zUI_SavedSettings.TotalAmountOfHonorableKills)
+                    end
+                end
+            end)
+        elseif event == "PLAYER_PVP_KILLS_CHANGED" then
+            _, _, _, progress, quantity =
+                GetAchievementCriteriaInfo(achievementID, criteriaID)
+            zUI_SavedSettings[PlayerIdentifier].HonorableKillsOnCharacter =
+                GetPVPLifetimeStats()
+            if not zUI_SavedSettings[PlayerIdentifier].HonorableKillsAdded then
+                zUI_SavedSettings.TotalAmountOfHonorableKills =
+                    zUI_SavedSettings.TotalAmountOfHonorableKills +
+                        zUI_SavedSettings[PlayerIdentifier]
+                            .HonorableKillsOnCharacter
+                zUI_SavedSettings[PlayerIdentifier].HonorableKillsAdded = true
+            end
+            RecalculateTotalHonorableKills()
+            if progress > zUI_SavedSettings.TotalAmountOfHonorableKills then
+                totalHKText:SetText("Total HK: " .. progress)
+            else
+                totalHKText:SetText("Total HK: " ..
+                                        zUI_SavedSettings.TotalAmountOfHonorableKills)
+            end
+        end
+    end
+end)
+
