@@ -1519,7 +1519,7 @@ CustomDruidCatFormComboPoints:SetScript("OnEvent",
                                         function(self, event, addonName)
     C_Timer.After(2, function()
         local _, className = UnitClass("player")
-        if className == "DRUID" and
+        if className == "DRUID" and GetShapeshiftFormID() == 1 and
             zUI_SavedSettings[PlayerIdentifier]
                 .CustomDruidCatFormComboPointsSetting and SettingsInitialized and
             event == "ADDON_LOADED" and addonName == "zUI" then
@@ -1569,7 +1569,7 @@ KeepDruidCatFormComboPointsAtPosition:SetScript("OnUpdate", function()
     local _, className = UnitClass("player")
     local catComboPoint1, catComboPoint2, catComboPoint3, catComboPoint4,
           catComboPoint5 = DruidComboPointBarFrame:GetChildren()
-    if className == "DRUID" and SettingsInitialized and
+    if className == "DRUID" and GetShapeshiftFormID() == 1 and SettingsInitialized and
         zUI_SavedSettings[PlayerIdentifier].CustomDruidCatFormComboPointsSetting then
         catComboPoint1:ClearAllPoints()
         catComboPoint2:ClearAllPoints()
