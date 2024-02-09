@@ -914,11 +914,10 @@ HideChatFrameStyle:SetScript("OnEvent", function(self, event)
             local chatFrame = _G["ChatFrame" .. i]
             local chatTab = _G["ChatFrame" .. i .. "Tab"]
 
-            -- Hide the tab border and backround
             _G["ChatFrame" .. i .. "Tab"].Left:Hide()
             _G["ChatFrame" .. i .. "Tab"].Right:Hide()
             _G["ChatFrame" .. i .. "Tab"].Middle:Hide()
-            -- Hide chat border
+
             _G["ChatFrame" .. i .. "BottomTexture"]:Hide()
             _G["ChatFrame" .. i .. "BottomLeftTexture"]:Hide()
             _G["ChatFrame" .. i .. "BottomRightTexture"]:Hide()
@@ -1636,7 +1635,6 @@ actionBarMod:SetScript("OnEvent", function(self, event, ...)
             "MultiBarRightButton"
         }
 
-        -- Hide the page number and up + down arrows on the main action bar
         MainMenuBar.ActionBarPageNumber:Hide()
 
         for _, actionBar in ipairs(actionBars) do
@@ -1644,25 +1642,21 @@ actionBarMod:SetScript("OnEvent", function(self, event, ...)
                 local button = _G[actionBar .. i]
 
                 button:HookScript("OnUpdate", function(self)
-                    -- Hide the default border
                     local normalTexture = self:GetNormalTexture()
                     if normalTexture then
                         normalTexture:Hide()
                     end
 
-                    -- Hide the border when the button is pressed
                     local pushedTexture = self:GetPushedTexture()
                     if pushedTexture then
                         pushedTexture:Hide()
                     end
 
-                    -- Hide the border when the button is active
                     local checkedTexture = self:GetCheckedTexture()
                     if checkedTexture then
                         checkedTexture:Hide()
                     end
 
-                    -- Hide all textures for empty buttons
                     local regions = {button:GetRegions()}
                     for _, region in ipairs(regions) do
                         if region:IsObjectType("Texture") then
@@ -1672,7 +1666,6 @@ actionBarMod:SetScript("OnEvent", function(self, event, ...)
                         end
                     end
 
-                    -- Hide hotkey text for empty buttons and if it's not set
                     local hotkey = _G[button:GetName() .. 'HotKey']
                     if hotkey then
                         if IsKeyBindingSet(self) and
@@ -1685,7 +1678,6 @@ actionBarMod:SetScript("OnEvent", function(self, event, ...)
                         end
                     end
 
-                    -- Showing button texture on drag
                     if GetCursorInfo() then
                         button:Show()
                         button:GetNormalTexture():Show()
@@ -2126,7 +2118,6 @@ end)
 -- Player, Target, Target of Target, Party, Pet frame modifications
 ---------------------------------------------------------------------------------------------------
 function HidePlayerAndTargetFrames()
-    -- Player frame
     PlayerFrame.PlayerFrameContainer.PlayerPortraitMask:Hide()
     PlayerFrame.PlayerFrameContainer.FrameTexture:SetTexture("")
     PlayerFrame.PlayerFrameContainer.PlayerPortrait:Show()
@@ -2139,7 +2130,6 @@ function HidePlayerAndTargetFrames()
     PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigeBadge:Hide()
     PlayerFrame.PlayerFrameContent.PlayerFrameContentContextual.PrestigePortrait:Hide()
 
-    -- Target frame
     TargetFrame.TargetFrameContainer.FrameTexture:Hide()
     TargetFrame.TargetFrameContainer.PortraitMask:Hide()
     TargetFrame.TargetFrameContainer.Flash:SetTexture("")
@@ -2147,16 +2137,12 @@ function HidePlayerAndTargetFrames()
     TargetFrame.TargetFrameContent.TargetFrameContentContextual.PrestigeBadge:Hide()
     TargetFrame.TargetFrameContent.TargetFrameContentContextual.PrestigePortrait:Hide()
 
-    -- Target of Target frame
     TargetFrameToT.FrameTexture:Hide()
 
-    -- Focus frame
     FocusFrame.TargetFrameContainer.FrameTexture:Hide()
 
-    -- Pet frame
     PetFrameTexture:Hide()
 
-    -- Party frames
     PartyFrame.MemberFrame1.Texture:Hide()
     PartyFrame.MemberFrame2.Texture:Hide()
     PartyFrame.MemberFrame3.Texture:Hide()
@@ -2211,7 +2197,7 @@ TotalAmountOfHonorableKills:RegisterEvent("PLAYER_PVP_KILLS_CHANGED")
 
 local achievementID = 5363
 local criteriaID = 1
-local _, _, _, progress, quantity = 0, 0, 0, nil, nil
+local _, _, _, progress, _ = 0, 0, 0, nil, nil
 
 local totalHKFrame = CreateFrame("Frame", nil, UIParent)
 totalHKFrame:SetSize(200, 20)
@@ -2240,7 +2226,7 @@ TotalAmountOfHonorableKills:SetScript("OnEvent", function(self, event, ...)
     if zUI_SavedSettings[PlayerIdentifier].TotalAmountOfHonorableKillsSetting then
         if event == "PLAYER_ENTERING_WORLD" then
             C_Timer.After(2, function()
-                _, _, _, progress, quantity =
+                _, _, _, progress, _ =
                     GetAchievementCriteriaInfo(achievementID, criteriaID)
                 if SettingsInitialized then
                     zUI_SavedSettings.TotalAmountOfHonorableKills =
@@ -2266,7 +2252,7 @@ TotalAmountOfHonorableKills:SetScript("OnEvent", function(self, event, ...)
                 end
             end)
         elseif event == "PLAYER_PVP_KILLS_CHANGED" then
-            _, _, _, progress, quantity =
+            _, _, _, progress, _ =
                 GetAchievementCriteriaInfo(achievementID, criteriaID)
             zUI_SavedSettings[PlayerIdentifier].HonorableKillsOnCharacter =
                 GetPVPLifetimeStats()
