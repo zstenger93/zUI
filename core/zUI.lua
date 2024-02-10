@@ -2091,10 +2091,10 @@ local function MakeChatFrameDraggableToCorner(frame)
     end
 end
 
-local playerFrame = CreateFrame("Frame")
-playerFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-playerFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
-playerFrame:SetScript("OnEvent", function(self, event, ...)
+local chatDragFrame = CreateFrame("Frame")
+chatDragFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+chatDragFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
+chatDragFrame:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_ENTERING_WORLD" then
         C_Timer.After(2, function()
             if SettingsInitialized then
