@@ -68,9 +68,12 @@ initializeSettingsIfNewTable:SetScript("OnEvent", function(self, event)
         zUI_SavedSettings[PlayerIdentifier].CustomRogueEnergyPointsSetting =
             false
         zUI_SavedSettings[PlayerIdentifier].ButtonScale = 1
-        zUI_SavedSettings[PlayerIdentifier].ChatFramePosition = {
-            "BOTTOMLEFT", nil, "BOTTOMLEFT", 6.99995756149292, 5.000070095062256
-        }
+        zUI_SavedSettings[PlayerIdentifier].ChatFramePosition =
+            zUI_SavedSettings[PlayerIdentifier].ChatFramePosition or
+                {
+                    "BOTTOMLEFT", nil, "BOTTOMLEFT", 6.99995756149292,
+                    5.000070095062256
+                }
         zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting =
             false
         zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting =
