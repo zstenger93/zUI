@@ -1568,7 +1568,8 @@ KeepDruidCatFormComboPointsAtPosition:SetScript("OnUpdate", function()
     local _, className = UnitClass("player")
     local catComboPoint1, catComboPoint2, catComboPoint3, catComboPoint4,
           catComboPoint5 = DruidComboPointBarFrame:GetChildren()
-    if className == "DRUID" and GetShapeshiftFormID() == 1 and SettingsInitialized and
+    if className == "DRUID" and GetShapeshiftFormID() == 1 and
+        SettingsInitialized and
         zUI_SavedSettings[PlayerIdentifier].CustomDruidCatFormComboPointsSetting then
         catComboPoint1:ClearAllPoints()
         catComboPoint2:ClearAllPoints()
@@ -2070,7 +2071,7 @@ end
 local function MakeChatFrameDraggableToCorner(frame)
     local savedPosition = zUI_SavedSettings[PlayerIdentifier].ChatFramePosition
 
-    if savedPosition and
+    if savedPosition and frame:GetName() == "ChatFrame1" and
         zUI_SavedSettings[PlayerIdentifier].ChatFrameMovableSetting then
         frame:SetClampedToScreen(false)
         frame:ClearAllPoints()
@@ -2079,15 +2080,21 @@ local function MakeChatFrameDraggableToCorner(frame)
     end
 
     if zUI_SavedSettings[PlayerIdentifier].ChatFrameMovableSetting then
-        frame:SetMovable(true)
-        frame:EnableMouse(true)
-        frame:RegisterForDrag("LeftButton")
-        frame:SetClampedToScreen(false)
-        frame:SetScript("OnDragStart", frame.StartMoving)
-        frame:SetScript("OnDragStop", function(self)
-            self:StopMovingOrSizing()
-            SaveChatFramePosition(self)
-        end)
+        local width = ChatFrame1:GetWidth()
+        local height = ChatFrame1:GetHeight()
+        frame:SetWidth(width)
+        frame:SetHeight(height)
+        if frame:GetName() == "ChatFrame1" then
+            frame:SetMovable(true)
+            frame:EnableMouse(true)
+            frame:RegisterForDrag("LeftButton")
+            frame:SetClampedToScreen(false)
+            frame:SetScript("OnDragStart", frame.StartMoving)
+            frame:SetScript("OnDragStop", function(self)
+                self:StopMovingOrSizing()
+                SaveChatFramePosition(self)
+            end)
+        end
     end
 end
 
@@ -2226,8 +2233,8 @@ TotalAmountOfHonorableKills:SetScript("OnEvent", function(self, event, ...)
     if zUI_SavedSettings[PlayerIdentifier].TotalAmountOfHonorableKillsSetting then
         if event == "PLAYER_ENTERING_WORLD" then
             C_Timer.After(2, function()
-                _, _, _, progress, _ =
-                    GetAchievementCriteriaInfo(achievementID, criteriaID)
+                _, _, _, progress, _ = GetAchievementCriteriaInfo(achievementID,
+                                                                  criteriaID)
                 if SettingsInitialized then
                     zUI_SavedSettings.TotalAmountOfHonorableKills =
                         zUI_SavedSettings.TotalAmountOfHonorableKills or 0
@@ -2252,8 +2259,8 @@ TotalAmountOfHonorableKills:SetScript("OnEvent", function(self, event, ...)
                 end
             end)
         elseif event == "PLAYER_PVP_KILLS_CHANGED" then
-            _, _, _, progress, _ =
-                GetAchievementCriteriaInfo(achievementID, criteriaID)
+            _, _, _, progress, _ = GetAchievementCriteriaInfo(achievementID,
+                                                              criteriaID)
             zUI_SavedSettings[PlayerIdentifier].HonorableKillsOnCharacter =
                 GetPVPLifetimeStats()
             if not zUI_SavedSettings[PlayerIdentifier].HonorableKillsAdded then
