@@ -2281,3 +2281,121 @@ TotalAmountOfHonorableKills:SetScript("OnEvent", function(self, event, ...)
     end
 end)
 
+---------------------------------------------------------------------------------------------------
+-- BagFrame
+---------------------------------------------------------------------------------------------------
+
+local NUM_ITEMS_PER_ROW = 10
+local BagFrame = CreateFrame("Frame")
+
+BagFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+BagFrame:RegisterEvent("BAG_UPDATE")
+BagFrame:RegisterEvent("BAG_NEW_ITEMS_UPDATED")
+BagFrame:RegisterEvent("BAG_UPDATE_COOLDOWN")
+BagFrame:RegisterEvent("BAG_CLOSED")
+BagFrame:RegisterEvent("BAG_OPEN")
+BagFrame:RegisterEvent("BAG_UPDATE_DELAYED")
+BagFrame:RegisterEvent("ITEM_LOCK_CHANGED")
+BagFrame:RegisterEvent("BAG_SLOT_FLAGS_UPDATED")
+
+local function UpdateBagLayout(event)
+    local itemIndex = 1
+    for bag = 1, 6 do
+        local numSlots = C_Container.GetContainerNumSlots(bag - 1)
+        for slot = numSlots, 1, -1 do
+            local itemButton = _G["ContainerFrame" .. (bag) .. "Item" .. slot]
+            if itemButton then
+                local col = (itemIndex - 1) % NUM_ITEMS_PER_ROW
+                local row = math.floor((itemIndex - 1) / NUM_ITEMS_PER_ROW)
+                local xPos = col * 37
+                local yPos = -row * 37
+
+                itemButton:SetAlpha(1)
+                itemButton:ClearAllPoints()
+                itemButton:SetPoint("TOPLEFT", ContainerFrame4, "TOPLEFT", xPos,
+                                    yPos)
+
+                itemIndex = itemIndex + 1
+            end
+        end
+    end
+
+    local searchBox = _G["BagItemSearchBox"]
+    if searchBox then
+        local numItems = itemIndex - 1
+        local lastRow = math.ceil(numItems / NUM_ITEMS_PER_ROW)
+        local xPos = 4
+        local yPos = -lastRow * 37 - 5
+
+        searchBox:ClearAllPoints()
+        searchBox:SetPoint("TOPLEFT", ContainerFrame4, "TOPLEFT", xPos, yPos)
+
+        local moneyFrame = _G["ContainerFrame1MoneyFrame"]
+        if moneyFrame then
+            moneyFrame:ClearAllPoints()
+            moneyFrame:SetPoint("TOPLEFT", ContainerFrame4, "TOPRIGHT",
+                                xPos - 80, yPos - 1)
+        end
+
+        if BackpackTokenFrame then
+            BackpackTokenFrame:ClearAllPoints()
+            BackpackTokenFrame:SetPoint("TOPLEFT", ContainerFrame4, "TOPRIGHT",
+                                        xPos, yPos - 17)
+        end
+    end
+end
+
+BagFrame:SetScript("OnEvent", function(self, event, ...)
+    for bag = 0, 5 do
+        local numSlots = C_Container.GetContainerNumSlots(bag)
+        for slot = 1, numSlots do
+            local itemButton = _G["ContainerFrame" .. (bag + 1) .. "Item" ..
+                                   slot]
+            if itemButton then itemButton:SetAlpha(0) end
+        end
+    end
+
+    local bagEvents = {
+        ["BAG_OPEN"] = true,
+        ["BAG_UPDATE"] = true,
+        ["BAG_UPDATE_COOLDOWN"] = true,
+        ["BAG_UPDATE_DELAYED"] = true,
+        ["BAG_CLOSED"] = true,
+        ["BAG_NEW_ITEMS_UPDATED"] = true,
+        ["BAG_SLOT_FLAGS_UPDATED"] = true,
+        ["ITEM_LOCK_CHANGED"] = true
+    }
+
+    if bagEvents[event] then UpdateBagLayout() end
+
+    local elementsToHide = {
+        "CloseButton", "TitleContainer", "PortraitContainer", "Bg",
+        "NineSlice.LeftEdge", "NineSlice.RightEdge", "NineSlice.TopEdge",
+        "NineSlice.TopLeftCorner", "NineSlice.TopRightCorner",
+        "NineSlice.BottomEdge", "NineSlice.BottomLeftCorner",
+        "NineSlice.BottomRightCorner", "NineSlice.Center"
+    }
+
+    for i = 1, 6 do
+        local frame = _G["ContainerFrame" .. i]
+        if frame then
+            for _, element in ipairs(elementsToHide) do
+                local parts = {}
+                for part in string.gmatch(element, "[^.]+") do
+                    table.insert(parts, part)
+                end
+                local target = frame
+                for _, part in ipairs(parts) do
+                    target = target[part]
+                    if not target then break end
+                end
+                if target and type(target.Hide) == "function" then
+                    target:Hide()
+                end
+            end
+        end
+    end
+    if SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].BagFrameSetting then end
+end)
+
