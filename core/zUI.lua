@@ -825,6 +825,7 @@ end
 -- Hide the objective tracker when combat starts
 ---------------------------------------------------------------------------------------------------
 local HideObjectiveTracker = CreateFrame("Frame")
+
 HideObjectiveTracker:RegisterEvent("PLAYER_REGEN_DISABLED")
 HideObjectiveTracker:RegisterEvent("PLAYER_REGEN_ENABLED")
 
@@ -832,15 +833,9 @@ HideObjectiveTracker:SetScript("OnEvent", function(self, event)
     if SettingsInitialized and ObjectiveTrackerFrame and
         zUI_SavedSettings[PlayerIdentifier].HideObjectiveTrackerSetting then
         if event == "PLAYER_REGEN_DISABLED" then
-            local status, error = pcall(function()
-                ObjectiveTrackerFrame:Hide()
-            end)
-            if not status then zUI:Print(error) end
+            ObjectiveTrackerFrame:Hide()
         elseif event == "PLAYER_REGEN_ENABLED" then
-            local status, error = pcall(function()
-                ObjectiveTrackerFrame:Show()
-            end)
-            if not status then zUI:Print(error) end
+            ObjectiveTrackerFrame:Show()
         end
     end
 end)
@@ -855,48 +850,43 @@ HideChatFrameObject:RegisterEvent("PLAYER_REGEN_ENABLED")
 
 HideChatFrameObject:SetScript("OnEvent", function(self, event)
     if SettingsInitialized and
-        zUI_SavedSettings[PlayerIdentifier].HideChatFrameSetting and event ==
-        "PLAYER_REGEN_DISABLED" then
-        local status, error = pcall(function()
+        zUI_SavedSettings[PlayerIdentifier].HideChatFrameSetting then
+        if event == "PLAYER_REGEN_DISABLED" then
             GeneralDockManager:Hide()
             ChatFrame1:Hide()
-        end)
-        if not status then zUI:Print(error) end
-    elseif SettingsInitialized and
-        zUI_SavedSettings[PlayerIdentifier].HideChatFrameSetting and event ==
-        "PLAYER_REGEN_ENABLED" then
-        local status, error = pcall(function()
+        elseif event == "PLAYER_REGEN_ENABLED" then
             GeneralDockManager:Show()
             ChatFrame1:Show()
-        end)
-        if not status then zUI:Print(error) end
+        end
     end
 end)
 
----------------------------------------------------------------------------------------------------
--- Hide side buttons and their background on the chat frame
----------------------------------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------
+-- -- Hide side buttons and their background on the chat frame
+-- ---------------------------------------------------------------------------------------------------
 local HideChatSidebar = CreateFrame("Frame")
+local _G_ChatSidebar = _G
 
 HideChatSidebar:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 HideChatSidebar:SetScript("OnEvent", function(self, event)
-    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
+    if event == "PLAYER_ENTERING_WORLD" and SettingsInitialized and
         zUI_SavedSettings[PlayerIdentifier].HideChatSidebarSetting then
         ChatFrameMenuButton:Hide()
         ChatFrameChannelButton:Hide()
         ChatFrameToggleVoiceDeafenButton:Hide()
         ChatFrameMenuButton:GetParent():Hide()
+
         for i = 1, NUM_CHAT_WINDOWS do
-            _G["ChatFrame" .. i .. "ButtonFrameBackground"]:Hide()
-            _G["ChatFrame" .. i .. "ButtonFrameTopTexture"]:Hide()
-            _G["ChatFrame" .. i .. "ButtonFrameTopLeftTexture"]:Hide()
-            _G["ChatFrame" .. i .. "ButtonFrameTopRightTexture"]:Hide()
-            _G["ChatFrame" .. i .. "ButtonFrameBottomLeftTexture"]:Hide()
-            _G["ChatFrame" .. i .. "ButtonFrameBottomRightTexture"]:Hide()
-            _G["ChatFrame" .. i .. "ButtonFrameBottomTexture"]:Hide()
-            _G["ChatFrame" .. i .. "ButtonFrameLeftTexture"]:Hide()
-            _G["ChatFrame" .. i .. "ButtonFrameRightTexture"]:Hide()
+            _G_ChatSidebar["ChatFrame" .. i .. "ButtonFrameBackground"]:Hide()
+            _G_ChatSidebar["ChatFrame" .. i .. "ButtonFrameTopTexture"]:Hide()
+            _G_ChatSidebar["ChatFrame" .. i .. "ButtonFrameTopLeftTexture"]:Hide()
+            _G_ChatSidebar["ChatFrame" .. i .. "ButtonFrameTopRightTexture"]:Hide()
+            _G_ChatSidebar["ChatFrame" .. i .. "ButtonFrameBottomLeftTexture"]:Hide()
+            _G_ChatSidebar["ChatFrame" .. i .. "ButtonFrameBottomRightTexture"]:Hide()
+            _G_ChatSidebar["ChatFrame" .. i .. "ButtonFrameBottomTexture"]:Hide()
+            _G_ChatSidebar["ChatFrame" .. i .. "ButtonFrameLeftTexture"]:Hide()
+            _G_ChatSidebar["ChatFrame" .. i .. "ButtonFrameRightTexture"]:Hide()
         end
     end
 end)
@@ -905,53 +895,51 @@ end)
 -- Hide the original chat frame style
 ---------------------------------------------------------------------------------------------------
 local HideChatFrameStyle = CreateFrame("Frame")
+local _G_ChatFrameStyle = _G
 
 HideChatFrameStyle:RegisterEvent("PLAYER_ENTERING_WORLD")
 
+local tabTextures = {"Left", "Right", "Middle"}
+local frameTextures = {
+    "BottomTexture", "BottomLeftTexture", "BottomRightTexture", "TopTexture",
+    "TopLeftTexture", "TopRightTexture", "LeftTexture", "RightTexture"
+}
+local events = {
+    "OnEnter", "OnLeave", "OnMouseDown", "OnMouseUp", "OnUpdate", "OnShow",
+    "OnHide", "OnReceiveDrag", "OnDragStart", "OnDragStop"
+}
+
 HideChatFrameStyle:SetScript("OnEvent", function(self, event)
-    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" then
+    if event == "PLAYER_ENTERING_WORLD" and SettingsInitialized then
         for i = 1, NUM_CHAT_WINDOWS do
-            local chatFrame = _G["ChatFrame" .. i]
-            local chatTab = _G["ChatFrame" .. i .. "Tab"]
+            local chatFrame = _G_ChatFrameStyle["ChatFrame" .. i]
+            local chatTab = _G_ChatFrameStyle["ChatFrame" .. i .. "Tab"]
 
-            _G["ChatFrame" .. i .. "Tab"].Left:Hide()
-            _G["ChatFrame" .. i .. "Tab"].Right:Hide()
-            _G["ChatFrame" .. i .. "Tab"].Middle:Hide()
-
-            _G["ChatFrame" .. i .. "BottomTexture"]:Hide()
-            _G["ChatFrame" .. i .. "BottomLeftTexture"]:Hide()
-            _G["ChatFrame" .. i .. "BottomRightTexture"]:Hide()
-            _G["ChatFrame" .. i .. "TopTexture"]:Hide()
-            _G["ChatFrame" .. i .. "TopLeftTexture"]:Hide()
-            _G["ChatFrame" .. i .. "TopRightTexture"]:Hide()
-            _G["ChatFrame" .. i .. "LeftTexture"]:Hide()
-            _G["ChatFrame" .. i .. "RightTexture"]:Hide()
-
-            local function hideTabAndBackground()
-                chatTab:SetAlpha(0.3)
-                _G["ChatFrame" .. i .. "Background"]:SetAlpha(0.02)
+            for _, texture in ipairs(tabTextures) do
+                if chatTab and chatTab[texture] then
+                    chatTab[texture]:Hide()
+                end
             end
 
-            hideTabAndBackground()
+            for _, texture in ipairs(frameTextures) do
+                if chatFrame[texture] then
+                    chatFrame[texture]:Hide()
+                end
+            end
 
-            --[[
-                Hook both the chat frame and tab into all the events
-                It still causes flickering sometimes, but it's better than before
-                Needs a check later
-            ]]
-            local events = {
-                "OnEnter", "OnLeave", "OnMouseDown", "OnMouseUp", "OnUpdate",
-                "OnShow", "OnHide", "OnReceiveDrag", "OnDragStart", "OnDragStop"
-            }
+            local function eventHandler()
+                if chatTab then chatTab:SetAlpha(0.3) end
+                if _G_ChatFrameStyle["ChatFrame" .. i .. "Background"] then
+                    _G_ChatFrameStyle["ChatFrame" .. i .. "Background"]:SetAlpha(
+                        0.02)
+                end
+            end
+
+            eventHandler()
+
             for _, eventHook in ipairs(events) do
-                chatTab:HookScript(eventHook,
-                                   function()
-                    hideTabAndBackground()
-                end)
-                chatFrame:HookScript(eventHook,
-                                     function()
-                    hideTabAndBackground()
-                end)
+                chatTab:SetScript(eventHook, eventHandler)
+                chatFrame:SetScript(eventHook, eventHandler)
             end
         end
     end
@@ -965,33 +953,32 @@ local MoveChatFrameEditBox = CreateFrame("Frame")
 MoveChatFrameEditBox:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 MoveChatFrameEditBox:SetScript("OnEvent", function(self, event)
-    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" then
-        if zUI_SavedSettings[PlayerIdentifier].MoveChatFrameEditBoxSetting then
-            for i = 1, NUM_CHAT_WINDOWS do
-                local chatFrame = _G["ChatFrame" .. i]
-                local editBox = _G["ChatFrame" .. i .. "EditBox"]
+    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
+        zUI_SavedSettings[PlayerIdentifier].MoveChatFrameEditBoxSetting then
+        for i = 1, NUM_CHAT_WINDOWS do
+            local chatFrame = _G["ChatFrame" .. i]
+            local editBox = _G["ChatFrame" .. i .. "EditBox"]
 
-                local name = chatFrame:GetName()
-                _G[name .. "ButtonFrame"]:Hide()
-                _G[name .. "EditBoxLeft"]:Hide()
-                _G[name .. "EditBoxMid"]:Hide()
-                _G[name .. "EditBoxRight"]:Hide()
+            local name = chatFrame:GetName()
+            _G[name .. "ButtonFrame"]:Hide()
+            _G[name .. "EditBoxLeft"]:Hide()
+            _G[name .. "EditBoxMid"]:Hide()
+            _G[name .. "EditBoxRight"]:Hide()
 
-                editBox:ClearAllPoints()
-                editBox:SetPoint("BOTTOMLEFT", chatFrame, "TOPLEFT", 0, 0)
-                editBox:SetPoint("BOTTOMRIGHT", chatFrame, "TOPRIGHT", 0, 0)
-                editBox:SetAltArrowKeyMode(false)
-                editBox:SetHistoryLines(50)
+            editBox:ClearAllPoints()
+            editBox:SetPoint("BOTTOMLEFT", chatFrame, "TOPLEFT", 0, 0)
+            editBox:SetPoint("BOTTOMRIGHT", chatFrame, "TOPRIGHT", 0, 0)
+            editBox:SetAltArrowKeyMode(false)
+            editBox:SetHistoryLines(50)
 
-                chatFrame:SetMaxLines(500)
-            end
+            chatFrame:SetMaxLines(500)
         end
     end
 end)
 
----------------------------------------------------------------------------------------------------
--- Hide the social quick join toast button when combat starts
----------------------------------------------------------------------------------------------------
+-- ---------------------------------------------------------------------------------------------------
+-- -- Hide the social quick join toast button when combat starts
+-- ---------------------------------------------------------------------------------------------------
 local HideQuickJoinToastButton = CreateFrame("Frame")
 
 HideQuickJoinToastButton:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -1041,7 +1028,7 @@ end)
 ---------------------------------------------------------------------------------------------------
 --[[
     Class type color for the target's name in the tooltip
-    Show the target's item level in the tooltip if available <--- NOT WORKING YET
+    Show the target's item level in the tooltip if available <--- NOT WORKING/EXISTING YET
 ]]
 local classColors = {
     ["WARRIOR"] = {r = 0.78, g = 0.61, b = 0.43},
@@ -1070,11 +1057,12 @@ end
 
 GameTooltip:HookScript("OnUpdate", function(self)
     local _, unit = self:GetUnit()
-    if SettingsInitialized and unit then
-        local target = unit .. "target"
+    local target = unit and unit .. "target"
+    if SettingsInitialized and unit and target then
         local targetName, targetRealm = UnitName(target)
         local _, targetClass = UnitClass(target)
-        local color = classColors[targetClass] or {r = 1, g = 1, b = 1}
+        local color = classColors[targetClass]
+        if not color then color = {r = 1, g = 1, b = 1} end
         local colorCode = RGBToHex(color)
         local coloredTargetName =
             targetName and "|c" .. colorCode .. targetName .. "|r" or ""
@@ -1186,36 +1174,28 @@ microMenuFrame:RegisterEvent("ADDON_LOADED")
 microMenuFrame:SetScript("OnEvent", function(self, event, addonName)
     if event == "ADDON_LOADED" and addonName == "zUI" then
         C_Timer.After(2, function()
-            if SettingsInitialized and
-                zUI_SavedSettings[PlayerIdentifier].MicroMenuSetting then
-                AchievementMicroButton:Hide()
-                GuildMicroButton:Hide()
-                LFDMicroButton:Hide()
-                CollectionsMicroButton:Hide()
-                EJMicroButton:Hide()
-                MainMenuMicroButton:Hide()
-                HelpMicroButton:Hide()
-                StoreMicroButton:SetAlpha(0)
-                TalentMicroButton:Hide()
-                QuestLogMicroButton:Hide()
-                CharacterMicroButton:Hide()
-                SpellbookMicroButton:Hide()
-                TalentMicroButton:Hide()
-            elseif SettingsInitialized and
-                not zUI_SavedSettings[PlayerIdentifier].MicroMenuSetting then
-                AchievementMicroButton:Show()
-                GuildMicroButton:Show()
-                LFDMicroButton:Show()
-                CollectionsMicroButton:Show()
-                EJMicroButton:Show()
-                MainMenuMicroButton:Show()
-                HelpMicroButton:Show()
-                StoreMicroButton:SetAlpha(1)
-                TalentMicroButton:Show()
-                QuestLogMicroButton:Show()
-                CharacterMicroButton:Show()
-                SpellbookMicroButton:Show()
-                TalentMicroButton:Show()
+            if SettingsInitialized then
+                local buttons = {
+                    AchievementMicroButton, GuildMicroButton, LFDMicroButton,
+                    CollectionsMicroButton, EJMicroButton, MainMenuMicroButton,
+                    HelpMicroButton, StoreMicroButton, TalentMicroButton,
+                    QuestLogMicroButton, CharacterMicroButton,
+                    SpellbookMicroButton, TalentMicroButton
+                }
+
+                local shouldHide = zUI_SavedSettings[PlayerIdentifier]
+                                       .MicroMenuSetting
+                for _, button in ipairs(buttons) do
+                    if button == StoreMicroButton then
+                        button:SetAlpha(shouldHide and 0 or 1)
+                    else
+                        if shouldHide then
+                            button:Hide()
+                        else
+                            button:Show()
+                        end
+                    end
+                end
             end
         end)
     end
@@ -1256,34 +1236,46 @@ CustomPaladinPowerBarTexture:SetScript("OnEvent",
                                        function(self, event, addonName)
     C_Timer.After(2, function()
         local _, className = UnitClass("player")
-        if className == "PALADIN" and SettingsInitialized and event ==
-            "ADDON_LOADED" and addonName == "zUI" then
-            if zUI_SavedSettings[PlayerIdentifier]
-                .CustomPaladinPowerBarTextureSetting then
+        if SettingsInitialized and
+            zUI_SavedSettings[PlayerIdentifier]
+                .CustomPaladinPowerBarTextureSetting and event == "ADDON_LOADED" and
+            addonName == "zUI" then
+            if className == "PALADIN" then
                 PaladinPowerBarFrame.ActiveTexture:Hide()
                 PaladinPowerBarFrame.Background:Hide()
                 PaladinPowerBarFrame.ThinGlow:Hide()
                 PaladinPowerBarFrame.Glow:Hide()
-                PaladinPowerBarFrameRune1.ActiveTexture:SetSize(30, 30)
-                PaladinPowerBarFrameRune2.ActiveTexture:SetSize(30, 30)
-                PaladinPowerBarFrameRune3.ActiveTexture:SetSize(30, 30)
-                PaladinPowerBarFrameRune4.ActiveTexture:SetSize(30, 30)
-                PaladinPowerBarFrameRune5.ActiveTexture:SetSize(30, 30)
-                PaladinPowerBarFrameRune1:ClearAllPoints()
-                PaladinPowerBarFrameRune2:ClearAllPoints()
-                PaladinPowerBarFrameRune3:ClearAllPoints()
-                PaladinPowerBarFrameRune4:ClearAllPoints()
-                PaladinPowerBarFrameRune5:ClearAllPoints()
-                PaladinPowerBarFrameRune1:SetPoint("BOTTOM", ActionButton4,
-                                                   "TOP", 0, 10)
-                PaladinPowerBarFrameRune2:SetPoint("BOTTOM", ActionButton5,
-                                                   "TOP", 0, 10)
-                PaladinPowerBarFrameRune3:SetPoint("BOTTOM", ActionButton6,
-                                                   "TOP", 0, 10)
-                PaladinPowerBarFrameRune4:SetPoint("BOTTOM", ActionButton7,
-                                                   "TOP", 0, 10)
-                PaladinPowerBarFrameRune5:SetPoint("BOTTOM", ActionButton8,
-                                                   "TOP", 0, 10)
+
+                local runes = {
+                    {
+                        rune = PaladinPowerBarFrameRune1.ActiveTexture,
+                        button = ActionButton4
+                    },
+                    {
+                        rune = PaladinPowerBarFrameRune2.ActiveTexture,
+                        button = ActionButton5
+                    },
+                    {
+                        rune = PaladinPowerBarFrameRune3.ActiveTexture,
+                        button = ActionButton6
+                    },
+                    {
+                        rune = PaladinPowerBarFrameRune4.ActiveTexture,
+                        button = ActionButton7
+                    },
+                    {
+                        rune = PaladinPowerBarFrameRune5.ActiveTexture,
+                        button = ActionButton8
+                    }
+                }
+
+                for _, runeData in ipairs(runes) do
+                    runeData.rune:SetSize(30, 30)
+                    runeData.rune:GetParent():ClearAllPoints()
+                    runeData.rune:GetParent():SetPoint("BOTTOM",
+                                                       runeData.button, "TOP",
+                                                       0, 10)
+                end
             end
         end
     end)
@@ -1298,70 +1290,24 @@ CustomDeathKnightPowerBarTexture:RegisterEvent("ADDON_LOADED")
 CustomDeathKnightPowerBarTexture:SetScript("OnEvent",
                                            function(self, event, addonName)
     C_Timer.After(2, function()
-        local _, className = UnitClass("player")
-        if className == "DEATHKNIGHT" and SettingsInitialized and event ==
-            "ADDON_LOADED" and addonName == "zUI" then
-            if zUI_SavedSettings[PlayerIdentifier].CustomDeathKnightRunesSetting then
-                RuneFrame.Rune1.BG_Active:Hide()
-                RuneFrame.Rune1.BG_Inactive:Hide()
-                RuneFrame.Rune1.Rune_Active:SetSize(25, 25)
-                RuneFrame.Rune1.Rune_Inactive:SetSize(25, 25)
-                RuneFrame.Rune1.Rune_Eyes:SetSize(25, 25)
-                RuneFrame.Rune1.Rune_Lines:SetSize(25, 25)
-                RuneFrame.Rune1.Rune_Mid:SetSize(25, 25)
-                RuneFrame.Rune1.Rune_Grad:SetSize(25, 25)
-                RuneFrame.Rune1.Smoke:SetSize(25, 25)
-                RuneFrame.Rune1.BG_Shadow:Hide()
-                RuneFrame.Rune2.BG_Active:Hide()
-                RuneFrame.Rune2.BG_Inactive:Hide()
-                RuneFrame.Rune2.Rune_Active:SetSize(25, 25)
-                RuneFrame.Rune2.Rune_Inactive:SetSize(25, 25)
-                RuneFrame.Rune2.Rune_Eyes:SetSize(25, 25)
-                RuneFrame.Rune2.Rune_Lines:SetSize(25, 25)
-                RuneFrame.Rune2.Rune_Mid:SetSize(25, 25)
-                RuneFrame.Rune2.Rune_Grad:SetSize(25, 25)
-                RuneFrame.Rune2.Smoke:SetSize(25, 25)
-                RuneFrame.Rune2.BG_Shadow:Hide()
-                RuneFrame.Rune3.BG_Active:Hide()
-                RuneFrame.Rune3.BG_Inactive:Hide()
-                RuneFrame.Rune3.Rune_Active:SetSize(25, 25)
-                RuneFrame.Rune3.Rune_Inactive:SetSize(25, 25)
-                RuneFrame.Rune3.Rune_Eyes:SetSize(25, 25)
-                RuneFrame.Rune3.Rune_Lines:SetSize(25, 25)
-                RuneFrame.Rune3.Rune_Mid:SetSize(25, 25)
-                RuneFrame.Rune3.Rune_Grad:SetSize(25, 25)
-                RuneFrame.Rune3.Smoke:SetSize(25, 25)
-                RuneFrame.Rune3.BG_Shadow:Hide()
-                RuneFrame.Rune4.BG_Active:Hide()
-                RuneFrame.Rune4.BG_Inactive:Hide()
-                RuneFrame.Rune4.Rune_Active:SetSize(25, 25)
-                RuneFrame.Rune4.Rune_Inactive:SetSize(25, 25)
-                RuneFrame.Rune4.Rune_Eyes:SetSize(25, 25)
-                RuneFrame.Rune4.Rune_Lines:SetSize(25, 25)
-                RuneFrame.Rune4.Rune_Mid:SetSize(25, 25)
-                RuneFrame.Rune4.Rune_Grad:SetSize(25, 25)
-                RuneFrame.Rune4.Smoke:SetSize(25, 25)
-                RuneFrame.Rune4.BG_Shadow:Hide()
-                RuneFrame.Rune5.BG_Active:Hide()
-                RuneFrame.Rune5.BG_Inactive:Hide()
-                RuneFrame.Rune5.Rune_Active:SetSize(25, 25)
-                RuneFrame.Rune5.Rune_Inactive:SetSize(25, 25)
-                RuneFrame.Rune5.Rune_Eyes:SetSize(25, 25)
-                RuneFrame.Rune5.Rune_Lines:SetSize(25, 25)
-                RuneFrame.Rune5.Rune_Mid:SetSize(25, 25)
-                RuneFrame.Rune5.Rune_Grad:SetSize(25, 25)
-                RuneFrame.Rune5.Smoke:SetSize(25, 25)
-                RuneFrame.Rune5.BG_Shadow:Hide()
-                RuneFrame.Rune6.BG_Active:Hide()
-                RuneFrame.Rune6.BG_Inactive:Hide()
-                RuneFrame.Rune6.Rune_Active:SetSize(25, 25)
-                RuneFrame.Rune6.Rune_Inactive:SetSize(25, 25)
-                RuneFrame.Rune6.Rune_Eyes:SetSize(25, 25)
-                RuneFrame.Rune6.Rune_Lines:SetSize(25, 25)
-                RuneFrame.Rune6.Rune_Mid:SetSize(25, 25)
-                RuneFrame.Rune6.Rune_Grad:SetSize(25, 25)
-                RuneFrame.Rune6.Smoke:SetSize(25, 25)
-                RuneFrame.Rune6.BG_Shadow:Hide()
+        if SettingsInitialized and
+            zUI_SavedSettings[PlayerIdentifier].CustomDeathKnightRunesSetting and
+            event == "ADDON_LOADED" and addonName == "zUI" then
+            local _, className = UnitClass("player")
+            if className == "DEATHKNIGHT" then
+                for i = 1, 6 do
+                    local rune = _G["RuneFrame"]["Rune" .. i]
+                    rune.BG_Active:Hide()
+                    rune.BG_Inactive:Hide()
+                    rune.Rune_Active:SetSize(25, 25)
+                    rune.Rune_Inactive:SetSize(25, 25)
+                    rune.Rune_Eyes:SetSize(25, 25)
+                    rune.Rune_Lines:SetSize(25, 25)
+                    rune.Rune_Mid:SetSize(25, 25)
+                    rune.Rune_Grad:SetSize(25, 25)
+                    rune.Smoke:SetSize(25, 25)
+                    rune.BG_Shadow:Hide()
+                end
             end
         end
     end)
@@ -1369,21 +1315,17 @@ end)
 
 local KeepDeathKnightRunesAtPosition = CreateFrame("Frame")
 KeepDeathKnightRunesAtPosition:SetScript("OnUpdate", function()
-    local _, className = UnitClass("player")
-    if className == "DEATHKNIGHT" and SettingsInitialized and
+    if SettingsInitialized and
         zUI_SavedSettings[PlayerIdentifier].CustomDeathKnightRunesSetting then
-        RuneFrame.Rune1:ClearAllPoints()
-        RuneFrame.Rune2:ClearAllPoints()
-        RuneFrame.Rune3:ClearAllPoints()
-        RuneFrame.Rune4:ClearAllPoints()
-        RuneFrame.Rune5:ClearAllPoints()
-        RuneFrame.Rune6:ClearAllPoints()
-        RuneFrame.Rune1:SetPoint("BOTTOM", ActionButton4, "TOP", 0, 10)
-        RuneFrame.Rune2:SetPoint("BOTTOM", ActionButton5, "TOP", 0, 10)
-        RuneFrame.Rune3:SetPoint("BOTTOM", ActionButton6, "TOP", 0, 10)
-        RuneFrame.Rune4:SetPoint("BOTTOM", ActionButton7, "TOP", 0, 10)
-        RuneFrame.Rune5:SetPoint("BOTTOM", ActionButton8, "TOP", 0, 10)
-        RuneFrame.Rune6:SetPoint("BOTTOM", ActionButton9, "TOP", 0, 10)
+        local _, className = UnitClass("player")
+        if className == "DEATHKNIGHT" then
+            for i = 1, 6 do
+                local rune = _G["RuneFrame"]["Rune" .. i]
+                local actionButton = _G["ActionButton" .. (i + 3)]
+                rune:ClearAllPoints()
+                rune:SetPoint("BOTTOM", actionButton, "TOP", 0, 10)
+            end
+        end
     end
 end)
 
@@ -1395,40 +1337,20 @@ CustomRogueEnergyPoints:RegisterEvent("ADDON_LOADED")
 
 CustomRogueEnergyPoints:SetScript("OnEvent", function(self, event, addonName)
     C_Timer.After(2, function()
-        local _, className = UnitClass("player")
-        if className == "ROGUE" and
+        if SettingsInitialized and
             zUI_SavedSettings[PlayerIdentifier].CustomRogueEnergyPointsSetting and
-            SettingsInitialized and event == "ADDON_LOADED" and addonName ==
-            "zUI" then
-            local energy1, energy2, energy3, energy4, energy5, energy6 =
-                RogueComboPointBarFrame:GetChildren()
+            event == "ADDON_LOADED" and addonName == "zUI" then
+            local _, className = UnitClass("player")
+            if className == "ROGUE" then
+                local energies = {RogueComboPointBarFrame:GetChildren()}
 
-            if zUI_SavedSettings[PlayerIdentifier]
-                .CustomRogueEnergyPointsSetting then
-                energy1.BGActive:Hide()
-                energy1.BGShadow:Hide()
-                energy1.BGInactive:Hide()
-                energy2.BGActive:Hide()
-                energy2.BGShadow:Hide()
-                energy2.BGInactive:Hide()
-                energy3.BGActive:Hide()
-                energy3.BGShadow:Hide()
-                energy3.BGInactive:Hide()
-                energy4.BGActive:Hide()
-                energy4.BGShadow:Hide()
-                energy4.BGInactive:Hide()
-                energy5.BGActive:Hide()
-                energy5.BGShadow:Hide()
-                energy5.BGInactive:Hide()
-                energy6.BGActive:Hide()
-                energy6.BGShadow:Hide()
-                energy6.BGInactive:Hide()
-                energy1:SetSize(25, 25)
-                energy2:SetSize(25, 25)
-                energy3:SetSize(25, 25)
-                energy4:SetSize(25, 25)
-                energy5:SetSize(25, 25)
-                energy6:SetSize(25, 25)
+                for i = 1, 6 do
+                    local energy = energies[i]
+                    energy.BGActive:Hide()
+                    energy.BGShadow:Hide()
+                    energy.BGInactive:Hide()
+                    energy:SetSize(25, 25)
+                end
             end
         end
     end)
@@ -1436,23 +1358,18 @@ end)
 
 local KeepRogueEnergyPointsAtPosition = CreateFrame("Frame")
 KeepRogueEnergyPointsAtPosition:SetScript("OnUpdate", function()
-    local _, className = UnitClass("player")
-    local energy1, energy2, energy3, energy4, energy5, energy6 =
-        RogueComboPointBarFrame:GetChildren()
-    if className == "ROGUE" and SettingsInitialized and
+    if SettingsInitialized and
         zUI_SavedSettings[PlayerIdentifier].CustomRogueEnergyPointsSetting then
-        energy1:ClearAllPoints()
-        energy2:ClearAllPoints()
-        energy3:ClearAllPoints()
-        energy4:ClearAllPoints()
-        energy5:ClearAllPoints()
-        energy6:ClearAllPoints()
-        energy1:SetPoint("BOTTOM", ActionButton4, "TOP", 0, 10)
-        energy2:SetPoint("BOTTOM", ActionButton5, "TOP", 0, 10)
-        energy3:SetPoint("BOTTOM", ActionButton6, "TOP", 0, 10)
-        energy4:SetPoint("BOTTOM", ActionButton7, "TOP", 0, 10)
-        energy5:SetPoint("BOTTOM", ActionButton8, "TOP", 0, 10)
-        energy6:SetPoint("BOTTOM", ActionButton9, "TOP", 0, 10)
+        local _, className = UnitClass("player")
+        local energies = {RogueComboPointBarFrame:GetChildren()}
+        if className == "ROGUE" then
+            for i = 1, 6 do
+                local energy = energies[i]
+                energy:ClearAllPoints()
+                energy:SetPoint("BOTTOM", _G["ActionButton" .. (i + 3)], "TOP",
+                                0, 10)
+            end
+        end
     end
 end)
 
@@ -1464,25 +1381,18 @@ CustomWarlockSoulShards:RegisterEvent("ADDON_LOADED")
 
 CustomWarlockSoulShards:SetScript("OnEvent", function(self, event, addonName)
     C_Timer.After(2, function()
-        local _, className = UnitClass("player")
-        if className == "WARLOCK" and
+        if SettingsInitialized and
             zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting and
-            SettingsInitialized and event == "ADDON_LOADED" and addonName ==
-            "zUI" then
-            local soulShard1, soulShard2, soulShard3, soulShard4, soulShard5 =
-                WarlockPowerFrame:GetChildren()
+            event == "ADDON_LOADED" and addonName == "zUI" then
+            local _, className = UnitClass("player")
+            if className == "WARLOCK" then
+                local soulShards = {WarlockPowerFrame:GetChildren()}
 
-            if zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting then
-                soulShard1.Background:Hide()
-                soulShard2.Background:Hide()
-                soulShard3.Background:Hide()
-                soulShard4.Background:Hide()
-                soulShard5.Background:Hide()
-                soulShard1:SetSize(30, 30)
-                soulShard2:SetSize(30, 30)
-                soulShard3:SetSize(30, 30)
-                soulShard4:SetSize(30, 30)
-                soulShard5:SetSize(30, 30)
+                for i = 1, 5 do
+                    local soulShard = soulShards[i]
+                    soulShard.Background:Hide()
+                    soulShard:SetSize(30, 30)
+                end
             end
         end
     end)
@@ -1490,21 +1400,18 @@ end)
 
 local KeepWarlockSoulShardsAtPosition = CreateFrame("Frame")
 KeepWarlockSoulShardsAtPosition:SetScript("OnUpdate", function()
-    local _, className = UnitClass("player")
-    local soulShard1, soulShard2, soulShard3, soulShard4, soulShard5 =
-        WarlockPowerFrame:GetChildren()
-    if className == "WARLOCK" and SettingsInitialized and
+    if SettingsInitialized and
         zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting then
-        soulShard1:ClearAllPoints()
-        soulShard2:ClearAllPoints()
-        soulShard3:ClearAllPoints()
-        soulShard4:ClearAllPoints()
-        soulShard5:ClearAllPoints()
-        soulShard1:SetPoint("BOTTOM", ActionButton4, "TOP", 15, 10)
-        soulShard2:SetPoint("BOTTOM", ActionButton5, "TOP", 15, 10)
-        soulShard3:SetPoint("BOTTOM", ActionButton6, "TOP", 15, 10)
-        soulShard4:SetPoint("BOTTOM", ActionButton7, "TOP", 15, 10)
-        soulShard5:SetPoint("BOTTOM", ActionButton8, "TOP", 15, 10)
+        local _, className = UnitClass("player")
+        local soulShards = {WarlockPowerFrame:GetChildren()}
+        if className == "WARLOCK" then
+            for i = 1, 5 do
+                local soulShard = soulShards[i]
+                soulShard:ClearAllPoints()
+                soulShard:SetPoint("BOTTOM", _G["ActionButton" .. (i + 3)],
+                                   "TOP", 15, 10)
+            end
+        end
     end
 end)
 
@@ -1517,47 +1424,23 @@ CustomDruidCatFormComboPoints:RegisterEvent("ADDON_LOADED")
 CustomDruidCatFormComboPoints:SetScript("OnEvent",
                                         function(self, event, addonName)
     C_Timer.After(2, function()
-        local _, className = UnitClass("player")
-        if className == "DRUID" and GetShapeshiftFormID() == 1 and
+        if SettingsInitialized and
             zUI_SavedSettings[PlayerIdentifier]
-                .CustomDruidCatFormComboPointsSetting and SettingsInitialized and
-            event == "ADDON_LOADED" and addonName == "zUI" then
-            local catComboPoint1, catComboPoint2, catComboPoint3,
-                  catComboPoint4, catComboPoint5 =
-                DruidComboPointBarFrame:GetChildren()
+                .CustomDruidCatFormComboPointsSetting and event ==
+            "ADDON_LOADED" and addonName == "zUI" then
+            local _, className = UnitClass("player")
+            if className == "DRUID" and GetShapeshiftFormID() == 1 then
+                local comboPoints = {DruidComboPointBarFrame:GetChildren()}
 
-            if zUI_SavedSettings[PlayerIdentifier]
-                .CustomDruidCatFormComboPointsSetting then
-                catComboPoint1.BG_Active:Hide()
-                catComboPoint1.BG_Inactive:Hide()
-                catComboPoint1.BG_Shadow:Hide()
-                catComboPoint1.BG_Glow:Hide()
-                catComboPoint1.FX_RingGlow:Hide()
-                catComboPoint2.BG_Active:Hide()
-                catComboPoint2.BG_Inactive:Hide()
-                catComboPoint2.BG_Shadow:Hide()
-                catComboPoint2.BG_Glow:Hide()
-                catComboPoint2.FX_RingGlow:Hide()
-                catComboPoint3.BG_Active:Hide()
-                catComboPoint3.BG_Inactive:Hide()
-                catComboPoint3.BG_Shadow:Hide()
-                catComboPoint3.BG_Glow:Hide()
-                catComboPoint3.FX_RingGlow:Hide()
-                catComboPoint4.BG_Active:Hide()
-                catComboPoint4.BG_Inactive:Hide()
-                catComboPoint4.BG_Shadow:Hide()
-                catComboPoint4.BG_Glow:Hide()
-                catComboPoint4.FX_RingGlow:Hide()
-                catComboPoint5.BG_Active:Hide()
-                catComboPoint5.BG_Inactive:Hide()
-                catComboPoint5.BG_Shadow:Hide()
-                catComboPoint5.BG_Glow:Hide()
-                catComboPoint5.FX_RingGlow:Hide()
-                catComboPoint1:SetSize(30, 30)
-                catComboPoint2:SetSize(30, 30)
-                catComboPoint3:SetSize(30, 30)
-                catComboPoint4:SetSize(30, 30)
-                catComboPoint5:SetSize(30, 30)
+                for i = 1, 5 do
+                    local comboPoint = comboPoints[i]
+                    comboPoint.BG_Active:Hide()
+                    comboPoint.BG_Inactive:Hide()
+                    comboPoint.BG_Shadow:Hide()
+                    comboPoint.BG_Glow:Hide()
+                    comboPoint.FX_RingGlow:Hide()
+                    comboPoint:SetSize(30, 30)
+                end
             end
         end
     end)
@@ -1565,22 +1448,18 @@ end)
 
 local KeepDruidCatFormComboPointsAtPosition = CreateFrame("Frame")
 KeepDruidCatFormComboPointsAtPosition:SetScript("OnUpdate", function()
-    local _, className = UnitClass("player")
-    local catComboPoint1, catComboPoint2, catComboPoint3, catComboPoint4,
-          catComboPoint5 = DruidComboPointBarFrame:GetChildren()
-    if className == "DRUID" and GetShapeshiftFormID() == 1 and
-        SettingsInitialized and
+    if SettingsInitialized and
         zUI_SavedSettings[PlayerIdentifier].CustomDruidCatFormComboPointsSetting then
-        catComboPoint1:ClearAllPoints()
-        catComboPoint2:ClearAllPoints()
-        catComboPoint3:ClearAllPoints()
-        catComboPoint4:ClearAllPoints()
-        catComboPoint5:ClearAllPoints()
-        catComboPoint1:SetPoint("BOTTOM", ActionButton4, "TOP", 15, 10)
-        catComboPoint2:SetPoint("BOTTOM", ActionButton5, "TOP", 15, 10)
-        catComboPoint3:SetPoint("BOTTOM", ActionButton6, "TOP", 15, 10)
-        catComboPoint4:SetPoint("BOTTOM", ActionButton7, "TOP", 15, 10)
-        catComboPoint5:SetPoint("BOTTOM", ActionButton8, "TOP", 15, 10)
+        local _, className = UnitClass("player")
+        local comboPoints = {DruidComboPointBarFrame:GetChildren()}
+        if className == "DRUID" and GetShapeshiftFormID() == 1 then
+            for i = 1, 5 do
+                local comboPoint = comboPoints[i]
+                comboPoint:ClearAllPoints()
+                comboPoint:SetPoint("BOTTOM", _G["ActionButton" .. (i + 3)],
+                                    "TOP", 15, 10)
+            end
+        end
     end
 end)
 
@@ -1622,78 +1501,101 @@ end
 ]]
 local actionBarMod = CreateFrame("Frame")
 
-actionBarMod:RegisterEvent("PLAYER_ENTERING_WORLD")
+local actionBars = {
+    "ActionButton", "MultiBarBottomLeftButton", "MultiBarBottomRightButton",
+    "MultiBarLeftButton", "MultiBarRightButton"
+}
+
+local buttons = {}
+
+local events = {
+    "PLAYER_ENTERING_WORLD", "ACTIONBAR_SLOT_CHANGED",
+    "ACTIONBAR_UPDATE_COOLDOWN", "ACTIONBAR_UPDATE_STATE",
+    "UPDATE_BONUS_ACTIONBAR", "UPDATE_EXTRA_ACTIONBAR",
+    "UPDATE_MULTI_CAST_ACTIONBAR", "UPDATE_OVERRIDE_ACTIONBAR",
+    "UPDATE_POSSESS_BAR", "UPDATE_SHAPESHIFT_FORM", "UNIT_PET",
+    "PET_BAR_UPDATE", "SPELL_UPDATE_USABLE", "UNIT_SPELLCAST_SUCCEEDED",
+    "UNIT_SPELLCAST_START", "UNIT_SPELLCAST_STOP", "UNIT_SPELLCAST_INTERRUPTED",
+    "SPELL_ACTIVATION_OVERLAY_GLOW_HIDE", "SPELL_ACTIVATION_OVERLAY_GLOW_SHOW",
+    "UPDATE_MACROS"
+}
+
+for _, event in ipairs(events) do actionBarMod:RegisterEvent(event) end
 
 actionBarMod:SetScript("OnEvent", function(self, event, ...)
     if SettingsInitialized and
         not zUI_SavedSettings[PlayerIdentifier].actionBarModSetting then
         return
     end
-    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" then
-        local actionBars = {
-            "ActionButton", "MultiBarBottomLeftButton",
-            "MultiBarBottomRightButton", "MultiBarLeftButton",
-            "MultiBarRightButton"
-        }
 
+    if event == "PLAYER_ENTERING_WORLD" then
         MainMenuBar.ActionBarPageNumber:Hide()
 
         for _, actionBar in ipairs(actionBars) do
             for i = 1, 12 do
                 local button = _G[actionBar .. i]
+                local normalTexture = button:GetNormalTexture()
+                local pushedTexture = button:GetPushedTexture()
+                local checkedTexture = button:GetCheckedTexture()
+                local regions = {button:GetRegions()}
+                local hotkey = _G[button:GetName() .. 'HotKey']
 
-                button:HookScript("OnUpdate", function(self)
-                    local normalTexture = self:GetNormalTexture()
-                    if normalTexture then
-                        normalTexture:Hide()
+                table.insert(buttons, {
+                    button = button,
+                    normalTexture = normalTexture,
+                    pushedTexture = pushedTexture,
+                    checkedTexture = checkedTexture,
+                    regions = regions,
+                    hotkey = hotkey
+                })
+            end
+        end
+    else
+        for _, buttonData in ipairs(buttons) do
+            local button = buttonData.button
+            local normalTexture = buttonData.normalTexture
+            local pushedTexture = buttonData.pushedTexture
+            local checkedTexture = buttonData.checkedTexture
+            local regions = buttonData.regions
+            local hotkey = buttonData.hotkey
+
+            if normalTexture then normalTexture:Hide() end
+
+            if pushedTexture then pushedTexture:Hide() end
+
+            if checkedTexture then checkedTexture:Hide() end
+
+            for _, region in ipairs(regions) do
+                if region:IsObjectType("Texture") then
+                    if not HasAction(button.action) then
+                        region:Hide()
                     end
+                end
+            end
 
-                    local pushedTexture = self:GetPushedTexture()
-                    if pushedTexture then
-                        pushedTexture:Hide()
-                    end
+            if hotkey then
+                if IsKeyBindingSet(button) and
+                    (HasAction(button.action) or GetActionInfo(button.action)) then
+                    hotkey:SetFont("Fonts\\FRIZQT__.TTF", 18, "OUTLINE")
+                    hotkey:Show()
+                else
+                    hotkey:Hide()
+                end
+            end
 
-                    local checkedTexture = self:GetCheckedTexture()
-                    if checkedTexture then
-                        checkedTexture:Hide()
-                    end
+            if GetCursorInfo() then
+                button:Show()
+                normalTexture:Show()
+                button.wasDragging = true
+            elseif not GetCursorInfo() and button.wasDragging then
+                normalTexture:Hide()
+                local buttonName = button:GetName()
 
-                    local regions = {button:GetRegions()}
-                    for _, region in ipairs(regions) do
-                        if region:IsObjectType("Texture") then
-                            if not HasAction(self.action) then
-                                region:Hide()
-                            end
-                        end
-                    end
-
-                    local hotkey = _G[button:GetName() .. 'HotKey']
-                    if hotkey then
-                        if IsKeyBindingSet(self) and
-                            (HasAction(self.action) or
-                                GetActionInfo(self.action)) then
-                            hotkey:SetFont("Fonts\\FRIZQT__.TTF", 18, "OUTLINE")
-                            hotkey:Show()
-                        else
-                            hotkey:Hide()
-                        end
-                    end
-
-                    if GetCursorInfo() then
-                        button:Show()
-                        button:GetNormalTexture():Show()
-                        button.wasDragging = true
-                    elseif not GetCursorInfo() and button.wasDragging then
-                        button:GetNormalTexture():Hide()
-                        local buttonName = button:GetName()
-
-                        if buttonName:find("^MultiBarLeftButton") or
-                            buttonName:find("^MultiBarRightButton") then
-                            button:Hide()
-                        end
-                        button.wasDragging = false
-                    end
-                end)
+                if buttonName:find("^MultiBarLeftButton") or
+                    buttonName:find("^MultiBarRightButton") then
+                    button:Hide()
+                end
+                button.wasDragging = false
             end
         end
     end
@@ -1702,6 +1604,34 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Make MultiBarLeft visible only on mouseover or if something being dragged
 ---------------------------------------------------------------------------------------------------
+local function setButtonVisibility(show, barName)
+    for i = 1, 12 do
+        local button = _G[barName .. i]
+        if show then
+            button:Show()
+        else
+            button:Hide()
+        end
+    end
+end
+
+local function handleCursorInfo(barName)
+    for i = 1, 12 do
+        local button = _G[barName .. i]
+        button.wasDragging = button.wasDragging or false
+
+        if GetCursorInfo() then
+            button:Show()
+            button:GetNormalTexture():Show()
+            button.wasDragging = true
+        elseif not GetCursorInfo() and button.wasDragging then
+            button:GetNormalTexture():Hide()
+            button:Hide()
+            button.wasDragging = false
+        end
+    end
+end
+
 local MouseOverActionBar4 = CreateFrame("Frame", nil, UIParent)
 MouseOverActionBar4:RegisterEvent("PLAYER_ENTERING_WORLD")
 MouseOverActionBar4:SetPoint("BOTTOMRIGHT", MultiBarLeftButton12, "BOTTOMRIGHT",
@@ -1720,10 +1650,8 @@ MouseOverActionBar4:SetScript("OnEvent", function(self, event, ...)
             else
                 MouseOverActionBar4:SetSize(40 * 12, 40)
             end
-            for i = 1, 12 do
-                local button = _G["MultiBarLeftButton" .. i]
-                button:Hide()
-            end
+
+            setButtonVisibility(false, "MultiBarLeftButton")
         end)
     end
 end)
@@ -1734,10 +1662,7 @@ MouseOverActionBar4:SetScript("OnEnter", function(self)
         return
     end
 
-    for i = 1, 12 do
-        local button = _G["MultiBarLeftButton" .. i]
-        button:Show()
-    end
+    setButtonVisibility(true, "MultiBarLeftButton")
 end)
 
 MouseOverActionBar4:SetScript("OnLeave", function(self)
@@ -1746,34 +1671,20 @@ MouseOverActionBar4:SetScript("OnLeave", function(self)
         return
     end
 
-    for i = 1, 12 do
-        local button = _G["MultiBarLeftButton" .. i]
-        button:Hide()
-    end
+    setButtonVisibility(false, "MultiBarLeftButton")
 end)
 
 local DragCheckFrameActionBar4 = CreateFrame("Frame", nil, UIParent)
 
-DragCheckFrameActionBar4:SetScript("OnUpdate", function()
+for _, event in ipairs(events) do DragCheckFrameActionBar4:RegisterEvent(event) end
+
+DragCheckFrameActionBar4:SetScript("OnEvent", function(self, event, ...)
     if SettingsInitialized and
         not zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting then
         return
     end
 
-    for i = 1, 12 do
-        local button = _G["MultiBarLeftButton" .. i]
-        button.wasDragging = button.wasDragging or false
-
-        if GetCursorInfo() then
-            button:Show()
-            button:GetNormalTexture():Show()
-            button.wasDragging = true
-        elseif not GetCursorInfo() and button.wasDragging then
-            button:GetNormalTexture():Hide()
-            button:Hide()
-            button.wasDragging = false
-        end
-    end
+    handleCursorInfo("MultiBarLeftButton")
 end)
 
 ---------------------------------------------------------------------------------------------------
@@ -1798,10 +1709,8 @@ MouseOverActionBar5:SetScript("OnEvent", function(self, event, ...)
             else
                 MouseOverActionBar5:SetSize(40 * 12, 40)
             end
-            for i = 1, 12 do
-                local button = _G["MultiBarRightButton" .. i]
-                button:Hide()
-            end
+
+            setButtonVisibility(false, "MultiBarRightButton")
         end)
     end
 end)
@@ -1812,46 +1721,29 @@ MouseOverActionBar5:SetScript("OnEnter", function(self)
         return
     end
 
-    for i = 1, 12 do
-        local button = _G["MultiBarRightButton" .. i]
-        button:Show()
-    end
+    setButtonVisibility(true, "MultiBarRightButton")
 end)
 
-MouseOverActionBar5:SetScript("OnLeave", function(self, event, ...)
+MouseOverActionBar5:SetScript("OnLeave", function(self)
     if SettingsInitialized and
         not zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting then
         return
     end
 
-    for i = 1, 12 do
-        local button = _G["MultiBarRightButton" .. i]
-        button:Hide()
-    end
+    setButtonVisibility(false, "MultiBarRightButton")
 end)
 
 local DragCheckFrameActionBar5 = CreateFrame("Frame", nil, UIParent)
 
-DragCheckFrameActionBar5:SetScript("OnUpdate", function()
+for _, event in ipairs(events) do DragCheckFrameActionBar5:RegisterEvent(event) end
+
+DragCheckFrameActionBar5:SetScript("OnEvent", function(self, event, ...)
     if SettingsInitialized and
         not zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting then
         return
     end
 
-    for i = 1, 12 do
-        local button = _G["MultiBarRightButton" .. i]
-        button.wasDragging = button.wasDragging or false
-
-        if GetCursorInfo() then
-            button:Show()
-            button:GetNormalTexture():Show()
-            button.wasDragging = true
-        elseif not GetCursorInfo() and button.wasDragging then
-            button:GetNormalTexture():Hide()
-            button:Hide()
-            button.wasDragging = false
-        end
-    end
+    handleCursorInfo("MultiBarRightButton")
 end)
 
 ---------------------------------------------------------------------------------------------------
@@ -1866,10 +1758,7 @@ function HideBarWhenSpellbookClosed(barName, barSetting)
 
     SpellBookFrame:HookScript("OnHide", function()
         if frameState.spellbookWasOpen then
-            for i = 1, 12 do
-                local button = _G[barName .. i]
-                if button then button:Hide() end
-            end
+            setButtonVisibility(false, barName)
             frameState.spellbookWasOpen = false
         end
     end)
@@ -1891,10 +1780,7 @@ function HideBarWhenTalentFrameClosed(barName, barSetting)
 
     hooksecurefunc("ToggleTalentFrame", function()
         if frameState.talentFrameWasOpen and not frameState.spellbookWasOpen then
-            for i = 1, 12 do
-                local button = _G[barName .. i]
-                if button then button:Hide() end
-            end
+            setButtonVisibility(false, barName)
         end
         frameState.talentFrameWasOpen = not frameState.talentFrameWasOpen
         frameState.spellbookWasOpen = SpellBookFrame:IsShown()
@@ -1953,66 +1839,52 @@ AutomaticObjectiveTrackerCollapseOnLoad:RegisterEvent("PLAYER_ENTERING_WORLD")
 AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
                                                   function(self, event, ...)
     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" then
-        if ObjectiveTrackerBlocksFrame.CampaignQuestHeader.MinimizeButton:IsShown() and
-            zUI_SavedSettings[PlayerIdentifier].CampaignQuestHeaderSetting then
-            C_Timer.After(3, function()
-                ObjectiveTrackerBlocksFrame.CampaignQuestHeader.MinimizeButton:Click()
-            end)
-        end
+        local headers = {
+            {
+                header = ObjectiveTrackerBlocksFrame.CampaignQuestHeader,
+                setting = "CampaignQuestHeaderSetting"
+            }, {
+                header = ObjectiveTrackerBlocksFrame.QuestHeader,
+                setting = "QuestSectionSetting"
+            }, {
+                header = WORLD_QUEST_TRACKER_MODULE.Header,
+                setting = "WorldQuestHeaderSetting"
+            }, {
+                header = ObjectiveTrackerBlocksFrame.AchievementHeader,
+                setting = "AchievementHeaderSetting"
+            }, {
+                header = ObjectiveTrackerBlocksFrame.ScenarioHeader,
+                setting = "ScenarioHeaderSetting"
+            }, {
+                header = ObjectiveTrackerBlocksFrame.AdventureHeader,
+                setting = "AdventureHeaderSetting"
+            }, {header = ObjectiveTrackerBlocksFrame.MonthlyActivitiesHeader},
+            {header = ObjectiveTrackerBlocksFrame.ProfessionHeader},
+            {
+                header = ObjectiveTrackerFrame.HeaderMenu,
+                setting = "HeaderMenuSetting"
+            }
+        }
 
-        if ObjectiveTrackerBlocksFrame.QuestHeader.MinimizeButton:IsShown() and
-            zUI_SavedSettings[PlayerIdentifier].QuestSectionSetting then
-            C_Timer.After(3, function()
-                ObjectiveTrackerBlocksFrame.QuestHeader.MinimizeButton:Click()
-            end)
-        end
-
-        if WORLD_QUEST_TRACKER_MODULE.Header.MinimizeButton:IsShown() and
-            zUI_SavedSettings[PlayerIdentifier].WorldQuestHeaderSetting then
-            C_Timer.After(3, function()
-                WORLD_QUEST_TRACKER_MODULE.Header.MinimizeButton:Click()
-            end)
-        end
-
-        if ObjectiveTrackerBlocksFrame.AchievementHeader.MinimizeButton:IsShown() and
-            zUI_SavedSettings[PlayerIdentifier].AchievementHeaderSetting then
-            C_Timer.After(3, function()
-                ObjectiveTrackerBlocksFrame.AchievementHeader.MinimizeButton:Click()
-            end)
-        end
-
-        if ObjectiveTrackerBlocksFrame.ScenarioHeader.MinimizeButton:IsShown() and
-            zUI_SavedSettings[PlayerIdentifier].ScenarioHeaderSetting then
-            C_Timer.After(3, function()
-                ObjectiveTrackerBlocksFrame.ScenarioHeader.MinimizeButton:Click()
-            end)
-        end
-
-        if ObjectiveTrackerBlocksFrame.AdventureHeader.MinimizeButton:IsShown() and
-            zUI_SavedSettings[PlayerIdentifier].AdventureHeaderSetting then
-            C_Timer.After(3, function()
-                ObjectiveTrackerBlocksFrame.AdventureHeader.MinimizeButton:Click()
-            end)
-        end
-
-        if ObjectiveTrackerBlocksFrame.MonthlyActivitiesHeader.MinimizeButton:IsShown() then
-            C_Timer.After(3, function()
-                ObjectiveTrackerBlocksFrame.MonthlyActivitiesHeader
-                    .MinimizeButton:Click()
-            end)
-        end
-
-        if ObjectiveTrackerBlocksFrame.ProfessionHeader.MinimizeButton:IsShown() then
-            C_Timer.After(3, function()
-                ObjectiveTrackerBlocksFrame.ProfessionHeader.MinimizeButton:Click()
-            end)
-        end
-
-        if ObjectiveTrackerFrame.HeaderMenu.MinimizeButton:IsShown() and
-            zUI_SavedSettings[PlayerIdentifier].HeaderMenuSetting then
-            C_Timer.After(4, function()
-                ObjectiveTrackerFrame.HeaderMenu.MinimizeButton:Click()
-            end)
+        for _, item in ipairs(headers) do
+            if item.header == ObjectiveTrackerFrame.HeaderMenu then
+                if not ObjectiveTrackerFrame.collapsed and
+                    item.header.MinimizeButton:IsShown() and
+                    (not item.setting or
+                        zUI_SavedSettings[PlayerIdentifier][item.setting]) then
+                    C_Timer.After(3, function()
+                        item.header.MinimizeButton:Click()
+                    end)
+                end
+            elseif item.header.module and not item.header.module.collapsed and
+                item.header.MinimizeButton:IsShown() and
+                (not item.setting or
+                    zUI_SavedSettings[PlayerIdentifier][item.setting]) then
+                C_Timer.After(3,
+                              function()
+                    item.header.MinimizeButton:Click()
+                end)
+            end
         end
     end
 end)
@@ -2045,9 +1917,10 @@ local CollapseBuffFrame = CreateFrame("Frame")
 CollapseBuffFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 CollapseBuffFrame:SetScript("OnEvent", function(self, event, ...)
     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" then
-        C_Timer.After(2,
-                      function()
-            BuffFrame.CollapseAndExpandButton:Click()
+        C_Timer.After(2, function()
+            if BuffFrame.isExpanded then
+                BuffFrame.CollapseAndExpandButton:Click()
+            end
         end)
     end
 end)
@@ -2098,26 +1971,20 @@ local function MakeChatFrameDraggableToCorner(frame)
     end
 end
 
+local function MakeAllChatFramesDraggable()
+    for i = 1, NUM_CHAT_WINDOWS do
+        MakeChatFrameDraggableToCorner(_G["ChatFrame" .. i])
+    end
+end
+
 local chatDragFrame = CreateFrame("Frame")
 chatDragFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 chatDragFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
 chatDragFrame:SetScript("OnEvent", function(self, event, ...)
-    if event == "PLAYER_ENTERING_WORLD" then
-        C_Timer.After(2, function()
-            if SettingsInitialized then
-                for i = 1, NUM_CHAT_WINDOWS do
-                    MakeChatFrameDraggableToCorner(_G["ChatFrame" .. i])
-                end
-            end
-        end)
-    elseif event == "PLAYER_TALENT_UPDATE" then
-        C_Timer.After(0.5, function()
-            if SettingsInitialized then
-                for i = 1, NUM_CHAT_WINDOWS do
-                    MakeChatFrameDraggableToCorner(_G["ChatFrame" .. i])
-                end
-            end
-        end)
+    if not SettingsInitialized then return end
+
+    if event == "PLAYER_ENTERING_WORLD" or event == "PLAYER_TALENT_UPDATE" then
+        C_Timer.After(2, function() MakeAllChatFramesDraggable() end)
     end
 end)
 
@@ -2182,7 +2049,7 @@ HidePlayerAndTargetFrame:SetScript("OnEvent", function(self, event, ...)
 end)
 
 ---------------------------------------------------------------------------------------------------
--- Move the BNToastFrame <- don't think it's working
+-- Move the BNToastFrame
 ---------------------------------------------------------------------------------------------------
 ChatFrame1Tab:HookScript("OnUpdate", function()
     BNToastFrame:ClearAllPoints();
@@ -2229,173 +2096,150 @@ local function RecalculateTotalHonorableKills()
     end
 end
 
-TotalAmountOfHonorableKills:SetScript("OnEvent", function(self, event, ...)
-    if zUI_SavedSettings[PlayerIdentifier].TotalAmountOfHonorableKillsSetting then
-        if event == "PLAYER_ENTERING_WORLD" then
-            C_Timer.After(2, function()
-                _, _, _, progress, _ = GetAchievementCriteriaInfo(achievementID,
-                                                                  criteriaID)
-                if SettingsInitialized then
-                    zUI_SavedSettings.TotalAmountOfHonorableKills =
-                        zUI_SavedSettings.TotalAmountOfHonorableKills or 0
-                    zUI_SavedSettings[PlayerIdentifier]
-                        .HonorableKillsOnCharacter = GetPVPLifetimeStats()
-                    if not zUI_SavedSettings[PlayerIdentifier]
-                        .HonorableKillsAdded then
-                        zUI_SavedSettings.TotalAmountOfHonorableKills =
-                            zUI_SavedSettings.TotalAmountOfHonorableKills +
-                                zUI_SavedSettings[PlayerIdentifier]
-                                    .HonorableKillsOnCharacter
-                        zUI_SavedSettings[PlayerIdentifier].HonorableKillsAdded =
-                            true
-                    end
-                    RecalculateTotalHonorableKills()
-                    if progress > zUI_SavedSettings.TotalAmountOfHonorableKills then
-                        totalHKText:SetText("Total HK: " .. progress)
-                    else
-                        totalHKText:SetText("Total HK: " ..
-                                                zUI_SavedSettings.TotalAmountOfHonorableKills)
-                    end
-                end
-            end)
-        elseif event == "PLAYER_PVP_KILLS_CHANGED" then
-            _, _, _, progress, _ = GetAchievementCriteriaInfo(achievementID,
-                                                              criteriaID)
-            zUI_SavedSettings[PlayerIdentifier].HonorableKillsOnCharacter =
-                GetPVPLifetimeStats()
-            if not zUI_SavedSettings[PlayerIdentifier].HonorableKillsAdded then
-                zUI_SavedSettings.TotalAmountOfHonorableKills =
-                    zUI_SavedSettings.TotalAmountOfHonorableKills +
-                        zUI_SavedSettings[PlayerIdentifier]
-                            .HonorableKillsOnCharacter
-                zUI_SavedSettings[PlayerIdentifier].HonorableKillsAdded = true
-            end
-            RecalculateTotalHonorableKills()
-            if progress > zUI_SavedSettings.TotalAmountOfHonorableKills then
-                totalHKText:SetText("Total HK: " .. progress)
-            else
-                totalHKText:SetText("Total HK: " ..
-                                        zUI_SavedSettings.TotalAmountOfHonorableKills)
-            end
-        end
+local function UpdateHonorableKills()
+    _, _, _, progress, _ = GetAchievementCriteriaInfo(achievementID, criteriaID)
+    zUI_SavedSettings[PlayerIdentifier].HonorableKillsOnCharacter =
+        GetPVPLifetimeStats()
+    if not zUI_SavedSettings[PlayerIdentifier].HonorableKillsAdded then
+        zUI_SavedSettings.TotalAmountOfHonorableKills =
+            zUI_SavedSettings.TotalAmountOfHonorableKills +
+                zUI_SavedSettings[PlayerIdentifier].HonorableKillsOnCharacter
+        zUI_SavedSettings[PlayerIdentifier].HonorableKillsAdded = true
     end
-end)
-
----------------------------------------------------------------------------------------------------
--- BagFrame
----------------------------------------------------------------------------------------------------
-
-local NUM_ITEMS_PER_ROW = 10
-local BagFrame = CreateFrame("Frame")
-
-BagFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-BagFrame:RegisterEvent("BAG_UPDATE")
-BagFrame:RegisterEvent("BAG_NEW_ITEMS_UPDATED")
-BagFrame:RegisterEvent("BAG_UPDATE_COOLDOWN")
-BagFrame:RegisterEvent("BAG_CLOSED")
-BagFrame:RegisterEvent("BAG_OPEN")
-BagFrame:RegisterEvent("BAG_UPDATE_DELAYED")
-BagFrame:RegisterEvent("ITEM_LOCK_CHANGED")
-BagFrame:RegisterEvent("BAG_SLOT_FLAGS_UPDATED")
-
-local function UpdateBagLayout(event)
-    local itemIndex = 1
-    for bag = 1, 6 do
-        local numSlots = C_Container.GetContainerNumSlots(bag - 1)
-        for slot = numSlots, 1, -1 do
-            local itemButton = _G["ContainerFrame" .. (bag) .. "Item" .. slot]
-            if itemButton then
-                local col = (itemIndex - 1) % NUM_ITEMS_PER_ROW
-                local row = math.floor((itemIndex - 1) / NUM_ITEMS_PER_ROW)
-                local xPos = col * 37
-                local yPos = -row * 37
-
-                itemButton:SetAlpha(1)
-                itemButton:ClearAllPoints()
-                itemButton:SetPoint("TOPLEFT", ContainerFrame4, "TOPLEFT", xPos,
-                                    yPos)
-
-                itemIndex = itemIndex + 1
-            end
-        end
-    end
-
-    local searchBox = _G["BagItemSearchBox"]
-    if searchBox then
-        local numItems = itemIndex - 1
-        local lastRow = math.ceil(numItems / NUM_ITEMS_PER_ROW)
-        local xPos = 4
-        local yPos = -lastRow * 37 - 5
-
-        searchBox:ClearAllPoints()
-        searchBox:SetPoint("TOPLEFT", ContainerFrame4, "TOPLEFT", xPos, yPos)
-
-        local moneyFrame = _G["ContainerFrame1MoneyFrame"]
-        if moneyFrame then
-            moneyFrame:ClearAllPoints()
-            moneyFrame:SetPoint("TOPLEFT", ContainerFrame4, "TOPRIGHT",
-                                xPos - 80, yPos - 1)
-        end
-
-        if BackpackTokenFrame then
-            BackpackTokenFrame:ClearAllPoints()
-            BackpackTokenFrame:SetPoint("TOPLEFT", ContainerFrame4, "TOPRIGHT",
-                                        xPos, yPos - 17)
-        end
+    RecalculateTotalHonorableKills()
+    if progress > zUI_SavedSettings.TotalAmountOfHonorableKills then
+        totalHKText:SetText("Total HK: " .. progress)
+    else
+        totalHKText:SetText("Total HK: " ..
+                                zUI_SavedSettings.TotalAmountOfHonorableKills)
     end
 end
 
-BagFrame:SetScript("OnEvent", function(self, event, ...)
-    for bag = 0, 5 do
-        local numSlots = C_Container.GetContainerNumSlots(bag)
-        for slot = 1, numSlots do
-            local itemButton = _G["ContainerFrame" .. (bag + 1) .. "Item" ..
-                                   slot]
-            if itemButton then itemButton:SetAlpha(0) end
+TotalAmountOfHonorableKills:SetScript("OnEvent", function(self, event, ...)
+    if zUI_SavedSettings[PlayerIdentifier].TotalAmountOfHonorableKillsSetting then
+        if event == "PLAYER_ENTERING_WORLD" then
+            C_Timer.After(2, function() UpdateHonorableKills() end)
+        elseif event == "PLAYER_PVP_KILLS_CHANGED" then
+            UpdateHonorableKills()
         end
     end
-
-    local bagEvents = {
-        ["BAG_OPEN"] = true,
-        ["BAG_UPDATE"] = true,
-        ["BAG_UPDATE_COOLDOWN"] = true,
-        ["BAG_UPDATE_DELAYED"] = true,
-        ["BAG_CLOSED"] = true,
-        ["BAG_NEW_ITEMS_UPDATED"] = true,
-        ["BAG_SLOT_FLAGS_UPDATED"] = true,
-        ["ITEM_LOCK_CHANGED"] = true
-    }
-
-    if bagEvents[event] then UpdateBagLayout() end
-
-    local elementsToHide = {
-        "CloseButton", "TitleContainer", "PortraitContainer", "Bg",
-        "NineSlice.LeftEdge", "NineSlice.RightEdge", "NineSlice.TopEdge",
-        "NineSlice.TopLeftCorner", "NineSlice.TopRightCorner",
-        "NineSlice.BottomEdge", "NineSlice.BottomLeftCorner",
-        "NineSlice.BottomRightCorner", "NineSlice.Center"
-    }
-
-    for i = 1, 6 do
-        local frame = _G["ContainerFrame" .. i]
-        if frame then
-            for _, element in ipairs(elementsToHide) do
-                local parts = {}
-                for part in string.gmatch(element, "[^.]+") do
-                    table.insert(parts, part)
-                end
-                local target = frame
-                for _, part in ipairs(parts) do
-                    target = target[part]
-                    if not target then break end
-                end
-                if target and type(target.Hide) == "function" then
-                    target:Hide()
-                end
-            end
-        end
-    end
-    if SettingsInitialized and
-        zUI_SavedSettings[PlayerIdentifier].BagFrameSetting then end
 end)
+
+-- ---------------------------------------------------------------------------------------------------
+-- -- BagFrame
+-- ---------------------------------------------------------------------------------------------------
+
+-- local NUM_ITEMS_PER_ROW = 10
+-- local BagFrame = CreateFrame("Frame")
+
+-- BagFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+-- BagFrame:RegisterEvent("BAG_UPDATE")
+-- BagFrame:RegisterEvent("BAG_NEW_ITEMS_UPDATED")
+-- BagFrame:RegisterEvent("BAG_UPDATE_COOLDOWN")
+-- BagFrame:RegisterEvent("BAG_CLOSED")
+-- BagFrame:RegisterEvent("BAG_OPEN")
+-- BagFrame:RegisterEvent("BAG_UPDATE_DELAYED")
+-- BagFrame:RegisterEvent("ITEM_LOCK_CHANGED")
+-- BagFrame:RegisterEvent("BAG_SLOT_FLAGS_UPDATED")
+
+-- local function UpdateBagLayout(event)
+--     local itemIndex = 1
+--     for bag = 1, 6 do
+--         local numSlots = C_Container.GetContainerNumSlots(bag - 1)
+--         for slot = numSlots, 1, -1 do
+--             local itemButton = _G["ContainerFrame" .. (bag) .. "Item" .. slot]
+--             if itemButton then
+--                 local col = (itemIndex - 1) % NUM_ITEMS_PER_ROW
+--                 local row = math.floor((itemIndex - 1) / NUM_ITEMS_PER_ROW)
+--                 local xPos = col * 37
+--                 local yPos = -row * 37
+
+--                 itemButton:SetAlpha(1)
+--                 itemButton:ClearAllPoints()
+--                 itemButton:SetPoint("TOPLEFT", ContainerFrame4, "TOPLEFT", xPos,
+--                                     yPos)
+
+--                 itemIndex = itemIndex + 1
+--             end
+--         end
+--     end
+
+--     local searchBox = _G["BagItemSearchBox"]
+--     if searchBox then
+--         local numItems = itemIndex - 1
+--         local lastRow = math.ceil(numItems / NUM_ITEMS_PER_ROW)
+--         local xPos = 4
+--         local yPos = -lastRow * 37 - 5
+
+--         searchBox:ClearAllPoints()
+--         searchBox:SetPoint("TOPLEFT", ContainerFrame4, "TOPLEFT", xPos, yPos)
+
+--         local moneyFrame = _G["ContainerFrame1MoneyFrame"]
+--         if moneyFrame then
+--             moneyFrame:ClearAllPoints()
+--             moneyFrame:SetPoint("TOPLEFT", ContainerFrame4, "TOPRIGHT",
+--                                 xPos - 80, yPos - 1)
+--         end
+
+--         if BackpackTokenFrame then
+--             BackpackTokenFrame:ClearAllPoints()
+--             BackpackTokenFrame:SetPoint("TOPLEFT", ContainerFrame4, "TOPRIGHT",
+--                                         xPos, yPos - 17)
+--         end
+--     end
+-- end
+
+-- BagFrame:SetScript("OnEvent", function(self, event, ...)
+--     for bag = 0, 5 do
+--         local numSlots = C_Container.GetContainerNumSlots(bag)
+--         for slot = 1, numSlots do
+--             local itemButton = _G["ContainerFrame" .. (bag + 1) .. "Item" ..
+--                                    slot]
+--             if itemButton then itemButton:SetAlpha(0) end
+--         end
+--     end
+
+--     local bagEvents = {
+--         ["BAG_OPEN"] = true,
+--         ["BAG_UPDATE"] = true,
+--         ["BAG_UPDATE_COOLDOWN"] = true,
+--         ["BAG_UPDATE_DELAYED"] = true,
+--         ["BAG_CLOSED"] = true,
+--         ["BAG_NEW_ITEMS_UPDATED"] = true,
+--         ["BAG_SLOT_FLAGS_UPDATED"] = true,
+--         ["ITEM_LOCK_CHANGED"] = true
+--     }
+
+--     if bagEvents[event] then UpdateBagLayout() end
+
+--     local elementsToHide = {
+--         "CloseButton", "TitleContainer", "PortraitContainer", "Bg",
+--         "NineSlice.LeftEdge", "NineSlice.RightEdge", "NineSlice.TopEdge",
+--         "NineSlice.TopLeftCorner", "NineSlice.TopRightCorner",
+--         "NineSlice.BottomEdge", "NineSlice.BottomLeftCorner",
+--         "NineSlice.BottomRightCorner", "NineSlice.Center"
+--     }
+
+--     for i = 1, 6 do
+--         local frame = _G["ContainerFrame" .. i]
+--         if frame then
+--             for _, element in ipairs(elementsToHide) do
+--                 local parts = {}
+--                 for part in string.gmatch(element, "[^.]+") do
+--                     table.insert(parts, part)
+--                 end
+--                 local target = frame
+--                 for _, part in ipairs(parts) do
+--                     target = target[part]
+--                     if not target then break end
+--                 end
+--                 if target and type(target.Hide) == "function" then
+--                     target:Hide()
+--                 end
+--             end
+--         end
+--     end
+--     if SettingsInitialized and
+--         zUI_SavedSettings[PlayerIdentifier].BagFrameSetting then end
+-- end)
 
