@@ -1047,7 +1047,7 @@ end)
     Class type color for the target's name in the tooltip
     Show the target's item level in the tooltip if available <--- NOT WORKING/EXISTING YET
 ]]
-local classColors = {
+ClassColors = {
     ["WARRIOR"] = {r = 0.78, g = 0.61, b = 0.43},
     ["PALADIN"] = {r = 0.96, g = 0.55, b = 0.73},
     ["HUNTER"] = {r = 0.67, g = 0.83, b = 0.45},
@@ -1065,7 +1065,7 @@ local classColors = {
 local lastTarget = nil
 GameTooltip:HookScript("OnTooltipCleared", function(self) lastTarget = nil end)
 
-local function RGBToHex(color)
+function RGBToHex(color)
     local r = color.r * 255
     local g = color.g * 255
     local b = color.b * 255
@@ -1078,7 +1078,7 @@ GameTooltip:HookScript("OnUpdate", function(self)
     if SettingsInitialized and unit and target then
         local targetName, targetRealm = UnitName(target)
         local _, targetClass = UnitClass(target)
-        local color = classColors[targetClass]
+        local color = ClassColors[targetClass]
         if not color then color = {r = 1, g = 1, b = 1} end
         local colorCode = RGBToHex(color)
         local coloredTargetName =
@@ -2180,20 +2180,35 @@ BagFrame:RegisterEvent("GOSSIP_CLOSED")
 BagFrame:RegisterEvent("MERCHANT_SHOW")
 
 function UpdateBagLayout()
+    local totalItems = 0
+    for bag = 6, 1, -1 do
+        totalItems = totalItems + C_Container.GetContainerNumSlots(bag - 1)
+    end
+
+    local bottomRowItems = totalItems % NUM_ITEMS_PER_ROW
+    if bottomRowItems == 0 then bottomRowItems = NUM_ITEMS_PER_ROW end
+
     local itemIndex = 1
-    for bag = 1, 6 do
+    for bag = 6, 1, -1 do
         local numSlots = C_Container.GetContainerNumSlots(bag - 1)
-        for slot = numSlots, 1, -1 do
+        for slot = 1, numSlots do
             local itemButton = _G["ContainerFrame" .. (bag) .. "Item" .. slot]
             if itemButton then
-                local col = (itemIndex - 1) % NUM_ITEMS_PER_ROW
-                local row = math.floor((itemIndex - 1) / NUM_ITEMS_PER_ROW)
-                local xPos = col * 37
-                local yPos = -row * 37
+                local col, row
+                if itemIndex <= bottomRowItems then
+                    col = (itemIndex - 1) + (NUM_ITEMS_PER_ROW - bottomRowItems)
+                    row = 0
+                else
+                    col = (itemIndex - bottomRowItems - 1) % NUM_ITEMS_PER_ROW
+                    row = math.floor((itemIndex - bottomRowItems - 1) /
+                                         NUM_ITEMS_PER_ROW) + 1
+                end
+                local xPos = -col * 37
+                local yPos = row * 37
 
                 itemButton:SetAlpha(1)
                 itemButton:ClearAllPoints()
-                itemButton:SetPoint("TOPLEFT", ContainerFrame4, "TOPLEFT", xPos,
+                itemButton:SetPoint("CENTER", ContainerFrame1, "CENTER", xPos,
                                     yPos)
                 _G[itemButton:GetName() .. "NormalTexture"]:Show()
                 _G[itemButton:GetName() .. "IconTexture"]:Show()
@@ -2207,29 +2222,84 @@ function UpdateBagLayout()
 
     local searchBox = _G["BagItemSearchBox"]
     if searchBox then
-        local numItems = itemIndex - 1
-        local lastRow = math.ceil(numItems / NUM_ITEMS_PER_ROW)
-        local xPos = 4
-        local yPos = -lastRow * 37 - 5
+        local xPos = -300
+        local yPos = -35
 
         searchBox:ClearAllPoints()
-        searchBox:SetPoint("TOPLEFT", ContainerFrame4, "TOPLEFT", xPos, yPos)
+        searchBox:SetPoint("CENTER", ContainerFrame1, "CENTER", xPos, yPos)
 
         MoneyFrame = _G["ContainerFrame1MoneyFrame"]
         if MoneyFrame then
             MoneyFrame:ClearAllPoints()
-            MoneyFrame:SetPoint("TOPLEFT", ContainerFrame4, "TOPRIGHT",
-                                xPos - 80, yPos - 1)
+            MoneyFrame:SetPoint("CENTER", ContainerFrame1, "CENTER", xPos + 120,
+                                yPos)
             _G["ContainerFrame1MoneyFrame"]:Show()
             _G["ContainerFrame1MoneyFrame"].Border:Hide()
+
+            if not _G.totalGoldText then
+                _G.totalGoldText = MoneyFrame:CreateFontString(nil, "OVERLAY",
+                                                               "GameFontNormal")
+                _G.totalGoldText:SetPoint("TOPLEFT", MoneyFrame, "TOPRIGHT", 0,
+                                          0)
+            end
+
+            _G.totalGoldText:SetText("Total: " .. zUI_SavedSettings.TotalGold ..
+                                         "|TInterface\\MoneyFrame\\UI-GoldIcon:12:12:4:0|t")
+
+            local bagMoneyUpdater = CreateFrame("Frame")
+
+            bagMoneyUpdater:SetScript("OnEvent", function(self, event, ...)
+                if event == "PLAYER_MONEY" then
+                    _G.totalGoldText:SetText("Total: " ..
+                                                 zUI_SavedSettings.TotalGold ..
+                                                 "|TInterface\\MoneyFrame\\UI-GoldIcon:12:12:4:0|t")
+                end
+            end)
+
+            bagMoneyUpdater:RegisterEvent("PLAYER_MONEY")
+
+            _G.totalGoldText:SetScript("OnEnter", function(self)
+                GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
+                GameTooltip:ClearLines()
+                local _, characterClass = UnitClass("player")
+                for character, data in pairs(zUI_SavedSettings) do
+                    if character == PlayerIdentifier then
+                        local classInUpperCase = string.upper(characterClass)
+                        data.Class = classInUpperCase
+                    end
+                    if type(data) == "table" and data.Gold and data.Class then
+                        local currentRealm = GetRealmName()
+                        local name, realm = strsplit("-", character)
+
+                        if realm == currentRealm then
+                            local colorTable =
+                                ClassColors[data.Class] or {r = 1, g = 1, b = 1}
+                            local color = RGBToHex(colorTable)
+                            color = "|cff" .. color:sub(3)
+                            GameTooltip:AddLine(
+                                color .. character .. "|r: " .. data.Gold ..
+                                    "|TInterface\\MoneyFrame\\UI-GoldIcon:12:12:4:0|t")
+                        end
+                    end
+                end
+                GameTooltip:Show()
+            end)
+
+            _G.totalGoldText:SetScript("OnLeave",
+                                       function(self)
+                GameTooltip:Hide()
+            end)
         end
 
+        BagItemAutoSortButton:Hide()
+
         if BackpackTokenFrame then
-            BackpackTokenFrame:ClearAllPoints()
-            BackpackTokenFrame:SetPoint("TOPLEFT", ContainerFrame4, "TOPRIGHT",
-                                        xPos, yPos - 20)
-            BackpackTokenFrame:Show()
-            BackpackTokenFrame.Border:Hide()
+            BackpackTokenFrame:Hide()
+            -- BackpackTokenFrame:ClearAllPoints()
+            -- BackpackTokenFrame:SetPoint("CENTER", ContainerFrame1, "CENTER",
+            --                             xPos, yPos - 20)
+            -- BackpackTokenFrame:Show()
+            -- BackpackTokenFrame.Border:Hide()
         end
         _G["BagItemSearchBox"]:Show()
     end
@@ -2279,6 +2349,7 @@ local function hideElements()
     for i = 1, 6 do
         local frame = _G["ContainerFrame" .. i]
         if frame then
+            frame:EnableMouse(false)
             for _, element in ipairs(elementsToHide) do
                 local parts = {}
                 for part in string.gmatch(element, "[^.]+") do
@@ -2337,5 +2408,51 @@ BagFrame:SetScript("OnEvent", function(self, event, ...)
         end
 
         hideElements()
+    end
+end)
+
+---------------------------------------------------------------------------------------------------
+-- Total amount of gold
+---------------------------------------------------------------------------------------------------
+local totalGoldFrame = CreateFrame("Frame")
+totalGoldFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+totalGoldFrame:RegisterEvent("PLAYER_MONEY")
+
+local function RecalculateTotalGold()
+    if SettingsInitialized then
+        zUI_SavedSettings.TotalGold = 0
+        local currentRealm = GetRealmName()
+        for characterIdentifier, characterSettings in pairs(zUI_SavedSettings) do
+            if type(characterSettings) == "table" and characterSettings.Gold then
+                local _, realm = strsplit("-", characterIdentifier)
+                if realm == currentRealm then
+                    zUI_SavedSettings.TotalGold =
+                        zUI_SavedSettings.TotalGold + characterSettings.Gold
+                end
+            end
+        end
+    end
+end
+
+local function updateGold()
+    if SettingsInitialized then
+        zUI_SavedSettings[PlayerIdentifier].Gold = floor(GetMoney() / 1e4)
+        if not zUI_SavedSettings[PlayerIdentifier].GoldAdded then
+            zUI_SavedSettings.TotalGold =
+                zUI_SavedSettings.TotalGold +
+                    zUI_SavedSettings[PlayerIdentifier].Gold
+            zUI_SavedSettings[PlayerIdentifier].GoldAdded = true
+        end
+        RecalculateTotalGold()
+    end
+end
+
+totalGoldFrame:SetScript("OnEvent", function(self, event, ...)
+    if true then
+        if event == "PLAYER_ENTERING_WORLD" then
+            C_Timer.After(0, function() updateGold() end)
+        elseif event == "PLAYER_MONEY" then
+            updateGold()
+        end
     end
 end)

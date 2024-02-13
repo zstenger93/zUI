@@ -90,6 +90,10 @@ initializeSettingsIfNewTable:SetScript("OnEvent", function(self, event)
         zUI_SavedSettings[PlayerIdentifier].HonorableKillsOnCharacter =
             honorableKills
         zUI_SavedSettings[PlayerIdentifier].CustomBagsSetting = false
+        zUI_SavedSettings.TotalGold = 0
+        zUI_SavedSettings[PlayerIdentifier].Gold = 0
+        zUI_SavedSettings[PlayerIdentifier].Class =
+            string.upper(select(2, UnitClass("player")))
         SettingsInitialized = true
     else
         SettingsInitialized = true
@@ -228,6 +232,12 @@ function UpdateCheckboxes()
                 .TotalAmountOfHonorableKillsSetting or false)
         Checkbox_CustomBags:SetChecked(zUI_SavedSettings[PlayerIdentifier]
                                            .CustomBagsSetting or false)
+        zUI_SavedSettings[PlayerIdentifier].Gold =
+            zUI_SavedSettings[PlayerIdentifier].Gold or 0
+        zUI_SavedSettings.TotalGold = zUI_SavedSettings.TotalGold or 0
+        zUI_SavedSettings[PlayerIdentifier].Class =
+            zUI_SavedSettings[PlayerIdentifier].Class or
+                string.upper(select(2, UnitClass("player")))
     end
 end
 
