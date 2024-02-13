@@ -12,14 +12,12 @@ fpsCheckbox:SetText("Display the FPS")
 Checkbox_fpsFrame:SetPoint("TOPLEFT", 20, -30)
 Checkbox_fpsFrame.tooltip = "Show FPS Frame at the top-middle of the screen."
 
--- Check if the settings are initialized
 if SettingsInitialized then
     Checkbox_fpsFrame:SetChecked(zUI_SavedSettings[PlayerIdentifier]
                                      .fpsFrameSetting)
 end
 
 Checkbox_fpsFrame:SetScript("OnClick", function(self)
-    -- Check if the settings are initialized
     if SettingsInitialized then
         zUI_SavedSettings[PlayerIdentifier].fpsFrameSetting = self:GetChecked()
     end
@@ -61,7 +59,7 @@ moveQSBCheckbox:SetPoint("LEFT", Checkbox_MoveQSB, "RIGHT", 20, 0)
 moveQSBCheckbox:SetText("Move Queue Status Button")
 Checkbox_MoveQSB:SetPoint("TOPLEFT", 20, -90) -- Adjust the position as needed
 Checkbox_MoveQSB.tooltip =
-    "Move the Queue Status Button to the left of the Minimap."
+    "Move the Queue Status Button to the left side of the Minimap."
 Checkbox_MoveQSB:SetChecked(zUI_SavedSettings[PlayerIdentifier].MoveQSBSetting)
 
 Checkbox_MoveQSB:SetScript("OnClick", function(self)
@@ -84,7 +82,7 @@ chatFrameMovableCheckbox:SetPoint("LEFT", Checkbox_ChatFrameMovable, "RIGHT",
 chatFrameMovableCheckbox:SetText("Chat Frame Movable")
 Checkbox_ChatFrameMovable:SetPoint("TOPLEFT", 20, -120)
 Checkbox_ChatFrameMovable.tooltip =
-    "Enable or disable moving of the chat frame. (After moving can be turned off. Position is saved.)"
+    "Enable or disable moving of the chat frame."
 Checkbox_ChatFrameMovable:SetChecked(zUI_SavedSettings[PlayerIdentifier]
                                          .ChatFrameMovableSetting)
 
@@ -107,10 +105,10 @@ local totalAmountOfHonorableKillsCheckbox =
 totalAmountOfHonorableKillsCheckbox:SetPoint("LEFT",
                                              Checkbox_TotalAmountOfHonorableKills,
                                              "RIGHT", 20, 0)
-totalAmountOfHonorableKillsCheckbox:SetText("Total Amount Of Honorable Kills")
+totalAmountOfHonorableKillsCheckbox:SetText("Total Amount Of HK")
 Checkbox_TotalAmountOfHonorableKills:SetPoint("TOPLEFT", 20, -150)
 Checkbox_TotalAmountOfHonorableKills.tooltip =
-    "Enable or disable display to display total amount of honorable kills in the topleft corner."
+    "Enable or disable to display total amount of honorable kills on the account in the topleft corner."
 Checkbox_TotalAmountOfHonorableKills:SetChecked(
     zUI_SavedSettings[PlayerIdentifier].TotalAmountOfHonorableKillsSetting)
 
@@ -120,12 +118,31 @@ Checkbox_TotalAmountOfHonorableKills:SetScript("OnClick", function(self)
 end)
 
 ---------------------------------------------------------------------------------------------------
+-- Checkbox for Custom Player Bags
+---------------------------------------------------------------------------------------------------
+---@class Checkbox_CustomBags : CheckButton
+Checkbox_CustomBags = CreateFrame("CheckButton", "zUICustomBagsCheckbox",
+                                  GeneralPage, "ChatConfigCheckButtonTemplate")
+local customBagsCheckbox = Checkbox_CustomBags:CreateFontString(nil, "OVERLAY",
+                                                                "GameFontNormal")
+customBagsCheckbox:SetPoint("LEFT", Checkbox_CustomBags, "RIGHT", 20, 0)
+customBagsCheckbox:SetText("Custom Bags BETA")
+Checkbox_CustomBags:SetPoint("TOPLEFT", 20, -180) -- Adjust the y-coordinate as needed
+Checkbox_CustomBags.tooltip = "Enable or disable custom player bags."
+Checkbox_CustomBags:SetChecked(zUI_SavedSettings[PlayerIdentifier]
+                                   .CustomBagsSetting)
+
+Checkbox_CustomBags:SetScript("OnClick", function(self)
+    zUI_SavedSettings[PlayerIdentifier].CustomBagsSetting = self:GetChecked()
+end)
+
+---------------------------------------------------------------------------------------------------
 -- Text on General Page
 ---------------------------------------------------------------------------------------------------
 local headerMenuLabel = GeneralPage:CreateFontString(nil, "OVERLAY",
                                                      "GameFontNormal")
-headerMenuLabel:SetPoint("TOPLEFT", 20, -190)
-headerMenuLabel:SetText("Auto Collapse On Loading Screens")
+headerMenuLabel:SetPoint("TOPLEFT", 250, -30)
+headerMenuLabel:SetText("Auto Collapse On Loading")
 
 ---------------------------------------------------------------------------------------------------
 -- Checkbox for HeaderMenu
@@ -137,7 +154,7 @@ local headerMenuCheckbox = Checkbox_HeaderMenu:CreateFontString(nil, "OVERLAY",
                                                                 "GameFontNormal")
 headerMenuCheckbox:SetPoint("LEFT", Checkbox_HeaderMenu, "RIGHT", 20, 0)
 headerMenuCheckbox:SetText("Entire Objective Tracker")
-Checkbox_HeaderMenu:SetPoint("TOPLEFT", 20, -220)
+Checkbox_HeaderMenu:SetPoint("TOPLEFT", 250, -60)
 Checkbox_HeaderMenu.tooltip =
     "Minimize the entire Objective Tracker on loading screens."
 Checkbox_HeaderMenu:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -161,7 +178,7 @@ local campaignQuestHeaderCheckbox =
 campaignQuestHeaderCheckbox:SetPoint("LEFT", Checkbox_CampaignQuestHeader,
                                      "RIGHT", 20, 0)
 campaignQuestHeaderCheckbox:SetText("Campaign Quest")
-Checkbox_CampaignQuestHeader:SetPoint("TOPLEFT", 20, -250)
+Checkbox_CampaignQuestHeader:SetPoint("TOPLEFT", 250, -90)
 Checkbox_CampaignQuestHeader.tooltip =
     "Minimize the campaign quest header of the Objective Tracker on loading screens."
 Checkbox_CampaignQuestHeader:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -183,7 +200,7 @@ local questSectionCheckbox = Checkbox_QuestSection:CreateFontString(nil,
                                                                     "GameFontNormal")
 questSectionCheckbox:SetPoint("LEFT", Checkbox_QuestSection, "RIGHT", 20, 0)
 questSectionCheckbox:SetText("Quest Section")
-Checkbox_QuestSection:SetPoint("TOPLEFT", 20, -280)
+Checkbox_QuestSection:SetPoint("TOPLEFT", 250, -120)
 Checkbox_QuestSection.tooltip =
     "Minimize the quest section of the Objective Tracker on loading screens."
 Checkbox_QuestSection:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -206,7 +223,7 @@ local achievementHeaderCheckbox = Checkbox_AchievementHeader:CreateFontString(
 achievementHeaderCheckbox:SetPoint("LEFT", Checkbox_AchievementHeader, "RIGHT",
                                    20, 0)
 achievementHeaderCheckbox:SetText("Achievement")
-Checkbox_AchievementHeader:SetPoint("TOPLEFT", 20, -310)
+Checkbox_AchievementHeader:SetPoint("TOPLEFT", 250, -150)
 Checkbox_AchievementHeader.tooltip =
     "Minimize the achievement header of the Objective Tracker on loading screens."
 Checkbox_AchievementHeader:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -229,7 +246,7 @@ local scenarioHeaderCheckbox = Checkbox_ScenarioHeader:CreateFontString(nil,
                                                                         "GameFontNormal")
 scenarioHeaderCheckbox:SetPoint("LEFT", Checkbox_ScenarioHeader, "RIGHT", 20, 0)
 scenarioHeaderCheckbox:SetText("Scenario")
-Checkbox_ScenarioHeader:SetPoint("TOPLEFT", 20, -340)
+Checkbox_ScenarioHeader:SetPoint("TOPLEFT", 250, -180)
 Checkbox_ScenarioHeader.tooltip =
     "Minimize the scenario header of the Objective Tracker on loading screens."
 Checkbox_ScenarioHeader:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -254,7 +271,7 @@ local adventureHeaderCheckbox = Checkbox_AdventureHeader:CreateFontString(nil,
 adventureHeaderCheckbox:SetPoint("LEFT", Checkbox_AdventureHeader, "RIGHT", 20,
                                  0)
 adventureHeaderCheckbox:SetText("Adventure")
-Checkbox_AdventureHeader:SetPoint("TOPLEFT", 20, -370)
+Checkbox_AdventureHeader:SetPoint("TOPLEFT", 250, -210)
 Checkbox_AdventureHeader.tooltip =
     "Minimize the adventure header of the Objective Tracker on loading screens."
 Checkbox_AdventureHeader:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -279,7 +296,7 @@ local worldQuestHeaderCheckbox = Checkbox_WorldQuestHeader:CreateFontString(nil,
 worldQuestHeaderCheckbox:SetPoint("LEFT", Checkbox_WorldQuestHeader, "RIGHT",
                                   20, 0)
 worldQuestHeaderCheckbox:SetText("World Quest")
-Checkbox_WorldQuestHeader:SetPoint("TOPLEFT", 20, -400)
+Checkbox_WorldQuestHeader:SetPoint("TOPLEFT", 250, -240)
 Checkbox_WorldQuestHeader.tooltip =
     "Minimize the world quest header of the Objective Tracker on loading screens."
 Checkbox_WorldQuestHeader:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -2222,75 +2239,43 @@ BagFrame:EnableKeyboard(true)
 BagFrame:SetPropagateKeyboardInput(true)
 
 BagFrame:SetScript("OnKeyDown", function(self, key)
-    local openAllBags = GetBindingKey("OPENALLBAGS")
-    if key == openAllBags then
-        BackpackTokenFrame:Hide()
-        _G["BagItemSearchBox"]:Hide()
-        _G["ContainerFrame1MoneyFrame"]:Hide()
-        for bag = 0, 5 do
-            local numSlots = C_Container.GetContainerNumSlots(bag)
-            for slot = 1, numSlots do
-                local itemButton = _G["ContainerFrame" .. (bag + 1) .. "Item" ..
-                                       slot]
-                if itemButton then
-                    itemButton:SetAlpha(0)
-                    itemButton.IconBorder:Hide()
-                    _G[itemButton:GetName() .. "NormalTexture"]:Hide()
-                    _G[itemButton:GetName() .. "IconTexture"]:Hide()
-                    if itemButton.ProfessionQualityOverlay then
-                        itemButton.ProfessionQualityOverlay:Hide()
+    if SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].CustomBagsSetting then
+        local openAllBags = GetBindingKey("OPENALLBAGS")
+        if key == openAllBags then
+            BackpackTokenFrame:Hide()
+            _G["BagItemSearchBox"]:Hide()
+            _G["ContainerFrame1MoneyFrame"]:Hide()
+            for bag = 0, 5 do
+                local numSlots = C_Container.GetContainerNumSlots(bag)
+                for slot = 1, numSlots do
+                    local itemButton = _G["ContainerFrame" .. (bag + 1) ..
+                                           "Item" .. slot]
+                    if itemButton then
+                        itemButton:SetAlpha(0)
+                        itemButton.IconBorder:Hide()
+                        _G[itemButton:GetName() .. "NormalTexture"]:Hide()
+                        _G[itemButton:GetName() .. "IconTexture"]:Hide()
+                        if itemButton.ProfessionQualityOverlay then
+                            itemButton.ProfessionQualityOverlay:Hide()
+                        end
                     end
                 end
             end
+            C_Timer.After(0, function() UpdateBagLayout() end)
         end
-        C_Timer.After(0, function() UpdateBagLayout() end)
     end
 end)
 
-BagFrame:SetScript("OnEvent", function(self, event, ...)
-    local bagEvents = {
-        ["BAG_OPEN"] = true,
-        ["BAG_UPDATE"] = true,
-        ["BAG_UPDATE_COOLDOWN"] = true,
-        ["BAG_UPDATE_DELAYED"] = true,
-        ["BAG_CLOSED"] = true,
-        ["BAG_NEW_ITEMS_UPDATED"] = true,
-        ["BAG_SLOT_FLAGS_UPDATED"] = true,
-        ["ITEM_LOCK_CHANGED"] = true,
-        ["PLAYER_ENTERING_WORLD"] = true,
-        ["BANKFRAME_OPENED"] = true,
-        ["BANKFRAME_CLOSED"] = true,
-        ["PLAYERBANKSLOTS_CHANGED"] = true,
-        ["ITEM_PUSH"] = true,
-        ["QUEST_ACCEPTED"] = true,
-        ["QUEST_REMOVED"] = true,
-        ["PLAYERBANKBAGSLOTS_CHANGED"] = true,
-        ["MAIL_SHOW"] = true,
-        ["MAIL_CLOSED"] = true,
-        ["TRADE_SHOW"] = true,
-        ["TRADE_CLOSED"] = true,
-        ["AUCTION_HOUSE_SHOW"] = true,
-        ["AUCTION_HOUSE_CLOSED"] = true,
-        ["GUILDBANKFRAME_OPENED"] = true,
-        ["GUILDBANKFRAME_CLOSED"] = true,
-        ["ITEM_TEXT_BEGIN"] = true,
-        ["ITEM_TEXT_CLOSED"] = true,
-        ["GOSSIP_SHOW"] = true,
-        ["GOSSIP_CLOSED"] = true,
-        ["MERCHANT_SHOW"] = true
-    }
+local elementsToHide = {
+    "CloseButton", "TitleContainer", "PortraitContainer", "Bg",
+    "NineSlice.LeftEdge", "NineSlice.RightEdge", "NineSlice.TopEdge",
+    "NineSlice.TopLeftCorner", "NineSlice.TopRightCorner",
+    "NineSlice.BottomEdge", "NineSlice.BottomLeftCorner",
+    "NineSlice.BottomRightCorner", "NineSlice.Center"
+}
 
-    if bagEvents[event] then
-        C_Timer.After(0, function() UpdateBagLayout() end)
-    end
-    local elementsToHide = {
-        "CloseButton", "TitleContainer", "PortraitContainer", "Bg",
-        "NineSlice.LeftEdge", "NineSlice.RightEdge", "NineSlice.TopEdge",
-        "NineSlice.TopLeftCorner", "NineSlice.TopRightCorner",
-        "NineSlice.BottomEdge", "NineSlice.BottomLeftCorner",
-        "NineSlice.BottomRightCorner", "NineSlice.Center"
-    }
-
+local function hideElements()
     for i = 1, 6 do
         local frame = _G["ContainerFrame" .. i]
         if frame then
@@ -2310,7 +2295,47 @@ BagFrame:SetScript("OnEvent", function(self, event, ...)
             end
         end
     end
-end)
+end
 
--- if SettingsInitialized and
---     zUI_SavedSettings[PlayerIdentifier].BagFrameSetting then end
+BagFrame:SetScript("OnEvent", function(self, event, ...)
+    if SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].CustomBagsSetting then
+        local bagEvents = {
+            ["BAG_OPEN"] = true,
+            ["BAG_UPDATE"] = true,
+            ["BAG_UPDATE_COOLDOWN"] = true,
+            ["BAG_UPDATE_DELAYED"] = true,
+            ["BAG_CLOSED"] = true,
+            ["BAG_NEW_ITEMS_UPDATED"] = true,
+            ["BAG_SLOT_FLAGS_UPDATED"] = true,
+            ["ITEM_LOCK_CHANGED"] = true,
+            ["PLAYER_ENTERING_WORLD"] = true,
+            ["BANKFRAME_OPENED"] = true,
+            ["BANKFRAME_CLOSED"] = true,
+            ["PLAYERBANKSLOTS_CHANGED"] = true,
+            ["ITEM_PUSH"] = true,
+            ["QUEST_ACCEPTED"] = true,
+            ["QUEST_REMOVED"] = true,
+            ["PLAYERBANKBAGSLOTS_CHANGED"] = true,
+            ["MAIL_SHOW"] = true,
+            ["MAIL_CLOSED"] = true,
+            ["TRADE_SHOW"] = true,
+            ["TRADE_CLOSED"] = true,
+            ["AUCTION_HOUSE_SHOW"] = true,
+            ["AUCTION_HOUSE_CLOSED"] = true,
+            ["GUILDBANKFRAME_OPENED"] = true,
+            ["GUILDBANKFRAME_CLOSED"] = true,
+            ["ITEM_TEXT_BEGIN"] = true,
+            ["ITEM_TEXT_CLOSED"] = true,
+            ["GOSSIP_SHOW"] = true,
+            ["GOSSIP_CLOSED"] = true,
+            ["MERCHANT_SHOW"] = true
+        }
+
+        if bagEvents[event] then
+            C_Timer.After(0, function() UpdateBagLayout() end)
+        end
+
+        hideElements()
+    end
+end)
