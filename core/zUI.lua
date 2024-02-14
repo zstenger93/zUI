@@ -2517,9 +2517,6 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
             end
         end
 
-        ContainerFrame12Item12NormalTexture:Hide()
-        ContainerFrame12Item12IconTexture:Hide()
-
         BankFrame.NineSlice:Hide()
         BankFrame.Bg:Hide()
         BankItemAutoSortButton:Hide()
@@ -2536,8 +2533,6 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
         StripTextures(BankFrame)
         StripTextures(BankSlotsFrame)
         StripTextures(ReagentBankFrame)
-
-        StripTextures(ContainerFrame12)
 
         ReagentBankFrame:DisableDrawLayer("BACKGROUND")
         ReagentBankFrame:DisableDrawLayer("ARTWORK")
