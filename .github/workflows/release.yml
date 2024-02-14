@@ -14,6 +14,24 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Extract version from master
+        id: extract_version_master
+        run: echo "::set-output name=version::$(grep -oP '_VERSION = "\K[^"]+' core/ui_settings.lua)"
+
+      - name: Checkout release branch
+        run: git checkout release
+
+      - name: Extract version from release
+        id: extract_version_release
+        run: echo "::set-output name=version::$(grep -oP '_VERSION = "\K[^"]+' core/ui_settings.lua)"
+
+      - name: Compare versions
+        run: |
+          if [ "${{ steps.extract_version_master.outputs.version }}" = "${{ steps.extract_version_release.outputs.version }}" ]; then
+            echo "Version has not changed, exiting"
+            exit 78
+          fi
+
       - name: Reset release branch to match master
         run: |
           git checkout master

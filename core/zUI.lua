@@ -2068,9 +2068,13 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Move the BNToastFrame
 ---------------------------------------------------------------------------------------------------
-ChatFrame1Tab:HookScript("OnUpdate", function()
-    BNToastFrame:ClearAllPoints();
-    BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 60, 0)
+local BNFrame = CreateFrame("Frame")
+BNFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+BNFrame:SetScript("OnEvent", function(self, event)
+    if event == "PLAYER_ENTERING_WORLD" then
+        BNToastFrame:ClearAllPoints()
+        BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 90, 0)
+    end
 end)
 
 ---------------------------------------------------------------------------------------------------
@@ -2258,10 +2262,19 @@ function UpdateBagLayout()
 
             bagMoneyUpdater:RegisterEvent("PLAYER_MONEY")
 
+            local function comma_value(n)
+                local left, num, right =
+                    string.match(n, '^([^%d]*%d)(%d*)(.-)$')
+                return
+                    left .. (num:reverse():gsub('(%d%d%d)', '%1 '):reverse()) ..
+                        right
+            end
+
             _G.totalGoldText:SetScript("OnEnter", function(self)
                 GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
                 GameTooltip:ClearLines()
                 local _, characterClass = UnitClass("player")
+                local characters = {}
                 for character, data in pairs(zUI_SavedSettings) do
                     if character == PlayerIdentifier then
                         local classInUpperCase = string.upper(characterClass)
@@ -2270,17 +2283,26 @@ function UpdateBagLayout()
                     if type(data) == "table" and data.Gold and data.Class then
                         local currentRealm = GetRealmName()
                         local name, realm = strsplit("-", character)
-
                         if realm == currentRealm then
-                            local colorTable =
-                                ClassColors[data.Class] or {r = 1, g = 1, b = 1}
-                            local color = RGBToHex(colorTable)
-                            color = "|cff" .. color:sub(3)
-                            GameTooltip:AddLine(
-                                color .. character .. "|r: " .. data.Gold ..
-                                    "|TInterface\\MoneyFrame\\UI-GoldIcon:12:12:4:0|t")
+                            table.insert(characters, {
+                                name = character,
+                                gold = data.Gold,
+                                class = data.Class
+                            })
                         end
                     end
+                end
+                table.sort(characters, function(a, b)
+                    return a.gold > b.gold
+                end)
+                for _, character in ipairs(characters) do
+                    local colorTable = ClassColors[character.class] or
+                                           {r = 1, g = 1, b = 1}
+                    local color = RGBToHex(colorTable)
+                    color = "|cff" .. color:sub(3)
+                    GameTooltip:AddLine(color .. character.name .. "|r  " ..
+                                            comma_value(character.gold) ..
+                                            "|TInterface\\MoneyFrame\\UI-GoldIcon:12:12:4:0|t")
                 end
                 GameTooltip:Show()
             end)
