@@ -2478,3 +2478,69 @@ totalGoldFrame:SetScript("OnEvent", function(self, event, ...)
         end
     end
 end)
+
+---------------------------------------------------------------------------------------------------
+-- BankFrame
+---------------------------------------------------------------------------------------------------
+local BankFrameMod = CreateFrame("Frame")
+BankFrameMod:RegisterEvent("BANKFRAME_OPENED")
+BankFrameMod:RegisterEvent("BANKFRAME_CLOSED")
+BankFrameMod:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
+BankFrameMod:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED")
+BankFrameMod:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
+BankFrameMod:RegisterEvent("ITEM_LOCK_CHANGED")
+BankFrameMod:RegisterEvent("BAG_UPDATE")
+
+local frameElementsToHide = {
+    "NineSlice", "Bg", "CloseButton", "PortraitOverlay", "PortraitOverlayFrame",
+    "PortraitContainer"
+}
+
+function StripTextures(frame)
+    local regions = {frame:GetRegions()}
+    for _, region in ipairs(regions) do
+        if region:IsObjectType("Texture") then
+            region:SetTexture(nil)
+        end
+    end
+end
+
+BankFrameMod:SetScript("OnEvent", function(self, event)
+    if event == "BANKFRAME_OPENED" then
+        for i = 7, 13 do
+            local bankBagSlotFrame = _G["ContainerFrame" .. i]
+            if bankBagSlotFrame then
+                for _, element in ipairs(frameElementsToHide) do
+                    local subFrame = bankBagSlotFrame[element]
+                    if subFrame then subFrame:Hide() end
+                end
+            end
+        end
+
+        BankFrame.NineSlice:Hide()
+        BankFrame.Bg:Hide()
+        BankItemAutoSortButton:Hide()
+        BankFrame.PortraitContainer:Hide()
+        BankFrame.CloseButton:Hide()
+        BankFrameTitleText:Hide()
+        BankFrame.TopTileStreaks:Hide()
+        BankFrameMoneyFrame:Hide()
+        BankFrameMoneyFrameInset.NineSlice:Hide()
+
+        StripTextures(BankFrameMoneyFrameInset)
+        StripTextures(BankFrameMoneyFrameBorder)
+        StripTextures(BankFrameMoneyFrame)
+        StripTextures(BankFrame)
+        StripTextures(BankSlotsFrame)
+        StripTextures(ReagentBankFrame)
+
+        ReagentBankFrame:DisableDrawLayer("BACKGROUND")
+        ReagentBankFrame:DisableDrawLayer("ARTWORK")
+
+        PrintTable(BankFrame)
+
+        OpenAllBags()
+
+        for bag = -1, 11 do if bag >= 5 then OpenBag(bag) end end
+    end
+end)
