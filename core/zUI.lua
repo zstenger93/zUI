@@ -2493,15 +2493,13 @@ BankFrameMod:RegisterEvent("BAG_UPDATE")
 
 local frameElementsToHide = {
     "NineSlice", "Bg", "CloseButton", "PortraitOverlay", "PortraitOverlayFrame",
-    "PortraitContainer"
+    "PortraitContainer", "TitleText", "TitleContainer"
 }
 
 function StripTextures(frame)
     local regions = {frame:GetRegions()}
     for _, region in ipairs(regions) do
-        if region:IsObjectType("Texture") then
-            region:SetTexture(nil)
-        end
+        if region:IsObjectType("Texture") then region:SetTexture(nil) end
     end
 end
 
@@ -2510,12 +2508,16 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
         for i = 7, 13 do
             local bankBagSlotFrame = _G["ContainerFrame" .. i]
             if bankBagSlotFrame then
+                bankBagSlotFrame:EnableMouse(false)
                 for _, element in ipairs(frameElementsToHide) do
                     local subFrame = bankBagSlotFrame[element]
                     if subFrame then subFrame:Hide() end
                 end
             end
         end
+
+        ContainerFrame12Item12NormalTexture:Hide()
+        ContainerFrame12Item12IconTexture:Hide()
 
         BankFrame.NineSlice:Hide()
         BankFrame.Bg:Hide()
@@ -2534,13 +2536,62 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
         StripTextures(BankSlotsFrame)
         StripTextures(ReagentBankFrame)
 
+        StripTextures(ContainerFrame12)
+
         ReagentBankFrame:DisableDrawLayer("BACKGROUND")
         ReagentBankFrame:DisableDrawLayer("ARTWORK")
 
-        PrintTable(BankFrame)
+        local frame = _G["ContainerFrame8"]
+        local perRow = 20
+        local lastSlot = nil
+        local firstSlotInRow = nil
+        local slotCounter = 0
+
+        if frame then
+            for i = 1, 28 do
+                local slot = _G["BankFrameItem" .. i]
+                if slot then
+                    slot:ClearAllPoints()
+                    if slotCounter % perRow == 0 then
+                        if slotCounter == 0 then
+                            slot:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, 0)
+                        else
+                            slot:SetPoint("TOP", firstSlotInRow, "BOTTOM", 0, 0)
+                        end
+                        firstSlotInRow = slot
+                    else
+                        slot:SetPoint("RIGHT", lastSlot, "LEFT", 0, 0)
+                    end
+                    lastSlot = slot
+                    slotCounter = slotCounter + 1
+                end
+            end
+            C_Timer.After(0.1, function()
+                for i = 7, 13 do
+                    local numSlots = C_Container.GetContainerNumSlots(i)
+                    if i == 13 then numSlots = 36 end
+                    for j = 1, numSlots do
+                        local slot = _G["ContainerFrame" .. i .. "Item" .. j]
+                        if slot then
+                            slot:ClearAllPoints()
+                            if slotCounter % perRow == 0 then
+                                slot:SetPoint("TOP", firstSlotInRow, "BOTTOM",
+                                              0, 0)
+                                firstSlotInRow = slot
+                            else
+                                slot:SetPoint("RIGHT", lastSlot, "LEFT", 0, 0)
+                            end
+                            lastSlot = slot
+                            slotCounter = slotCounter + 1
+                        end
+                    end
+                end
+            end)
+        end
+        -- PrintTable(BankFrame)
 
         OpenAllBags()
 
-        for bag = -1, 11 do if bag >= 5 then OpenBag(bag) end end
+        for bag = -1, 12 do if bag >= 5 then OpenBag(bag) end end
     end
 end)
