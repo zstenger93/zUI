@@ -2490,6 +2490,7 @@ BankFrameMod:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED")
 BankFrameMod:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
 BankFrameMod:RegisterEvent("ITEM_LOCK_CHANGED")
 BankFrameMod:RegisterEvent("BAG_UPDATE")
+BankFrameMod:RegisterEvent("PLAYERREAGENTBANKSLOTS_CHANGED")
 
 local frameElementsToHide = {
     "NineSlice", "Bg", "CloseButton", "PortraitOverlay", "PortraitOverlayFrame",
@@ -2541,7 +2542,7 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
         ReagentBankFrame:DisableDrawLayer("BACKGROUND")
         ReagentBankFrame:DisableDrawLayer("ARTWORK")
 
-        local frame = _G["ContainerFrame8"]
+        local frame = _G["BankFrame"]
         local perRow = 20
         local lastSlot = nil
         local firstSlotInRow = nil
@@ -2554,13 +2555,13 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
                     slot:ClearAllPoints()
                     if slotCounter % perRow == 0 then
                         if slotCounter == 0 then
-                            slot:SetPoint("TOPRIGHT", frame, "TOPRIGHT", 0, 0)
+                            slot:SetPoint("TOPLEFT", frame, "TOPLEFT", 0, 0)
                         else
                             slot:SetPoint("TOP", firstSlotInRow, "BOTTOM", 0, 0)
                         end
                         firstSlotInRow = slot
                     else
-                        slot:SetPoint("RIGHT", lastSlot, "LEFT", 0, 0)
+                        slot:SetPoint("LEFT", lastSlot, "RIGHT", 0, 0)
                     end
                     lastSlot = slot
                     slotCounter = slotCounter + 1
@@ -2579,16 +2580,46 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
                                               0, 0)
                                 firstSlotInRow = slot
                             else
-                                slot:SetPoint("RIGHT", lastSlot, "LEFT", 0, 0)
+                                slot:SetPoint("LEFT", lastSlot, "RIGHT", 0, 0)
                             end
                             lastSlot = slot
                             slotCounter = slotCounter + 1
                         end
                     end
                 end
+                BankItemSearchBox:ClearAllPoints()
+                BankItemSearchBox:SetPoint("BOTTOM", BankFrameItem10, "TOP", 0,
+                                           0)
             end)
         end
+
         -- PrintTable(BankFrame)
+
+        local function toggleContainerFrames(show)
+            for i = 7, 13 do
+                local numSlots = i == 13 and 36 or C_Container.GetContainerNumSlots(i)
+                for j = 1, numSlots do
+                    local slot = _G["ContainerFrame" .. i .. "Item" .. j]
+                    if slot then
+                        if show then
+                            slot:Show()
+                        else
+                            slot:Hide()
+                        end
+                    end
+                end
+            end
+        end
+
+        BankFrameTab1:HookScript("OnClick", function()
+            toggleContainerFrames(true)
+            print(1)
+        end)
+
+        BankFrameTab2:HookScript("OnClick", function()
+            toggleContainerFrames(false)
+            print(2)
+        end)
 
         OpenAllBags()
 
