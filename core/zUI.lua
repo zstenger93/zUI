@@ -2149,7 +2149,18 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- BagFrame
 ---------------------------------------------------------------------------------------------------
-
+--[[
+    - Removing every texture except for the slots
+    - Organizing all the bags into one bag, first bag on top, reagent at bottom
+    - Moving the searchbox to the bottom left corner, with the moneyframe next to it
+    - Next to the moneyframe, displaying the total amount of gold on the current realm
+        - Displaying the total amount of gold each character on hover
+        - Spacing the amount of gold by thousands
+        - Ordering them by the amount of gold, biggest first
+    - Hide the auto sort button
+    - Token frame is move below the searchbox but hidden atm because <-- NOT WORKING YET
+    - Made the containerframes clickthrough
+]]
 local NUM_ITEMS_PER_ROW = 10
 local BagFrame = CreateFrame("Frame")
 
@@ -2436,6 +2447,12 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Total amount of gold
 ---------------------------------------------------------------------------------------------------
+--[[
+    - Saving the gold for each character
+    - Storing total amount of gold on the current realm
+    - Dynamically changing the total amount of gold on the current realm
+    - Always updating on money change
+]]
 local totalGoldFrame = CreateFrame("Frame")
 totalGoldFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 totalGoldFrame:RegisterEvent("PLAYER_MONEY")
@@ -2482,6 +2499,14 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- BankFrame
 ---------------------------------------------------------------------------------------------------
+--[[
+    - Removing every texture/art except for the slots
+    - Combining all bags into one big
+    - Put the search box on top of it
+    - Made the frames clickthrough
+    - Hiding the bank slots when switching tab to reagent
+    - Organization of the slots is not working properly yet
+]]
 local BankFrameMod = CreateFrame("Frame")
 BankFrameMod:RegisterEvent("BANKFRAME_OPENED")
 BankFrameMod:RegisterEvent("BANKFRAME_CLOSED")
