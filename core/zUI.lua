@@ -2529,7 +2529,8 @@ end)
     - Organization of the slots now works
     - Hiding the auto sort button
     - Bags always blow last row
-    - Tabs always below last bags, on reagent tab reset pos
+    - Tabs always below last bags, on reagent tab reset 
+    - Purchase button new slots next to the last bag with price
 ]]
 local BankFrameMod = CreateFrame("Frame")
 BankFrameMod:RegisterEvent("BANKFRAME_OPENED")
@@ -2558,10 +2559,19 @@ function StripTextures(frame)
     end
 end
 
+local validEvents = {
+    ["BANKFRAME_OPENED"] = true,
+    ["PLAYERBANKSLOTS_CHANGED"] = true,
+    ["PLAYERBANKBAGSLOTS_CHANGED"] = true,
+    ["ITEM_LOCK_CHANGED"] = true,
+    ["BAG_UPDATE"] = true,
+    ["PLAYERREAGENTBANKSLOTS_CHANGED"] = true
+}
+
 BankFrameMod:SetScript("OnEvent", function(self, event)
     if SettingsInitialized and
-        zUI_SavedSettings[PlayerIdentifier].CustomBankSetting and event ==
-        "BANKFRAME_OPENED" then
+        zUI_SavedSettings[PlayerIdentifier].CustomBankSetting and
+        validEvents[event] then
         for i = 7, 13 do
             local bankBagSlotFrame = _G["ContainerFrame" .. i]
             if bankBagSlotFrame then
