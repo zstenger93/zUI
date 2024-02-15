@@ -94,6 +94,7 @@ initializeSettingsIfNewTable:SetScript("OnEvent", function(self, event)
         zUI_SavedSettings[PlayerIdentifier].Gold = 0
         zUI_SavedSettings[PlayerIdentifier].Class =
             string.upper(select(2, UnitClass("player")))
+        zUI_SavedSettings[PlayerIdentifier].CustomBankSetting = false
         SettingsInitialized = true
     else
         SettingsInitialized = true
@@ -238,6 +239,8 @@ function UpdateCheckboxes()
         zUI_SavedSettings[PlayerIdentifier].Class =
             zUI_SavedSettings[PlayerIdentifier].Class or
                 string.upper(select(2, UnitClass("player")))
+        Checkbox_CustomBank:SetChecked(zUI_SavedSettings[PlayerIdentifier]
+                                           .CustomBankSetting or false)
     end
 end
 

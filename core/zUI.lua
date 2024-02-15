@@ -128,12 +128,33 @@ local customBagsCheckbox = Checkbox_CustomBags:CreateFontString(nil, "OVERLAY",
 customBagsCheckbox:SetPoint("LEFT", Checkbox_CustomBags, "RIGHT", 20, 0)
 customBagsCheckbox:SetText("Custom Bags BETA")
 Checkbox_CustomBags:SetPoint("TOPLEFT", 20, -180) -- Adjust the y-coordinate as needed
-Checkbox_CustomBags.tooltip = "Enable or disable custom player bags."
+Checkbox_CustomBags.tooltip =
+    "Enable or disable custom player bags. WARNING: This is a BETA feature."
 Checkbox_CustomBags:SetChecked(zUI_SavedSettings[PlayerIdentifier]
                                    .CustomBagsSetting)
 
 Checkbox_CustomBags:SetScript("OnClick", function(self)
     zUI_SavedSettings[PlayerIdentifier].CustomBagsSetting = self:GetChecked()
+end)
+
+---------------------------------------------------------------------------------------------------
+-- Checkbox for Custom Bank
+---------------------------------------------------------------------------------------------------
+---@class Checkbox_CustomBank : CheckButton
+Checkbox_CustomBank = CreateFrame("CheckButton", "zUICustomBankCheckbox",
+                                  GeneralPage, "ChatConfigCheckButtonTemplate")
+local customBankCheckbox = Checkbox_CustomBank:CreateFontString(nil, "OVERLAY",
+                                                                "GameFontNormal")
+customBankCheckbox:SetPoint("LEFT", Checkbox_CustomBank, "RIGHT", 20, 0)
+customBankCheckbox:SetText("Custom Bank BETA")
+Checkbox_CustomBank:SetPoint("TOPLEFT", 20, -210)
+Checkbox_CustomBank.tooltip =
+    "Enable or disable custom bank. WARNING: This is a BETA feature."
+Checkbox_CustomBank:SetChecked(zUI_SavedSettings[PlayerIdentifier]
+                                   .CustomBankSetting)
+
+Checkbox_CustomBank:SetScript("OnClick", function(self)
+    zUI_SavedSettings[PlayerIdentifier].CustomBankSetting = self:GetChecked()
 end)
 
 ---------------------------------------------------------------------------------------------------
@@ -2073,7 +2094,7 @@ BNFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 BNFrame:SetScript("OnEvent", function(self, event)
     if event == "PLAYER_ENTERING_WORLD" then
         BNToastFrame:ClearAllPoints()
-        BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 90, 0)
+        BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame2Tab, "TOPRIGHT", 90, 0)
     end
 end)
 
@@ -2533,7 +2554,9 @@ function StripTextures(frame)
 end
 
 BankFrameMod:SetScript("OnEvent", function(self, event)
-    if event == "BANKFRAME_OPENED" then
+    if SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].CustomBankSetting and event ==
+        "BANKFRAME_OPENED" then
         for i = 7, 13 do
             local bankBagSlotFrame = _G["ContainerFrame" .. i]
             if bankBagSlotFrame then
@@ -2573,10 +2596,18 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
         local slotCounter = 0
 
         if frame then
-            for i = 1, 28 do
-                local slot = _G["BankFrameItem" .. i]
+
+            for bankMainSlot = 1, 28 do
+                local slot = _G["BankFrameItem" .. bankMainSlot]
                 if slot then
                     slot:ClearAllPoints()
+                    local bg = CreateFrame("Frame", nil, slot)
+                    bg:SetAllPoints()
+                    bg:SetFrameLevel(slot:GetFrameLevel() - 1)
+                    local texture = bg:CreateTexture(nil, "BACKGROUND")
+                    texture:SetAllPoints()
+                    texture:SetTexture(
+                        "Interface/PaperDoll/UI-Backpack-EmptySlot")
                     if slotCounter % perRow == 0 then
                         if slotCounter == 0 then
                             slot:SetPoint("TOPLEFT", frame, "TOPLEFT", 0, 0)
@@ -2591,13 +2622,14 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
                     slotCounter = slotCounter + 1
                 end
             end
-            C_Timer.After(0.1, function()
+            C_Timer.After(0, function()
                 local firstSlotOfLastRow
 
-                for i = 7, 13 do
-                    local numSlots = C_Container.GetContainerNumSlots(i - 1)
-                    for j = 1, numSlots do
-                        local slot = _G["ContainerFrame" .. i .. "Item" .. j]
+                for bagID = 7, 13 do
+                    local numSlots = C_Container.GetContainerNumSlots(bagID - 1)
+                    for bagSlotID = 1, numSlots do
+                        local slot = _G["ContainerFrame" .. bagID .. "Item" ..
+                                         bagSlotID]
                         if slot then
                             slot:ClearAllPoints()
                             if slotCounter % perRow == 0 then
@@ -2620,11 +2652,11 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
 
                 local lastBag
 
-                for i = 1, 7 do
-                    local bag = BankSlotsFrame["Bag" .. i]
+                for bagID = 1, 7 do
+                    local bag = BankSlotsFrame["Bag" .. bagID]
                     if bag then
                         bag:ClearAllPoints()
-                        if i == 1 then
+                        if bagID == 1 then
                             bag:SetPoint("TOP", firstSlotOfLastRow, "BOTTOM", 0,
                                          0)
                         else
@@ -2667,13 +2699,12 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
             end)
         end
 
-        PrintTable(BankSlotsFrame)
-
         local function toggleContainerFrames(show)
-            for i = 7, 13 do
-                local numSlots = C_Container.GetContainerNumSlots(i - 1)
-                for j = 1, numSlots do
-                    local slot = _G["ContainerFrame" .. i .. "Item" .. j]
+            for bagID = 7, 13 do
+                local numSlots = C_Container.GetContainerNumSlots(bagID - 1)
+                for bagSlotID = 1, numSlots do
+                    local slot = _G["ContainerFrame" .. bagID .. "Item" ..
+                                     bagSlotID]
                     if slot then
                         if show then
                             slot:Show()
@@ -2687,7 +2718,6 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
 
         BankFrameTab1:HookScript("OnClick",
                                  function() toggleContainerFrames(true) end)
-
         BankFrameTab2:HookScript("OnClick",
                                  function() toggleContainerFrames(false) end)
 
