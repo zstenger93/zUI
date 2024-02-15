@@ -1642,6 +1642,11 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Make MultiBarLeft visible only on mouseover or if something being dragged
 ---------------------------------------------------------------------------------------------------
+--[[
+    In combat it's not really working yet for MultiBarLeft and MultiBarRight, because the way mouseover
+    is handled blocked by Blizzard, but it's working outside of combat
+    Not a big deal, but should be fixed
+]]
 local function setButtonVisibility(show, barName)
     for i = 1, 12 do
         local button = _G[barName .. i]
