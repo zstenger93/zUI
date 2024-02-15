@@ -2569,7 +2569,7 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
         local frame = _G["BankFrame"]
         local perRow = 20
         local lastSlot = nil
-        local firstSlotInRow = nilg
+        local firstSlotInRow = nil
         local slotCounter = 0
 
         if frame then
