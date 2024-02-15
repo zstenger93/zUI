@@ -2549,7 +2549,12 @@ local frameElementsToHide = {
 function StripTextures(frame)
     local regions = {frame:GetRegions()}
     for _, region in ipairs(regions) do
-        if region:IsObjectType("Texture") then region:SetTexture(nil) end
+        if region:IsObjectType("Texture") then
+            region:SetTexture(nil)
+        elseif region:IsObjectType("FontString") and region ~=
+            BankFramePurchaseInfo then
+            region:SetText(nil)
+        end
     end
 end
 
