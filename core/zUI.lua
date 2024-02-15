@@ -2666,6 +2666,17 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
                     end
                 end
 
+                BankFrameSlotCost:ClearAllPoints()
+                BankFrameSlotCost:SetPoint("LEFT", lastBag, "RIGHT", 5, 0)
+
+                BankFramePurchaseButton:ClearAllPoints()
+                BankFramePurchaseButton:SetPoint("LEFT", BankFrameSlotCost,
+                                                 "RIGHT", 50, 0)
+
+                BankFramePurchaseInfo:ClearAllPoints()
+                BankFramePurchaseInfo:SetPoint("TOP", BankFramePurchaseButton,
+                                               "BOTTOM", 5, 0)
+
                 local point1, relativeTo1, relativePoint1, xOfs1, yOfs1 =
                     BankFrameTab1:GetPoint()
                 local point2, relativeTo2, relativePoint2, xOfs2, yOfs2 =
