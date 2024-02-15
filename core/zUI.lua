@@ -2505,7 +2505,10 @@ end)
     - Put the search box on top of it
     - Made the frames clickthrough
     - Hiding the bank slots when switching tab to reagent
-    - Organization of the slots is not working properly yet
+    - Organization of the slots now works
+    - Hiding the auto sort button
+    - Bags always blow last row
+    - Tabs always below last bags, on reagent tab reset pos
 ]]
 local BankFrameMod = CreateFrame("Frame")
 BankFrameMod:RegisterEvent("BANKFRAME_OPENED")
@@ -2542,6 +2545,7 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
             end
         end
 
+        BankFrame:EnableMouse(false)
         BankFrame.NineSlice:Hide()
         BankFrame.Bg:Hide()
         BankItemAutoSortButton:Hide()
@@ -2565,7 +2569,7 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
         local frame = _G["BankFrame"]
         local perRow = 20
         local lastSlot = nil
-        local firstSlotInRow = nil
+        local firstSlotInRow = nilg
         local slotCounter = 0
 
         if frame then
@@ -2588,9 +2592,10 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
                 end
             end
             C_Timer.After(0.1, function()
+                local firstSlotOfLastRow
+
                 for i = 7, 13 do
-                    local numSlots = C_Container.GetContainerNumSlots(i)
-                    if i == 13 then numSlots = 36 end
+                    local numSlots = C_Container.GetContainerNumSlots(i - 1)
                     for j = 1, numSlots do
                         local slot = _G["ContainerFrame" .. i .. "Item" .. j]
                         if slot then
@@ -2599,6 +2604,7 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
                                 slot:SetPoint("TOP", firstSlotInRow, "BOTTOM",
                                               0, 0)
                                 firstSlotInRow = slot
+                                firstSlotOfLastRow = slot
                             else
                                 slot:SetPoint("LEFT", lastSlot, "RIGHT", 0, 0)
                             end
@@ -2607,17 +2613,65 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
                         end
                     end
                 end
+
                 BankItemSearchBox:ClearAllPoints()
                 BankItemSearchBox:SetPoint("BOTTOM", BankFrameItem10, "TOP", 0,
                                            0)
+
+                local lastBag
+
+                for i = 1, 7 do
+                    local bag = BankSlotsFrame["Bag" .. i]
+                    if bag then
+                        bag:ClearAllPoints()
+                        if i == 1 then
+                            bag:SetPoint("TOP", firstSlotOfLastRow, "BOTTOM", 0,
+                                         0)
+                        else
+                            bag:SetPoint("LEFT", lastBag, "RIGHT", 0, 0)
+                        end
+                        lastBag = bag
+                    end
+                end
+
+                local point1, relativeTo1, relativePoint1, xOfs1, yOfs1 =
+                    BankFrameTab1:GetPoint()
+                local point2, relativeTo2, relativePoint2, xOfs2, yOfs2 =
+                    BankFrameTab2:GetPoint()
+
+                BankFrameTab1:ClearAllPoints()
+                BankFrameTab1:SetPoint("TOPLEFT", BankSlotsFrame.Bag1,
+                                       "BOTTOMLEFT", 0, 0)
+
+                BankFrameTab1:HookScript("OnClick", function()
+                    BankFrameTab1:ClearAllPoints()
+                    BankFrameTab1:SetPoint("TOPLEFT", BankSlotsFrame.Bag1,
+                                           "BOTTOMLEFT", 0, 0)
+                end)
+
+                BankFrameTab2:HookScript("OnClick", function()
+                    if point1 and relativeTo1 and relativePoint1 and xOfs1 and
+                        yOfs1 then
+                        BankFrameTab1:ClearAllPoints()
+                        BankFrameTab1:SetPoint(point1, relativeTo1,
+                                               relativePoint1, xOfs1, yOfs1)
+                    end
+                    if BankFrameTab2:IsShown() then
+                        point2, relativeTo2, relativePoint2, xOfs2, yOfs2 =
+                            BankFrameTab2:GetPoint()
+                    end
+                    BankFrameTab2:ClearAllPoints()
+                    BankFrameTab2:SetPoint(point2, relativeTo2, relativePoint2,
+                                           xOfs2, yOfs2)
+                end)
             end)
         end
 
-        -- PrintTable(BankFrame)
+        PrintTable(BankSlotsFrame)
 
         local function toggleContainerFrames(show)
             for i = 7, 13 do
-                local numSlots = i == 13 and 36 or C_Container.GetContainerNumSlots(i)
+                local numSlots = C_Container.GetContainerNumSlots(i - 1)
                 for j = 1, numSlots do
                     local slot = _G["ContainerFrame" .. i .. "Item" .. j]
                     if slot then
@@ -2631,15 +2685,11 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
             end
         end
 
-        BankFrameTab1:HookScript("OnClick", function()
-            toggleContainerFrames(true)
-            print(1)
-        end)
+        BankFrameTab1:HookScript("OnClick",
+                                 function() toggleContainerFrames(true) end)
 
-        BankFrameTab2:HookScript("OnClick", function()
-            toggleContainerFrames(false)
-            print(2)
-        end)
+        BankFrameTab2:HookScript("OnClick",
+                                 function() toggleContainerFrames(false) end)
 
         OpenAllBags()
 
