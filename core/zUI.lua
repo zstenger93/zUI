@@ -2573,7 +2573,7 @@ local validEvents = {
     ["PLAYERREAGENTBANKSLOTS_CHANGED"] = true
 }
 
-BankFrameMod:SetScript("OnEvent", function(self, event)
+BankFrameMod:SetScript("OnEvent", function(self, event, changedBagID)
     if SettingsInitialized and
         zUI_SavedSettings[PlayerIdentifier].CustomBankSetting and
         validEvents[event] then
@@ -2752,7 +2752,9 @@ BankFrameMod:SetScript("OnEvent", function(self, event)
         BankFrameTab2:HookScript("OnClick",
                                  function() toggleContainerFrames(false) end)
 
-        OpenAllBags()
+        if event == "BAG_UPDATE" and changedBagID > 6 then
+            OpenAllBags()
+        end
 
         for bag = -1, 12 do if bag >= 5 then OpenBag(bag) end end
     end
