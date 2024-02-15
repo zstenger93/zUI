@@ -2617,6 +2617,8 @@ BankFrameMod:SetScript("OnEvent", function(self, event, changedBagID)
 
         if frame then
 
+            local firstSlotOfCurrentRow
+
             for bankMainSlot = 1, 28 do
                 local slot = _G["BankFrameItem" .. bankMainSlot]
                 if slot then
@@ -2635,6 +2637,7 @@ BankFrameMod:SetScript("OnEvent", function(self, event, changedBagID)
                             slot:SetPoint("TOP", firstSlotInRow, "BOTTOM", 0, 0)
                         end
                         firstSlotInRow = slot
+                        firstSlotOfCurrentRow = slot
                     else
                         slot:SetPoint("LEFT", lastSlot, "RIGHT", 0, 0)
                     end
@@ -2677,8 +2680,13 @@ BankFrameMod:SetScript("OnEvent", function(self, event, changedBagID)
                     if bag then
                         bag:ClearAllPoints()
                         if bagID == 1 then
-                            bag:SetPoint("TOP", firstSlotOfLastRow, "BOTTOM", 0,
-                                         0)
+                            if firstSlotOfLastRow ~= nil then
+                                bag:SetPoint("TOP", firstSlotOfLastRow,
+                                             "BOTTOM", 0, 0)
+                            elseif firstSlotOfCurrentRow ~= nil then
+                                bag:SetPoint("TOP", firstSlotOfCurrentRow,
+                                             "BOTTOM", 0, 0)
+                            end
                         else
                             bag:SetPoint("LEFT", lastBag, "RIGHT", 0, 0)
                         end
@@ -2752,9 +2760,7 @@ BankFrameMod:SetScript("OnEvent", function(self, event, changedBagID)
         BankFrameTab2:HookScript("OnClick",
                                  function() toggleContainerFrames(false) end)
 
-        if event == "BAG_UPDATE" and changedBagID > 6 then
-            OpenAllBags()
-        end
+        if event == "BAG_UPDATE" and changedBagID > 6 then OpenAllBags() end
 
         for bag = -1, 12 do if bag >= 5 then OpenBag(bag) end end
     end
