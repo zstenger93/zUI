@@ -128,12 +128,33 @@ local customBagsCheckbox = Checkbox_CustomBags:CreateFontString(nil, "OVERLAY",
 customBagsCheckbox:SetPoint("LEFT", Checkbox_CustomBags, "RIGHT", 20, 0)
 customBagsCheckbox:SetText("Custom Bags BETA")
 Checkbox_CustomBags:SetPoint("TOPLEFT", 20, -180) -- Adjust the y-coordinate as needed
-Checkbox_CustomBags.tooltip = "Enable or disable custom player bags."
+Checkbox_CustomBags.tooltip =
+    "Enable or disable custom player bags. WARNING: This is a BETA feature."
 Checkbox_CustomBags:SetChecked(zUI_SavedSettings[PlayerIdentifier]
                                    .CustomBagsSetting)
 
 Checkbox_CustomBags:SetScript("OnClick", function(self)
     zUI_SavedSettings[PlayerIdentifier].CustomBagsSetting = self:GetChecked()
+end)
+
+---------------------------------------------------------------------------------------------------
+-- Checkbox for Custom Bank
+---------------------------------------------------------------------------------------------------
+---@class Checkbox_CustomBank : CheckButton
+Checkbox_CustomBank = CreateFrame("CheckButton", "zUICustomBankCheckbox",
+                                  GeneralPage, "ChatConfigCheckButtonTemplate")
+local customBankCheckbox = Checkbox_CustomBank:CreateFontString(nil, "OVERLAY",
+                                                                "GameFontNormal")
+customBankCheckbox:SetPoint("LEFT", Checkbox_CustomBank, "RIGHT", 20, 0)
+customBankCheckbox:SetText("Custom Bank BETA")
+Checkbox_CustomBank:SetPoint("TOPLEFT", 20, -210)
+Checkbox_CustomBank.tooltip =
+    "Enable or disable custom bank. WARNING: This is a BETA feature."
+Checkbox_CustomBank:SetChecked(zUI_SavedSettings[PlayerIdentifier]
+                                   .CustomBankSetting)
+
+Checkbox_CustomBank:SetScript("OnClick", function(self)
+    zUI_SavedSettings[PlayerIdentifier].CustomBankSetting = self:GetChecked()
 end)
 
 ---------------------------------------------------------------------------------------------------
@@ -1621,6 +1642,11 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Make MultiBarLeft visible only on mouseover or if something being dragged
 ---------------------------------------------------------------------------------------------------
+--[[
+    In combat it's not really working yet for MultiBarLeft and MultiBarRight, because the way mouseover
+    is handled blocked by Blizzard, but it's working outside of combat
+    Not a big deal, but should be fixed
+]]
 local function setButtonVisibility(show, barName)
     for i = 1, 12 do
         local button = _G[barName .. i]
@@ -2073,7 +2099,7 @@ BNFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 BNFrame:SetScript("OnEvent", function(self, event)
     if event == "PLAYER_ENTERING_WORLD" then
         BNToastFrame:ClearAllPoints()
-        BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 90, 0)
+        BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame2Tab, "TOPRIGHT", 90, 0)
     end
 end)
 
@@ -2149,7 +2175,18 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- BagFrame
 ---------------------------------------------------------------------------------------------------
-
+--[[
+    - Removing every texture except for the slots
+    - Organizing all the bags into one bag, first bag on top, reagent at bottom
+    - Moving the searchbox to the bottom left corner, with the moneyframe next to it
+    - Next to the moneyframe, displaying the total amount of gold on the current realm
+        - Displaying the total amount of gold each character on hover
+        - Spacing the amount of gold by thousands
+        - Ordering them by the amount of gold, biggest first
+    - Hide the auto sort button
+    - Token frame is move below the searchbox but hidden atm because <-- NOT WORKING YET
+    - Made the containerframes clickthrough
+]]
 local NUM_ITEMS_PER_ROW = 10
 local BagFrame = CreateFrame("Frame")
 
@@ -2436,6 +2473,12 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Total amount of gold
 ---------------------------------------------------------------------------------------------------
+--[[
+    - Saving the gold for each character
+    - Storing total amount of gold on the current realm
+    - Dynamically changing the total amount of gold on the current realm
+    - Always updating on money change
+]]
 local totalGoldFrame = CreateFrame("Frame")
 totalGoldFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 totalGoldFrame:RegisterEvent("PLAYER_MONEY")
@@ -2476,5 +2519,249 @@ totalGoldFrame:SetScript("OnEvent", function(self, event, ...)
         elseif event == "PLAYER_MONEY" then
             updateGold()
         end
+    end
+end)
+
+---------------------------------------------------------------------------------------------------
+-- BankFrame
+---------------------------------------------------------------------------------------------------
+--[[
+    - Removing every texture/art except for the slots
+    - Combining all bags into one big
+    - Put the search box on top of it
+    - Made the frames clickthrough
+    - Hiding the bank slots when switching tab to reagent
+    - Organization of the slots now works
+    - Hiding the auto sort button
+    - Bags always blow last row
+    - Tabs always below last bags, on reagent tab reset 
+    - Purchase button new slots next to the last bag with price
+]]
+local BankFrameMod = CreateFrame("Frame")
+BankFrameMod:RegisterEvent("BANKFRAME_OPENED")
+BankFrameMod:RegisterEvent("BANKFRAME_CLOSED")
+BankFrameMod:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
+BankFrameMod:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED")
+BankFrameMod:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
+BankFrameMod:RegisterEvent("ITEM_LOCK_CHANGED")
+BankFrameMod:RegisterEvent("BAG_UPDATE")
+BankFrameMod:RegisterEvent("PLAYERREAGENTBANKSLOTS_CHANGED")
+
+local frameElementsToHide = {
+    "NineSlice", "Bg", "CloseButton", "PortraitOverlay", "PortraitOverlayFrame",
+    "PortraitContainer", "TitleText", "TitleContainer"
+}
+
+function StripTextures(frame)
+    local regions = {frame:GetRegions()}
+    for _, region in ipairs(regions) do
+        if region:IsObjectType("Texture") then
+            region:SetTexture(nil)
+        elseif region:IsObjectType("FontString") and region ~=
+            BankFramePurchaseInfo then
+            region:SetText(nil)
+        end
+    end
+end
+
+local validEvents = {
+    ["BANKFRAME_OPENED"] = true,
+    ["PLAYERBANKSLOTS_CHANGED"] = true,
+    ["PLAYERBANKBAGSLOTS_CHANGED"] = true,
+    ["ITEM_LOCK_CHANGED"] = true,
+    ["BAG_UPDATE"] = true,
+    ["PLAYERREAGENTBANKSLOTS_CHANGED"] = true
+}
+
+BankFrameMod:SetScript("OnEvent", function(self, event, changedBagID)
+    if SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].CustomBankSetting and
+        validEvents[event] then
+        for i = 7, 13 do
+            local bankBagSlotFrame = _G["ContainerFrame" .. i]
+            if bankBagSlotFrame then
+                bankBagSlotFrame:EnableMouse(false)
+                for _, element in ipairs(frameElementsToHide) do
+                    local subFrame = bankBagSlotFrame[element]
+                    if subFrame then subFrame:Hide() end
+                end
+            end
+        end
+
+        BankFrame:EnableMouse(false)
+        BankFrame.NineSlice:Hide()
+        BankFrame.Bg:Hide()
+        BankItemAutoSortButton:Hide()
+        BankFrame.PortraitContainer:Hide()
+        BankFrame.CloseButton:Hide()
+        BankFrameTitleText:Hide()
+        BankFrame.TopTileStreaks:Hide()
+        BankFrameMoneyFrame:Hide()
+        BankFrameMoneyFrameInset.NineSlice:Hide()
+
+        StripTextures(BankFrameMoneyFrameInset)
+        StripTextures(BankFrameMoneyFrameBorder)
+        StripTextures(BankFrameMoneyFrame)
+        StripTextures(BankFrame)
+        StripTextures(BankSlotsFrame)
+        StripTextures(ReagentBankFrame)
+
+        ReagentBankFrame:DisableDrawLayer("BACKGROUND")
+        ReagentBankFrame:DisableDrawLayer("ARTWORK")
+
+        local frame = _G["BankFrame"]
+        local perRow = 20
+        local lastSlot = nil
+        local firstSlotInRow = nil
+        local slotCounter = 0
+
+        if frame then
+
+            local firstSlotOfCurrentRow
+
+            for bankMainSlot = 1, 28 do
+                local slot = _G["BankFrameItem" .. bankMainSlot]
+                if slot then
+                    slot:ClearAllPoints()
+                    local bg = CreateFrame("Frame", nil, slot)
+                    bg:SetAllPoints()
+                    bg:SetFrameLevel(slot:GetFrameLevel() - 1)
+                    local texture = bg:CreateTexture(nil, "BACKGROUND")
+                    texture:SetAllPoints()
+                    texture:SetTexture(
+                        "Interface/PaperDoll/UI-Backpack-EmptySlot")
+                    if slotCounter % perRow == 0 then
+                        if slotCounter == 0 then
+                            slot:SetPoint("TOPLEFT", frame, "TOPLEFT", 0, 0)
+                        else
+                            slot:SetPoint("TOP", firstSlotInRow, "BOTTOM", 0, 0)
+                        end
+                        firstSlotInRow = slot
+                        firstSlotOfCurrentRow = slot
+                    else
+                        slot:SetPoint("LEFT", lastSlot, "RIGHT", 0, 0)
+                    end
+                    lastSlot = slot
+                    slotCounter = slotCounter + 1
+                end
+            end
+            C_Timer.After(0, function()
+                local firstSlotOfLastRow
+
+                for bagID = 7, 13 do
+                    local numSlots = C_Container.GetContainerNumSlots(bagID - 1)
+                    for bagSlotID = 1, numSlots do
+                        local slot = _G["ContainerFrame" .. bagID .. "Item" ..
+                                         bagSlotID]
+                        if slot then
+                            slot:ClearAllPoints()
+                            if slotCounter % perRow == 0 then
+                                slot:SetPoint("TOP", firstSlotInRow, "BOTTOM",
+                                              0, 0)
+                                firstSlotInRow = slot
+                                firstSlotOfLastRow = slot
+                            else
+                                slot:SetPoint("LEFT", lastSlot, "RIGHT", 0, 0)
+                            end
+                            lastSlot = slot
+                            slotCounter = slotCounter + 1
+                        end
+                    end
+                end
+
+                BankItemSearchBox:ClearAllPoints()
+                BankItemSearchBox:SetPoint("BOTTOM", BankFrameItem10, "TOP", 0,
+                                           0)
+
+                local lastBag
+
+                for bagID = 1, 7 do
+                    local bag = BankSlotsFrame["Bag" .. bagID]
+                    if bag then
+                        bag:ClearAllPoints()
+                        if bagID == 1 then
+                            if firstSlotOfLastRow ~= nil then
+                                bag:SetPoint("TOP", firstSlotOfLastRow,
+                                             "BOTTOM", 0, 0)
+                            elseif firstSlotOfCurrentRow ~= nil then
+                                bag:SetPoint("TOP", firstSlotOfCurrentRow,
+                                             "BOTTOM", 0, 0)
+                            end
+                        else
+                            bag:SetPoint("LEFT", lastBag, "RIGHT", 0, 0)
+                        end
+                        lastBag = bag
+                    end
+                end
+
+                BankFrameSlotCost:ClearAllPoints()
+                BankFrameSlotCost:SetPoint("LEFT", lastBag, "RIGHT", 5, 0)
+
+                BankFramePurchaseButton:ClearAllPoints()
+                BankFramePurchaseButton:SetPoint("LEFT", BankFrameSlotCost,
+                                                 "RIGHT", 50, 0)
+
+                BankFramePurchaseInfo:ClearAllPoints()
+                BankFramePurchaseInfo:SetPoint("TOP", BankFramePurchaseButton,
+                                               "BOTTOM", 5, 0)
+
+                local point1, relativeTo1, relativePoint1, xOfs1, yOfs1 =
+                    BankFrameTab1:GetPoint()
+                local point2, relativeTo2, relativePoint2, xOfs2, yOfs2 =
+                    BankFrameTab2:GetPoint()
+
+                BankFrameTab1:ClearAllPoints()
+                BankFrameTab1:SetPoint("TOPLEFT", BankSlotsFrame.Bag1,
+                                       "BOTTOMLEFT", 0, 0)
+
+                BankFrameTab1:HookScript("OnClick", function()
+                    BankFrameTab1:ClearAllPoints()
+                    BankFrameTab1:SetPoint("TOPLEFT", BankSlotsFrame.Bag1,
+                                           "BOTTOMLEFT", 0, 0)
+                end)
+
+                BankFrameTab2:HookScript("OnClick", function()
+                    if point1 and relativeTo1 and relativePoint1 and xOfs1 and
+                        yOfs1 then
+                        BankFrameTab1:ClearAllPoints()
+                        BankFrameTab1:SetPoint(point1, relativeTo1,
+                                               relativePoint1, xOfs1, yOfs1)
+                    end
+                    if BankFrameTab2:IsShown() then
+                        point2, relativeTo2, relativePoint2, xOfs2, yOfs2 =
+                            BankFrameTab2:GetPoint()
+                    end
+                    BankFrameTab2:ClearAllPoints()
+                    BankFrameTab2:SetPoint(point2, relativeTo2, relativePoint2,
+                                           xOfs2, yOfs2)
+                end)
+            end)
+        end
+
+        local function toggleContainerFrames(show)
+            for bagID = 7, 13 do
+                local numSlots = C_Container.GetContainerNumSlots(bagID - 1)
+                for bagSlotID = 1, numSlots do
+                    local slot = _G["ContainerFrame" .. bagID .. "Item" ..
+                                     bagSlotID]
+                    if slot then
+                        if show then
+                            slot:Show()
+                        else
+                            slot:Hide()
+                        end
+                    end
+                end
+            end
+        end
+
+        BankFrameTab1:HookScript("OnClick",
+                                 function() toggleContainerFrames(true) end)
+        BankFrameTab2:HookScript("OnClick",
+                                 function() toggleContainerFrames(false) end)
+
+        if event == "BAG_UPDATE" and changedBagID > 6 then OpenAllBags() end
+
+        for bag = -1, 12 do if bag >= 5 then OpenBag(bag) end end
     end
 end)
