@@ -9,4 +9,5 @@
 core\ui_settings.lua
 core\ui_elements.lua
 core\menu.lua
+core\checkbox.lua
 core\zUI.lua

@@ -13,6 +13,10 @@ Use `/zui` or `ESC` -> `zUI Settings` to show the settings panel (every setting 
 
 ## Currently available settings
 
+- Bank & Backpack BETA
+    - Custom bank
+    - Custom bag
+        - Total gold on the realm, on hover shows the amount on characters in order by amount
 - Hide in combat
     - Chat
     - Bag bar
