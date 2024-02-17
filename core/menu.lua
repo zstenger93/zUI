@@ -28,6 +28,12 @@ ClassPageButton:SetSize(100, 20)
 ClassPageButton:SetText("Class")
 ClassPageButton:SetNormalFontObject("GameFontNormal")
 
+ProfilesButton = CreateFrame("Button", nil, ZUI_Panel, "GameMenuButtonTemplate")
+ProfilesButton:SetPoint("TOPLEFT", ClassPageButton, "BOTTOMLEFT", 0, -10)
+ProfilesButton:SetSize(100, 20)
+ProfilesButton:SetText("Profiles")
+ProfilesButton:SetNormalFontObject("GameFontNormal")
+
 -- Create the pages
 ---------------------------------------------------------------------------------------------------
 -- General
@@ -89,12 +95,98 @@ ClassPage:SetPoint("TOPLEFT", ActionBarsButton, "TOPRIGHT", 10, 0)
 ClassPage:Hide()
 
 ---------------------------------------------------------------------------------------------------
+-- Profiles
+---------------------------------------------------------------------------------------------------
+ProfilesPage = CreateFrame("Frame", nil, ZUI_Panel)
+ProfilesPage:SetSize(600, 500)
+ProfilesPage:SetPoint("TOPLEFT", ActionBarsButton, "TOPRIGHT", 10, 0)
+ProfilesPage:Hide()
+
+local dropdown = CreateFrame("Frame", "ProfileDropdown", ProfilesPage,
+                             "UIDropDownMenuTemplate")
+dropdown:SetPoint("TOP", ProfilesPage, "TOP", -50, 0)
+
+function CopySettings(sourceCharacter, targetCharacter)
+    local sourceSettings = zUI_SavedSettings[sourceCharacter]
+    local targetSettings = zUI_SavedSettings[targetCharacter]
+    print("in copy settings")
+    if type(sourceSettings) == "table" and type(targetSettings) == "table" then
+        for setting, value in pairs(sourceSettings) do
+            if setting ~= "HonorableKillsOnCharacter" and setting ~= "Gold" and
+                setting ~= "GoldAdded" and setting ~= "Class" and setting ~=
+                "HonorableKillsAdded" then
+                if setting == "CustomRogueEnergyPointsSetting" and
+                    sourceSettings["Class"] == "ROGUE" and
+                    targetCharacter["Class"] ~= "ROGUE" then
+                    -- Skip copying
+                elseif setting == "CustomDeathKnightRunesSetting" and
+                    sourceSettings["Class"] == "DEATHKNIGHT" and
+                    targetCharacter["Class"] ~= "DEATHKNIGHT" then
+                    -- Skip copying
+                elseif setting == "CustomPaladinPowerBarTextureSetting" and
+                    sourceSettings["Class"] == "PALADIN" and
+                    targetCharacter["Class"] ~= "PALADIN" then
+                    -- Skip copying
+                elseif setting == "CustomWarlockSoulShardSetting" and
+                    sourceSettings["Class"] == "WARLOCK" and
+                    targetCharacter["Class"] ~= "WARLOCK" then
+                    -- Skip copying
+                elseif setting == "CustomDruidCatFormComboPointsSetting" and
+                    sourceSettings["Class"] == "DRUID" and
+                    targetCharacter["Class"] ~= "DRUID" then
+                    -- Skip copying
+                else
+                    targetSettings[setting] = value
+                end
+            end
+        end
+    end
+end
+
+local function InitializeDropdown(self, level)
+    for playerIdentifier, value in pairs(zUI_SavedSettings) do
+        if type(value) == "table" then
+            local selectedPlayerIdentifier = playerIdentifier
+            local info = UIDropDownMenu_CreateInfo()
+            info.text = selectedPlayerIdentifier
+            info.func = function()
+                zUI_SavedSettings[PlayerIdentifier].selectedProfile =
+                    selectedPlayerIdentifier
+                CopySettings(selectedPlayerIdentifier, PlayerIdentifier)
+                UIDropDownMenu_SetText(dropdown, selectedPlayerIdentifier)
+            end
+            info.checked = (playerIdentifier ==
+                               zUI_SavedSettings[PlayerIdentifier]
+                                   .selectedProfile)
+            UIDropDownMenu_AddButton(info, level)
+        end
+    end
+    C_Timer.After(2, function()
+        local selectedProfile = zUI_SavedSettings[PlayerIdentifier]
+                                    .selectedProfile
+        if selectedProfile then
+            UIDropDownMenu_SetText(dropdown, selectedProfile)
+        else
+            UIDropDownMenu_SetText(dropdown, "Select a Profile")
+        end
+    end)
+
+end
+
+UIDropDownMenu_Initialize(dropdown, InitializeDropdown)
+UIDropDownMenu_SetWidth(dropdown, 200)
+UIDropDownMenu_SetButtonWidth(dropdown, 224)
+UIDropDownMenu_JustifyText(dropdown, "LEFT")
+UIDropDownMenu_SetText(dropdown,
+                       zUI_SavedSettings[PlayerIdentifier].selectedProfile)
+---------------------------------------------------------------------------------------------------
 -- Set which page is shown when a button is clicked
 ---------------------------------------------------------------------------------------------------
 GeneralButton:SetScript("OnClick", function()
     GeneralPage:Show()
     HideShowPage:Hide()
     ActionBarsPage:Hide()
+    ProfilesPage:Hide()
     ClassPage:Hide()
 end)
 
@@ -102,6 +194,7 @@ HideShowButton:SetScript("OnClick", function()
     GeneralPage:Hide()
     HideShowPage:Show()
     ActionBarsPage:Hide()
+    ProfilesPage:Hide()
     ClassPage:Hide()
 end)
 
@@ -109,6 +202,7 @@ ActionBarsButton:SetScript("OnClick", function()
     GeneralPage:Hide()
     HideShowPage:Hide()
     ActionBarsPage:Show()
+    ProfilesPage:Hide()
     ClassPage:Hide()
 end)
 
@@ -116,5 +210,14 @@ ClassPageButton:SetScript("OnClick", function()
     GeneralPage:Hide()
     HideShowPage:Hide()
     ActionBarsPage:Hide()
+    ProfilesPage:Hide()
     ClassPage:Show()
+end)
+
+ProfilesButton:SetScript("OnClick", function()
+    GeneralPage:Hide()
+    HideShowPage:Hide()
+    ActionBarsPage:Hide()
+    ClassPage:Hide()
+    ProfilesPage:Show()
 end)
