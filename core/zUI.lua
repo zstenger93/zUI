@@ -1923,4 +1923,4 @@ BankFrameMod:SetScript("OnEvent", function(self, event, changedBagSlotID)
 end)
 
 -- Debug Log
-if DLAPI then DLAPI.DebugLog("zUI", ...) end
+-- if DLAPI then DLAPI.DebugLog("zUI", ...) end
