@@ -769,7 +769,9 @@ actionBarMod:SetScript("OnEvent", function(self, event, ...)
                 button.wasDragging = true
             elseif not GetCursorInfo() and button.wasDragging then
                 normalTexture:Hide()
-                if hotkey and not (HasAction(button.action) or GetActionInfo(button.action)) then
+                if hotkey and
+                    not (HasAction(button.action) or
+                        GetActionInfo(button.action)) then
                     hotkey:Hide()
                 end
                 local buttonName = button:GetName()
@@ -991,9 +993,16 @@ HideObjectiveTrackerArtwork:RegisterEvent("PLAYER_ENTERING_WORLD")
 HideObjectiveTrackerArtwork:SetScript("OnEvent", function(self, event, ...)
     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
         zUI_SavedSettings[PlayerIdentifier].HideObjectiveTrackerArtworkSetting then
-        for _, module in pairs(ObjectiveTrackerFrame.MODULES) do
-            module.Header.Background:Hide()
-        end
+        ObjectiveTrackerBlocksFrame.CampaignQuestHeader.Background:Hide()
+        ObjectiveTrackerBlocksFrame.QuestHeader.Background:Hide()
+        ObjectiveTrackerBlocksFrame.AchievementHeader.Background:Hide()
+        ObjectiveTrackerBlocksFrame.ScenarioHeader.Background:Hide()
+        ObjectiveTrackerBlocksFrame.AdventureHeader.Background:Hide()
+        ObjectiveTrackerBlocksFrame.MonthlyActivitiesHeader.Background:Hide()
+        ObjectiveTrackerBlocksFrame.ProfessionHeader.Background:Hide()
+        BONUS_OBJECTIVE_TRACKER_MODULE.Header.Background:Hide()
+        WORLD_QUEST_TRACKER_MODULE.Header.Background:Hide()
+        ObjectiveTrackerFrame.BlocksFrame.UIWidgetsHeader.Background:Hide()
         ObjectiveTrackerFrame.HeaderMenu.Title:SetAlpha(0)
     end
 end)
