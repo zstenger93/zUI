@@ -985,16 +985,9 @@ HideObjectiveTrackerArtwork:RegisterEvent("PLAYER_ENTERING_WORLD")
 HideObjectiveTrackerArtwork:SetScript("OnEvent", function(self, event, ...)
     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
         zUI_SavedSettings[PlayerIdentifier].HideObjectiveTrackerArtworkSetting then
-        ObjectiveTrackerBlocksFrame.CampaignQuestHeader.Background:Hide()
-        ObjectiveTrackerBlocksFrame.QuestHeader.Background:Hide()
-        ObjectiveTrackerBlocksFrame.AchievementHeader.Background:Hide()
-        ObjectiveTrackerBlocksFrame.ScenarioHeader.Background:Hide()
-        ObjectiveTrackerBlocksFrame.AdventureHeader.Background:Hide()
-        ObjectiveTrackerBlocksFrame.MonthlyActivitiesHeader.Background:Hide()
-        ObjectiveTrackerBlocksFrame.ProfessionHeader.Background:Hide()
-        BONUS_OBJECTIVE_TRACKER_MODULE.Header.Background:Hide()
-        WORLD_QUEST_TRACKER_MODULE.Header.Background:Hide()
-        ObjectiveTrackerFrame.BlocksFrame.UIWidgetsHeader.Background:Hide()
+        for _, module in pairs(ObjectiveTrackerFrame.MODULES) do
+            module.Header.Background:Hide()
+        end
         ObjectiveTrackerFrame.HeaderMenu.Title:SetAlpha(0)
     end
 end)
@@ -1913,14 +1906,15 @@ BankFrameMod:SetScript("OnEvent", function(self, event, changedBagSlotID)
                     "PLAYERBANKBAGSLOTS_CHANGED" or event ==
                     "PLAYERREAGENTBANKSLOTS_CHANGED" then
                     OpenAllBags()
-                    for bag = -1, 12 do
-                        if bag >= 5 then OpenBag(bag) end
-                    end
+                    for bag = 6, 13 do OpenBag(bag) end
                 end
-                if event == "BAG_UPDATE" then
+                if event == "BAG_UPDATE" and changedBagSlotID > 5 then
                     OpenBag(changedBagSlotID)
                 end
             end
         end
     end
 end)
+
+
+if DLAPI then DLAPI.DebugLog("zUI", ...) end
