@@ -81,7 +81,7 @@ local frameTextures = {
     "BottomTexture", "BottomLeftTexture", "BottomRightTexture", "TopTexture",
     "TopLeftTexture", "TopRightTexture", "LeftTexture", "RightTexture"
 }
-local events = {
+local evnts = {
     "OnEnter", "OnLeave", "OnMouseDown", "OnMouseUp", "OnUpdate", "OnShow",
     "OnHide", "OnReceiveDrag", "OnDragStart", "OnDragStop"
 }
@@ -114,7 +114,7 @@ HideChatFrameStyle:SetScript("OnEvent", function(self, event)
 
             eventHandler()
 
-            for _, eventHook in ipairs(events) do
+            for _, eventHook in ipairs(evnts) do
                 chatTab:SetScript(eventHook, eventHandler)
                 chatFrame:SetScript(eventHook, eventHandler)
             end
@@ -763,9 +763,15 @@ actionBarMod:SetScript("OnEvent", function(self, event, ...)
             if GetCursorInfo() then
                 button:Show()
                 normalTexture:Show()
+                if hotkey and IsKeyBindingSet(button) then
+                    hotkey:Show()
+                end
                 button.wasDragging = true
             elseif not GetCursorInfo() and button.wasDragging then
                 normalTexture:Hide()
+                if hotkey and not (HasAction(button.action) or GetActionInfo(button.action)) then
+                    hotkey:Hide()
+                end
                 local buttonName = button:GetName()
 
                 if buttonName:find("^MultiBarLeftButton") or
@@ -1916,5 +1922,5 @@ BankFrameMod:SetScript("OnEvent", function(self, event, changedBagSlotID)
     end
 end)
 
-
+-- Debug Log
 if DLAPI then DLAPI.DebugLog("zUI", ...) end
