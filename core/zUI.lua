@@ -1343,10 +1343,6 @@ BagFrame:RegisterEvent("BAG_CLOSED")
 BagFrame:RegisterEvent("BAG_UPDATE")
 BagFrame:RegisterEvent("BAG_UPDATE_COOLDOWN")
 BagFrame:RegisterEvent("BAG_UPDATE_DELAYED")
--- BagFrame:RegisterEvent("BAG_NEW_ITEMS_UPDATED")
--- BagFrame:RegisterEvent("BAG_SLOT_FLAGS_UPDATED")
--- BagFrame:RegisterEvent("ITEM_LOCK_CHANGED")
--- BagFrame:RegisterEvent("ITEM_PUSH")
 BagFrame:RegisterEvent("BANKFRAME_OPENED")
 BagFrame:RegisterEvent("BANKFRAME_CLOSED")
 BagFrame:RegisterEvent("QUEST_ACCEPTED")
@@ -1580,12 +1576,6 @@ BagFrame:SetScript("OnEvent", function(self, event, ...)
             ["BAG_OPEN"] = true,
             ["BAG_CLOSED"] = true,
             ["BAG_UPDATE"] = true,
-            -- ["BAG_UPDATE_COOLDOWN"] = true,
-            -- ["BAG_UPDATE_DELAYED"] = true,
-            -- ["BAG_NEW_ITEMS_UPDATED"] = true,
-            -- ["BAG_SLOT_FLAGS_UPDATED"] = true,
-            -- ["ITEM_LOCK_CHANGED"] = true,
-            -- ["ITEM_PUSH"] = true,
             ["BANKFRAME_OPENED"] = true,
             ["BANKFRAME_CLOSED"] = true,
             ["QUEST_ACCEPTED"] = true,
@@ -1930,6 +1920,3 @@ BankFrameMod:SetScript("OnEvent", function(self, event, changedBagSlotID)
         end
     end
 end)
-
--- Debug Log
--- if DLAPI then DLAPI.DebugLog("zUI", ...) end
