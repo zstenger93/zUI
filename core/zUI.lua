@@ -641,6 +641,49 @@ KeepDruidCatFormComboPointsAtPosition:SetScript("OnUpdate", function()
 end)
 
 ---------------------------------------------------------------------------------------------------
+-- Custom Monk Power Bar
+---------------------------------------------------------------------------------------------------
+local CustomMonkPowerBar = CreateFrame("Frame")
+CustomMonkPowerBar:RegisterEvent("ADDON_LOADED")
+
+CustomMonkPowerBar:SetScript("OnEvent", function(self, event, addonName)
+    C_Timer.After(2, function()
+        if SettingsInitialized and
+            zUI_SavedSettings[PlayerIdentifier].CustomMonkPowerBarSetting and
+            event == "ADDON_LOADED" and addonName == "zUI" then
+            local _, className = UnitClass("player")
+            if className == "MONK" then
+                local harmonyPoints = {MonkHarmonyBarFrame:GetChildren()}
+                for i = 1, 6 do
+                    local harmony = harmonyPoints[i]
+                    harmony.Chi_BG:Hide()
+                    harmony.Chi_BG_Active:Hide()
+                    harmony.Chi_BG_Glow:Hide()
+                    harmony.Chi_Deplete:Hide()
+                end
+            end
+        end
+    end)
+end)
+
+local KeepMonkHarmonyPointsAtPosition = CreateFrame("Frame")
+KeepMonkHarmonyPointsAtPosition:SetScript("OnUpdate", function()
+    if SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].CustomMonkPowerBarSetting then
+        local _, className = UnitClass("player")
+        if className == "MONK" then
+            local harmonyPoints = {MonkHarmonyBarFrame:GetChildren()}
+            for i = 1, 6 do
+                local harmony = harmonyPoints[i]
+                harmony:ClearAllPoints()
+                harmony:SetPoint("BOTTOM", _G["ActionButton" .. (i + 3)], "TOP",
+                                 0, 10)
+            end
+        end
+    end
+end)
+
+---------------------------------------------------------------------------------------------------
 -- Check if a key binding is set for a button
 ---------------------------------------------------------------------------------------------------
 local function IsKeyBindingSet(button)
