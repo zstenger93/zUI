@@ -1,4 +1,4 @@
-_VERSION = "1.1.6"
+_VERSION = "1.1.8"
 
 SettingsInitialized = false
 ---------------------------------------------------------------------------------------------------
@@ -96,6 +96,7 @@ initializeSettingsIfNewTable:SetScript("OnEvent", function(self, event)
             string.upper(select(2, UnitClass("player")))
         zUI_SavedSettings[PlayerIdentifier].CustomBankSetting = false
         zUI_SavedSettings[PlayerIdentifier].selectedProfile = "Select a Profile"
+        zUI_SavedSettings[PlayerIdentifier].CustomMonkPowerBarSetting = false
         SettingsInitialized = true
     else
         SettingsInitialized = true
@@ -245,6 +246,9 @@ function UpdateCheckboxes()
         zUI_SavedSettings[PlayerIdentifier].selectedProfile =
             zUI_SavedSettings[PlayerIdentifier].selectedProfile or
                 "Select a Profile"
+        Checkbox_CustomMonkPowerBar:SetChecked(
+            zUI_SavedSettings[PlayerIdentifier].CustomMonkPowerBarSetting or
+                false)
     end
 end
 

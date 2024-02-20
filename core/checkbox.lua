@@ -126,10 +126,10 @@ Checkbox_CustomBags = CreateFrame("CheckButton", "zUICustomBagsCheckbox",
 local customBagsCheckbox = Checkbox_CustomBags:CreateFontString(nil, "OVERLAY",
                                                                 "GameFontNormal")
 customBagsCheckbox:SetPoint("LEFT", Checkbox_CustomBags, "RIGHT", 20, 0)
-customBagsCheckbox:SetText("Custom Bags BETA")
+customBagsCheckbox:SetText("Custom Bags")
 Checkbox_CustomBags:SetPoint("TOPLEFT", 20, -180) -- Adjust the y-coordinate as needed
 Checkbox_CustomBags.tooltip =
-    "Enable or disable custom player bags. WARNING: This is a BETA feature."
+    "Enable or disable custom player bags."
 Checkbox_CustomBags:SetChecked(zUI_SavedSettings[PlayerIdentifier]
                                    .CustomBagsSetting)
 
@@ -146,10 +146,10 @@ Checkbox_CustomBank = CreateFrame("CheckButton", "zUICustomBankCheckbox",
 local customBankCheckbox = Checkbox_CustomBank:CreateFontString(nil, "OVERLAY",
                                                                 "GameFontNormal")
 customBankCheckbox:SetPoint("LEFT", Checkbox_CustomBank, "RIGHT", 20, 0)
-customBankCheckbox:SetText("Custom Bank BETA")
+customBankCheckbox:SetText("Custom Bank")
 Checkbox_CustomBank:SetPoint("TOPLEFT", 20, -210)
 Checkbox_CustomBank.tooltip =
-    "Enable or disable custom bank. WARNING: This is a BETA feature."
+    "Enable or disable custom bank."
 Checkbox_CustomBank:SetChecked(zUI_SavedSettings[PlayerIdentifier]
                                    .CustomBankSetting)
 
@@ -855,4 +855,35 @@ if druid == "DRUID" then
 else
     Checkbox_CustomDruidCatForm:SetChecked(false)
     Checkbox_CustomDruidCatForm:Disable()
+end
+
+---------------------------------------------------------------------------------------------------
+-- Checkbox for customizing Monk Power Bar
+---------------------------------------------------------------------------------------------------
+---@class Checkbox_CustomMonkPowerBar : CheckButton
+Checkbox_CustomMonkPowerBar = CreateFrame("CheckButton",
+                                          "zUICustomMonkPowerBarCheckbox",
+                                          ClassPage,
+                                          "ChatConfigCheckButtonTemplate")
+local monkPowerBarCheckbox = Checkbox_CustomMonkPowerBar:CreateFontString(nil,
+                                                                          "OVERLAY",
+                                                                          "GameFontNormal")
+monkPowerBarCheckbox:SetPoint("LEFT", Checkbox_CustomMonkPowerBar, "RIGHT", 20,
+                              0)
+monkPowerBarCheckbox:SetText("Custom Monk Power Bar")
+Checkbox_CustomMonkPowerBar:SetPoint("TOPLEFT", 20, -120)
+Checkbox_CustomMonkPowerBar.tooltip =
+    "Customize the appearance of the Monk Power Bar."
+local _, monk = UnitClass("player")
+if monk == "MONK" then
+    Checkbox_CustomMonkPowerBar:SetChecked(
+        zUI_SavedSettings[PlayerIdentifier].CustomMonkPowerBarSetting)
+
+    Checkbox_CustomMonkPowerBar:SetScript("OnClick", function(self)
+        zUI_SavedSettings[PlayerIdentifier].CustomMonkPowerBarSetting =
+            self:GetChecked()
+    end)
+else
+    Checkbox_CustomMonkPowerBar:SetChecked(false)
+    Checkbox_CustomMonkPowerBar:Disable()
 end

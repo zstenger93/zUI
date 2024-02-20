@@ -641,6 +641,49 @@ KeepDruidCatFormComboPointsAtPosition:SetScript("OnUpdate", function()
 end)
 
 ---------------------------------------------------------------------------------------------------
+-- Custom Monk Power Bar
+---------------------------------------------------------------------------------------------------
+local CustomMonkPowerBar = CreateFrame("Frame")
+CustomMonkPowerBar:RegisterEvent("ADDON_LOADED")
+
+CustomMonkPowerBar:SetScript("OnEvent", function(self, event, addonName)
+    C_Timer.After(2, function()
+        if SettingsInitialized and
+            zUI_SavedSettings[PlayerIdentifier].CustomMonkPowerBarSetting and
+            event == "ADDON_LOADED" and addonName == "zUI" then
+            local _, className = UnitClass("player")
+            if className == "MONK" then
+                local harmonyPoints = {MonkHarmonyBarFrame:GetChildren()}
+                for i = 1, 6 do
+                    local harmony = harmonyPoints[i]
+                    harmony.Chi_BG:Hide()
+                    harmony.Chi_BG_Active:Hide()
+                    harmony.Chi_BG_Glow:Hide()
+                    harmony.Chi_Deplete:Hide()
+                end
+            end
+        end
+    end)
+end)
+
+local KeepMonkHarmonyPointsAtPosition = CreateFrame("Frame")
+KeepMonkHarmonyPointsAtPosition:SetScript("OnUpdate", function()
+    if SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].CustomMonkPowerBarSetting then
+        local _, className = UnitClass("player")
+        if className == "MONK" then
+            local harmonyPoints = {MonkHarmonyBarFrame:GetChildren()}
+            for i = 1, 6 do
+                local harmony = harmonyPoints[i]
+                harmony:ClearAllPoints()
+                harmony:SetPoint("BOTTOM", _G["ActionButton" .. (i + 3)], "TOP",
+                                 0, 10)
+            end
+        end
+    end
+end)
+
+---------------------------------------------------------------------------------------------------
 -- Check if a key binding is set for a button
 ---------------------------------------------------------------------------------------------------
 local function IsKeyBindingSet(button)
@@ -769,7 +812,9 @@ actionBarMod:SetScript("OnEvent", function(self, event, ...)
                 button.wasDragging = true
             elseif not GetCursorInfo() and button.wasDragging then
                 normalTexture:Hide()
-                if hotkey and not (HasAction(button.action) or GetActionInfo(button.action)) then
+                if hotkey and
+                    not (HasAction(button.action) or
+                        GetActionInfo(button.action)) then
                     hotkey:Hide()
                 end
                 local buttonName = button:GetName()
@@ -991,9 +1036,16 @@ HideObjectiveTrackerArtwork:RegisterEvent("PLAYER_ENTERING_WORLD")
 HideObjectiveTrackerArtwork:SetScript("OnEvent", function(self, event, ...)
     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
         zUI_SavedSettings[PlayerIdentifier].HideObjectiveTrackerArtworkSetting then
-        for _, module in pairs(ObjectiveTrackerFrame.MODULES) do
-            module.Header.Background:Hide()
-        end
+        ObjectiveTrackerBlocksFrame.CampaignQuestHeader.Background:Hide()
+        ObjectiveTrackerBlocksFrame.QuestHeader.Background:Hide()
+        ObjectiveTrackerBlocksFrame.AchievementHeader.Background:Hide()
+        ObjectiveTrackerBlocksFrame.ScenarioHeader.Background:Hide()
+        ObjectiveTrackerBlocksFrame.AdventureHeader.Background:Hide()
+        ObjectiveTrackerBlocksFrame.MonthlyActivitiesHeader.Background:Hide()
+        ObjectiveTrackerBlocksFrame.ProfessionHeader.Background:Hide()
+        BONUS_OBJECTIVE_TRACKER_MODULE.Header.Background:Hide()
+        WORLD_QUEST_TRACKER_MODULE.Header.Background:Hide()
+        ObjectiveTrackerFrame.BlocksFrame.UIWidgetsHeader.Background:Hide()
         ObjectiveTrackerFrame.HeaderMenu.Title:SetAlpha(0)
     end
 end)
@@ -1334,10 +1386,6 @@ BagFrame:RegisterEvent("BAG_CLOSED")
 BagFrame:RegisterEvent("BAG_UPDATE")
 BagFrame:RegisterEvent("BAG_UPDATE_COOLDOWN")
 BagFrame:RegisterEvent("BAG_UPDATE_DELAYED")
--- BagFrame:RegisterEvent("BAG_NEW_ITEMS_UPDATED")
--- BagFrame:RegisterEvent("BAG_SLOT_FLAGS_UPDATED")
--- BagFrame:RegisterEvent("ITEM_LOCK_CHANGED")
--- BagFrame:RegisterEvent("ITEM_PUSH")
 BagFrame:RegisterEvent("BANKFRAME_OPENED")
 BagFrame:RegisterEvent("BANKFRAME_CLOSED")
 BagFrame:RegisterEvent("QUEST_ACCEPTED")
@@ -1571,12 +1619,6 @@ BagFrame:SetScript("OnEvent", function(self, event, ...)
             ["BAG_OPEN"] = true,
             ["BAG_CLOSED"] = true,
             ["BAG_UPDATE"] = true,
-            -- ["BAG_UPDATE_COOLDOWN"] = true,
-            -- ["BAG_UPDATE_DELAYED"] = true,
-            -- ["BAG_NEW_ITEMS_UPDATED"] = true,
-            -- ["BAG_SLOT_FLAGS_UPDATED"] = true,
-            -- ["ITEM_LOCK_CHANGED"] = true,
-            -- ["ITEM_PUSH"] = true,
             ["BANKFRAME_OPENED"] = true,
             ["BANKFRAME_CLOSED"] = true,
             ["QUEST_ACCEPTED"] = true,
@@ -1921,6 +1963,3 @@ BankFrameMod:SetScript("OnEvent", function(self, event, changedBagSlotID)
         end
     end
 end)
-
--- Debug Log
--- if DLAPI then DLAPI.DebugLog("zUI", ...) end
