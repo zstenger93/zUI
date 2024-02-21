@@ -715,10 +715,10 @@ local paladinPowerBarCheckbox =
                                                            "GameFontNormal")
 paladinPowerBarCheckbox:SetPoint("LEFT", Checkbox_CustomPaladinPowerBarTexture,
                                  "RIGHT", 20, 0)
-paladinPowerBarCheckbox:SetText("Custom Paladin Power Bar")
+paladinPowerBarCheckbox:SetText("Custom Paladin Holy Power")
 Checkbox_CustomPaladinPowerBarTexture:SetPoint("TOPLEFT", 20, 30)
 Checkbox_CustomPaladinPowerBarTexture.tooltip =
-    "Hide the texture of the Paladin Power Bar, but keep the glowing runes and animations."
+    "Hide the texture of the Paladin Holy Power, but keep the glowing runes and animations."
 local _, paladin = UnitClass("player")
 if paladin == "PALADIN" then
     Checkbox_CustomPaladinPowerBarTexture:SetChecked(
@@ -839,10 +839,10 @@ local druidCatFormCheckbox = Checkbox_CustomDruidCatForm:CreateFontString(nil,
                                                                           "GameFontNormal")
 druidCatFormCheckbox:SetPoint("LEFT", Checkbox_CustomDruidCatForm, "RIGHT", 20,
                               0)
-druidCatFormCheckbox:SetText("Custom Druid Cat Form")
+druidCatFormCheckbox:SetText("Custom Druid Cat Combo Points")
 Checkbox_CustomDruidCatForm:SetPoint("TOPLEFT", 20, -90)
 Checkbox_CustomDruidCatForm.tooltip =
-    "Customize the appearance of the Druid Cat Form."
+    "Customize the appearance of the Druid Cat Combo Points."
 local _, druid = UnitClass("player")
 if druid == "DRUID" then
     Checkbox_CustomDruidCatForm:SetChecked(
@@ -870,10 +870,10 @@ local monkPowerBarCheckbox = Checkbox_CustomMonkPowerBar:CreateFontString(nil,
                                                                           "GameFontNormal")
 monkPowerBarCheckbox:SetPoint("LEFT", Checkbox_CustomMonkPowerBar, "RIGHT", 20,
                               0)
-monkPowerBarCheckbox:SetText("Custom Monk Power Bar")
+monkPowerBarCheckbox:SetText("Custom Monk Harmony")
 Checkbox_CustomMonkPowerBar:SetPoint("TOPLEFT", 20, -120)
 Checkbox_CustomMonkPowerBar.tooltip =
-    "Customize the appearance of the Monk Power Bar."
+    "Customize the appearance of the Monk Harmony."
 local _, monk = UnitClass("player")
 if monk == "MONK" then
     Checkbox_CustomMonkPowerBar:SetChecked(
@@ -886,4 +886,35 @@ if monk == "MONK" then
 else
     Checkbox_CustomMonkPowerBar:SetChecked(false)
     Checkbox_CustomMonkPowerBar:Disable()
+end
+
+---------------------------------------------------------------------------------------------------
+-- Checkbox for customizing Evoker Essence
+---------------------------------------------------------------------------------------------------
+---@class Checkbox_CustomEvokerEssence : CheckButton
+Checkbox_CustomEvokerEssence = CreateFrame("CheckButton",
+                                           "zUICustomEvokerEssenceCheckbox",
+                                           ClassPage,
+                                           "ChatConfigCheckButtonTemplate")
+local evokerEssenceCheckbox = Checkbox_CustomEvokerEssence:CreateFontString(nil,
+                                                                            "OVERLAY",
+                                                                            "GameFontNormal")
+evokerEssenceCheckbox:SetPoint("LEFT", Checkbox_CustomEvokerEssence, "RIGHT", 20,
+                               0)
+evokerEssenceCheckbox:SetText("Custom Evoker Essence")
+Checkbox_CustomEvokerEssence:SetPoint("TOPLEFT", 20, -150)
+Checkbox_CustomEvokerEssence.tooltip =
+    "Customize the appearance of the Evoker Essence."
+local _, class = UnitClass("player")
+if class == "EVOKER" then
+    Checkbox_CustomEvokerEssence:SetChecked(
+        zUI_SavedSettings[PlayerIdentifier].CustomEvokerEssenceSetting)
+
+    Checkbox_CustomEvokerEssence:SetScript("OnClick", function(self)
+        zUI_SavedSettings[PlayerIdentifier].CustomEvokerEssenceSetting =
+            self:GetChecked()
+    end)
+else
+    Checkbox_CustomEvokerEssence:SetChecked(false)
+    Checkbox_CustomEvokerEssence:Disable()
 end

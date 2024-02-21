@@ -451,7 +451,7 @@ CustomPaladinPowerBarTexture:SetScript("OnEvent",
                     runeData.rune:GetParent():ClearAllPoints()
                     runeData.rune:GetParent():SetPoint("BOTTOM",
                                                        runeData.button, "TOP",
-                                                       0, 10)
+                                                       15, 10)
                 end
             end
         end
@@ -641,7 +641,7 @@ KeepDruidCatFormComboPointsAtPosition:SetScript("OnUpdate", function()
 end)
 
 ---------------------------------------------------------------------------------------------------
--- Custom Monk Power Bar
+-- Custom Monk Harmony
 ---------------------------------------------------------------------------------------------------
 local CustomMonkPowerBar = CreateFrame("Frame")
 CustomMonkPowerBar:RegisterEvent("ADDON_LOADED")
@@ -678,6 +678,50 @@ KeepMonkHarmonyPointsAtPosition:SetScript("OnUpdate", function()
                 harmony:ClearAllPoints()
                 harmony:SetPoint("BOTTOM", _G["ActionButton" .. (i + 3)], "TOP",
                                  0, 10)
+            end
+        end
+    end
+end)
+
+---------------------------------------------------------------------------------------------------
+-- Custom Evoker Essence
+---------------------------------------------------------------------------------------------------
+local CustomEvokerEssence = CreateFrame("Frame")
+CustomEvokerEssence:RegisterEvent("ADDON_LOADED")
+
+CustomEvokerEssence:SetScript("OnEvent", function(self, event, addonName)
+    C_Timer.After(2, function()
+        if SettingsInitialized and
+            zUI_SavedSettings[PlayerIdentifier].CustomEvokerEssenceSetting and
+            event == "ADDON_LOADED" and addonName == "zUI" then
+            local _, className = UnitClass("player")
+            if className == "EVOKER" then
+                local essencePoints = {EssencePlayerFrame:GetChildren()}
+                for i = 1, 5 do
+                    local essence = essencePoints[i]
+                    essence.EssenceFillDone.CircBG:Hide()
+                    essence.EssenceFillDone.CircBGActive:Hide()
+                    essence.EssenceFilling.EssenceBG:Hide()
+                    essence.EssenceDepleting.EssenceBG:Hide()
+                    essence.EssenceDepleting.CircBGActive:Hide()
+                end
+            end
+        end
+    end)
+end)
+
+local KeepEvokerEssencePointsAtPosition = CreateFrame("Frame")
+KeepEvokerEssencePointsAtPosition:SetScript("OnUpdate", function()
+    if SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].CustomEvokerEssenceSetting then
+        local _, className = UnitClass("player")
+        if className == "EVOKER" then
+            local essencePoints = {EssencePlayerFrame:GetChildren()}
+            for i = 1, 5 do
+                local essence = essencePoints[i]
+                essence:ClearAllPoints()
+                essence:SetPoint("BOTTOM", _G["ActionButton" .. (i + 3)], "TOP",
+                                 15, 10)
             end
         end
     end
@@ -1284,14 +1328,18 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Move the BNToastFrame
 ---------------------------------------------------------------------------------------------------
-local BNFrame = CreateFrame("Frame")
-BNFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-BNFrame:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_ENTERING_WORLD" then
-        BNToastFrame:ClearAllPoints()
-        BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame2Tab, "TOPRIGHT", 90, 0)
+-- local BNFrame = CreateFrame("Frame")
+-- BNFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+-- BNFrame:SetScript("OnEvent", function(self, event)
+--     if event == "PLAYER_ENTERING_WORLD" then
+hooksecurefunc(BNToastFrame, "SetPoint", function(self, _, anchor)
+    if anchor == "BNToastFrame" then
+        self:ClearAllPoints()
+        self:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 40, 0)
     end
 end)
+--     end
+-- end)
 
 ---------------------------------------------------------------------------------------------------
 -- Total amount of Honorable kills
@@ -1716,7 +1764,7 @@ BankFrameMod:RegisterEvent("BANKFRAME_OPENED")
 BankFrameMod:RegisterEvent("BANKFRAME_CLOSED")
 BankFrameMod:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
 BankFrameMod:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED")
-BankFrameMod:RegisterEvent("ITEM_LOCK_CHANGED")
+-- BankFrameMod:RegisterEvent("ITEM_LOCK_CHANGED")
 BankFrameMod:RegisterEvent("BAG_UPDATE")
 BankFrameMod:RegisterEvent("PLAYERREAGENTBANKSLOTS_CHANGED")
 local frameElementsToHide = {
