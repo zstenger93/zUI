@@ -164,11 +164,15 @@ HideQuickJoinToastButton:SetScript("OnEvent", function(self, event)
     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
         zUI_SavedSettings[PlayerIdentifier].HideQuickJoinToastButtonSetting then
         local status, error = pcall(function()
+            QuickJoinToastButton:ClearAllPoints()
+            QuickJoinToastButton:SetPoint("TOPLEFT", ChatFrame1Tab, "TOPLEFT", 0, 17)
             QuickJoinToastButton:Hide()
         end)
         if not status then zUI:Print(error) end
     elseif SettingsInitialized and
         not zUI_SavedSettings[PlayerIdentifier].HideQuickJoinToastButtonSetting then
+            QuickJoinToastButton:ClearAllPoints()
+            QuickJoinToastButton:SetPoint("TOPLEFT", ChatFrame1Tab, "TOPLEFT", 0, 17)
         local status, error = pcall(function()
             QuickJoinToastButton:Show()
         end)
@@ -1332,12 +1336,18 @@ end)
 -- BNFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 -- BNFrame:SetScript("OnEvent", function(self, event)
 --     if event == "PLAYER_ENTERING_WORLD" then
-hooksecurefunc(BNToastFrame, "SetPoint", function(self, _, anchor)
-    if anchor == "BNToastFrame" then
-        self:ClearAllPoints()
-        self:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 40, 0)
-    end
-end)
+-- hooksecurefunc(BNToastFrame, "SetPoint", function(self, _, anchor)
+--     if anchor == "BNToastFrame" then
+--         self:ClearAllPoints()
+--         self:SetPoint("BOTTOMRIGHT", ChatFrame1Tab, "TOPRIGHT", 40, 30)
+--     end
+-- end)
+
+-- ChatFrame1Tab:HookScript("OnUpdate", function()
+--     BNToastFrame:ClearAllPoints();
+--     BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 0, 0)
+--     BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 30, 0)
+-- end)
 --     end
 -- end)
 
@@ -1760,12 +1770,10 @@ end)
     - Purchase button new slots next to the last bag with price
 ]]
 local BankFrameMod = CreateFrame("Frame")
+BankFrameMod:RegisterEvent("BAG_UPDATE")
 BankFrameMod:RegisterEvent("BANKFRAME_OPENED")
-BankFrameMod:RegisterEvent("BANKFRAME_CLOSED")
 BankFrameMod:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
 BankFrameMod:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED")
--- BankFrameMod:RegisterEvent("ITEM_LOCK_CHANGED")
-BankFrameMod:RegisterEvent("BAG_UPDATE")
 BankFrameMod:RegisterEvent("PLAYERREAGENTBANKSLOTS_CHANGED")
 local frameElementsToHide = {
     "NineSlice", "Bg", "CloseButton", "PortraitOverlay", "PortraitOverlayFrame",
@@ -1785,11 +1793,10 @@ function StripTextures(frame)
 end
 
 local validEvents = {
+    ["BAG_UPDATE"] = true,
     ["BANKFRAME_OPENED"] = true,
     ["PLAYERBANKSLOTS_CHANGED"] = true,
     ["PLAYERBANKBAGSLOTS_CHANGED"] = true,
-    ["ITEM_LOCK_CHANGED"] = true,
-    ["BAG_UPDATE"] = true,
     ["PLAYERREAGENTBANKSLOTS_CHANGED"] = true
 }
 
