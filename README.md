@@ -61,15 +61,17 @@ Use `/zui` or `ESC` -> `zUI Settings` to show the settings panel (every setting 
         - Paladin
         - Druid
         - Rogue
+        - Monk
+        - Evoker
 
 ## Next up
 
 - Talent specific settings within character settings
-- Reducing usage
+- Reducing even more the usage
 
 ## Works but could use a check
 
 - Sometimes prestige banner is not being hidden
-- Mouseover sometimes not working properly on bar 4 and 5, OnLeave sometimes ain't hidin them
+- Mouseover not working properly, in combat it's blocked
 
 

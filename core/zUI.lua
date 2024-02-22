@@ -164,11 +164,15 @@ HideQuickJoinToastButton:SetScript("OnEvent", function(self, event)
     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
         zUI_SavedSettings[PlayerIdentifier].HideQuickJoinToastButtonSetting then
         local status, error = pcall(function()
+            QuickJoinToastButton:ClearAllPoints()
+            QuickJoinToastButton:SetPoint("TOPLEFT", ChatFrame1Tab, "TOPLEFT", 0, 17)
             QuickJoinToastButton:Hide()
         end)
         if not status then zUI:Print(error) end
     elseif SettingsInitialized and
         not zUI_SavedSettings[PlayerIdentifier].HideQuickJoinToastButtonSetting then
+            -- QuickJoinToastButton:ClearAllPoints()
+            -- QuickJoinToastButton:SetPoint("TOPLEFT", ChatFrame1Tab, "TOPLEFT", 0, 17)
         local status, error = pcall(function()
             QuickJoinToastButton:Show()
         end)
@@ -451,7 +455,7 @@ CustomPaladinPowerBarTexture:SetScript("OnEvent",
                     runeData.rune:GetParent():ClearAllPoints()
                     runeData.rune:GetParent():SetPoint("BOTTOM",
                                                        runeData.button, "TOP",
-                                                       0, 10)
+                                                       15, 10)
                 end
             end
         end
@@ -641,7 +645,7 @@ KeepDruidCatFormComboPointsAtPosition:SetScript("OnUpdate", function()
 end)
 
 ---------------------------------------------------------------------------------------------------
--- Custom Monk Power Bar
+-- Custom Monk Harmony
 ---------------------------------------------------------------------------------------------------
 local CustomMonkPowerBar = CreateFrame("Frame")
 CustomMonkPowerBar:RegisterEvent("ADDON_LOADED")
@@ -678,6 +682,50 @@ KeepMonkHarmonyPointsAtPosition:SetScript("OnUpdate", function()
                 harmony:ClearAllPoints()
                 harmony:SetPoint("BOTTOM", _G["ActionButton" .. (i + 3)], "TOP",
                                  0, 10)
+            end
+        end
+    end
+end)
+
+---------------------------------------------------------------------------------------------------
+-- Custom Evoker Essence
+---------------------------------------------------------------------------------------------------
+local CustomEvokerEssence = CreateFrame("Frame")
+CustomEvokerEssence:RegisterEvent("ADDON_LOADED")
+
+CustomEvokerEssence:SetScript("OnEvent", function(self, event, addonName)
+    C_Timer.After(2, function()
+        if SettingsInitialized and
+            zUI_SavedSettings[PlayerIdentifier].CustomEvokerEssenceSetting and
+            event == "ADDON_LOADED" and addonName == "zUI" then
+            local _, className = UnitClass("player")
+            if className == "EVOKER" then
+                local essencePoints = {EssencePlayerFrame:GetChildren()}
+                for i = 1, 5 do
+                    local essence = essencePoints[i]
+                    essence.EssenceFillDone.CircBG:Hide()
+                    essence.EssenceFillDone.CircBGActive:Hide()
+                    essence.EssenceFilling.EssenceBG:Hide()
+                    essence.EssenceDepleting.EssenceBG:Hide()
+                    essence.EssenceDepleting.CircBGActive:Hide()
+                end
+            end
+        end
+    end)
+end)
+
+local KeepEvokerEssencePointsAtPosition = CreateFrame("Frame")
+KeepEvokerEssencePointsAtPosition:SetScript("OnUpdate", function()
+    if SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].CustomEvokerEssenceSetting then
+        local _, className = UnitClass("player")
+        if className == "EVOKER" then
+            local essencePoints = {EssencePlayerFrame:GetChildren()}
+            for i = 1, 5 do
+                local essence = essencePoints[i]
+                essence:ClearAllPoints()
+                essence:SetPoint("BOTTOM", _G["ActionButton" .. (i + 3)], "TOP",
+                                 15, 10)
             end
         end
     end
@@ -1284,14 +1332,24 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Move the BNToastFrame
 ---------------------------------------------------------------------------------------------------
-local BNFrame = CreateFrame("Frame")
-BNFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-BNFrame:SetScript("OnEvent", function(self, event)
-    if event == "PLAYER_ENTERING_WORLD" then
-        BNToastFrame:ClearAllPoints()
-        BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame2Tab, "TOPRIGHT", 90, 0)
-    end
-end)
+-- local BNFrame = CreateFrame("Frame")
+-- BNFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+-- BNFrame:SetScript("OnEvent", function(self, event)
+--     if event == "PLAYER_ENTERING_WORLD" then
+-- hooksecurefunc(BNToastFrame, "SetPoint", function(self, _, anchor)
+--     if anchor == "BNToastFrame" then
+--         self:ClearAllPoints()
+--         self:SetPoint("BOTTOMRIGHT", ChatFrame1Tab, "TOPRIGHT", 40, 30)
+--     end
+-- end)
+
+-- ChatFrame1Tab:HookScript("OnUpdate", function()
+--     BNToastFrame:ClearAllPoints();
+--     BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 0, 0)
+--     BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 30, 0)
+-- end)
+--     end
+-- end)
 
 ---------------------------------------------------------------------------------------------------
 -- Total amount of Honorable kills
@@ -1712,12 +1770,10 @@ end)
     - Purchase button new slots next to the last bag with price
 ]]
 local BankFrameMod = CreateFrame("Frame")
+BankFrameMod:RegisterEvent("BAG_UPDATE")
 BankFrameMod:RegisterEvent("BANKFRAME_OPENED")
-BankFrameMod:RegisterEvent("BANKFRAME_CLOSED")
 BankFrameMod:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
 BankFrameMod:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED")
-BankFrameMod:RegisterEvent("ITEM_LOCK_CHANGED")
-BankFrameMod:RegisterEvent("BAG_UPDATE")
 BankFrameMod:RegisterEvent("PLAYERREAGENTBANKSLOTS_CHANGED")
 local frameElementsToHide = {
     "NineSlice", "Bg", "CloseButton", "PortraitOverlay", "PortraitOverlayFrame",
@@ -1737,11 +1793,10 @@ function StripTextures(frame)
 end
 
 local validEvents = {
+    ["BAG_UPDATE"] = true,
     ["BANKFRAME_OPENED"] = true,
     ["PLAYERBANKSLOTS_CHANGED"] = true,
     ["PLAYERBANKBAGSLOTS_CHANGED"] = true,
-    ["ITEM_LOCK_CHANGED"] = true,
-    ["BAG_UPDATE"] = true,
     ["PLAYERREAGENTBANKSLOTS_CHANGED"] = true
 }
 

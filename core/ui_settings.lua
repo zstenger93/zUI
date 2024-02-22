@@ -97,6 +97,7 @@ initializeSettingsIfNewTable:SetScript("OnEvent", function(self, event)
         zUI_SavedSettings[PlayerIdentifier].CustomBankSetting = false
         zUI_SavedSettings[PlayerIdentifier].selectedProfile = "Select a Profile"
         zUI_SavedSettings[PlayerIdentifier].CustomMonkPowerBarSetting = false
+        zUI_SavedSettings[PlayerIdentifier].CustomEvokerEssenceSetting = false
         SettingsInitialized = true
     else
         SettingsInitialized = true
@@ -248,6 +249,9 @@ function UpdateCheckboxes()
                 "Select a Profile"
         Checkbox_CustomMonkPowerBar:SetChecked(
             zUI_SavedSettings[PlayerIdentifier].CustomMonkPowerBarSetting or
+                false)
+        Checkbox_CustomEvokerEssence:SetChecked(
+            zUI_SavedSettings[PlayerIdentifier].CustomEvokerEssenceSetting or
                 false)
     end
 end
