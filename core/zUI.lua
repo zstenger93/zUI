@@ -171,8 +171,8 @@ HideQuickJoinToastButton:SetScript("OnEvent", function(self, event)
         if not status then zUI:Print(error) end
     elseif SettingsInitialized and
         not zUI_SavedSettings[PlayerIdentifier].HideQuickJoinToastButtonSetting then
-            QuickJoinToastButton:ClearAllPoints()
-            QuickJoinToastButton:SetPoint("TOPLEFT", ChatFrame1Tab, "TOPLEFT", 0, 17)
+            -- QuickJoinToastButton:ClearAllPoints()
+            -- QuickJoinToastButton:SetPoint("TOPLEFT", ChatFrame1Tab, "TOPLEFT", 0, 17)
         local status, error = pcall(function()
             QuickJoinToastButton:Show()
         end)
