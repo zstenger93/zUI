@@ -2011,6 +2011,9 @@ BankFrameMod:SetScript("OnEvent", function(self, event, changedBagSlotID)
                     "PLAYERREAGENTBANKSLOTS_CHANGED" then
                     for bag = 6, 13 do OpenBag(bag) end
                 end
+                if event == "BAG_UPDATE" and changedBagSlotID > 5 then
+                    OpenBag(changedBagSlotID)
+                end
             end
         end
     end
