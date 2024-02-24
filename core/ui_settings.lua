@@ -98,6 +98,8 @@ initializeSettingsIfNewTable:SetScript("OnEvent", function(self, event)
         zUI_SavedSettings[PlayerIdentifier].selectedProfile = "Select a Profile"
         zUI_SavedSettings[PlayerIdentifier].CustomMonkPowerBarSetting = false
         zUI_SavedSettings[PlayerIdentifier].CustomEvokerEssenceSetting = false
+        zUI_SavedSettings[PlayerIdentifier].HotkeyScale = 1
+        zUI_SavedSettings[PlayerIdentifier].MacroScale = 1
         SettingsInitialized = true
     else
         SettingsInitialized = true
@@ -253,6 +255,10 @@ function UpdateCheckboxes()
         Checkbox_CustomEvokerEssence:SetChecked(
             zUI_SavedSettings[PlayerIdentifier].CustomEvokerEssenceSetting or
                 false)
+        HotkeyScaleSlider:SetValue(zUI_SavedSettings[PlayerIdentifier]
+                                       .HotkeyScale or 1)
+        MacroScaleSlider:SetValue(
+            zUI_SavedSettings[PlayerIdentifier].MacroScale or 1)
     end
 end
 

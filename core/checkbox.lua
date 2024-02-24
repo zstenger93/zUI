@@ -700,6 +700,100 @@ ScaleSlider:SetScript("OnValueChanged", function(self, value)
     valueText:SetText(string.format("%.2f", value))
 end)
 
+---------------------------------------------------------------------------------------------------
+-- Create a slider on the ActionBarsPage for the scale of the hotkey text
+---------------------------------------------------------------------------------------------------
+HotkeyScaleSlider = CreateFrame("Slider", "HotkeyScaleSlider", ActionBarsPage, "OptionsSliderTemplate")
+HotkeyScaleSlider:SetWidth(200)
+HotkeyScaleSlider:SetHeight(20)
+HotkeyScaleSlider:SetPoint("TOPLEFT", ScaleSlider, "BOTTOMLEFT", 0, -40)
+HotkeyScaleSlider:SetMinMaxValues(0.5, 2.0)
+HotkeyScaleSlider:SetValueStep(0.01)
+HotkeyScaleSlider:SetObeyStepOnDrag(true)
+
+local hotkeyLabel = ActionBarsPage:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+hotkeyLabel:SetPoint("BOTTOM", HotkeyScaleSlider, "TOP", 0, 5)
+hotkeyLabel:SetText("Adjust the Hotkey text size")
+
+HotkeyScaleSlider:SetScript("OnShow", function(self)
+    self.Low:SetText("0.5")
+    self.High:SetText("2.0")
+end)
+
+local initialHotkeyScale = zUI_SavedSettings[PlayerIdentifier].HotkeyScale or 1
+HotkeyScaleSlider:SetValue(initialHotkeyScale)
+
+local hotkeyValueText = HotkeyScaleSlider:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+hotkeyValueText:SetPoint("TOP", HotkeyScaleSlider, "BOTTOM", 0, -5)
+hotkeyValueText:SetText(string.format("%.2f", initialHotkeyScale))
+
+HotkeyScaleSlider:SetScript("OnValueChanged", function(self, value)
+    local actionBars = {
+        "ActionButton", "MultiBarBottomLeftButton", "MultiBarBottomRightButton",
+        "MultiBarLeftButton", "MultiBarRightButton"
+    }
+
+    for _, actionBar in ipairs(actionBars) do
+        for i = 1, 12 do
+            local button = _G[actionBar .. i]
+            local hotkey = _G[actionBar .. i .. "HotKey"]
+            if hotkey then
+                hotkey:SetScale(value)
+            end
+        end
+    end
+
+    zUI_SavedSettings[PlayerIdentifier].HotkeyScale = value
+    hotkeyValueText:SetText(string.format("%.2f", value))
+end)
+
+---------------------------------------------------------------------------------------------------
+-- Create a slider on the ActionBarsPage for the scale of the hotkey text
+---------------------------------------------------------------------------------------------------
+MacroScaleSlider = CreateFrame("Slider", "MacroScaleSlider", ActionBarsPage, "OptionsSliderTemplate")
+MacroScaleSlider:SetWidth(200)
+MacroScaleSlider:SetHeight(20)
+MacroScaleSlider:SetPoint("TOPLEFT", HotkeyScaleSlider, "BOTTOMLEFT", 0, -40)
+MacroScaleSlider:SetMinMaxValues(0.5, 2.0)
+MacroScaleSlider:SetValueStep(0.01)
+MacroScaleSlider:SetObeyStepOnDrag(true)
+
+local macroLabel = ActionBarsPage:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+macroLabel:SetPoint("BOTTOM", MacroScaleSlider, "TOP", 0, 5)
+macroLabel:SetText("Adjust the Macro text size")
+
+MacroScaleSlider:SetScript("OnShow", function(self)
+    self.Low:SetText("0.5")
+    self.High:SetText("2.0")
+end)
+
+local initialMacroScale = zUI_SavedSettings[PlayerIdentifier].MacroScale or 1
+MacroScaleSlider:SetValue(initialMacroScale)
+
+local macroValueText = MacroScaleSlider:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+macroValueText:SetPoint("TOP", MacroScaleSlider, "BOTTOM", 0, -5)
+macroValueText:SetText(string.format("%.2f", initialMacroScale))
+
+MacroScaleSlider:SetScript("OnValueChanged", function(self, value)
+    local actionBars = {
+        "ActionButton", "MultiBarBottomLeftButton", "MultiBarBottomRightButton",
+        "MultiBarLeftButton", "MultiBarRightButton"
+    }
+
+    for _, actionBar in ipairs(actionBars) do
+        for i = 1, 12 do
+            local button = _G[actionBar .. i]
+            local macroText = _G[actionBar .. i .. "Name"]
+            if macroText then
+                macroText:SetScale(value)
+            end
+        end
+    end
+
+    zUI_SavedSettings[PlayerIdentifier].MacroScale = value
+    macroValueText:SetText(string.format("%.2f", value))
+end)
+
 ---------------------------------------------- CHECKBOXES ON CLASS PAGE ----------------------------------------------
 
 ---------------------------------------------------------------------------------------------------

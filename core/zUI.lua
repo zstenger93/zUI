@@ -845,7 +845,7 @@ actionBarMod:SetScript("OnEvent", function(self, event, ...)
             if hotkey then
                 if IsKeyBindingSet(button) and
                     (HasAction(button.action) or GetActionInfo(button.action)) then
-                    hotkey:SetFont("Fonts\\FRIZQT__.TTF", 18, "OUTLINE")
+                    -- hotkey:SetFont("Fonts\\FRIZQT__.TTF", 18, "OUTLINE")
                     hotkey:Show()
                 else
                     hotkey:Hide()
