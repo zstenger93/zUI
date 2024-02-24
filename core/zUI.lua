@@ -165,14 +165,15 @@ HideQuickJoinToastButton:SetScript("OnEvent", function(self, event)
         zUI_SavedSettings[PlayerIdentifier].HideQuickJoinToastButtonSetting then
         local status, error = pcall(function()
             QuickJoinToastButton:ClearAllPoints()
-            QuickJoinToastButton:SetPoint("TOPLEFT", ChatFrame1Tab, "TOPLEFT", 0, 17)
+            QuickJoinToastButton:SetPoint("TOPLEFT", ChatFrame1Tab, "TOPLEFT",
+                                          0, 17)
             QuickJoinToastButton:Hide()
         end)
         if not status then zUI:Print(error) end
     elseif SettingsInitialized and
         not zUI_SavedSettings[PlayerIdentifier].HideQuickJoinToastButtonSetting then
-            -- QuickJoinToastButton:ClearAllPoints()
-            -- QuickJoinToastButton:SetPoint("TOPLEFT", ChatFrame1Tab, "TOPLEFT", 0, 17)
+        -- QuickJoinToastButton:ClearAllPoints()
+        -- QuickJoinToastButton:SetPoint("TOPLEFT", ChatFrame1Tab, "TOPLEFT", 0, 17)
         local status, error = pcall(function()
             QuickJoinToastButton:Show()
         end)
@@ -2008,11 +2009,7 @@ BankFrameMod:SetScript("OnEvent", function(self, event, changedBagSlotID)
                     "PLAYERBANKSLOTS_CHANGED" or event ==
                     "PLAYERBANKBAGSLOTS_CHANGED" or event ==
                     "PLAYERREAGENTBANKSLOTS_CHANGED" then
-                    OpenAllBags()
                     for bag = 6, 13 do OpenBag(bag) end
-                end
-                if event == "BAG_UPDATE" and changedBagSlotID > 5 then
-                    OpenBag(changedBagSlotID)
                 end
             end
         end
