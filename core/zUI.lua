@@ -2018,3 +2018,25 @@ BankFrameMod:SetScript("OnEvent", function(self, event, changedBagSlotID)
         end
     end
 end)
+
+-- function PrintWorldQuests(mapID)
+--     local mapInfo = C_Map.GetMapInfo(mapID)
+--     local zoneName = mapInfo and mapInfo.name or "Unknown"
+
+--     local quests = C_TaskQuest.GetQuestsForPlayerByMapID(mapID)
+--     if quests then
+--         for i, info in ipairs(quests) do
+--             local questID = info.questId
+--             if QuestUtils_IsQuestWorldQuest(questID) then
+--                 local title, _, _ = C_TaskQuest.GetQuestInfoByQuestID(questID)
+--                 print("World quest found in " .. zoneName .. ": " .. questID .. " - " .. title)
+--             end
+--         end
+--     end
+
+--     local children = C_Map.GetMapChildrenInfo(mapID)
+--     for i, info in ipairs(children) do
+--         PrintWorldQuests(info.mapID)
+--     end
+-- end
+

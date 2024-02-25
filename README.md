@@ -51,7 +51,10 @@ Use `/zui` or `ESC` -> `zUI Settings` to show the settings panel (every setting 
     - Player & Target frame textures + Prestige banners
 - Actionbars
     - Hide Hotkeys on non used slots
-    - Slider to change the icon size
+    - Slider to change the
+        - Icon size
+        - Hotkey text size
+        - Macro text size
     - Hide all of the original texture (border, background, etc.)
     - Bar 4 and 5 visible only on mouseover, if something is dragged or the spellbook is closed
 - Class
