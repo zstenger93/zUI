@@ -1341,9 +1341,9 @@ local function MoveQSB()
 end
 
 local QSB = CreateFrame("Frame")
-QSB:RegisterEvent("PLAYER_ENTERING_WORLD")
+QSB:RegisterEvent("PLAYER_LOGIN")
 QSB:SetScript("OnEvent", function(self, event, ...)
-    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
+    if SettingsInitialized and event == "PLAYER_LOGIN" and
         zUI_SavedSettings[PlayerIdentifier].MoveQSBSetting then
         C_Timer.After(3, function()
             MoveQSB()
@@ -1495,8 +1495,8 @@ end
 
 local HidePlayerAndTargetFrame = _G.HidePlayerAndTargetFrame
 
-RegisterEventsToFrame(HidePlayerAndTargetFrame, "PLAYER_ENTERING_WORLD",
-                      "GROUP_JOINED")
+RegisterEventsToFrame(HidePlayerAndTargetFrame, "PLAYER_LOGIN"
+                      )
 
 HidePlayerAndTargetFrame:SetScript("OnEvent", function(self, event, ...)
     C_Timer.After(2, function()
