@@ -1,10 +1,26 @@
+function RegisterEventsToFrame(frame, ...)
+    local events = {...}
+
+    for _, event in ipairs(events) do
+        if not frame:IsEventRegistered(event) then
+            frame:RegisterEvent(event)
+        end
+    end
+end
+
 ---------------------------------------------------------------------------------------------------
 -- Hide the objective tracker when combat starts
 ---------------------------------------------------------------------------------------------------
-local HideObjectiveTracker = CreateFrame("Frame")
+if rawget(_G, "HideObjectiveTracker") == nil then
+    _G.HideObjectiveTracker = CreateFrame("Frame")
+else
+    print("not nil")
+end
 
-HideObjectiveTracker:RegisterEvent("PLAYER_REGEN_DISABLED")
-HideObjectiveTracker:RegisterEvent("PLAYER_REGEN_ENABLED")
+local HideObjectiveTracker = _G.HideObjectiveTracker
+
+RegisterEventsToFrame(HideObjectiveTracker, "PLAYER_REGEN_DISABLED",
+                      "PLAYER_REGEN_ENABLED")
 
 HideObjectiveTracker:SetScript("OnEvent", function(self, event)
     if SettingsInitialized and ObjectiveTrackerFrame and
@@ -20,10 +36,14 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Hide the chat frame when combat starts
 ---------------------------------------------------------------------------------------------------
-local HideChatFrameObject = CreateFrame("Frame")
+if rawget(_G, "HideChatFrameObject") == nil then
+    _G.HideChatFrameObject = CreateFrame("Frame")
+end
 
-HideChatFrameObject:RegisterEvent("PLAYER_REGEN_DISABLED")
-HideChatFrameObject:RegisterEvent("PLAYER_REGEN_ENABLED")
+local HideChatFrameObject = _G.HideChatFrameObject
+
+RegisterEventsToFrame(HideChatFrameObject, "PLAYER_REGEN_DISABLED",
+                      "PLAYER_REGEN_ENABLED")
 
 HideChatFrameObject:SetScript("OnEvent", function(self, event)
     if SettingsInitialized and
@@ -41,10 +61,14 @@ end)
 -- ---------------------------------------------------------------------------------------------------
 -- -- Hide side buttons and their background on the chat frame
 -- ---------------------------------------------------------------------------------------------------
-local HideChatSidebar = CreateFrame("Frame")
+if rawget(_G, "HideChatSidebar") == nil then
+    _G.HideChatSidebar = CreateFrame("Frame")
+end
+
+local HideChatSidebar = _G.HideChatSidebar
 local _G_ChatSidebar = _G
 
-HideChatSidebar:RegisterEvent("PLAYER_ENTERING_WORLD")
+RegisterEventsToFrame(HideChatFrameObject, "PLAYER_ENTERING_WORLD")
 
 HideChatSidebar:SetScript("OnEvent", function(self, event)
     if event == "PLAYER_ENTERING_WORLD" and SettingsInitialized and
@@ -71,11 +95,15 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Hide the original chat frame style
 ---------------------------------------------------------------------------------------------------
-local HideChatFrameStyle = CreateFrame("Frame")
+if rawget(_G, "HideChatFrameStyle") == nil then
+    _G.HideChatFrameStyle = CreateFrame("Frame")
+end
+
+local HideChatFrameStyle = _G.HideChatFrameStyle
+
+RegisterEventsToFrame(HideChatFrameStyle, "PLAYER_ENTERING_WORLD")
+
 local _G_ChatFrameStyle = _G
-
-HideChatFrameStyle:RegisterEvent("PLAYER_ENTERING_WORLD")
-
 local tabTextures = {"Left", "Right", "Middle"}
 local frameTextures = {
     "BottomTexture", "BottomLeftTexture", "BottomRightTexture", "TopTexture",
@@ -125,9 +153,13 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Move the chat frame edit box to the top of the chat frame
 ---------------------------------------------------------------------------------------------------
-local MoveChatFrameEditBox = CreateFrame("Frame")
+if rawget(_G, "MoveChatFrameEditBox") == nil then
+    _G.MoveChatFrameEditBox = CreateFrame("Frame")
+end
 
-MoveChatFrameEditBox:RegisterEvent("PLAYER_ENTERING_WORLD")
+local MoveChatFrameEditBox = _G.MoveChatFrameEditBox
+
+RegisterEventsToFrame(MoveChatFrameEditBox, "PLAYER_ENTERING_WORLD")
 
 MoveChatFrameEditBox:SetScript("OnEvent", function(self, event)
     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
@@ -156,9 +188,13 @@ end)
 -- ---------------------------------------------------------------------------------------------------
 -- -- Hide the social quick join toast button when combat starts
 -- ---------------------------------------------------------------------------------------------------
-local HideQuickJoinToastButton = CreateFrame("Frame")
+if rawget(_G, "HideQuickJoinToastButton") == nil then
+    _G.HideQuickJoinToastButton = CreateFrame("Frame")
+end
 
-HideQuickJoinToastButton:RegisterEvent("PLAYER_ENTERING_WORLD")
+local HideQuickJoinToastButton = _G.HideQuickJoinToastButton
+
+RegisterEventsToFrame(HideQuickJoinToastButton, "PLAYER_ENTERING_WORLD")
 
 HideQuickJoinToastButton:SetScript("OnEvent", function(self, event)
     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
@@ -179,10 +215,12 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Hide the bag bar when combat starts
 ---------------------------------------------------------------------------------------------------
-local HideBagBar = CreateFrame("Frame")
+if rawget(_G, "HideBagBar") == nil then _G.HideBagBar = CreateFrame("Frame") end
 
-HideBagBar:RegisterEvent("PLAYER_REGEN_DISABLED")
-HideBagBar:RegisterEvent("PLAYER_REGEN_ENABLED")
+local HideBagBar = _G.HideBagBar
+
+RegisterEventsToFrame(HideBagBar, "PLAYER_REGEN_DISABLED",
+                      "PLAYER_REGEN_ENABLED")
 
 HideBagBar:SetScript("OnEvent", function(self, event)
     if SettingsInitialized and event == "PLAYER_REGEN_DISABLED" and
@@ -260,10 +298,15 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Hide HUD tooltips when combat starts
 ---------------------------------------------------------------------------------------------------
-local HideHudTooltip = CreateFrame("Frame")
+if rawget(_G, "HideHudTooltip") == nil then
+    _G.HideHudTooltip = CreateFrame("Frame")
+end
+
+local HideHudTooltip = _G.HideHudTooltip
 local inCombat = false
-HideHudTooltip:RegisterEvent("PLAYER_REGEN_DISABLED")
-HideHudTooltip:RegisterEvent("PLAYER_REGEN_ENABLED")
+
+RegisterEventsToFrame(HideHudTooltip, "PLAYER_REGEN_DISABLED",
+                      "PLAYER_REGEN_ENABLED")
 
 HideHudTooltip:SetScript("OnEvent", function(self, event, ...)
     if SettingsInitialized and event == "PLAYER_REGEN_DISABLED" and
@@ -285,7 +328,11 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Show FPS Frame
 ---------------------------------------------------------------------------------------------------
-local fpsFrame = CreateFrame("Frame", nil, UIParent)
+if rawget(_G, "fpsFrame") == nil then
+    _G.fpsFrame = CreateFrame("Frame", nil, UIParent)
+end
+
+local fpsFrame = _G.fpsFrame
 fpsFrame:SetSize(100, 20)
 fpsFrame:SetPoint("TOP", 0, 0)
 
@@ -312,8 +359,12 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Hide XP bar
 ---------------------------------------------------------------------------------------------------
-XpBarFrame = CreateFrame("Frame")
-XpBarFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+if rawget(_G, "XpBarFrame") == nil then _G.XpBarFrame = CreateFrame("Frame") end
+
+local XpBarFrame = _G.XpBarFrame
+
+RegisterEventsToFrame(XpBarFrame, "PLAYER_ENTERING_WORLD")
+
 XpBarFrame:SetScript("OnEvent", function(self, event)
     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" then
         if zUI_SavedSettings[PlayerIdentifier].XPBarSetting then
@@ -327,8 +378,12 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Hide Reputation bar
 ---------------------------------------------------------------------------------------------------
-local repBarFrame = CreateFrame("Frame")
-repBarFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+if rawget(_G, "repBarFrame") == nil then _G.repBarFrame = CreateFrame("Frame") end
+
+local repBarFrame = _G.repBarFrame
+
+RegisterEventsToFrame(repBarFrame, "PLAYER_ENTERING_WORLD")
+
 repBarFrame:SetScript("OnEvent", function(self, event)
     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" then
         if zUI_SavedSettings[PlayerIdentifier].RepBarSetting then
@@ -346,8 +401,14 @@ end)
     Change the alpha of the Store Button, because it's the only one
     where Hide() doesn't work, not sure why 💰💰💰💰💰
 ]]
-local microMenuFrame = CreateFrame("Frame")
-microMenuFrame:RegisterEvent("ADDON_LOADED")
+if rawget(_G, "microMenuFrame") == nil then
+    _G.microMenuFrame = CreateFrame("Frame")
+end
+
+local microMenuFrame = _G.microMenuFrame
+
+RegisterEventsToFrame(microMenuFrame, "ADDON_LOADED")
+
 microMenuFrame:SetScript("OnEvent", function(self, event, addonName)
     if event == "ADDON_LOADED" and addonName == "zUI" then
         C_Timer.After(2, function()
@@ -381,8 +442,13 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Hide Bag Bar Permanently
 ---------------------------------------------------------------------------------------------------
-local HideBagBarFramePermanently = CreateFrame("Frame")
-HideBagBarFramePermanently:RegisterEvent("ADDON_LOADED")
+if rawget(_G, "HideBagBarFramePermanently") == nil then
+    _G.HideBagBarFramePermanently = CreateFrame("Frame")
+end
+
+local HideBagBarFramePermanently = _G.HideBagBarFramePermanently
+
+RegisterEventsToFrame(HideBagBarFramePermanently, "ADDON_LOADED")
 
 HideBagBarFramePermanently:SetScript("OnEvent", function(self, event, addonName)
     if event == "ADDON_LOADED" and addonName == "zUI" then
@@ -406,8 +472,13 @@ end)
     Clear the anchor points for the holy power symbols
     Move it to the middle, over the main action bar
 ]]
-local CustomPaladinPowerBarTexture = CreateFrame("Frame")
-CustomPaladinPowerBarTexture:RegisterEvent("ADDON_LOADED")
+if rawget(_G, "CustomPaladinPowerBarTexture") == nil then
+    _G.CustomPaladinPowerBarTexture = CreateFrame("Frame")
+end
+
+local CustomPaladinPowerBarTexture = _G.CustomPaladinPowerBarTexture
+
+RegisterEventsToFrame(CustomPaladinPowerBarTexture, "ADDON_LOADED")
 
 CustomPaladinPowerBarTexture:SetScript("OnEvent",
                                        function(self, event, addonName)
@@ -461,8 +532,13 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Hide the death knight rune textures except the symbols for runes and move them
 ---------------------------------------------------------------------------------------------------
-local CustomDeathKnightPowerBarTexture = CreateFrame("Frame")
-CustomDeathKnightPowerBarTexture:RegisterEvent("ADDON_LOADED")
+if rawget(_G, "CustomDeathKnightPowerBarTexture") == nil then
+    _G.CustomDeathKnightPowerBarTexture = CreateFrame("Frame")
+end
+
+local CustomDeathKnightPowerBarTexture = _G.CustomDeathKnightPowerBarTexture
+
+RegisterEventsToFrame(CustomDeathKnightPowerBarTexture, "ADDON_LOADED")
 
 CustomDeathKnightPowerBarTexture:SetScript("OnEvent",
                                            function(self, event, addonName)
@@ -490,7 +566,12 @@ CustomDeathKnightPowerBarTexture:SetScript("OnEvent",
     end)
 end)
 
-local KeepDeathKnightRunesAtPosition = CreateFrame("Frame")
+if rawget(_G, "KeepDeathKnightRunesAtPosition") == nil then
+    _G.KeepDeathKnightRunesAtPosition = CreateFrame("Frame")
+end
+
+local KeepDeathKnightRunesAtPosition = _G.KeepDeathKnightRunesAtPosition
+
 KeepDeathKnightRunesAtPosition:SetScript("OnUpdate", function()
     if SettingsInitialized and
         zUI_SavedSettings[PlayerIdentifier].CustomDeathKnightRunesSetting then
@@ -509,8 +590,13 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Hide the rogue energy points textures except the symbols for combo points and move them
 ---------------------------------------------------------------------------------------------------
-local CustomRogueEnergyPoints = CreateFrame("Frame")
-CustomRogueEnergyPoints:RegisterEvent("ADDON_LOADED")
+if rawget(_G, "CustomRogueEnergyPoints") == nil then
+    _G.CustomRogueEnergyPoints = CreateFrame("Frame")
+end
+
+local CustomRogueEnergyPoints = _G.CustomRogueEnergyPoints
+
+RegisterEventsToFrame(CustomRogueEnergyPoints, "ADDON_LOADED")
 
 CustomRogueEnergyPoints:SetScript("OnEvent", function(self, event, addonName)
     C_Timer.After(2, function()
@@ -533,7 +619,12 @@ CustomRogueEnergyPoints:SetScript("OnEvent", function(self, event, addonName)
     end)
 end)
 
-local KeepRogueEnergyPointsAtPosition = CreateFrame("Frame")
+if rawget(_G, "KeepRogueEnergyPointsAtPosition") == nil then
+    _G.KeepRogueEnergyPointsAtPosition = CreateFrame("Frame")
+end
+
+local KeepRogueEnergyPointsAtPosition = _G.KeepRogueEnergyPointsAtPosition
+
 KeepRogueEnergyPointsAtPosition:SetScript("OnUpdate", function()
     if SettingsInitialized and
         zUI_SavedSettings[PlayerIdentifier].CustomRogueEnergyPointsSetting then
@@ -553,8 +644,13 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Hide the Warlock soul shard textures except the shards itself and move them
 ---------------------------------------------------------------------------------------------------
-local CustomWarlockSoulShards = CreateFrame("Frame")
-CustomWarlockSoulShards:RegisterEvent("ADDON_LOADED")
+if rawget(_G, "CustomWarlockSoulShards") == nil then
+    _G.CustomWarlockSoulShards = CreateFrame("Frame")
+end
+
+local CustomWarlockSoulShards = _G.CustomWarlockSoulShards
+
+RegisterEventsToFrame(CustomWarlockSoulShards, "ADDON_LOADED")
 
 CustomWarlockSoulShards:SetScript("OnEvent", function(self, event, addonName)
     C_Timer.After(2, function()
@@ -575,7 +671,12 @@ CustomWarlockSoulShards:SetScript("OnEvent", function(self, event, addonName)
     end)
 end)
 
-local KeepWarlockSoulShardsAtPosition = CreateFrame("Frame")
+if rawget(_G, "KeepWarlockSoulShardsAtPosition") == nil then
+    _G.KeepWarlockSoulShardsAtPosition = CreateFrame("Frame")
+end
+
+local KeepWarlockSoulShardsAtPosition = _G.KeepWarlockSoulShardsAtPosition
+
 KeepWarlockSoulShardsAtPosition:SetScript("OnUpdate", function()
     if SettingsInitialized and
         zUI_SavedSettings[PlayerIdentifier].CustomWarlockSoulShardSetting then
@@ -595,8 +696,13 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Hide the Druid cat form combo points textures except the points itself and move them
 ---------------------------------------------------------------------------------------------------
-local CustomDruidCatFormComboPoints = CreateFrame("Frame")
-CustomDruidCatFormComboPoints:RegisterEvent("ADDON_LOADED")
+if rawget(_G, "CustomDruidCatFormComboPoints") == nil then
+    _G.CustomDruidCatFormComboPoints = CreateFrame("Frame")
+end
+
+local CustomDruidCatFormComboPoints = _G.CustomDruidCatFormComboPoints
+
+RegisterEventsToFrame(CustomDruidCatFormComboPoints, "ADDON_LOADED")
 
 CustomDruidCatFormComboPoints:SetScript("OnEvent",
                                         function(self, event, addonName)
@@ -623,7 +729,13 @@ CustomDruidCatFormComboPoints:SetScript("OnEvent",
     end)
 end)
 
-local KeepDruidCatFormComboPointsAtPosition = CreateFrame("Frame")
+if rawget(_G, "KeepDruidCatFormComboPointsAtPosition") == nil then
+    _G.KeepDruidCatFormComboPointsAtPosition = CreateFrame("Frame")
+end
+
+local KeepDruidCatFormComboPointsAtPosition =
+    _G.KeepDruidCatFormComboPointsAtPosition
+
 KeepDruidCatFormComboPointsAtPosition:SetScript("OnUpdate", function()
     if SettingsInitialized and
         zUI_SavedSettings[PlayerIdentifier].CustomDruidCatFormComboPointsSetting then
@@ -643,8 +755,13 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Custom Monk Harmony
 ---------------------------------------------------------------------------------------------------
-local CustomMonkPowerBar = CreateFrame("Frame")
-CustomMonkPowerBar:RegisterEvent("ADDON_LOADED")
+if rawget(_G, "CustomMonkPowerBar") == nil then
+    _G.CustomMonkPowerBar = CreateFrame("Frame")
+end
+
+local CustomMonkPowerBar = _G.CustomMonkPowerBar
+
+RegisterEventsToFrame(CustomMonkPowerBar, "ADDON_LOADED")
 
 CustomMonkPowerBar:SetScript("OnEvent", function(self, event, addonName)
     C_Timer.After(2, function()
@@ -666,7 +783,12 @@ CustomMonkPowerBar:SetScript("OnEvent", function(self, event, addonName)
     end)
 end)
 
-local KeepMonkHarmonyPointsAtPosition = CreateFrame("Frame")
+if rawget(_G, "KeepMonkHarmonyPointsAtPosition") == nil then
+    _G.KeepMonkHarmonyPointsAtPosition = CreateFrame("Frame")
+end
+
+local KeepMonkHarmonyPointsAtPosition = _G.KeepMonkHarmonyPointsAtPosition
+
 KeepMonkHarmonyPointsAtPosition:SetScript("OnUpdate", function()
     if SettingsInitialized and
         zUI_SavedSettings[PlayerIdentifier].CustomMonkPowerBarSetting then
@@ -710,7 +832,12 @@ CustomEvokerEssence:SetScript("OnEvent", function(self, event, addonName)
     end)
 end)
 
-local KeepEvokerEssencePointsAtPosition = CreateFrame("Frame")
+if rawget(_G, "KeepEvokerEssencePointsAtPosition") == nil then
+    _G.KeepEvokerEssencePointsAtPosition = CreateFrame("Frame")
+end
+
+local KeepEvokerEssencePointsAtPosition = _G.KeepEvokerEssencePointsAtPosition
+
 KeepEvokerEssencePointsAtPosition:SetScript("OnUpdate", function()
     if SettingsInitialized and
         zUI_SavedSettings[PlayerIdentifier].CustomEvokerEssenceSetting then
@@ -763,7 +890,9 @@ end
     Resizing and positioning the hotkey text
     Showing button texture on drag
 ]]
-local actionBarMod = CreateFrame("Frame")
+if rawget(_G, "actionBarMod") == nil then _G.actionBarMod = CreateFrame("Frame") end
+
+local actionBarMod = _G.actionBarMod
 
 local actionBars = {
     "ActionButton", "MultiBarBottomLeftButton", "MultiBarBottomRightButton",
@@ -784,7 +913,7 @@ local events = {
     "UPDATE_MACROS"
 }
 
-for _, event in ipairs(events) do actionBarMod:RegisterEvent(event) end
+for _, event in ipairs(events) do RegisterEventsToFrame(actionBarMod, event) end
 
 actionBarMod:SetScript("OnEvent", function(self, event, ...)
     if SettingsInitialized and
@@ -909,8 +1038,14 @@ local function handleCursorInfo(barName)
     end
 end
 
-local MouseOverActionBar4 = CreateFrame("Frame", nil, UIParent)
-MouseOverActionBar4:RegisterEvent("PLAYER_ENTERING_WORLD")
+if rawget(_G, "MouseOverActionBar4") == nil then
+    _G.MouseOverActionBar4 = CreateFrame("Frame", nil, UIParent)
+end
+
+local MouseOverActionBar4 = _G.MouseOverActionBar4
+
+RegisterEventsToFrame(MouseOverActionBar4, "PLAYER_ENTERING_WORLD")
+
 MouseOverActionBar4:SetPoint("BOTTOMRIGHT", MultiBarLeftButton12, "BOTTOMRIGHT",
                              0, 0)
 MouseOverActionBar4:EnableMouse(true)
@@ -951,9 +1086,15 @@ MouseOverActionBar4:SetScript("OnLeave", function(self)
     setButtonVisibility(false, "MultiBarLeftButton")
 end)
 
-local DragCheckFrameActionBar4 = CreateFrame("Frame", nil, UIParent)
+if rawget(_G, "DragCheckFrameActionBar4") == nil then
+    _G.DragCheckFrameActionBar4 = CreateFrame("Frame", nil, UIParent)
+end
 
-for _, event in ipairs(events) do DragCheckFrameActionBar4:RegisterEvent(event) end
+local DragCheckFrameActionBar4 = _G.DragCheckFrameActionBar4
+
+for _, event in ipairs(events) do
+    RegisterEventsToFrame(DragCheckFrameActionBar4, event)
+end
 
 DragCheckFrameActionBar4:SetScript("OnEvent", function(self, event, ...)
     if SettingsInitialized and
@@ -967,8 +1108,14 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Make MultiBarRight visible only on mouseover or if something being dragged
 ---------------------------------------------------------------------------------------------------
-local MouseOverActionBar5 = CreateFrame("Frame", nil, UIParent)
-MouseOverActionBar5:RegisterEvent("PLAYER_ENTERING_WORLD")
+if rawget(_G, "MouseOverActionBar5") == nil then
+    _G.MouseOverActionBar5 = CreateFrame("Frame", nil, UIParent)
+end
+
+local MouseOverActionBar5 = _G.MouseOverActionBar5
+
+RegisterEventsToFrame(MouseOverActionBar5, "PLAYER_ENTERING_WORLD")
+
 MouseOverActionBar5:SetPoint("BOTTOMRIGHT", MultiBarRightButton12,
                              "BOTTOMRIGHT", 0, 0)
 MouseOverActionBar5:EnableMouse(true)
@@ -1010,9 +1157,15 @@ MouseOverActionBar5:SetScript("OnLeave", function(self)
     setButtonVisibility(false, "MultiBarRightButton")
 end)
 
-local DragCheckFrameActionBar5 = CreateFrame("Frame", nil, UIParent)
+if rawget(_G, "DragCheckFrameActionBar5") == nil then
+    _G.DragCheckFrameActionBar5 = CreateFrame("Frame", nil, UIParent)
+end
 
-for _, event in ipairs(events) do DragCheckFrameActionBar5:RegisterEvent(event) end
+local DragCheckFrameActionBar5 = _G.DragCheckFrameActionBar5
+
+for _, event in ipairs(events) do
+    RegisterEventsToFrame(DragCheckFrameActionBar5, event)
+end
 
 DragCheckFrameActionBar5:SetScript("OnEvent", function(self, event, ...)
     if SettingsInitialized and
@@ -1074,8 +1227,13 @@ HideBarWhenTalentFrameClosed("MultiBarRightButton",
 ---------------------------------------------------------------------------------------------------
 -- Hide the Objective Tracker Artwork
 ---------------------------------------------------------------------------------------------------
-local HideObjectiveTrackerArtwork = CreateFrame("Frame")
-HideObjectiveTrackerArtwork:RegisterEvent("PLAYER_ENTERING_WORLD")
+if rawget(_G, "HideObjectiveTrackerArtwork") == nil then
+    _G.HideObjectiveTrackerArtwork = CreateFrame("Frame")
+end
+
+local HideObjectiveTrackerArtwork = _G.HideObjectiveTrackerArtwork
+
+RegisterEventsToFrame(HideObjectiveTrackerArtwork, "PLAYER_ENTERING_WORLD")
 
 HideObjectiveTrackerArtwork:SetScript("OnEvent", function(self, event, ...)
     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
@@ -1110,8 +1268,15 @@ end)
     - Adventure
 
 ]]
-local AutomaticObjectiveTrackerCollapseOnLoad = CreateFrame("Frame")
-AutomaticObjectiveTrackerCollapseOnLoad:RegisterEvent("PLAYER_ENTERING_WORLD")
+if rawget(_G, "AutomaticObjectiveTrackerCollapseOnLoad") == nil then
+    _G.AutomaticObjectiveTrackerCollapseOnLoad = CreateFrame("Frame")
+end
+
+local AutomaticObjectiveTrackerCollapseOnLoad =
+    _G.AutomaticObjectiveTrackerCollapseOnLoad
+
+RegisterEventsToFrame(AutomaticObjectiveTrackerCollapseOnLoad,
+                      "PLAYER_ENTERING_WORLD")
 
 AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
                                                   function(self, event, ...)
@@ -1190,8 +1355,14 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Collapse the Buff Frame on load
 ---------------------------------------------------------------------------------------------------
-local CollapseBuffFrame = CreateFrame("Frame")
-CollapseBuffFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+if rawget(_G, "CollapseBuffFrame") == nil then
+    _G.CollapseBuffFrame = CreateFrame("Frame")
+end
+
+local CollapseBuffFrame = _G.CollapseBuffFrame
+
+RegisterEventsToFrame(CollapseBuffFrame, "PLAYER_ENTERING_WORLD")
+
 CollapseBuffFrame:SetScript("OnEvent", function(self, event, ...)
     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" then
         C_Timer.After(2, function()
@@ -1254,9 +1425,15 @@ local function MakeAllChatFramesDraggable()
     end
 end
 
-local chatDragFrame = CreateFrame("Frame")
-chatDragFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-chatDragFrame:RegisterEvent("PLAYER_TALENT_UPDATE")
+if rawget(_G, "chatDragFrame") == nil then
+    _G.chatDragFrame = CreateFrame("Frame")
+end
+
+local chatDragFrame = _G.chatDragFrame
+
+RegisterEventsToFrame(chatDragFrame, "PLAYER_ENTERING_WORLD",
+                      "PLAYER_TALENT_UPDATE")
+
 chatDragFrame:SetScript("OnEvent", function(self, event, ...)
     if not SettingsInitialized then return end
 
@@ -1312,8 +1489,15 @@ local function HookStatusUpdate()
     TargetFrame.TargetFrameContent.TargetFrameContentContextual.PrestigePortrait:Hide()
 end
 
-local HidePlayerAndTargetFrame = CreateFrame("Frame")
-HidePlayerAndTargetFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+if rawget(_G, "HidePlayerAndTargetFrame") == nil then
+    _G.HidePlayerAndTargetFrame = CreateFrame("Frame")
+end
+
+local HidePlayerAndTargetFrame = _G.HidePlayerAndTargetFrame
+
+RegisterEventsToFrame(HidePlayerAndTargetFrame, "PLAYER_ENTERING_WORLD",
+                      "GROUP_JOINED")
+
 HidePlayerAndTargetFrame:SetScript("OnEvent", function(self, event, ...)
     C_Timer.After(2, function()
         if SettingsInitialized and
@@ -1356,15 +1540,25 @@ end)
     it's still counted)
     updating the displayed value whenever PLAYER_PVP_KILLS_CHANGED is triggered
 ]]
-local TotalAmountOfHonorableKills = CreateFrame("Frame")
-TotalAmountOfHonorableKills:RegisterEvent("PLAYER_ENTERING_WORLD")
-TotalAmountOfHonorableKills:RegisterEvent("PLAYER_PVP_KILLS_CHANGED")
+if rawget(_G, "TotalAmountOfHonorableKills") == nil then
+    _G.TotalAmountOfHonorableKills = CreateFrame("Frame")
+end
+
+local TotalAmountOfHonorableKills = _G.TotalAmountOfHonorableKills
+
+RegisterEventsToFrame(TotalAmountOfHonorableKills, "PLAYER_ENTERING_WORLD",
+                      "PLAYER_PVP_KILLS_CHANGED")
 
 local achievementID = 5363
 local criteriaID = 1
 local _, _, _, progress, _ = 0, 0, 0, nil, nil
 
-local totalHKFrame = CreateFrame("Frame", nil, UIParent)
+if rawget(_G, "totalHKFrame") == nil then
+    _G.totalHKFrame = CreateFrame("Frame", nil, UIParent)
+end
+
+local totalHKFrame = _G.totalHKFrame
+
 totalHKFrame:SetSize(200, 20)
 totalHKFrame:SetPoint("TOPLEFT", 0, 0)
 
@@ -1433,28 +1627,17 @@ end)
     - Made the containerframes clickthrough
 ]]
 local NUM_ITEMS_PER_ROW = 10
-local BagFrame = CreateFrame("Frame")
-BagFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-BagFrame:RegisterEvent("BAG_OPEN")
-BagFrame:RegisterEvent("BAG_CLOSED")
-BagFrame:RegisterEvent("BAG_UPDATE")
-BagFrame:RegisterEvent("BAG_UPDATE_COOLDOWN")
-BagFrame:RegisterEvent("BAG_UPDATE_DELAYED")
-BagFrame:RegisterEvent("BANKFRAME_OPENED")
-BagFrame:RegisterEvent("BANKFRAME_CLOSED")
-BagFrame:RegisterEvent("QUEST_ACCEPTED")
-BagFrame:RegisterEvent("QUEST_REMOVED")
-BagFrame:RegisterEvent("MAIL_SHOW")
-BagFrame:RegisterEvent("MAIL_CLOSED")
-BagFrame:RegisterEvent("TRADE_SHOW")
-BagFrame:RegisterEvent("TRADE_CLOSED")
-BagFrame:RegisterEvent("AUCTION_HOUSE_SHOW")
-BagFrame:RegisterEvent("AUCTION_HOUSE_CLOSED")
-BagFrame:RegisterEvent("GUILDBANKFRAME_OPENED")
-BagFrame:RegisterEvent("GUILDBANKFRAME_CLOSED")
-BagFrame:RegisterEvent("GOSSIP_SHOW")
-BagFrame:RegisterEvent("GOSSIP_CLOSED")
-BagFrame:RegisterEvent("MERCHANT_SHOW")
+if rawget(_G, "BagFrame") == nil then _G.BagFrame = CreateFrame("Frame") end
+
+local BagFrame = _G.BagFrame
+
+RegisterEventsToFrame(BagFrame, "PLAYER_LOGIN", "BAG_OPEN", "BAG_CLOSED",
+                      "BANKFRAME_OPENED", "BANKFRAME_CLOSED", "QUEST_ACCEPTED",
+                      "QUEST_REMOVED", "MAIL_SHOW", "MAIL_CLOSED", "TRADE_SHOW",
+                      "TRADE_CLOSED", "AUCTION_HOUSE_SHOW",
+                      "AUCTION_HOUSE_CLOSED", "GUILDBANKFRAME_OPENED",
+                      "GUILDBANKFRAME_CLOSED", "GOSSIP_SHOW", "GOSSIP_CLOSED",
+                      "MERCHANT_SHOW")
 
 function UpdateBagLayout()
     local totalItems = 0
@@ -1523,7 +1706,11 @@ function UpdateBagLayout()
             _G.totalGoldText:SetText("Total: " .. zUI_SavedSettings.TotalGold ..
                                          "|TInterface\\MoneyFrame\\UI-GoldIcon:12:12:4:0|t")
 
-            local bagMoneyUpdater = CreateFrame("Frame")
+            if rawget(_G, "bagMoneyUpdater") == nil then
+                _G.bagMoneyUpdater = CreateFrame("Frame")
+            end
+
+            local bagMoneyUpdater = _G.bagMoneyUpdater
 
             bagMoneyUpdater:SetScript("OnEvent", function(self, event, ...)
                 if event == "PLAYER_MONEY" then
@@ -1533,7 +1720,7 @@ function UpdateBagLayout()
                 end
             end)
 
-            bagMoneyUpdater:RegisterEvent("PLAYER_MONEY")
+            RegisterEventsToFrame(bagMoneyUpdater, "PLAYER_MONEY")
 
             local function comma_value(n)
                 local left, num, right =
@@ -1669,10 +1856,9 @@ BagFrame:SetScript("OnEvent", function(self, event, ...)
     if SettingsInitialized and
         zUI_SavedSettings[PlayerIdentifier].CustomBagsSetting then
         local bagEvents = {
-            ["PLAYER_ENTERING_WORLD"] = true,
+            ["PLAYER_LOGIN"] = true,
             ["BAG_OPEN"] = true,
             ["BAG_CLOSED"] = true,
-            ["BAG_UPDATE"] = true,
             ["BANKFRAME_OPENED"] = true,
             ["BANKFRAME_CLOSED"] = true,
             ["QUEST_ACCEPTED"] = true,
@@ -1707,9 +1893,13 @@ end)
     - Dynamically changing the total amount of gold on the current realm
     - Always updating on money change
 ]]
-local totalGoldFrame = CreateFrame("Frame")
-totalGoldFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-totalGoldFrame:RegisterEvent("PLAYER_MONEY")
+if rawget(_G, "totalGoldFrame") == nil then
+    _G.totalGoldFrame = CreateFrame("Frame")
+end
+
+local totalGoldFrame = _G.totalGoldFrame
+
+RegisterEventsToFrame(totalGoldFrame, "PLAYER_ENTERING_WORLD", "PLAYER_MONEY")
 
 local function RecalculateTotalGold()
     if SettingsInitialized then
@@ -1765,12 +1955,14 @@ end)
     - Tabs always below last bags, on reagent tab reset 
     - Purchase button new slots next to the last bag with price
 ]]
-local BankFrameMod = CreateFrame("Frame")
-BankFrameMod:RegisterEvent("BAG_UPDATE")
-BankFrameMod:RegisterEvent("BANKFRAME_OPENED")
-BankFrameMod:RegisterEvent("PLAYERBANKSLOTS_CHANGED")
-BankFrameMod:RegisterEvent("PLAYERBANKBAGSLOTS_CHANGED")
-BankFrameMod:RegisterEvent("PLAYERREAGENTBANKSLOTS_CHANGED")
+if rawget(_G, "BankFrameMod") == nil then _G.BankFrameMod = CreateFrame("Frame") end
+
+local BankFrameMod = _G.BankFrameMod
+
+RegisterEventsToFrame(BankFrameMod, "BAG_UPDATE", "BANKFRAME_OPENED",
+                      "PLAYERBANKSLOTS_CHANGED", "PLAYERBANKBAGSLOTS_CHANGED",
+                      "PLAYERREAGENTBANKSLOTS_CHANGED")
+
 local frameElementsToHide = {
     "NineSlice", "Bg", "CloseButton", "PortraitOverlay", "PortraitOverlayFrame",
     "PortraitContainer", "TitleText", "TitleContainer"
