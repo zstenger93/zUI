@@ -1495,11 +1495,11 @@ end
 
 local HidePlayerAndTargetFrame = _G.HidePlayerAndTargetFrame
 
-RegisterEventsToFrame(HidePlayerAndTargetFrame, "PLAYER_LOGIN"
-                      )
+RegisterEventsToFrame(HidePlayerAndTargetFrame, "PLAYER_LOGIN", "GROUP_JOINED",
+                      "GROUP_ROSTER_UPDATE")
 
 HidePlayerAndTargetFrame:SetScript("OnEvent", function(self, event, ...)
-    C_Timer.After(2, function()
+    C_Timer.After(0.1, function()
         if SettingsInitialized and
             zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting then
             HidePlayerAndTargetFrames()
