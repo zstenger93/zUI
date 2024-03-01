@@ -14,7 +14,7 @@ end
 if rawget(_G, "HideObjectiveTracker") == nil then
     _G.HideObjectiveTracker = CreateFrame("Frame")
 else
-    print("not nil")
+    print("frame already exists")
 end
 
 local HideObjectiveTracker = _G.HideObjectiveTracker
@@ -38,6 +38,8 @@ end)
 ---------------------------------------------------------------------------------------------------
 if rawget(_G, "HideChatFrameObject") == nil then
     _G.HideChatFrameObject = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local HideChatFrameObject = _G.HideChatFrameObject
@@ -63,6 +65,8 @@ end)
 -- ---------------------------------------------------------------------------------------------------
 if rawget(_G, "HideChatSidebar") == nil then
     _G.HideChatSidebar = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local HideChatSidebar = _G.HideChatSidebar
@@ -97,6 +101,8 @@ end)
 ---------------------------------------------------------------------------------------------------
 if rawget(_G, "HideChatFrameStyle") == nil then
     _G.HideChatFrameStyle = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local HideChatFrameStyle = _G.HideChatFrameStyle
@@ -155,6 +161,8 @@ end)
 ---------------------------------------------------------------------------------------------------
 if rawget(_G, "MoveChatFrameEditBox") == nil then
     _G.MoveChatFrameEditBox = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local MoveChatFrameEditBox = _G.MoveChatFrameEditBox
@@ -190,6 +198,8 @@ end)
 -- ---------------------------------------------------------------------------------------------------
 if rawget(_G, "HideQuickJoinToastButton") == nil then
     _G.HideQuickJoinToastButton = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local HideQuickJoinToastButton = _G.HideQuickJoinToastButton
@@ -215,7 +225,11 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Hide the bag bar when combat starts
 ---------------------------------------------------------------------------------------------------
-if rawget(_G, "HideBagBar") == nil then _G.HideBagBar = CreateFrame("Frame") end
+if rawget(_G, "HideBagBar") == nil then
+    _G.HideBagBar = CreateFrame("Frame")
+else
+    print("frame already exists")
+end
 
 local HideBagBar = _G.HideBagBar
 
@@ -300,6 +314,8 @@ end)
 ---------------------------------------------------------------------------------------------------
 if rawget(_G, "HideHudTooltip") == nil then
     _G.HideHudTooltip = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local HideHudTooltip = _G.HideHudTooltip
@@ -330,6 +346,8 @@ end)
 ---------------------------------------------------------------------------------------------------
 if rawget(_G, "fpsFrame") == nil then
     _G.fpsFrame = CreateFrame("Frame", nil, UIParent)
+else
+    print("frame already exists")
 end
 
 local fpsFrame = _G.fpsFrame
@@ -359,7 +377,11 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Hide XP bar
 ---------------------------------------------------------------------------------------------------
-if rawget(_G, "XpBarFrame") == nil then _G.XpBarFrame = CreateFrame("Frame") end
+if rawget(_G, "XpBarFrame") == nil then
+    _G.XpBarFrame = CreateFrame("Frame")
+else
+    print("frame already exists")
+end
 
 local XpBarFrame = _G.XpBarFrame
 
@@ -378,7 +400,11 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Hide Reputation bar
 ---------------------------------------------------------------------------------------------------
-if rawget(_G, "repBarFrame") == nil then _G.repBarFrame = CreateFrame("Frame") end
+if rawget(_G, "repBarFrame") == nil then
+    _G.repBarFrame = CreateFrame("Frame")
+else
+    print("frame already exists")
+end
 
 local repBarFrame = _G.repBarFrame
 
@@ -403,6 +429,8 @@ end)
 ]]
 if rawget(_G, "microMenuFrame") == nil then
     _G.microMenuFrame = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local microMenuFrame = _G.microMenuFrame
@@ -444,6 +472,8 @@ end)
 ---------------------------------------------------------------------------------------------------
 if rawget(_G, "HideBagBarFramePermanently") == nil then
     _G.HideBagBarFramePermanently = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local HideBagBarFramePermanently = _G.HideBagBarFramePermanently
@@ -474,6 +504,8 @@ end)
 ]]
 if rawget(_G, "CustomPaladinPowerBarTexture") == nil then
     _G.CustomPaladinPowerBarTexture = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local CustomPaladinPowerBarTexture = _G.CustomPaladinPowerBarTexture
@@ -534,6 +566,8 @@ end)
 ---------------------------------------------------------------------------------------------------
 if rawget(_G, "CustomDeathKnightPowerBarTexture") == nil then
     _G.CustomDeathKnightPowerBarTexture = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local CustomDeathKnightPowerBarTexture = _G.CustomDeathKnightPowerBarTexture
@@ -568,6 +602,8 @@ end)
 
 if rawget(_G, "KeepDeathKnightRunesAtPosition") == nil then
     _G.KeepDeathKnightRunesAtPosition = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local KeepDeathKnightRunesAtPosition = _G.KeepDeathKnightRunesAtPosition
@@ -592,6 +628,8 @@ end)
 ---------------------------------------------------------------------------------------------------
 if rawget(_G, "CustomRogueEnergyPoints") == nil then
     _G.CustomRogueEnergyPoints = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local CustomRogueEnergyPoints = _G.CustomRogueEnergyPoints
@@ -621,6 +659,8 @@ end)
 
 if rawget(_G, "KeepRogueEnergyPointsAtPosition") == nil then
     _G.KeepRogueEnergyPointsAtPosition = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local KeepRogueEnergyPointsAtPosition = _G.KeepRogueEnergyPointsAtPosition
@@ -646,6 +686,8 @@ end)
 ---------------------------------------------------------------------------------------------------
 if rawget(_G, "CustomWarlockSoulShards") == nil then
     _G.CustomWarlockSoulShards = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local CustomWarlockSoulShards = _G.CustomWarlockSoulShards
@@ -673,6 +715,8 @@ end)
 
 if rawget(_G, "KeepWarlockSoulShardsAtPosition") == nil then
     _G.KeepWarlockSoulShardsAtPosition = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local KeepWarlockSoulShardsAtPosition = _G.KeepWarlockSoulShardsAtPosition
@@ -698,6 +742,8 @@ end)
 ---------------------------------------------------------------------------------------------------
 if rawget(_G, "CustomDruidCatFormComboPoints") == nil then
     _G.CustomDruidCatFormComboPoints = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local CustomDruidCatFormComboPoints = _G.CustomDruidCatFormComboPoints
@@ -731,6 +777,8 @@ end)
 
 if rawget(_G, "KeepDruidCatFormComboPointsAtPosition") == nil then
     _G.KeepDruidCatFormComboPointsAtPosition = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local KeepDruidCatFormComboPointsAtPosition =
@@ -757,6 +805,8 @@ end)
 ---------------------------------------------------------------------------------------------------
 if rawget(_G, "CustomMonkPowerBar") == nil then
     _G.CustomMonkPowerBar = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local CustomMonkPowerBar = _G.CustomMonkPowerBar
@@ -785,6 +835,8 @@ end)
 
 if rawget(_G, "KeepMonkHarmonyPointsAtPosition") == nil then
     _G.KeepMonkHarmonyPointsAtPosition = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local KeepMonkHarmonyPointsAtPosition = _G.KeepMonkHarmonyPointsAtPosition
@@ -834,6 +886,8 @@ end)
 
 if rawget(_G, "KeepEvokerEssencePointsAtPosition") == nil then
     _G.KeepEvokerEssencePointsAtPosition = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local KeepEvokerEssencePointsAtPosition = _G.KeepEvokerEssencePointsAtPosition
@@ -890,7 +944,11 @@ end
     Resizing and positioning the hotkey text
     Showing button texture on drag
 ]]
-if rawget(_G, "actionBarMod") == nil then _G.actionBarMod = CreateFrame("Frame") end
+if rawget(_G, "actionBarMod") == nil then
+    _G.actionBarMod = CreateFrame("Frame")
+else
+    print("frame already exists")
+end
 
 local actionBarMod = _G.actionBarMod
 
@@ -1040,6 +1098,8 @@ end
 
 if rawget(_G, "MouseOverActionBar4") == nil then
     _G.MouseOverActionBar4 = CreateFrame("Frame", nil, UIParent)
+else
+    print("frame already exists")
 end
 
 local MouseOverActionBar4 = _G.MouseOverActionBar4
@@ -1088,6 +1148,8 @@ end)
 
 if rawget(_G, "DragCheckFrameActionBar4") == nil then
     _G.DragCheckFrameActionBar4 = CreateFrame("Frame", nil, UIParent)
+else
+    print("frame already exists")
 end
 
 local DragCheckFrameActionBar4 = _G.DragCheckFrameActionBar4
@@ -1110,6 +1172,8 @@ end)
 ---------------------------------------------------------------------------------------------------
 if rawget(_G, "MouseOverActionBar5") == nil then
     _G.MouseOverActionBar5 = CreateFrame("Frame", nil, UIParent)
+else
+    print("frame already exists")
 end
 
 local MouseOverActionBar5 = _G.MouseOverActionBar5
@@ -1159,6 +1223,8 @@ end)
 
 if rawget(_G, "DragCheckFrameActionBar5") == nil then
     _G.DragCheckFrameActionBar5 = CreateFrame("Frame", nil, UIParent)
+else
+    print("frame already exists")
 end
 
 local DragCheckFrameActionBar5 = _G.DragCheckFrameActionBar5
@@ -1229,6 +1295,8 @@ HideBarWhenTalentFrameClosed("MultiBarRightButton",
 ---------------------------------------------------------------------------------------------------
 if rawget(_G, "HideObjectiveTrackerArtwork") == nil then
     _G.HideObjectiveTrackerArtwork = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local HideObjectiveTrackerArtwork = _G.HideObjectiveTrackerArtwork
@@ -1270,6 +1338,8 @@ end)
 ]]
 if rawget(_G, "AutomaticObjectiveTrackerCollapseOnLoad") == nil then
     _G.AutomaticObjectiveTrackerCollapseOnLoad = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local AutomaticObjectiveTrackerCollapseOnLoad =
@@ -1357,6 +1427,8 @@ end)
 ---------------------------------------------------------------------------------------------------
 if rawget(_G, "CollapseBuffFrame") == nil then
     _G.CollapseBuffFrame = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local CollapseBuffFrame = _G.CollapseBuffFrame
@@ -1427,6 +1499,8 @@ end
 
 if rawget(_G, "chatDragFrame") == nil then
     _G.chatDragFrame = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local chatDragFrame = _G.chatDragFrame
@@ -1491,15 +1565,17 @@ end
 
 if rawget(_G, "HidePlayerAndTargetFrame") == nil then
     _G.HidePlayerAndTargetFrame = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local HidePlayerAndTargetFrame = _G.HidePlayerAndTargetFrame
 
-RegisterEventsToFrame(HidePlayerAndTargetFrame, "PLAYER_LOGIN"
-                      )
+RegisterEventsToFrame(HidePlayerAndTargetFrame, "PLAYER_LOGIN", "GROUP_JOINED",
+                      "GROUP_ROSTER_UPDATE")
 
 HidePlayerAndTargetFrame:SetScript("OnEvent", function(self, event, ...)
-    C_Timer.After(2, function()
+    C_Timer.After(0.1, function()
         if SettingsInitialized and
             zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting then
             HidePlayerAndTargetFrames()
@@ -1542,6 +1618,8 @@ end)
 ]]
 if rawget(_G, "TotalAmountOfHonorableKills") == nil then
     _G.TotalAmountOfHonorableKills = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local TotalAmountOfHonorableKills = _G.TotalAmountOfHonorableKills
@@ -1627,7 +1705,11 @@ end)
     - Made the containerframes clickthrough
 ]]
 local NUM_ITEMS_PER_ROW = 10
-if rawget(_G, "BagFrame") == nil then _G.BagFrame = CreateFrame("Frame") end
+if rawget(_G, "BagFrame") == nil then
+    _G.BagFrame = CreateFrame("Frame")
+else
+    print("frame already exists")
+end
 
 local BagFrame = _G.BagFrame
 
@@ -1895,6 +1977,8 @@ end)
 ]]
 if rawget(_G, "totalGoldFrame") == nil then
     _G.totalGoldFrame = CreateFrame("Frame")
+else
+    print("frame already exists")
 end
 
 local totalGoldFrame = _G.totalGoldFrame
@@ -1955,7 +2039,11 @@ end)
     - Tabs always below last bags, on reagent tab reset 
     - Purchase button new slots next to the last bag with price
 ]]
-if rawget(_G, "BankFrameMod") == nil then _G.BankFrameMod = CreateFrame("Frame") end
+if rawget(_G, "BankFrameMod") == nil then
+    _G.BankFrameMod = CreateFrame("Frame")
+else
+    print("frame already exists")
+end
 
 local BankFrameMod = _G.BankFrameMod
 
