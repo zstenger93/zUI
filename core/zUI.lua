@@ -1130,20 +1130,22 @@ end)
 
 MouseOverActionBar4:SetScript("OnEnter", function(self)
     if SettingsInitialized and
-        not zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting then
+        zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting and
+        not InCombatLockdown() then
+        setButtonVisibility(true, "MultiBarLeftButton")
+    else
         return
     end
-
-    setButtonVisibility(true, "MultiBarLeftButton")
 end)
 
 MouseOverActionBar4:SetScript("OnLeave", function(self)
     if SettingsInitialized and
-        not zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting then
+        zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting and
+        not InCombatLockdown() then
+        setButtonVisibility(false, "MultiBarLeftButton")
+    else
         return
     end
-
-    setButtonVisibility(false, "MultiBarLeftButton")
 end)
 
 if rawget(_G, "DragCheckFrameActionBar4") == nil then
@@ -1166,6 +1168,48 @@ DragCheckFrameActionBar4:SetScript("OnEvent", function(self, event, ...)
 
     handleCursorInfo("MultiBarLeftButton")
 end)
+
+-- local function SetupMultiBarLeftMouseover()
+--     local frame = CreateFrame("Frame", "MultiBarLeftMouseoverFrame", UIParent, "SecureHandlerStateTemplate")
+--     frame:SetAttribute("_onstate-combat", [[
+--         if newstate == "nocombat" then
+--             self:Show()
+--         else
+--             self:Hide()
+--         end
+--     ]])
+--     RegisterStateDriver(frame, "combat", "[combat] combat; nocombat")
+
+--     local function Alpha(alpha)
+--         for i = 1, 12 do
+--             _G["MultiBarLeftButton" .. i]:SetAlpha(alpha)
+--         end
+--     end
+
+--     local function OnEnter()
+--         if not InCombatLockdown() then
+--             Alpha(1)
+--         end
+--     end
+
+--     local function OnLeave()
+--         if not InCombatLockdown() then
+--             Alpha(0)
+--         end
+--     end
+
+--     -- Hide MultiBarLeft by default
+--     Alpha(0)
+
+--     for i = 1, 12 do
+--         local button = _G["MultiBarLeftButton" .. i]
+--         button:HookScript("OnEnter", OnEnter)
+--         button:HookScript("OnLeave", OnLeave)
+--     end
+-- end
+
+-- -- Call the function to set up mouseover behavior for MultiBarLeft
+-- SetupMultiBarLeftMouseover()
 
 ---------------------------------------------------------------------------------------------------
 -- Make MultiBarRight visible only on mouseover or if something being dragged
@@ -1205,7 +1249,9 @@ end)
 
 MouseOverActionBar5:SetScript("OnEnter", function(self)
     if SettingsInitialized and
-        not zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting then
+        zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting and
+        not InCombatLockdown() then
+    else
         return
     end
 
@@ -1214,11 +1260,13 @@ end)
 
 MouseOverActionBar5:SetScript("OnLeave", function(self)
     if SettingsInitialized and
-        not zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting then
+        zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting and
+        not InCombatLockdown() then
+        setButtonVisibility(false, "MultiBarRightButton")
+    else
         return
     end
 
-    setButtonVisibility(false, "MultiBarRightButton")
 end)
 
 if rawget(_G, "DragCheckFrameActionBar5") == nil then
@@ -1599,11 +1647,10 @@ end)
 --     end
 -- end)
 
--- ChatFrame1Tab:HookScript("OnUpdate", function()
---     BNToastFrame:ClearAllPoints();
---     BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 0, 0)
---     BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 30, 0)
--- end)
+ChatFrame1Tab:HookScript("OnUpdate", function()
+    BNToastFrame:ClearAllPoints();
+    BNToastFrame:SetPoint("BOTTOMLEFT", ChatFrame1Tab, "TOPRIGHT", 30, 0)
+end)
 --     end
 -- end)
 
