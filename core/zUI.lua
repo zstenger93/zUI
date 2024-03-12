@@ -1079,74 +1079,80 @@ local function setButtonVisibility(show, barName)
     end
 end
 
+function Alpha(alpha, barName)
+    for i = 1, 12 do _G[barName .. i]:SetAlpha(alpha) end
+end
+
 local function handleCursorInfo(barName)
     for i = 1, 12 do
         local button = _G[barName .. i]
         button.wasDragging = button.wasDragging or false
 
         if GetCursorInfo() then
+            Alpha(1, barName)
             button:Show()
             button:GetNormalTexture():Show()
             button.wasDragging = true
         elseif not GetCursorInfo() and button.wasDragging then
             button:GetNormalTexture():Hide()
             button:Hide()
+            Alpha(0, barName)
             button.wasDragging = false
         end
     end
 end
 
-if rawget(_G, "MouseOverActionBar4") == nil then
-    _G.MouseOverActionBar4 = CreateFrame("Frame", nil, UIParent)
-else
-    print("frame already exists")
-end
+-- if rawget(_G, "MouseOverActionBar4") == nil then
+--     _G.MouseOverActionBar4 = CreateFrame("Frame", nil, UIParent)
+-- else
+--     print("frame already exists")
+-- end
 
-local MouseOverActionBar4 = _G.MouseOverActionBar4
+-- local MouseOverActionBar4 = _G.MouseOverActionBar4
 
-RegisterEventsToFrame(MouseOverActionBar4, "PLAYER_ENTERING_WORLD")
+-- RegisterEventsToFrame(MouseOverActionBar4, "PLAYER_ENTERING_WORLD")
 
-MouseOverActionBar4:SetPoint("BOTTOMRIGHT", MultiBarLeftButton12, "BOTTOMRIGHT",
-                             0, 0)
-MouseOverActionBar4:EnableMouse(true)
-MouseOverActionBar4:Show()
+-- MouseOverActionBar4:SetPoint("BOTTOMRIGHT", MultiBarLeftButton12, "BOTTOMRIGHT",
+--                              0, 0)
+-- MouseOverActionBar4:EnableMouse(true)
+-- MouseOverActionBar4:Show()
 
-MouseOverActionBar4:SetScript("OnEvent", function(self, event, ...)
-    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
-        zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting then
-        C_Timer.After(3, function()
-            local multiBarLeftWidth, multiBarLeftHeight = MultiBarLeft:GetSize()
+-- MouseOverActionBar4:SetScript("OnEvent", function(self, event, ...)
+--     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
+--         zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting then
+--         C_Timer.After(3, function()
+--             local multiBarLeftWidth, multiBarLeftHeight = MultiBarLeft:GetSize()
 
-            if multiBarLeftHeight > multiBarLeftWidth then
-                MouseOverActionBar4:SetSize(40, 40 * 12)
-            else
-                MouseOverActionBar4:SetSize(40 * 12, 40)
-            end
+--             if multiBarLeftHeight > multiBarLeftWidth then
+--                 MouseOverActionBar4:SetSize(40, 40 * 12)
+--             else
+--                 MouseOverActionBar4:SetSize(40 * 12, 40)
+--             end
 
-            setButtonVisibility(false, "MultiBarLeftButton")
-        end)
-    end
-end)
+--             setButtonVisibility(false, "MultiBarLeftButton")
+--         end)
+--     end
+-- end)
 
-MouseOverActionBar4:SetScript("OnEnter", function(self)
-    if SettingsInitialized and
-        zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting and
-        not InCombatLockdown() then
-        setButtonVisibility(true, "MultiBarLeftButton")
-    else
-        return
-    end
-end)
+-- MouseOverActionBar4:SetScript("OnEnter", function(self)
+--     if SettingsInitialized and
+--         zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting and
+--         not InCombatLockdown() then
+--         setButtonVisibility(true, "MultiBarLeftButton")
+--     else
+--         return
+--     end
+-- end)
 
-MouseOverActionBar4:SetScript("OnLeave", function(self)
-    if SettingsInitialized and
-        zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting and
-        not InCombatLockdown() then
-        setButtonVisibility(false, "MultiBarLeftButton")
-    else
-        return
-    end
-end)
+-- MouseOverActionBar4:SetScript("OnLeave", function(self)
+--     if SettingsInitialized and
+--         zUI_SavedSettings[PlayerIdentifier].multiBarLeftSetting and
+--         not InCombatLockdown() then
+--         setButtonVisibility(false, "MultiBarLeftButton")
+--     else
+--         return
+--     end
+-- end)
 
 if rawget(_G, "DragCheckFrameActionBar4") == nil then
     _G.DragCheckFrameActionBar4 = CreateFrame("Frame", nil, UIParent)
@@ -1169,105 +1175,92 @@ DragCheckFrameActionBar4:SetScript("OnEvent", function(self, event, ...)
     handleCursorInfo("MultiBarLeftButton")
 end)
 
--- local function SetupMultiBarLeftMouseover()
---     local frame = CreateFrame("Frame", "MultiBarLeftMouseoverFrame", UIParent, "SecureHandlerStateTemplate")
---     frame:SetAttribute("_onstate-combat", [[
---         if newstate == "nocombat" then
---             self:Show()
---         else
---             self:Hide()
---         end
---     ]])
---     RegisterStateDriver(frame, "combat", "[combat] combat; nocombat")
+local function SetupMultiBarLeftMouseover()
+    local frame = CreateFrame("Frame", "MultiBarLeftMouseoverFrame", UIParent,
+                              "SecureHandlerStateTemplate")
+    frame:SetAttribute("_onstate-combat", [[
+        if newstate == "nocombat" then
+            self:Show()
+        else
+            self:Hide()
+        end
+    ]])
+    RegisterStateDriver(frame, "combat", "[combat] combat; nocombat")
 
---     local function Alpha(alpha)
---         for i = 1, 12 do
---             _G["MultiBarLeftButton" .. i]:SetAlpha(alpha)
---         end
---     end
+    local function OnEnter() if not InCombatLockdown() then Alpha(1, "MultiBarLeftButton") end end
 
---     local function OnEnter()
---         if not InCombatLockdown() then
---             Alpha(1)
---         end
---     end
+    local function OnLeave() if not InCombatLockdown() then Alpha(0, "MultiBarLeftButton") end end
 
---     local function OnLeave()
---         if not InCombatLockdown() then
---             Alpha(0)
---         end
---     end
+    -- Hide MultiBarLeft by default
+    Alpha(0, "MultiBarLeftButton")
 
---     -- Hide MultiBarLeft by default
---     Alpha(0)
+    for i = 1, 12 do
+        local button = _G["MultiBarLeftButton" .. i]
+        button:HookScript("OnEnter", OnEnter)
+        button:HookScript("OnLeave", OnLeave)
+    end
+end
 
---     for i = 1, 12 do
---         local button = _G["MultiBarLeftButton" .. i]
---         button:HookScript("OnEnter", OnEnter)
---         button:HookScript("OnLeave", OnLeave)
---     end
--- end
-
--- -- Call the function to set up mouseover behavior for MultiBarLeft
--- SetupMultiBarLeftMouseover()
+-- Call the function to set up mouseover behavior for MultiBarLeft
+SetupMultiBarLeftMouseover()
 
 ---------------------------------------------------------------------------------------------------
 -- Make MultiBarRight visible only on mouseover or if something being dragged
 ---------------------------------------------------------------------------------------------------
-if rawget(_G, "MouseOverActionBar5") == nil then
-    _G.MouseOverActionBar5 = CreateFrame("Frame", nil, UIParent)
-else
-    print("frame already exists")
-end
+-- if rawget(_G, "MouseOverActionBar5") == nil then
+--     _G.MouseOverActionBar5 = CreateFrame("Frame", nil, UIParent)
+-- else
+--     print("frame already exists")
+-- end
 
-local MouseOverActionBar5 = _G.MouseOverActionBar5
+-- local MouseOverActionBar5 = _G.MouseOverActionBar5
 
-RegisterEventsToFrame(MouseOverActionBar5, "PLAYER_ENTERING_WORLD")
+-- RegisterEventsToFrame(MouseOverActionBar5, "PLAYER_ENTERING_WORLD")
 
-MouseOverActionBar5:SetPoint("BOTTOMRIGHT", MultiBarRightButton12,
-                             "BOTTOMRIGHT", 0, 0)
-MouseOverActionBar5:EnableMouse(true)
-MouseOverActionBar5:Show()
+-- MouseOverActionBar5:SetPoint("BOTTOMRIGHT", MultiBarRightButton12,
+--                              "BOTTOMRIGHT", 0, 0)
+-- MouseOverActionBar5:EnableMouse(true)
+-- MouseOverActionBar5:Show()
 
-MouseOverActionBar5:SetScript("OnEvent", function(self, event, ...)
-    if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
-        zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting then
-        C_Timer.After(3, function()
-            local multiBarRightWidth, multiBarRightHeight =
-                MultiBarRight:GetSize()
+-- MouseOverActionBar5:SetScript("OnEvent", function(self, event, ...)
+--     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
+--         zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting then
+--         C_Timer.After(3, function()
+--             local multiBarRightWidth, multiBarRightHeight =
+--                 MultiBarRight:GetSize()
 
-            if multiBarRightHeight > multiBarRightWidth then
-                MouseOverActionBar5:SetSize(40, 40 * 12)
-            else
-                MouseOverActionBar5:SetSize(40 * 12, 40)
-            end
+--             if multiBarRightHeight > multiBarRightWidth then
+--                 MouseOverActionBar5:SetSize(40, 40 * 12)
+--             else
+--                 MouseOverActionBar5:SetSize(40 * 12, 40)
+--             end
 
-            setButtonVisibility(false, "MultiBarRightButton")
-        end)
-    end
-end)
+--             setButtonVisibility(false, "MultiBarRightButton")
+--         end)
+--     end
+-- end)
 
-MouseOverActionBar5:SetScript("OnEnter", function(self)
-    if SettingsInitialized and
-        zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting and
-        not InCombatLockdown() then
-    else
-        return
-    end
+-- MouseOverActionBar5:SetScript("OnEnter", function(self)
+--     if SettingsInitialized and
+--         zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting and
+--         not InCombatLockdown() then
+--     else
+--         return
+--     end
 
-    setButtonVisibility(true, "MultiBarRightButton")
-end)
+--     setButtonVisibility(true, "MultiBarRightButton")
+-- end)
 
-MouseOverActionBar5:SetScript("OnLeave", function(self)
-    if SettingsInitialized and
-        zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting and
-        not InCombatLockdown() then
-        setButtonVisibility(false, "MultiBarRightButton")
-    else
-        return
-    end
+-- MouseOverActionBar5:SetScript("OnLeave", function(self)
+--     if SettingsInitialized and
+--         zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting and
+--         not InCombatLockdown() then
+--         setButtonVisibility(false, "MultiBarRightButton")
+--     else
+--         return
+--     end
 
-end)
+-- end)
 
 if rawget(_G, "DragCheckFrameActionBar5") == nil then
     _G.DragCheckFrameActionBar5 = CreateFrame("Frame", nil, UIParent)
@@ -1290,6 +1283,35 @@ DragCheckFrameActionBar5:SetScript("OnEvent", function(self, event, ...)
     handleCursorInfo("MultiBarRightButton")
 end)
 
+local function SetupMultiBarRightMouseover()
+    local frame = CreateFrame("Frame", "MultiBarRightMouseoverFrame", UIParent,
+                              "SecureHandlerStateTemplate")
+    frame:SetAttribute("_onstate-combat", [[
+        if newstate == "nocombat" then
+            self:Show()
+        else
+            self:Hide()
+        end
+    ]])
+    RegisterStateDriver(frame, "combat", "[combat] combat; nocombat")
+
+    local function OnEnter() if not InCombatLockdown() then Alpha(1, "MultiBarRightButton") end end
+
+    local function OnLeave() if not InCombatLockdown() then Alpha(0, "MultiBarRightButton") end end
+
+    -- Hide MultiBarLeft by default
+    Alpha(0, "MultiBarRightButton")
+
+    for i = 1, 12 do
+        local button = _G["MultiBarRightButton" .. i]
+        button:HookScript("OnEnter", OnEnter)
+        button:HookScript("OnLeave", OnLeave)
+    end
+end
+
+-- Call the function to set up mouseover behavior for MultiBarLeft
+    SetupMultiBarRightMouseover()
+
 ---------------------------------------------------------------------------------------------------
 -- Hide mouseover bars when the spellbook has been closed after opening it
 ---------------------------------------------------------------------------------------------------
@@ -1297,12 +1319,16 @@ function HideBarWhenSpellbookClosed(barName, barSetting)
     if SettingsInitialized and not barSetting then return end
     local frameState = {spellbookWasOpen = false}
 
-    SpellBookFrame:HookScript("OnShow",
-                              function() frameState.spellbookWasOpen = true end)
+    SpellBookFrame:HookScript("OnShow", function()
+        frameState.spellbookWasOpen = true
+        Alpha(1, "MultiBarRightButton")
+        Alpha(1, "MultiBarLeftButton")
+    end)
 
     SpellBookFrame:HookScript("OnHide", function()
         if frameState.spellbookWasOpen then
-            setButtonVisibility(false, barName)
+            Alpha(0, "MultiBarRightButton")
+            Alpha(0, "MultiBarLeftButton")
             frameState.spellbookWasOpen = false
         end
     end)
@@ -1324,7 +1350,11 @@ function HideBarWhenTalentFrameClosed(barName, barSetting)
 
     hooksecurefunc("ToggleTalentFrame", function()
         if frameState.talentFrameWasOpen and not frameState.spellbookWasOpen then
-            setButtonVisibility(false, barName)
+            Alpha(0, "MultiBarRightButton")
+            Alpha(0, "MultiBarLeftButton")
+        else
+            Alpha(1, "MultiBarRightButton")
+            Alpha(1, "MultiBarLeftButton")
         end
         frameState.talentFrameWasOpen = not frameState.talentFrameWasOpen
         frameState.spellbookWasOpen = SpellBookFrame:IsShown()
