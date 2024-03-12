@@ -1068,19 +1068,27 @@ end)
     is handled blocked by Blizzard, but it's working outside of combat
     Not a big deal, but should be fixed
 ]]
-local function setButtonVisibility(show, barName)
-    for i = 1, 12 do
-        local button = _G[barName .. i]
-        if show then
-            button:Show()
-        else
-            button:Hide()
-        end
-    end
-end
+-- local function setButtonVisibility(show, barName)
+--     for i = 1, 12 do
+--         local button = _G[barName .. i]
+--         if show then
+--             button:Show()
+--         else
+--             button:Hide()
+--         end
+--     end
+-- end
 
 function Alpha(alpha, barName)
-    for i = 1, 12 do _G[barName .. i]:SetAlpha(alpha) end
+    for i = 1, 12 do
+        local button = _G[barName .. i]
+        button:SetAlpha(alpha)
+        if button.wasDragging then
+            button:GetNormalTexture():Show()
+        else
+            button:GetNormalTexture():Hide()
+        end
+    end
 end
 
 local function handleCursorInfo(barName)
@@ -1090,12 +1098,8 @@ local function handleCursorInfo(barName)
 
         if GetCursorInfo() then
             Alpha(1, barName)
-            button:Show()
-            button:GetNormalTexture():Show()
             button.wasDragging = true
         elseif not GetCursorInfo() and button.wasDragging then
-            button:GetNormalTexture():Hide()
-            button:Hide()
             Alpha(0, barName)
             button.wasDragging = false
         end
@@ -1187,9 +1191,13 @@ local function SetupMultiBarLeftMouseover()
     ]])
     RegisterStateDriver(frame, "combat", "[combat] combat; nocombat")
 
-    local function OnEnter() if not InCombatLockdown() then Alpha(1, "MultiBarLeftButton") end end
+    local function OnEnter()
+        if not InCombatLockdown() then Alpha(1, "MultiBarLeftButton") end
+    end
 
-    local function OnLeave() if not InCombatLockdown() then Alpha(0, "MultiBarLeftButton") end end
+    local function OnLeave()
+        if not InCombatLockdown() then Alpha(0, "MultiBarLeftButton") end
+    end
 
     -- Hide MultiBarLeft by default
     Alpha(0, "MultiBarLeftButton")
@@ -1295,9 +1303,13 @@ local function SetupMultiBarRightMouseover()
     ]])
     RegisterStateDriver(frame, "combat", "[combat] combat; nocombat")
 
-    local function OnEnter() if not InCombatLockdown() then Alpha(1, "MultiBarRightButton") end end
+    local function OnEnter()
+        if not InCombatLockdown() then Alpha(1, "MultiBarRightButton") end
+    end
 
-    local function OnLeave() if not InCombatLockdown() then Alpha(0, "MultiBarRightButton") end end
+    local function OnLeave()
+        if not InCombatLockdown() then Alpha(0, "MultiBarRightButton") end
+    end
 
     -- Hide MultiBarLeft by default
     Alpha(0, "MultiBarRightButton")
@@ -1310,7 +1322,7 @@ local function SetupMultiBarRightMouseover()
 end
 
 -- Call the function to set up mouseover behavior for MultiBarLeft
-    SetupMultiBarRightMouseover()
+SetupMultiBarRightMouseover()
 
 ---------------------------------------------------------------------------------------------------
 -- Hide mouseover bars when the spellbook has been closed after opening it
