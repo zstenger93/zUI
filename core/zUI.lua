@@ -1060,12 +1060,13 @@ actionBarMod:SetScript("OnEvent", function(self, event, ...)
 end)
 
 ---------------------------------------------------------------------------------------------------
--- Make MultiBarLeft visible only on mouseover or if something being dragged
+-- Handle MultiBarRight and Left visibility during dragging something with the mouse + helpers
 ---------------------------------------------------------------------------------------------------
 --[[
-    In combat it's not really working yet for MultiBarLeft and MultiBarRight, because the way mouseover
-    is handled blocked by Blizzard, but it's working outside of combat
-    Not a big deal, but should be fixed
+    Alpha to set the visibility of the buttons and the border texture if something is being dragged
+    HandleCursorDraggingInfo to handle the visibility of the buttons and the border textures
+    SetupMultiBarLeftMouseover to handle the visibility of the MultiBarLeft
+    SetupMultiBarRightMouseover to handle the visibility of the MultiBarRight    
 ]]
 function Alpha(alpha, barName)
     for i = 1, 12 do
@@ -1079,7 +1080,7 @@ function Alpha(alpha, barName)
     end
 end
 
-local function handleCursorInfo(barName)
+function HandleCursorDraggingInfo(barName)
     for i = 1, 12 do
         local button = _G[barName .. i]
         button.wasDragging = button.wasDragging or false
@@ -1094,6 +1095,7 @@ local function handleCursorInfo(barName)
     end
 end
 
+-- MultiBarLeft
 if rawget(_G, "DragCheckFrameActionBar4") == nil then
     _G.DragCheckFrameActionBar4 = CreateFrame("Frame", nil, UIParent)
 else
@@ -1112,9 +1114,39 @@ DragCheckFrameActionBar4:SetScript("OnEvent", function(self, event, ...)
         return
     end
 
-    handleCursorInfo("MultiBarLeftButton")
+    HandleCursorDraggingInfo("MultiBarLeftButton")
 end)
 
+-- MultiBarRight
+if rawget(_G, "DragCheckFrameActionBar5") == nil then
+    _G.DragCheckFrameActionBar5 = CreateFrame("Frame", nil, UIParent)
+else
+    print("frame already exists")
+end
+
+local DragCheckFrameActionBar5 = _G.DragCheckFrameActionBar5
+
+for _, event in ipairs(events) do
+    RegisterEventsToFrame(DragCheckFrameActionBar5, event)
+end
+
+DragCheckFrameActionBar5:SetScript("OnEvent", function(self, event, ...)
+    if SettingsInitialized and
+        not zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting then
+        return
+    end
+
+    HandleCursorDraggingInfo("MultiBarRightButton")
+end)
+
+---------------------------------------------------------------------------------------------------
+-- Make MultiBarLeft visible only on mouseover or if something being dragged
+---------------------------------------------------------------------------------------------------
+--[[
+    In combat it's not really working yet for MultiBarLeft and MultiBarRight, because the way mouseover
+    is handled blocked by Blizzard, but it's working outside of combat
+    Not a big deal, but should be fixed
+]]
 local function SetupMultiBarLeftMouseover()
     local frame = CreateFrame("Frame", "MultiBarLeftMouseoverFrame", UIParent,
                               "SecureHandlerStateTemplate")
@@ -1135,7 +1167,6 @@ local function SetupMultiBarLeftMouseover()
         if not InCombatLockdown() then Alpha(0, "MultiBarLeftButton") end
     end
 
-    -- Hide MultiBarLeft by default
     Alpha(0, "MultiBarLeftButton")
 
     for i = 1, 12 do
@@ -1145,32 +1176,11 @@ local function SetupMultiBarLeftMouseover()
     end
 end
 
--- Call the function to set up mouseover behavior for MultiBarLeft
 SetupMultiBarLeftMouseover()
 
 ---------------------------------------------------------------------------------------------------
 -- Make MultiBarRight visible only on mouseover or if something being dragged
 ---------------------------------------------------------------------------------------------------
-if rawget(_G, "DragCheckFrameActionBar5") == nil then
-    _G.DragCheckFrameActionBar5 = CreateFrame("Frame", nil, UIParent)
-else
-    print("frame already exists")
-end
-
-local DragCheckFrameActionBar5 = _G.DragCheckFrameActionBar5
-
-for _, event in ipairs(events) do
-    RegisterEventsToFrame(DragCheckFrameActionBar5, event)
-end
-
-DragCheckFrameActionBar5:SetScript("OnEvent", function(self, event, ...)
-    if SettingsInitialized and
-        not zUI_SavedSettings[PlayerIdentifier].multiBarRightSetting then
-        return
-    end
-
-    handleCursorInfo("MultiBarRightButton")
-end)
 
 local function SetupMultiBarRightMouseover()
     local frame = CreateFrame("Frame", "MultiBarRightMouseoverFrame", UIParent,
@@ -1192,7 +1202,6 @@ local function SetupMultiBarRightMouseover()
         if not InCombatLockdown() then Alpha(0, "MultiBarRightButton") end
     end
 
-    -- Hide MultiBarLeft by default
     Alpha(0, "MultiBarRightButton")
 
     for i = 1, 12 do
@@ -1202,7 +1211,6 @@ local function SetupMultiBarRightMouseover()
     end
 end
 
--- Call the function to set up mouseover behavior for MultiBarLeft
 SetupMultiBarRightMouseover()
 
 ---------------------------------------------------------------------------------------------------
