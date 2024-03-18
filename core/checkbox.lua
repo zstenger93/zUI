@@ -127,7 +127,7 @@ local customBagsCheckbox = Checkbox_CustomBags:CreateFontString(nil, "OVERLAY",
                                                                 "GameFontNormal")
 customBagsCheckbox:SetPoint("LEFT", Checkbox_CustomBags, "RIGHT", 20, 0)
 customBagsCheckbox:SetText("Custom Bags")
-Checkbox_CustomBags:SetPoint("TOPLEFT", 20, -180) -- Adjust the y-coordinate as needed
+Checkbox_CustomBags:SetPoint("TOPLEFT", 20, -180)
 Checkbox_CustomBags.tooltip =
     "Enable or disable custom player bags."
 Checkbox_CustomBags:SetChecked(zUI_SavedSettings[PlayerIdentifier]

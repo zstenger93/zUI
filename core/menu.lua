@@ -109,7 +109,6 @@ dropdown:SetPoint("TOP", ProfilesPage, "TOP", -50, 0)
 function CopySettings(sourceCharacter, targetCharacter)
     local sourceSettings = zUI_SavedSettings[sourceCharacter]
     local targetSettings = zUI_SavedSettings[targetCharacter]
-    print("in copy settings")
     if type(sourceSettings) == "table" and type(targetSettings) == "table" then
         for setting, value in pairs(sourceSettings) do
             if setting ~= "HonorableKillsOnCharacter" and setting ~= "Gold" and
@@ -134,6 +133,14 @@ function CopySettings(sourceCharacter, targetCharacter)
                 elseif setting == "CustomDruidCatFormComboPointsSetting" and
                     sourceSettings["Class"] == "DRUID" and
                     targetCharacter["Class"] ~= "DRUID" then
+                    -- Skip copying
+                elseif setting == "CustomMonkPowerBarSetting" and
+                    sourceSettings["Class"] == "MONK" and
+                    targetCharacter["Class"] ~= "MONK" then
+                    -- Skip copying
+                elseif setting == "CustomEvokerEssenceSetting" and
+                    sourceSettings["Class"] == "EVOKER" and
+                    targetCharacter["Class"] ~= "EVOKER" then
                     -- Skip copying
                 else
                     targetSettings[setting] = value
