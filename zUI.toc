@@ -1,8 +1,8 @@
-## Interface: 100205
+## Interface: 100206
 ## Title: zUI
 ## Notes: The Custom Rabbit Hole Hell
 ## Author: zstenger93
-## Version: 1.2.5
+## Version: 1.2.7
 ## SavedVariables: zUI_SavedSettings
 ## IconTexture: Interface\AddOns\zUI\core\images\icon.blp
 
