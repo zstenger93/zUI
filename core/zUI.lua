@@ -14,7 +14,7 @@ end
 if rawget(_G, "HideObjectiveTracker") == nil then
     _G.HideObjectiveTracker = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", HideObjectiveTracker:GetName())
 end
 
 local HideObjectiveTracker = _G.HideObjectiveTracker
@@ -39,7 +39,7 @@ end)
 if rawget(_G, "HideChatFrameObject") == nil then
     _G.HideChatFrameObject = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", HideChatFrameObject:GetName())
 end
 
 local HideChatFrameObject = _G.HideChatFrameObject
@@ -66,7 +66,7 @@ end)
 if rawget(_G, "HideChatSidebar") == nil then
     _G.HideChatSidebar = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", HideChatSidebar:GetName())
 end
 
 local HideChatSidebar = _G.HideChatSidebar
@@ -102,7 +102,7 @@ end)
 if rawget(_G, "HideChatFrameStyle") == nil then
     _G.HideChatFrameStyle = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", HideChatFrameStyle:GetName())
 end
 
 local HideChatFrameStyle = _G.HideChatFrameStyle
@@ -162,7 +162,7 @@ end)
 if rawget(_G, "MoveChatFrameEditBox") == nil then
     _G.MoveChatFrameEditBox = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", MoveChatFrameEditBox:GetName())
 end
 
 local MoveChatFrameEditBox = _G.MoveChatFrameEditBox
@@ -199,7 +199,7 @@ end)
 if rawget(_G, "HideQuickJoinToastButton") == nil then
     _G.HideQuickJoinToastButton = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", HideQuickJoinToastButton:GetName())
 end
 
 local HideQuickJoinToastButton = _G.HideQuickJoinToastButton
@@ -228,7 +228,7 @@ end)
 if rawget(_G, "HideBagBar") == nil then
     _G.HideBagBar = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", HideBagBar:GetName())
 end
 
 local HideBagBar = _G.HideBagBar
@@ -315,7 +315,7 @@ end)
 if rawget(_G, "HideHudTooltip") == nil then
     _G.HideHudTooltip = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", HideHudTooltip:GetName())
 end
 
 local HideHudTooltip = _G.HideHudTooltip
@@ -347,7 +347,7 @@ end)
 if rawget(_G, "fpsFrame") == nil then
     _G.fpsFrame = CreateFrame("Frame", nil, UIParent)
 else
-    print("frame already exists")
+    print("this object already exist", fpsFrame:GetName())
 end
 
 local fpsFrame = _G.fpsFrame
@@ -380,7 +380,7 @@ end)
 if rawget(_G, "XpBarFrame") == nil then
     _G.XpBarFrame = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", XpBarFrame:GetName())
 end
 
 local XpBarFrame = _G.XpBarFrame
@@ -403,7 +403,7 @@ end)
 if rawget(_G, "repBarFrame") == nil then
     _G.repBarFrame = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", repBarFrame:GetName())
 end
 
 local repBarFrame = _G.repBarFrame
@@ -430,7 +430,7 @@ end)
 if rawget(_G, "microMenuFrame") == nil then
     _G.microMenuFrame = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", microMenuFrame:GetName())
 end
 
 local microMenuFrame = _G.microMenuFrame
@@ -473,7 +473,7 @@ end)
 if rawget(_G, "HideBagBarFramePermanently") == nil then
     _G.HideBagBarFramePermanently = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", HideBagBarFramePermanently:GetName())
 end
 
 local HideBagBarFramePermanently = _G.HideBagBarFramePermanently
@@ -505,7 +505,7 @@ end)
 if rawget(_G, "CustomPaladinPowerBarTexture") == nil then
     _G.CustomPaladinPowerBarTexture = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", CustomPaladinPowerBarTexture:GetName())
 end
 
 local CustomPaladinPowerBarTexture = _G.CustomPaladinPowerBarTexture
@@ -567,7 +567,8 @@ end)
 if rawget(_G, "CustomDeathKnightPowerBarTexture") == nil then
     _G.CustomDeathKnightPowerBarTexture = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist",
+          CustomDeathKnightPowerBarTexture:GetName())
 end
 
 local CustomDeathKnightPowerBarTexture = _G.CustomDeathKnightPowerBarTexture
@@ -603,7 +604,7 @@ end)
 if rawget(_G, "KeepDeathKnightRunesAtPosition") == nil then
     _G.KeepDeathKnightRunesAtPosition = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", KeepDeathKnightRunesAtPosition:GetName())
 end
 
 local KeepDeathKnightRunesAtPosition = _G.KeepDeathKnightRunesAtPosition
@@ -629,7 +630,7 @@ end)
 if rawget(_G, "CustomRogueEnergyPoints") == nil then
     _G.CustomRogueEnergyPoints = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", CustomRogueEnergyPoints:GetName())
 end
 
 local CustomRogueEnergyPoints = _G.CustomRogueEnergyPoints
@@ -660,7 +661,7 @@ end)
 if rawget(_G, "KeepRogueEnergyPointsAtPosition") == nil then
     _G.KeepRogueEnergyPointsAtPosition = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", KeepRogueEnergyPointsAtPosition:GetName())
 end
 
 local KeepRogueEnergyPointsAtPosition = _G.KeepRogueEnergyPointsAtPosition
@@ -687,7 +688,7 @@ end)
 if rawget(_G, "CustomWarlockSoulShards") == nil then
     _G.CustomWarlockSoulShards = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", CustomWarlockSoulShards:GetName())
 end
 
 local CustomWarlockSoulShards = _G.CustomWarlockSoulShards
@@ -716,7 +717,7 @@ end)
 if rawget(_G, "KeepWarlockSoulShardsAtPosition") == nil then
     _G.KeepWarlockSoulShardsAtPosition = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", KeepWarlockSoulShardsAtPosition:GetName())
 end
 
 local KeepWarlockSoulShardsAtPosition = _G.KeepWarlockSoulShardsAtPosition
@@ -743,7 +744,7 @@ end)
 if rawget(_G, "CustomDruidCatFormComboPoints") == nil then
     _G.CustomDruidCatFormComboPoints = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", CustomDruidCatFormComboPoints:GetName())
 end
 
 local CustomDruidCatFormComboPoints = _G.CustomDruidCatFormComboPoints
@@ -778,7 +779,8 @@ end)
 if rawget(_G, "KeepDruidCatFormComboPointsAtPosition") == nil then
     _G.KeepDruidCatFormComboPointsAtPosition = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist",
+          KeepDruidCatFormComboPointsAtPosition:GetName())
 end
 
 local KeepDruidCatFormComboPointsAtPosition =
@@ -806,7 +808,7 @@ end)
 if rawget(_G, "CustomMonkPowerBar") == nil then
     _G.CustomMonkPowerBar = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", CustomMonkPowerBar:GetName())
 end
 
 local CustomMonkPowerBar = _G.CustomMonkPowerBar
@@ -836,7 +838,7 @@ end)
 if rawget(_G, "KeepMonkHarmonyPointsAtPosition") == nil then
     _G.KeepMonkHarmonyPointsAtPosition = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", KeepMonkHarmonyPointsAtPosition:GetName())
 end
 
 local KeepMonkHarmonyPointsAtPosition = _G.KeepMonkHarmonyPointsAtPosition
@@ -887,7 +889,8 @@ end)
 if rawget(_G, "KeepEvokerEssencePointsAtPosition") == nil then
     _G.KeepEvokerEssencePointsAtPosition = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist",
+          KeepEvokerEssencePointsAtPosition:GetName())
 end
 
 local KeepEvokerEssencePointsAtPosition = _G.KeepEvokerEssencePointsAtPosition
@@ -947,7 +950,7 @@ end
 if rawget(_G, "actionBarMod") == nil then
     _G.actionBarMod = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", actionBarMod:GetName())
 end
 
 local actionBarMod = _G.actionBarMod
@@ -1060,12 +1063,13 @@ actionBarMod:SetScript("OnEvent", function(self, event, ...)
 end)
 
 ---------------------------------------------------------------------------------------------------
--- Make MultiBarLeft visible only on mouseover or if something being dragged
+-- Handle MultiBarRight and Left visibility during dragging something with the mouse + helpers
 ---------------------------------------------------------------------------------------------------
 --[[
-    In combat it's not really working yet for MultiBarLeft and MultiBarRight, because the way mouseover
-    is handled blocked by Blizzard, but it's working outside of combat
-    Not a big deal, but should be fixed
+    Alpha to set the visibility of the buttons and the border texture if something is being dragged
+    HandleCursorDraggingInfo to handle the visibility of the buttons and the border textures
+    SetupMultiBarLeftMouseover to handle the visibility of the MultiBarLeft
+    SetupMultiBarRightMouseover to handle the visibility of the MultiBarRight    
 ]]
 function Alpha(alpha, barName)
     for i = 1, 12 do
@@ -1079,7 +1083,7 @@ function Alpha(alpha, barName)
     end
 end
 
-local function handleCursorInfo(barName)
+function HandleCursorDraggingInfo(barName)
     for i = 1, 12 do
         local button = _G[barName .. i]
         button.wasDragging = button.wasDragging or false
@@ -1094,10 +1098,11 @@ local function handleCursorInfo(barName)
     end
 end
 
+-- MultiBarLeft
 if rawget(_G, "DragCheckFrameActionBar4") == nil then
     _G.DragCheckFrameActionBar4 = CreateFrame("Frame", nil, UIParent)
 else
-    print("frame already exists")
+    print("this object already exist", DragCheckFrameActionBar4:GetName())
 end
 
 local DragCheckFrameActionBar4 = _G.DragCheckFrameActionBar4
@@ -1112,49 +1117,14 @@ DragCheckFrameActionBar4:SetScript("OnEvent", function(self, event, ...)
         return
     end
 
-    handleCursorInfo("MultiBarLeftButton")
+    HandleCursorDraggingInfo("MultiBarLeftButton")
 end)
 
-local function SetupMultiBarLeftMouseover()
-    local frame = CreateFrame("Frame", "MultiBarLeftMouseoverFrame", UIParent,
-                              "SecureHandlerStateTemplate")
-    frame:SetAttribute("_onstate-combat", [[
-        if newstate == "nocombat" then
-            self:Show()
-        else
-            self:Hide()
-        end
-    ]])
-    RegisterStateDriver(frame, "combat", "[combat] combat; nocombat")
-
-    local function OnEnter()
-        if not InCombatLockdown() then Alpha(1, "MultiBarLeftButton") end
-    end
-
-    local function OnLeave()
-        if not InCombatLockdown() then Alpha(0, "MultiBarLeftButton") end
-    end
-
-    -- Hide MultiBarLeft by default
-    Alpha(0, "MultiBarLeftButton")
-
-    for i = 1, 12 do
-        local button = _G["MultiBarLeftButton" .. i]
-        button:HookScript("OnEnter", OnEnter)
-        button:HookScript("OnLeave", OnLeave)
-    end
-end
-
--- Call the function to set up mouseover behavior for MultiBarLeft
-SetupMultiBarLeftMouseover()
-
----------------------------------------------------------------------------------------------------
--- Make MultiBarRight visible only on mouseover or if something being dragged
----------------------------------------------------------------------------------------------------
+-- MultiBarRight
 if rawget(_G, "DragCheckFrameActionBar5") == nil then
     _G.DragCheckFrameActionBar5 = CreateFrame("Frame", nil, UIParent)
 else
-    print("frame already exists")
+    print("this object already exist", DragCheckFrameActionBar5:GetName())
 end
 
 local DragCheckFrameActionBar5 = _G.DragCheckFrameActionBar5
@@ -1169,20 +1139,63 @@ DragCheckFrameActionBar5:SetScript("OnEvent", function(self, event, ...)
         return
     end
 
-    handleCursorInfo("MultiBarRightButton")
+    HandleCursorDraggingInfo("MultiBarRightButton")
 end)
 
-local function SetupMultiBarRightMouseover()
-    local frame = CreateFrame("Frame", "MultiBarRightMouseoverFrame", UIParent,
-                              "SecureHandlerStateTemplate")
-    frame:SetAttribute("_onstate-combat", [[
+---------------------------------------------------------------------------------------------------
+-- Make MultiBarLeft visible only on mouseover or if something being dragged
+---------------------------------------------------------------------------------------------------
+--[[
+    In combat it's not really working yet for MultiBarLeft and MultiBarRight, because the way mouseover
+    is handled blocked by Blizzard, but it's working outside of combat
+    Not a big deal, but should be fixed
+]]
+local function SetupMultiBarLeftMouseover()
+    local barLeft = CreateFrame("Frame", "MultiBarLeftMouseoverFrame", UIParent,
+                                "SecureHandlerStateTemplate")
+    barLeft:SetAttribute("_onstate-combat", [[
         if newstate == "nocombat" then
             self:Show()
         else
             self:Hide()
         end
     ]])
-    RegisterStateDriver(frame, "combat", "[combat] combat; nocombat")
+    RegisterStateDriver(barLeft, "combat", "[combat] combat; nocombat")
+
+    local function OnEnter()
+        if not InCombatLockdown() then Alpha(1, "MultiBarLeftButton") end
+    end
+
+    local function OnLeave()
+        if not InCombatLockdown() then Alpha(0, "MultiBarLeftButton") end
+    end
+
+    Alpha(0, "MultiBarLeftButton")
+
+    for i = 1, 12 do
+        local button = _G["MultiBarLeftButton" .. i]
+        button:HookScript("OnEnter", OnEnter)
+        button:HookScript("OnLeave", OnLeave)
+    end
+end
+
+SetupMultiBarLeftMouseover()
+
+---------------------------------------------------------------------------------------------------
+-- Make MultiBarRight visible only on mouseover or if something being dragged
+---------------------------------------------------------------------------------------------------
+
+local function SetupMultiBarRightMouseover()
+    local barRight = CreateFrame("Frame", "MultiBarRightMouseoverFrame",
+                                 UIParent, "SecureHandlerStateTemplate")
+    barRight:SetAttribute("_onstate-combat", [[
+        if newstate == "nocombat" then
+            self:Show()
+        else
+            self:Hide()
+        end
+    ]])
+    RegisterStateDriver(barRight, "combat", "[combat] combat; nocombat")
 
     local function OnEnter()
         if not InCombatLockdown() then Alpha(1, "MultiBarRightButton") end
@@ -1192,7 +1205,6 @@ local function SetupMultiBarRightMouseover()
         if not InCombatLockdown() then Alpha(0, "MultiBarRightButton") end
     end
 
-    -- Hide MultiBarLeft by default
     Alpha(0, "MultiBarRightButton")
 
     for i = 1, 12 do
@@ -1202,7 +1214,6 @@ local function SetupMultiBarRightMouseover()
     end
 end
 
--- Call the function to set up mouseover behavior for MultiBarLeft
 SetupMultiBarRightMouseover()
 
 ---------------------------------------------------------------------------------------------------
@@ -1267,7 +1278,7 @@ HideBarWhenTalentFrameClosed("MultiBarRightButton",
 if rawget(_G, "HideObjectiveTrackerArtwork") == nil then
     _G.HideObjectiveTrackerArtwork = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", HideObjectiveTrackerArtwork:GetName())
 end
 
 local HideObjectiveTrackerArtwork = _G.HideObjectiveTrackerArtwork
@@ -1310,7 +1321,8 @@ end)
 if rawget(_G, "AutomaticObjectiveTrackerCollapseOnLoad") == nil then
     _G.AutomaticObjectiveTrackerCollapseOnLoad = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist",
+          AutomaticObjectiveTrackerCollapseOnLoad:GetName())
 end
 
 local AutomaticObjectiveTrackerCollapseOnLoad =
@@ -1399,7 +1411,7 @@ end)
 if rawget(_G, "CollapseBuffFrame") == nil then
     _G.CollapseBuffFrame = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", CollapseBuffFrame:GetName())
 end
 
 local CollapseBuffFrame = _G.CollapseBuffFrame
@@ -1425,36 +1437,36 @@ end)
     On stop it drops th frame and saves the position
     Sets the frame to the point it was last time
 ]]
-local function SaveChatFramePosition(frame)
-    local point, _, relativePoint, xOfs, yOfs = frame:GetPoint()
+local function SaveChatFramePosition(chatFrame)
+    local point, _, relativePoint, xOfs, yOfs = chatFrame:GetPoint()
     zUI_SavedSettings[PlayerIdentifier].ChatFramePosition = {
         point, _, relativePoint, xOfs, yOfs
     }
 end
 
-local function MakeChatFrameDraggableToCorner(frame)
+local function MakeChatFrameDraggableToCorner(chatFrame)
     local savedPosition = zUI_SavedSettings[PlayerIdentifier].ChatFramePosition
 
-    if savedPosition and frame:GetName() == "ChatFrame1" and
+    if savedPosition and chatFrame:GetName() == "ChatFrame1" and
         zUI_SavedSettings[PlayerIdentifier].ChatFrameMovableSetting then
-        frame:SetClampedToScreen(false)
-        frame:ClearAllPoints()
-        frame:SetPoint(savedPosition[1], savedPosition[2], savedPosition[3],
-                       savedPosition[4], savedPosition[5])
+        chatFrame:SetClampedToScreen(false)
+        chatFrame:ClearAllPoints()
+        chatFrame:SetPoint(savedPosition[1], savedPosition[2], savedPosition[3],
+                           savedPosition[4], savedPosition[5])
     end
 
     if zUI_SavedSettings[PlayerIdentifier].ChatFrameMovableSetting then
         local width = ChatFrame1:GetWidth()
         local height = ChatFrame1:GetHeight()
-        frame:SetWidth(width)
-        frame:SetHeight(height)
-        if frame:GetName() == "ChatFrame1" then
-            frame:SetMovable(true)
-            frame:EnableMouse(true)
-            frame:RegisterForDrag("LeftButton")
-            frame:SetClampedToScreen(false)
-            frame:SetScript("OnDragStart", frame.StartMoving)
-            frame:SetScript("OnDragStop", function(self)
+        chatFrame:SetWidth(width)
+        chatFrame:SetHeight(height)
+        if chatFrame:GetName() == "ChatFrame1" then
+            chatFrame:SetMovable(true)
+            chatFrame:EnableMouse(true)
+            chatFrame:RegisterForDrag("LeftButton")
+            chatFrame:SetClampedToScreen(false)
+            chatFrame:SetScript("OnDragStart", chatFrame.StartMoving)
+            chatFrame:SetScript("OnDragStop", function(self)
                 self:StopMovingOrSizing()
                 SaveChatFramePosition(self)
             end)
@@ -1471,7 +1483,7 @@ end
 if rawget(_G, "chatDragFrame") == nil then
     _G.chatDragFrame = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", chatDragFrame:GetName())
 end
 
 local chatDragFrame = _G.chatDragFrame
@@ -1537,7 +1549,7 @@ end
 if rawget(_G, "HidePlayerAndTargetFrame") == nil then
     _G.HidePlayerAndTargetFrame = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", HidePlayerAndTargetFrame:GetName())
 end
 
 local HidePlayerAndTargetFrame = _G.HidePlayerAndTargetFrame
@@ -1589,7 +1601,7 @@ end)
 if rawget(_G, "TotalAmountOfHonorableKills") == nil then
     _G.TotalAmountOfHonorableKills = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", TotalAmountOfHonorableKills:GetName())
 end
 
 local TotalAmountOfHonorableKills = _G.TotalAmountOfHonorableKills
@@ -1678,7 +1690,7 @@ local NUM_ITEMS_PER_ROW = 10
 if rawget(_G, "BagFrame") == nil then
     _G.BagFrame = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", BagFrame:GetName())
 end
 
 local BagFrame = _G.BagFrame
@@ -1883,15 +1895,15 @@ local elementsToHide = {
 
 local function hideElements()
     for i = 1, 6 do
-        local frame = _G["ContainerFrame" .. i]
-        if frame then
-            frame:EnableMouse(false)
+        local bagFrame = _G["ContainerFrame" .. i]
+        if bagFrame then
+            bagFrame:EnableMouse(false)
             for _, element in ipairs(elementsToHide) do
                 local parts = {}
                 for part in string.gmatch(element, "[^.]+") do
                     table.insert(parts, part)
                 end
-                local target = frame
+                local target = bagFrame
                 for _, part in ipairs(parts) do
                     target = target[part]
                     if not target then break end
@@ -1948,7 +1960,7 @@ end)
 if rawget(_G, "totalGoldFrame") == nil then
     _G.totalGoldFrame = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", totalGoldFrame:GetName())
 end
 
 local totalGoldFrame = _G.totalGoldFrame
@@ -2012,7 +2024,7 @@ end)
 if rawget(_G, "BankFrameMod") == nil then
     _G.BankFrameMod = CreateFrame("Frame")
 else
-    print("frame already exists")
+    print("this object already exist", BankFrameMod:GetName())
 end
 
 local BankFrameMod = _G.BankFrameMod
