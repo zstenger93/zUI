@@ -2286,3 +2286,5 @@ else
 end
 
 local MinimapMod = _G.MinimapMod
+
+RegisterEventsToFrame(MinimapMod, "PLAYER_LOGIN")
