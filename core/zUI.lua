@@ -2275,3 +2275,14 @@ BankFrameMod:SetScript("OnEvent", function(self, event, changedBagSlotID)
         end
     end
 end)
+
+---------------------------------------------------------------------------------------------------
+-- Custom minimap
+---------------------------------------------------------------------------------------------------
+if rawget(_G, "MinimapMod") == nil then
+    _G.MinimapMod = CreateFrame("Frame")
+else
+    print("this object already exist", MinimapMod:GetName())
+end
+
+local MinimapMod = _G.MinimapMod
