@@ -2327,7 +2327,7 @@ MinimapMod:SetScript("OnEvent", function(self, event, ...)
                     local regions = {child:GetRegions()}
                     for i, region in ipairs(regions) do
                         if region:IsObjectType("Texture") then
-                            if i == 2 then
+                            if i ~= #regions then
                                 region:SetTexture(nil)
                             end
                         end
