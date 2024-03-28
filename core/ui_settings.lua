@@ -101,10 +101,10 @@ initializeSettingsIfNewTable:SetScript("OnEvent", function(self, event)
         zUI_SavedSettings[PlayerIdentifier].HotkeyScale = 1
         zUI_SavedSettings[PlayerIdentifier].MacroScale = 1
         zUI_SavedSettings[PlayerIdentifier].CustomMinimapSetting = false
-        zUI_SavedSettings["minimapPosition"] = {
+        zUI_SavedSettings[PlayerIdentifier].minimapPosition = {
             point = "TOPRIGHT",
             relativePoint = "TOPRIGHT",
-            xOfs = 20,
+            xOfs = -10,
             yOfs = -20
         }
         SettingsInitialized = true
@@ -268,12 +268,12 @@ function UpdateCheckboxes()
             zUI_SavedSettings[PlayerIdentifier].MacroScale or 1)
         Checkbox_CustomMinimap:SetChecked(
             zUI_SavedSettings[PlayerIdentifier].CustomMinimapSetting or false)
-        zUI_SavedSettings["minimapPosition"] =
-            zUI_SavedSettings["minimapPosition"] or
+        zUI_SavedSettings[PlayerIdentifier].minimapPosition =
+            zUI_SavedSettings[PlayerIdentifier].minimapPosition or
                 {
                     point = "TOPRIGHT",
                     relativePoint = "TOPRIGHT",
-                    xOfs = 20,
+                    xOfs = -10,
                     yOfs = -20
                 }
     end

@@ -2305,7 +2305,7 @@ MinimapMod:SetScript("OnEvent", function(self, event, ...)
             Minimap:RegisterForDrag("LeftButton")
 
             Minimap:SetScript("OnDragStart", Minimap.StartMoving)
-            local minimapPosition = zUI_SavedSettings["minimapPosition"]
+            local minimapPosition = zUI_SavedSettings[PlayerIdentifier].minimapPosition
             if minimapPosition then
                 Minimap:ClearAllPoints()
                 Minimap:SetPoint(minimapPosition.point, UIParent,
