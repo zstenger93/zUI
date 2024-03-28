@@ -128,8 +128,7 @@ local customBagsCheckbox = Checkbox_CustomBags:CreateFontString(nil, "OVERLAY",
 customBagsCheckbox:SetPoint("LEFT", Checkbox_CustomBags, "RIGHT", 20, 0)
 customBagsCheckbox:SetText("Custom Bags")
 Checkbox_CustomBags:SetPoint("TOPLEFT", 20, -180)
-Checkbox_CustomBags.tooltip =
-    "Enable or disable custom player bags."
+Checkbox_CustomBags.tooltip = "Enable or disable custom player bags."
 Checkbox_CustomBags:SetChecked(zUI_SavedSettings[PlayerIdentifier]
                                    .CustomBagsSetting)
 
@@ -148,13 +147,34 @@ local customBankCheckbox = Checkbox_CustomBank:CreateFontString(nil, "OVERLAY",
 customBankCheckbox:SetPoint("LEFT", Checkbox_CustomBank, "RIGHT", 20, 0)
 customBankCheckbox:SetText("Custom Bank")
 Checkbox_CustomBank:SetPoint("TOPLEFT", 20, -210)
-Checkbox_CustomBank.tooltip =
-    "Enable or disable custom bank."
+Checkbox_CustomBank.tooltip = "Enable or disable custom bank."
 Checkbox_CustomBank:SetChecked(zUI_SavedSettings[PlayerIdentifier]
                                    .CustomBankSetting)
 
 Checkbox_CustomBank:SetScript("OnClick", function(self)
     zUI_SavedSettings[PlayerIdentifier].CustomBankSetting = self:GetChecked()
+end)
+
+---------------------------------------------------------------------------------------------------
+-- Checkbox for minimap
+---------------------------------------------------------------------------------------------------
+---@class Checkbox_CustomMinimap : CheckButton
+Checkbox_CustomMinimap = CreateFrame("CheckButton", "zUICustomMinimapCheckbox",
+                                     GeneralPage,
+                                     "ChatConfigCheckButtonTemplate")
+local customMinimapCheckbox = Checkbox_CustomMinimap:CreateFontString(nil,
+                                                                      "OVERLAY",
+                                                                      "GameFontNormal")
+customMinimapCheckbox:SetPoint("LEFT", Checkbox_CustomMinimap, "RIGHT", 20, 0)
+customMinimapCheckbox:SetText("Custom Minimap")
+Checkbox_CustomMinimap:SetPoint("TOPLEFT", 20, -240)
+Checkbox_CustomMinimap.tooltip =
+    "Removing the border textures and making it movable."
+Checkbox_CustomMinimap:SetChecked(zUI_SavedSettings[PlayerIdentifier]
+                                      .CustomMinimapSetting)
+
+Checkbox_CustomMinimap:SetScript("OnClick", function(self)
+    zUI_SavedSettings[PlayerIdentifier].CustomMinimapSetting = self:GetChecked()
 end)
 
 ---------------------------------------------------------------------------------------------------
@@ -703,7 +723,8 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Create a slider on the ActionBarsPage for the scale of the hotkey text
 ---------------------------------------------------------------------------------------------------
-HotkeyScaleSlider = CreateFrame("Slider", "HotkeyScaleSlider", ActionBarsPage, "OptionsSliderTemplate")
+HotkeyScaleSlider = CreateFrame("Slider", "HotkeyScaleSlider", ActionBarsPage,
+                                "OptionsSliderTemplate")
 HotkeyScaleSlider:SetWidth(200)
 HotkeyScaleSlider:SetHeight(20)
 HotkeyScaleSlider:SetPoint("TOPLEFT", ScaleSlider, "BOTTOMLEFT", 0, -40)
@@ -711,7 +732,8 @@ HotkeyScaleSlider:SetMinMaxValues(0.5, 2.0)
 HotkeyScaleSlider:SetValueStep(0.01)
 HotkeyScaleSlider:SetObeyStepOnDrag(true)
 
-local hotkeyLabel = ActionBarsPage:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+local hotkeyLabel = ActionBarsPage:CreateFontString(nil, "OVERLAY",
+                                                    "GameFontNormal")
 hotkeyLabel:SetPoint("BOTTOM", HotkeyScaleSlider, "TOP", 0, 5)
 hotkeyLabel:SetText("Adjust the Hotkey text size")
 
@@ -723,7 +745,8 @@ end)
 local initialHotkeyScale = zUI_SavedSettings[PlayerIdentifier].HotkeyScale or 1
 HotkeyScaleSlider:SetValue(initialHotkeyScale)
 
-local hotkeyValueText = HotkeyScaleSlider:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+local hotkeyValueText = HotkeyScaleSlider:CreateFontString(nil, "OVERLAY",
+                                                           "GameFontNormal")
 hotkeyValueText:SetPoint("TOP", HotkeyScaleSlider, "BOTTOM", 0, -5)
 hotkeyValueText:SetText(string.format("%.2f", initialHotkeyScale))
 
@@ -737,9 +760,7 @@ HotkeyScaleSlider:SetScript("OnValueChanged", function(self, value)
         for i = 1, 12 do
             local button = _G[actionBar .. i]
             local hotkey = _G[actionBar .. i .. "HotKey"]
-            if hotkey then
-                hotkey:SetScale(value)
-            end
+            if hotkey then hotkey:SetScale(value) end
         end
     end
 
@@ -750,7 +771,8 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Create a slider on the ActionBarsPage for the scale of the hotkey text
 ---------------------------------------------------------------------------------------------------
-MacroScaleSlider = CreateFrame("Slider", "MacroScaleSlider", ActionBarsPage, "OptionsSliderTemplate")
+MacroScaleSlider = CreateFrame("Slider", "MacroScaleSlider", ActionBarsPage,
+                               "OptionsSliderTemplate")
 MacroScaleSlider:SetWidth(200)
 MacroScaleSlider:SetHeight(20)
 MacroScaleSlider:SetPoint("TOPLEFT", HotkeyScaleSlider, "BOTTOMLEFT", 0, -40)
@@ -758,7 +780,8 @@ MacroScaleSlider:SetMinMaxValues(0.5, 2.0)
 MacroScaleSlider:SetValueStep(0.01)
 MacroScaleSlider:SetObeyStepOnDrag(true)
 
-local macroLabel = ActionBarsPage:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+local macroLabel = ActionBarsPage:CreateFontString(nil, "OVERLAY",
+                                                   "GameFontNormal")
 macroLabel:SetPoint("BOTTOM", MacroScaleSlider, "TOP", 0, 5)
 macroLabel:SetText("Adjust the Macro text size")
 
@@ -770,7 +793,8 @@ end)
 local initialMacroScale = zUI_SavedSettings[PlayerIdentifier].MacroScale or 1
 MacroScaleSlider:SetValue(initialMacroScale)
 
-local macroValueText = MacroScaleSlider:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+local macroValueText = MacroScaleSlider:CreateFontString(nil, "OVERLAY",
+                                                         "GameFontNormal")
 macroValueText:SetPoint("TOP", MacroScaleSlider, "BOTTOM", 0, -5)
 macroValueText:SetText(string.format("%.2f", initialMacroScale))
 
@@ -784,9 +808,7 @@ MacroScaleSlider:SetScript("OnValueChanged", function(self, value)
         for i = 1, 12 do
             local button = _G[actionBar .. i]
             local macroText = _G[actionBar .. i .. "Name"]
-            if macroText then
-                macroText:SetScale(value)
-            end
+            if macroText then macroText:SetScale(value) end
         end
     end
 
@@ -993,8 +1015,8 @@ Checkbox_CustomEvokerEssence = CreateFrame("CheckButton",
 local evokerEssenceCheckbox = Checkbox_CustomEvokerEssence:CreateFontString(nil,
                                                                             "OVERLAY",
                                                                             "GameFontNormal")
-evokerEssenceCheckbox:SetPoint("LEFT", Checkbox_CustomEvokerEssence, "RIGHT", 20,
-                               0)
+evokerEssenceCheckbox:SetPoint("LEFT", Checkbox_CustomEvokerEssence, "RIGHT",
+                               20, 0)
 evokerEssenceCheckbox:SetText("Custom Evoker Essence")
 Checkbox_CustomEvokerEssence:SetPoint("TOPLEFT", 20, -150)
 Checkbox_CustomEvokerEssence.tooltip =
