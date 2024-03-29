@@ -2279,6 +2279,12 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Custom minimap
 ---------------------------------------------------------------------------------------------------
+--[[
+    - Hiding the minimap's border
+    - Making the minimap movable
+    - Hiding the minimap buttons border
+    - Saving the position of the minimap
+]]
 if rawget(_G, "MinimapMod") == nil then
     _G.MinimapMod = CreateFrame("Frame")
 else
@@ -2287,4 +2293,47 @@ end
 
 local MinimapMod = _G.MinimapMod
 
-RegisterEventsToFrame(MinimapMod, "PLAYER_LOGIN")
+RegisterEventsToFrame(MinimapMod, "PLAYER_LOGIN", "PLAYER_ENTERING_WORLD")
+
+MinimapMod:SetScript("OnEvent", function(self, event, ...)
+    if SettingsInitialized then
+        if zUI_SavedSettings[PlayerIdentifier].CustomMinimapSetting then
+            MinimapBackdrop:Hide()
+
+            Minimap:EnableMouse(true)
+            Minimap:SetMovable(true)
+            Minimap:RegisterForDrag("LeftButton")
+
+            Minimap:SetScript("OnDragStart", Minimap.StartMoving)
+            local minimapPosition = zUI_SavedSettings[PlayerIdentifier].minimapPosition
+            if minimapPosition then
+                Minimap:ClearAllPoints()
+                Minimap:SetPoint(minimapPosition.point, UIParent,
+                                 minimapPosition.relativePoint,
+                                 minimapPosition.xOfs, minimapPosition.yOfs)
+            end
+
+            Minimap:SetScript("OnDragStop", function(self)
+                self:StopMovingOrSizing()
+
+                minimapPosition.point, _, minimapPosition.relativePoint, minimapPosition.xOfs, minimapPosition.yOfs =
+                    self:GetPoint()
+                -- print(minimapPosition.point, minimapPosition.relativePoint,
+                --       minimapPosition.xOfs, minimapPosition.yOfs)
+            end)
+
+            for _, child in ipairs({Minimap:GetChildren()}) do
+                if child:GetName() and child:GetName():match("LibDBIcon") then
+                    local regions = {child:GetRegions()}
+                    for i, region in ipairs(regions) do
+                        if region:IsObjectType("Texture") then
+                            if i ~= #regions then
+                                region:SetTexture(nil)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+end)
