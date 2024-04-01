@@ -1546,27 +1546,20 @@ local function HookStatusUpdate()
     TargetFrame.TargetFrameContent.TargetFrameContentContextual.PrestigePortrait:Hide()
 end
 
-if rawget(_G, "HidePlayerAndTargetFrame") == nil then
-    _G.HidePlayerAndTargetFrame = CreateFrame("Frame")
-else
-    print("this object already exist", HidePlayerAndTargetFrame:GetName())
+local function HookFrameUpdates()
+    hooksecurefunc("PlayerFrame_UpdateStatus", function()
+        HookStatusUpdate()
+        HidePlayerAndTargetFrames()
+    end)
+
+    hooksecurefunc("CompactUnitFrame_UpdateStatusText", function()
+        HookStatusUpdate()
+        HidePlayerAndTargetFrames()
+    end)
+
 end
 
-local HidePlayerAndTargetFrame = _G.HidePlayerAndTargetFrame
-
-RegisterEventsToFrame(HidePlayerAndTargetFrame, "PLAYER_LOGIN", "GROUP_JOINED",
-                      "GROUP_ROSTER_UPDATE")
-
-HidePlayerAndTargetFrame:SetScript("OnEvent", function(self, event, ...)
-    C_Timer.After(0.1, function()
-        if SettingsInitialized and
-            zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting then
-            HidePlayerAndTargetFrames()
-            hooksecurefunc("PlayerFrame_UpdateStatus", HookStatusUpdate)
-            hooksecurefunc("CompactUnitFrame_UpdateStatusText", HookStatusUpdate)
-        end
-    end)
-end)
+HookFrameUpdates()
 
 ---------------------------------------------------------------------------------------------------
 -- Move the BNToastFrame
@@ -2305,21 +2298,30 @@ MinimapMod:SetScript("OnEvent", function(self, event, ...)
             Minimap:RegisterForDrag("LeftButton")
 
             Minimap:SetScript("OnDragStart", Minimap.StartMoving)
-            local minimapPosition = zUI_SavedSettings[PlayerIdentifier].minimapPosition
+            local minimapPosition = zUI_SavedSettings[PlayerIdentifier]
+                                        .minimapPosition
             if minimapPosition then
                 Minimap:ClearAllPoints()
-                Minimap:SetPoint(minimapPosition.point, UIParent,
+                Minimap:SetPoint(minimapPosition.point, _,
                                  minimapPosition.relativePoint,
                                  minimapPosition.xOfs, minimapPosition.yOfs)
             end
 
             Minimap:SetScript("OnDragStop", function(self)
                 self:StopMovingOrSizing()
+                local point, _, relativePoint, xOfs, yOfs = self:GetPoint()
 
-                minimapPosition.point, _, minimapPosition.relativePoint, minimapPosition.xOfs, minimapPosition.yOfs =
-                    self:GetPoint()
-                -- print(minimapPosition.point, minimapPosition.relativePoint,
-                --       minimapPosition.xOfs, minimapPosition.yOfs)
+                zUI_SavedSettings[PlayerIdentifier].minimapPosition = {
+                    point = point,
+                    relativePoint = relativePoint,
+                    xOfs = xOfs,
+                    yOfs = yOfs
+                }
+                -- print(
+                --     zUI_SavedSettings[PlayerIdentifier].minimapPosition["point"],
+                --     zUI_SavedSettings[PlayerIdentifier].minimapPosition["relativePoint"],
+                --     zUI_SavedSettings[PlayerIdentifier].minimapPosition["xOfs"],
+                --     zUI_SavedSettings[PlayerIdentifier].minimapPosition["yOfs"])
             end)
 
             for _, child in ipairs({Minimap:GetChildren()}) do
