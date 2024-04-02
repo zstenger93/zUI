@@ -2341,3 +2341,51 @@ MinimapMod:SetScript("OnEvent", function(self, event, ...)
         end
     end
 end)
+
+---------------------------------------------------------------------------------------------------
+-- Hiding borders on the Vigor
+---------------------------------------------------------------------------------------------------
+
+if rawget(_G, "VigorMod") == nil then
+    _G.VigorMod = CreateFrame("Frame")
+else
+    print("this object already exist", VigorMod:GetName())
+end
+
+local VigorMod = _G.VigorMod
+
+RegisterEventsToFrame(VigorMod, "PLAYER_LOGIN", "PLAYER_ENTERING_WORLD",
+                      "UNIT_AURA")
+
+VigorMod:SetScript("OnEvent", function(self, event, ...)
+    if SettingsInitialized then
+        if zUI_SavedSettings[PlayerIdentifier].CustomVigorSetting then
+            if IsMounted() then
+                C_Timer.After(0.5, function()
+                    local children = {
+                        UIWidgetPowerBarContainerFrame:GetChildren()
+                    }
+
+                    for _, child in ipairs(children) do
+                        if child.DecorRight then
+                            child.DecorRight:Hide()
+                        end
+
+                        if child.DecorLeft then
+                            child.DecorLeft:Hide()
+                        end
+
+                        local grandChildren = {child:GetChildren()}
+
+                        for _, grandChild in ipairs(grandChildren) do
+
+                            -- grandChild.BG:Hide()
+                            grandChild.Frame:Hide()
+                        end
+                    end
+                end)
+            end
+        end
+    end
+end)
+
