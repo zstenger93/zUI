@@ -178,6 +178,26 @@ Checkbox_CustomMinimap:SetScript("OnClick", function(self)
 end)
 
 ---------------------------------------------------------------------------------------------------
+-- Checkbox for vigor
+---------------------------------------------------------------------------------------------------
+---@class Checkbox_CustomVigor : CheckButton
+Checkbox_CustomVigor = CreateFrame("CheckButton", "zUICustomVigorCheckbox",
+                                   GeneralPage, "ChatConfigCheckButtonTemplate")
+local customVigorCheckbox = Checkbox_CustomVigor:CreateFontString(nil,
+                                                                  "OVERLAY",
+                                                                  "GameFontNormal")
+customVigorCheckbox:SetPoint("LEFT", Checkbox_CustomVigor, "RIGHT", 20, 0)
+customVigorCheckbox:SetText("Custom Vigor")
+Checkbox_CustomVigor:SetPoint("TOPLEFT", 20, -270)
+Checkbox_CustomVigor.tooltip = "Removing the wings and vigor borders"
+Checkbox_CustomVigor:SetChecked(zUI_SavedSettings[PlayerIdentifier]
+                                    .CustomVigorSetting)
+
+Checkbox_CustomVigor:SetScript("OnClick", function(self)
+    zUI_SavedSettings[PlayerIdentifier].CustomVigorSetting = self:GetChecked()
+end)
+
+---------------------------------------------------------------------------------------------------
 -- Text on General Page
 ---------------------------------------------------------------------------------------------------
 local headerMenuLabel = GeneralPage:CreateFontString(nil, "OVERLAY",

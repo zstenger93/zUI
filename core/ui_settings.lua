@@ -107,6 +107,7 @@ initializeSettingsIfNewTable:SetScript("OnEvent", function(self, event)
             xOfs = -10,
             yOfs = -20
         }
+        zUI_SavedSettings[PlayerIdentifier].CustomVigorSetting = false
         SettingsInitialized = true
     else
         SettingsInitialized = true
@@ -276,6 +277,8 @@ function UpdateCheckboxes()
                     xOfs = -10,
                     yOfs = -20
                 }
+        Checkbox_CustomVigor:SetChecked(zUI_SavedSettings[PlayerIdentifier]
+                                            .CustomVigorSetting or false)
     end
 end
 

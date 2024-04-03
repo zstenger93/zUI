@@ -2291,51 +2291,101 @@ RegisterEventsToFrame(MinimapMod, "PLAYER_LOGIN", "PLAYER_ENTERING_WORLD")
 MinimapMod:SetScript("OnEvent", function(self, event, ...)
     if SettingsInitialized then
         if zUI_SavedSettings[PlayerIdentifier].CustomMinimapSetting then
-            MinimapBackdrop:Hide()
+            C_Timer.After(1, function()
+                MinimapBackdrop:Hide()
 
-            Minimap:EnableMouse(true)
-            Minimap:SetMovable(true)
-            Minimap:RegisterForDrag("LeftButton")
+                Minimap:EnableMouse(true)
+                Minimap:SetMovable(true)
+                Minimap:RegisterForDrag("LeftButton")
 
-            Minimap:SetScript("OnDragStart", Minimap.StartMoving)
-            local minimapPosition = zUI_SavedSettings[PlayerIdentifier]
-                                        .minimapPosition
-            if minimapPosition then
-                Minimap:ClearAllPoints()
-                Minimap:SetPoint(minimapPosition.point, _,
-                                 minimapPosition.relativePoint,
-                                 minimapPosition.xOfs, minimapPosition.yOfs)
-            end
+                Minimap:SetScript("OnDragStart", Minimap.StartMoving)
+                local minimapPosition = zUI_SavedSettings[PlayerIdentifier]
+                                            .minimapPosition
+                if minimapPosition then
+                    Minimap:ClearAllPoints()
+                    Minimap:SetPoint(minimapPosition.point, nil,
+                                     minimapPosition.relativePoint,
+                                     minimapPosition.xOfs, minimapPosition.yOfs)
+                end
 
-            Minimap:SetScript("OnDragStop", function(self)
-                self:StopMovingOrSizing()
-                local point, _, relativePoint, xOfs, yOfs = self:GetPoint()
+                Minimap:SetScript("OnDragStop", function(self)
+                    self:StopMovingOrSizing()
+                    local point, _, relativePoint, xOfs, yOfs = self:GetPoint()
 
-                zUI_SavedSettings[PlayerIdentifier].minimapPosition = {
-                    point = point,
-                    relativePoint = relativePoint,
-                    xOfs = xOfs,
-                    yOfs = yOfs
-                }
-                -- print(
-                --     zUI_SavedSettings[PlayerIdentifier].minimapPosition["point"],
-                --     zUI_SavedSettings[PlayerIdentifier].minimapPosition["relativePoint"],
-                --     zUI_SavedSettings[PlayerIdentifier].minimapPosition["xOfs"],
-                --     zUI_SavedSettings[PlayerIdentifier].minimapPosition["yOfs"])
-            end)
+                    zUI_SavedSettings[PlayerIdentifier].minimapPosition = {
+                        point = point,
+                        relativePoint = relativePoint,
+                        xOfs = xOfs,
+                        yOfs = yOfs
+                    }
+                    -- print(
+                    --     zUI_SavedSettings[PlayerIdentifier].minimapPosition["point"],
+                    --     zUI_SavedSettings[PlayerIdentifier].minimapPosition["relativePoint"],
+                    --     zUI_SavedSettings[PlayerIdentifier].minimapPosition["xOfs"],
+                    --     zUI_SavedSettings[PlayerIdentifier].minimapPosition["yOfs"])
+                end)
 
-            for _, child in ipairs({Minimap:GetChildren()}) do
-                if child:GetName() and child:GetName():match("LibDBIcon") then
-                    local regions = {child:GetRegions()}
-                    for i, region in ipairs(regions) do
-                        if region:IsObjectType("Texture") then
-                            if i ~= #regions then
-                                region:SetTexture(nil)
+                for _, child in ipairs({Minimap:GetChildren()}) do
+                    if child:GetName() and child:GetName():match("LibDBIcon") then
+                        local regions = {child:GetRegions()}
+                        for i, region in ipairs(regions) do
+                            if region:IsObjectType("Texture") then
+                                if i ~= #regions then
+                                    region:SetTexture(nil)
+                                end
                             end
                         end
                     end
                 end
+            end)
+        end
+    end
+end)
+
+---------------------------------------------------------------------------------------------------
+-- Hiding borders on the Vigor
+---------------------------------------------------------------------------------------------------
+
+if rawget(_G, "VigorMod") == nil then
+    _G.VigorMod = CreateFrame("Frame")
+else
+    print("this object already exist", VigorMod:GetName())
+end
+
+local VigorMod = _G.VigorMod
+
+RegisterEventsToFrame(VigorMod, "PLAYER_LOGIN", "PLAYER_ENTERING_WORLD",
+                      "UNIT_AURA")
+
+VigorMod:SetScript("OnEvent", function(self, event, ...)
+    if SettingsInitialized then
+        if zUI_SavedSettings[PlayerIdentifier].CustomVigorSetting then
+            if IsMounted() then
+                C_Timer.After(0.5, function()
+                    local children = {
+                        UIWidgetPowerBarContainerFrame:GetChildren()
+                    }
+
+                    for _, child in ipairs(children) do
+                        if child.DecorRight then
+                            child.DecorRight:Hide()
+                        end
+
+                        if child.DecorLeft then
+                            child.DecorLeft:Hide()
+                        end
+
+                        local grandChildren = {child:GetChildren()}
+
+                        for _, grandChild in ipairs(grandChildren) do
+
+                            -- grandChild.BG:Hide()
+                            grandChild.Frame:Hide()
+                        end
+                    end
+                end)
             end
         end
     end
 end)
+
