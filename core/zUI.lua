@@ -1567,14 +1567,15 @@ end
 
 local HidePlayerAndTargetBorders = _G.HidePlayerAndTargetBorders
 
-RegisterEventsToFrame(HidePlayerAndTargetBorders, "PLAYER_ENTERING_WORLD", "PLAYER_LOGIN")
+RegisterEventsToFrame(HidePlayerAndTargetBorders, "PLAYER_ENTERING_WORLD",
+                      "PLAYER_LOGIN")
 
 HidePlayerAndTargetBorders:SetScript("OnEvent", function(self, event, ...)
-    if SettingsInitialized and zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting then
-       HookFrameUpdates()
+    if SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting then
+        HookFrameUpdates()
     end
 end)
-
 
 ---------------------------------------------------------------------------------------------------
 -- Move the BNToastFrame
