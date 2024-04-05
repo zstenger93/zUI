@@ -1500,7 +1500,7 @@ chatDragFrame:SetScript("OnEvent", function(self, event, ...)
 end)
 
 ---------------------------------------------------------------------------------------------------
--- Player, Target, Target of Target, Party, Pet frame modifications
+-- Player, Target, Target of Target, Party, Pet frame modifications unit / portrait / textures
 ---------------------------------------------------------------------------------------------------
 function HidePlayerAndTargetFrames()
     PlayerFrame.PlayerFrameContainer.PlayerPortraitMask:Hide()
@@ -1559,7 +1559,23 @@ local function HookFrameUpdates()
 
 end
 
-HookFrameUpdates()
+if rawget(_G, "HidePlayerAndTargetBorders") == nil then
+    _G.HidePlayerAndTargetBorders = CreateFrame("Frame")
+else
+    print("this object already exist HidePlayerAndTargetBorders")
+end
+
+local HidePlayerAndTargetBorders = _G.HidePlayerAndTargetBorders
+
+RegisterEventsToFrame(HidePlayerAndTargetBorders, "PLAYER_ENTERING_WORLD",
+                      "PLAYER_LOGIN")
+
+HidePlayerAndTargetBorders:SetScript("OnEvent", function(self, event, ...)
+    if SettingsInitialized and
+        zUI_SavedSettings[PlayerIdentifier].HidePlayerAndTargetFramesSetting then
+        HookFrameUpdates()
+    end
+end)
 
 ---------------------------------------------------------------------------------------------------
 -- Move the BNToastFrame
