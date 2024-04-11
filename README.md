@@ -32,6 +32,7 @@ Use `/zui` or `ESC` -> `zUI Settings` to show the settings panel (every setting 
     - Chat frame is now freely movable where you would like to move it, from corner to corner to crash report (okay, okay hopefully not to the last one)
     - Editbox from bottom to top of the Chat (removed the Blizzard art textures)
     - Queue Status Button next to the Minimap
+    - Minimap with removed border
 - Auto collapse Objective Tracker on loading screens
     - Entire Tracker
     - Quests
@@ -44,6 +45,7 @@ Use `/zui` or `ESC` -> `zUI Settings` to show the settings panel (every setting 
     - Bagbar
     - XP bar
     - Micromenu
+    - Vigor art
     - Reputation Bar
     - Quick Join Button
     - Objective Tracker artwork
