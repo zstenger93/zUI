@@ -2293,6 +2293,7 @@ end)
     - Making the minimap movable
     - Hiding the minimap buttons border
     - Saving the position of the minimap
+    - Hiding the addon icons background and border
 ]]
 if rawget(_G, "MinimapMod") == nil then
     _G.MinimapMod = CreateFrame("Frame")
@@ -2334,11 +2335,6 @@ MinimapMod:SetScript("OnEvent", function(self, event, ...)
                         xOfs = xOfs,
                         yOfs = yOfs
                     }
-                    -- print(
-                    --     zUI_SavedSettings[PlayerIdentifier].minimapPosition["point"],
-                    --     zUI_SavedSettings[PlayerIdentifier].minimapPosition["relativePoint"],
-                    --     zUI_SavedSettings[PlayerIdentifier].minimapPosition["xOfs"],
-                    --     zUI_SavedSettings[PlayerIdentifier].minimapPosition["yOfs"])
                 end)
 
                 for _, child in ipairs({Minimap:GetChildren()}) do
@@ -2361,7 +2357,9 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Hiding borders on the Vigor
 ---------------------------------------------------------------------------------------------------
-
+--[[
+    - Hiding the wings and the border of the vigor bar
+]]
 if rawget(_G, "VigorMod") == nil then
     _G.VigorMod = CreateFrame("Frame")
 else
@@ -2394,8 +2392,6 @@ VigorMod:SetScript("OnEvent", function(self, event, ...)
                         local grandChildren = {child:GetChildren()}
 
                         for _, grandChild in ipairs(grandChildren) do
-
-                            -- grandChild.BG:Hide()
                             grandChild.Frame:Hide()
                         end
                     end
@@ -2404,4 +2400,3 @@ VigorMod:SetScript("OnEvent", function(self, event, ...)
         end
     end
 end)
-
