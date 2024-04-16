@@ -305,8 +305,8 @@ GameTooltip:HookScript("OnUpdate", function(self)
                 GameTooltipTextLeft1:SetFormattedText("|cFFFF0000AFK|r %s",
                                                       GameTooltipTextLeft1:GetText())
             end
-            self:AddLine(" ", 1, 1, 1)
             if UnitExists(target) then
+                self:AddLine(" ", 1, 1, 1)
                 self:AddDoubleLine("Target: ", targetInfo)
                 if UnitIsAFK(target) then
                     self:AddLine("AFK", 1, 0, 0)
