@@ -253,10 +253,11 @@ HideBagBar:SetScript("OnEvent", function(self, event)
 end)
 
 ---------------------------------------------------------------------------------------------------
--- Show the target's name and realm in the tooltip
+-- Show the target's name and realm in the tooltip and show if the target is AFK
 ---------------------------------------------------------------------------------------------------
 --[[
     Class type color for the target's name in the tooltip
+    If the target and target of target is AFK
     Show the target's item level in the tooltip if available <--- NOT WORKING/EXISTING YET
 ]]
 ClassColors = {
@@ -275,6 +276,7 @@ ClassColors = {
     ["EVOKER"] = {r = 0.20, g = 0.58, b = 0.50}
 }
 local lastTarget = nil
+
 GameTooltip:HookScript("OnTooltipCleared", function(self) lastTarget = nil end)
 
 function RGBToHex(color)
@@ -299,9 +301,16 @@ GameTooltip:HookScript("OnUpdate", function(self)
         local targetInfo = coloredTargetName .. realmString
 
         if targetInfo ~= lastTarget then
-            self:AddLine(" ", 1, 1, 1)
+            if UnitIsAFK(unit) then
+                GameTooltipTextLeft1:SetFormattedText("|cFFFF0000AFK|r %s",
+                                                      GameTooltipTextLeft1:GetText())
+            end
             if UnitExists(target) then
+                self:AddLine(" ", 1, 1, 1)
                 self:AddDoubleLine("Target: ", targetInfo)
+                if UnitIsAFK(target) then
+                    self:AddLine("AFK", 1, 0, 0)
+                end
             end
             self:Show()
             lastTarget = targetInfo
