@@ -2409,3 +2409,10 @@ VigorMod:SetScript("OnEvent", function(self, event, ...)
         end
     end
 end)
+
+--[[
+    - TO BE OR NOT TO BE(HAVIORAL_NOTIFICATION_WARNING)
+    - Better minmap unlock
+    - On loading screens the usage still can go high after good amount of loading screens
+    - Same with the memory, but barely noticeable  
+]]
