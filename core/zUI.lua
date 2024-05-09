@@ -2388,20 +2388,18 @@ VigorMod:SetScript("OnEvent", function(self, event, ...)
                     local children = {
                         UIWidgetPowerBarContainerFrame:GetChildren()
                     }
-
-                    for _, child in ipairs(children) do
-                        if child.DecorRight then
-                            child.DecorRight:Hide()
-                        end
-
-                        if child.DecorLeft then
-                            child.DecorLeft:Hide()
-                        end
-
-                        local grandChildren = {child:GetChildren()}
-
-                        for _, grandChild in ipairs(grandChildren) do
-                            grandChild.Frame:Hide()
+                    if (children ~= nil) then
+                        for _, child in ipairs(children) do
+                            if child.DecorRight then
+                                child.DecorRight:Hide()
+                            end
+                            if child.DecorLeft then
+                                child.DecorLeft:Hide()
+                            end
+                            local grandChildren = {child:GetChildren()}
+                            for _, grandChild in ipairs(grandChildren) do
+                                grandChild.Frame:Hide()
+                            end
                         end
                     end
                 end)
