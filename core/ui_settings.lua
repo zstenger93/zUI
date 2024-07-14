@@ -14,15 +14,15 @@ local hk, _, _ = GetPVPLifetimeStats()
 
 zUI_SavedSettings[PlayerIdentifier].HonorableKillsOnCharacter = hk
 
-function TableIsEmpty(t)
-    if next(t) == nil then
-        return true
-    else
-        return false
-    end
-end
+-- function TableIsEmpty(t)
+--     if next(t) == nil then
+--         return true
+--     else
+--         return false
+--     end
+-- end
 
-function PrintTable(t) for key, value in pairs(t) do print(key, value) end end
+-- function PrintTable(t) for key, value in pairs(t) do print(key, value) end end
 
 ---------------------------------------------------------------------------------------------------
 -- Initialize the settings if the table is empty
