@@ -291,29 +291,29 @@ SlashCmdList["ZUI"] = function(msg) ZUI_Panel:Show() end
 ---------------------------------------------------------------------------------------------------
 -- Create a button to open the settings panel in the Game Menu
 ---------------------------------------------------------------------------------------------------
-local zUIOptionsButton = CreateFrame("Button", nil, GameMenuFrame,
-                                     "GameMenuButtonTemplate")
-zUIOptionsButton:SetText("zUI Options")
-zUIOptionsButton:SetScript("OnClick", function() ZUI_Panel:Show() end)
+-- local zUIOptionsButton = CreateFrame("Button", nil, GameMenuFrame,
+--                                      "GameMenuButtonTemplate")
+-- zUIOptionsButton:SetText("zUI Options")
+-- zUIOptionsButton:SetScript("OnClick", function() ZUI_Panel:Show() end)
 
-GameMenuFrame:HookScript("OnShow", function()
-    local _, relativeTo, _, xOfs, yOfs = GameMenuButtonLogout:GetPoint()
+-- GameMenuFrame:HookScript("OnShow", function()
+--     local _, relativeTo, _, xOfs, yOfs = GameMenuButtonLogout:GetPoint()
 
-    if relativeTo == GameMenuButtonAddons then
-        GameMenuButtonLogout:SetPoint("TOP", zUIOptionsButton, "BOTTOM", xOfs,
-                                      yOfs)
-    end
+--     if relativeTo == GameMenuButtonAddons then
+--         GameMenuButtonLogout:SetPoint("TOP", zUIOptionsButton, "BOTTOM", xOfs,
+--                                       yOfs)
+--     end
 
-    zUIOptionsButton:SetPoint("TOP", GameMenuButtonAddons, "BOTTOM", 0, -1)
+--     zUIOptionsButton:SetPoint("TOP", GameMenuButtonAddons, "BOTTOM", 0, -1)
 
-    GameMenuFrame:SetHeight(GameMenuFrame:GetHeight() +
-                                zUIOptionsButton:GetHeight())
-end)
+--     GameMenuFrame:SetHeight(GameMenuFrame:GetHeight() +
+--                                 zUIOptionsButton:GetHeight())
+-- end)
 
-zUIOptionsButton:SetScript("OnClick", function()
-    ZUI_Panel:Show()
-    ToggleGameMenu()
-end)
+-- zUIOptionsButton:SetScript("OnClick", function()
+--     ZUI_Panel:Show()
+--     ToggleGameMenu()
+-- end)
 
 ---------------------------------------------------------------------------------------------------
 -- Add the addon to the list of special frames so that it can be closed with the escape key
