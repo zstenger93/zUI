@@ -126,7 +126,7 @@ Checkbox_CustomBags = CreateFrame("CheckButton", "zUICustomBagsCheckbox",
 local customBagsCheckbox = Checkbox_CustomBags:CreateFontString(nil, "OVERLAY",
                                                                 "GameFontNormal")
 customBagsCheckbox:SetPoint("LEFT", Checkbox_CustomBags, "RIGHT", 20, 0)
-customBagsCheckbox:SetText("Custom Bags")
+customBagsCheckbox:SetText("Custom Bags (BROKEN ATM)")
 Checkbox_CustomBags:SetPoint("TOPLEFT", 20, -180)
 Checkbox_CustomBags.tooltip = "Enable or disable custom player bags."
 Checkbox_CustomBags:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -145,7 +145,7 @@ Checkbox_CustomBank = CreateFrame("CheckButton", "zUICustomBankCheckbox",
 local customBankCheckbox = Checkbox_CustomBank:CreateFontString(nil, "OVERLAY",
                                                                 "GameFontNormal")
 customBankCheckbox:SetPoint("LEFT", Checkbox_CustomBank, "RIGHT", 20, 0)
-customBankCheckbox:SetText("Custom Bank")
+customBankCheckbox:SetText("Custom Bank (BROKEN ATM)")
 Checkbox_CustomBank:SetPoint("TOPLEFT", 20, -210)
 Checkbox_CustomBank.tooltip = "Enable or disable custom bank."
 Checkbox_CustomBank:SetChecked(zUI_SavedSettings[PlayerIdentifier]
