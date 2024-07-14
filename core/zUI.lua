@@ -451,11 +451,12 @@ microMenuFrame:SetScript("OnEvent", function(self, event, addonName)
         C_Timer.After(2, function()
             if SettingsInitialized then
                 local buttons = {
+                    PlayerSpellsMicroButton, ProfessionMicroButton,
+                    QuestLogMicroButton, CharacterMicroButton, StoreMicroButton,
                     AchievementMicroButton, GuildMicroButton, LFDMicroButton,
                     CollectionsMicroButton, EJMicroButton, MainMenuMicroButton,
-                    HelpMicroButton, StoreMicroButton, TalentMicroButton,
-                    QuestLogMicroButton, CharacterMicroButton,
-                    SpellbookMicroButton, TalentMicroButton
+                    HelpMicroButton, TalentMicroButton,
+                    SpellbookMicroButton,
                 }
 
                 local shouldHide = zUI_SavedSettings[PlayerIdentifier]
