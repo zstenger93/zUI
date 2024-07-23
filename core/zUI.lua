@@ -451,11 +451,12 @@ microMenuFrame:SetScript("OnEvent", function(self, event, addonName)
         C_Timer.After(2, function()
             if SettingsInitialized then
                 local buttons = {
+                    PlayerSpellsMicroButton, ProfessionMicroButton,
+                    QuestLogMicroButton, CharacterMicroButton, StoreMicroButton,
                     AchievementMicroButton, GuildMicroButton, LFDMicroButton,
                     CollectionsMicroButton, EJMicroButton, MainMenuMicroButton,
-                    HelpMicroButton, StoreMicroButton, TalentMicroButton,
-                    QuestLogMicroButton, CharacterMicroButton,
-                    SpellbookMicroButton, TalentMicroButton
+                    HelpMicroButton, TalentMicroButton,
+                    SpellbookMicroButton,
                 }
 
                 local shouldHide = zUI_SavedSettings[PlayerIdentifier]
@@ -1247,12 +1248,12 @@ function HideBarWhenSpellbookClosed(barName, barSetting)
     end)
 end
 
-HideBarWhenSpellbookClosed("MultiBarLeftButton",
-                           zUI_SavedSettings[PlayerIdentifier]
-                               .multiBarLeftSetting)
-HideBarWhenSpellbookClosed("MultiBarRightButton",
-                           zUI_SavedSettings[PlayerIdentifier]
-                               .multiBarRightSetting)
+-- HideBarWhenSpellbookClosed("MultiBarLeftButton",
+--                            zUI_SavedSettings[PlayerIdentifier]
+--                                .multiBarLeftSetting)
+-- HideBarWhenSpellbookClosed("MultiBarRightButton",
+--                            zUI_SavedSettings[PlayerIdentifier]
+--                                .multiBarRightSetting)
 
 ---------------------------------------------------------------------------------------------------
 -- Hide mouseover bars when the talent frame has been closed after opening it
@@ -1274,12 +1275,12 @@ function HideBarWhenTalentFrameClosed(barName, barSetting)
     end)
 end
 
-HideBarWhenTalentFrameClosed("MultiBarLeftButton",
-                             zUI_SavedSettings[PlayerIdentifier]
-                                 .multiBarLeftSetting)
-HideBarWhenTalentFrameClosed("MultiBarRightButton",
-                             zUI_SavedSettings[PlayerIdentifier]
-                                 .multiBarRightSetting)
+-- HideBarWhenTalentFrameClosed("MultiBarLeftButton",
+--                              zUI_SavedSettings[PlayerIdentifier]
+--                                  .multiBarLeftSetting)
+-- HideBarWhenTalentFrameClosed("MultiBarRightButton",
+--                              zUI_SavedSettings[PlayerIdentifier]
+--                                  .multiBarRightSetting)
 
 ---------------------------------------------------------------------------------------------------
 -- Hide the Objective Tracker Artwork
@@ -1297,17 +1298,35 @@ RegisterEventsToFrame(HideObjectiveTrackerArtwork, "PLAYER_ENTERING_WORLD")
 HideObjectiveTrackerArtwork:SetScript("OnEvent", function(self, event, ...)
     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" and
         zUI_SavedSettings[PlayerIdentifier].HideObjectiveTrackerArtworkSetting then
-        ObjectiveTrackerBlocksFrame.CampaignQuestHeader.Background:Hide()
-        ObjectiveTrackerBlocksFrame.QuestHeader.Background:Hide()
-        ObjectiveTrackerBlocksFrame.AchievementHeader.Background:Hide()
-        ObjectiveTrackerBlocksFrame.ScenarioHeader.Background:Hide()
-        ObjectiveTrackerBlocksFrame.AdventureHeader.Background:Hide()
-        ObjectiveTrackerBlocksFrame.MonthlyActivitiesHeader.Background:Hide()
-        ObjectiveTrackerBlocksFrame.ProfessionHeader.Background:Hide()
-        BONUS_OBJECTIVE_TRACKER_MODULE.Header.Background:Hide()
-        WORLD_QUEST_TRACKER_MODULE.Header.Background:Hide()
-        ObjectiveTrackerFrame.BlocksFrame.UIWidgetsHeader.Background:Hide()
-        ObjectiveTrackerFrame.HeaderMenu.Title:SetAlpha(0)
+        if ObjectiveTrackerFrame.Header.Background then
+            ObjectiveTrackerFrame.Header.Background:Hide()
+        end
+        if ObjectiveTrackerFrame.Header.Text then
+            ObjectiveTrackerFrame.Header.Text:SetAlpha(0)
+        end
+
+        local children = {ObjectiveTrackerFrame:GetChildren()}
+        for _, child in ipairs(children) do
+            local childName = child:GetName()
+            local shouldHideBackground =
+                childName == "QuestObjectiveTracker" or childName ==
+                    "AchievementObjectiveTracker" or childName ==
+                    "CampaignQuestObjectiveTracker" or childName ==
+                    "ScenarioObjectiveTracker" or childName ==
+                    "WorldQuestObjectiveTracker" or childName ==
+                    "AdventureObjectiveTracker" or childName ==
+                    "BonusObjectiveTracker" or childName ==
+                    "MonthlyActivitiesObjectiveTracker" or childName ==
+                    "ProfessionObjectiveTracker"
+
+            if shouldHideBackground and child.Header and child.Header.Background then
+                child.Header.Background:Hide()
+            end
+
+            if childName == "BonusObjectiveTracker" and child.Background then
+                child.Background:Hide()
+            end
+        end
     end
 end)
 
@@ -1343,51 +1362,39 @@ RegisterEventsToFrame(AutomaticObjectiveTrackerCollapseOnLoad,
 AutomaticObjectiveTrackerCollapseOnLoad:SetScript("OnEvent",
                                                   function(self, event, ...)
     if SettingsInitialized and event == "PLAYER_ENTERING_WORLD" then
-        local headers = {
-            {
-                header = ObjectiveTrackerBlocksFrame.CampaignQuestHeader,
-                setting = "CampaignQuestHeaderSetting"
-            }, {
-                header = ObjectiveTrackerBlocksFrame.QuestHeader,
-                setting = "QuestSectionSetting"
-            }, {
-                header = WORLD_QUEST_TRACKER_MODULE.Header,
-                setting = "WorldQuestHeaderSetting"
-            }, {
-                header = ObjectiveTrackerBlocksFrame.AchievementHeader,
-                setting = "AchievementHeaderSetting"
-            }, {
-                header = ObjectiveTrackerBlocksFrame.ScenarioHeader,
-                setting = "ScenarioHeaderSetting"
-            }, {
-                header = ObjectiveTrackerBlocksFrame.AdventureHeader,
-                setting = "AdventureHeaderSetting"
-            }, {header = ObjectiveTrackerBlocksFrame.MonthlyActivitiesHeader},
-            {header = ObjectiveTrackerBlocksFrame.ProfessionHeader},
-            {
-                header = ObjectiveTrackerFrame.HeaderMenu,
-                setting = "HeaderMenuSetting"
-            }
-        }
 
-        for _, item in ipairs(headers) do
-            if item.header == ObjectiveTrackerFrame.HeaderMenu then
-                if not ObjectiveTrackerFrame.collapsed and
-                    item.header.MinimizeButton:IsShown() and
-                    (not item.setting or
-                        zUI_SavedSettings[PlayerIdentifier][item.setting]) then
-                    C_Timer.After(3, function()
-                        item.header.MinimizeButton:Click()
-                    end)
-                end
-            elseif item.header.module and not item.header.module.collapsed and
-                item.header.MinimizeButton:IsShown() and
-                (not item.setting or
-                    zUI_SavedSettings[PlayerIdentifier][item.setting]) then
-                C_Timer.After(3,
-                              function()
-                    item.header.MinimizeButton:Click()
+        local children = {ObjectiveTrackerFrame:GetChildren()}
+        for _, child in ipairs(children) do
+            local childName = child:GetName()
+            local settingsKey = nil
+
+            if childName == "QuestObjectiveTracker" then
+                settingsKey = "QuestSectionSetting"
+            elseif childName == "AchievementObjectiveTracker" then
+                settingsKey = "AchievementHeaderSetting"
+            elseif childName == "CampaignQuestObjectiveTracker" then
+                settingsKey = "CampaignQuestHeaderSetting"
+            elseif childName == "ScenarioObjectiveTracker" then
+                settingsKey = "ScenarioHeaderSetting"
+            elseif childName == "WorldQuestObjectiveTracker" then
+                settingsKey = "WorldQuestHeaderSetting"
+            elseif childName == "AdventureObjectiveTracker" then
+                settingsKey = "AdventureHeaderSetting"
+            end
+
+            if settingsKey and child.Header and child.Header.MinimizeButton and
+                child.Header.MinimizeButton:IsShown() and
+                (not settingsKey or
+                    zUI_SavedSettings[PlayerIdentifier][settingsKey]) then
+                C_Timer.After(3, function()
+                    child.Header.MinimizeButton:Click()
                 end)
+            end
+        end
+        if zUI_SavedSettings[PlayerIdentifier].HeaderMenuSetting then
+            if ObjectiveTrackerFrame.Header.MinimizeButton and
+                ObjectiveTrackerFrame.Header.MinimizeButton:IsShown() then
+                ObjectiveTrackerFrame.Header.MinimizeButton:Click()
             end
         end
     end
@@ -1660,6 +1667,10 @@ local function RecalculateTotalHonorableKills()
 end
 
 local function UpdateHonorableKills()
+    if not zUI_SavedSettings.TotalAmountOfHonorableKills then
+        zUI_SavedSettings.TotalAmountOfHonorableKills = 0
+    end
+
     _, _, _, progress, _ = GetAchievementCriteriaInfo(achievementID, criteriaID)
     zUI_SavedSettings[PlayerIdentifier].HonorableKillsOnCharacter =
         GetPVPLifetimeStats()
