@@ -1715,267 +1715,267 @@ end)
     - Token frame is move below the searchbox but hidden atm because <-- NOT WORKING YET
     - Made the containerframes clickthrough
 ]]
-local NUM_ITEMS_PER_ROW = 10
-if rawget(_G, "BagFrame") == nil then
-    _G.BagFrame = CreateFrame("Frame")
-else
-    print("this object already exist", BagFrame:GetName())
-end
+-- local NUM_ITEMS_PER_ROW = 10
+-- if rawget(_G, "BagFrame") == nil then
+--     _G.BagFrame = CreateFrame("Frame")
+-- else
+--     print("this object already exist", BagFrame:GetName())
+-- end
 
-local BagFrame = _G.BagFrame
+-- local BagFrame = _G.BagFrame
 
-RegisterEventsToFrame(BagFrame, "PLAYER_LOGIN", "BAG_OPEN", "BAG_CLOSED",
-                      "BANKFRAME_OPENED", "BANKFRAME_CLOSED", "QUEST_ACCEPTED",
-                      "QUEST_REMOVED", "MAIL_SHOW", "MAIL_CLOSED", "TRADE_SHOW",
-                      "TRADE_CLOSED", "AUCTION_HOUSE_SHOW",
-                      "AUCTION_HOUSE_CLOSED", "GUILDBANKFRAME_OPENED",
-                      "GUILDBANKFRAME_CLOSED", "GOSSIP_SHOW", "GOSSIP_CLOSED",
-                      "MERCHANT_SHOW")
+-- RegisterEventsToFrame(BagFrame, "PLAYER_LOGIN", "BAG_OPEN", "BAG_CLOSED",
+--                       "BANKFRAME_OPENED", "BANKFRAME_CLOSED", "QUEST_ACCEPTED",
+--                       "QUEST_REMOVED", "MAIL_SHOW", "MAIL_CLOSED", "TRADE_SHOW",
+--                       "TRADE_CLOSED", "AUCTION_HOUSE_SHOW",
+--                       "AUCTION_HOUSE_CLOSED", "GUILDBANKFRAME_OPENED",
+--                       "GUILDBANKFRAME_CLOSED", "GOSSIP_SHOW", "GOSSIP_CLOSED",
+--                       "MERCHANT_SHOW")
 
-function UpdateBagLayout()
-    local totalItems = 0
-    for bag = 6, 1, -1 do
-        totalItems = totalItems + C_Container.GetContainerNumSlots(bag - 1)
-    end
+-- function UpdateBagLayout()
+--     local totalItems = 0
+--     for bag = 6, 1, -1 do
+--         totalItems = totalItems + C_Container.GetContainerNumSlots(bag - 1)
+--     end
 
-    local bottomRowItems = totalItems % NUM_ITEMS_PER_ROW
-    if bottomRowItems == 0 then bottomRowItems = NUM_ITEMS_PER_ROW end
+--     local bottomRowItems = totalItems % NUM_ITEMS_PER_ROW
+--     if bottomRowItems == 0 then bottomRowItems = NUM_ITEMS_PER_ROW end
 
-    local itemIndex = 1
-    for bag = 6, 1, -1 do
-        local numSlots = C_Container.GetContainerNumSlots(bag - 1)
-        for slot = 1, numSlots do
-            local itemButton = _G["ContainerFrame" .. (bag) .. "Item" .. slot]
-            if itemButton then
-                local col, row
-                if itemIndex <= bottomRowItems then
-                    col = (itemIndex - 1) + (NUM_ITEMS_PER_ROW - bottomRowItems)
-                    row = 0
-                else
-                    col = (itemIndex - bottomRowItems - 1) % NUM_ITEMS_PER_ROW
-                    row = math.floor((itemIndex - bottomRowItems - 1) /
-                                         NUM_ITEMS_PER_ROW) + 1
-                end
-                local xPos = -col * 37
-                local yPos = row * 37
+--     local itemIndex = 1
+--     for bag = 6, 1, -1 do
+--         local numSlots = C_Container.GetContainerNumSlots(bag - 1)
+--         for slot = 1, numSlots do
+--             local itemButton = _G["ContainerFrame" .. (bag) .. "Item" .. slot]
+--             if itemButton then
+--                 local col, row
+--                 if itemIndex <= bottomRowItems then
+--                     col = (itemIndex - 1) + (NUM_ITEMS_PER_ROW - bottomRowItems)
+--                     row = 0
+--                 else
+--                     col = (itemIndex - bottomRowItems - 1) % NUM_ITEMS_PER_ROW
+--                     row = math.floor((itemIndex - bottomRowItems - 1) /
+--                                          NUM_ITEMS_PER_ROW) + 1
+--                 end
+--                 local xPos = -col * 37
+--                 local yPos = row * 37
 
-                itemButton:SetAlpha(1)
-                itemButton:ClearAllPoints()
-                itemButton:SetPoint("CENTER", ContainerFrame1, "CENTER", xPos,
-                                    yPos)
-                _G[itemButton:GetName() .. "NormalTexture"]:Show()
-                _G[itemButton:GetName() .. "IconTexture"]:Show()
-                if itemButton.ProfessionQualityOverlay then
-                    itemButton.ProfessionQualityOverlay:Show()
-                end
-                itemIndex = itemIndex + 1
-            end
-        end
-    end
+--                 itemButton:SetAlpha(1)
+--                 itemButton:ClearAllPoints()
+--                 itemButton:SetPoint("CENTER", ContainerFrame1, "CENTER", xPos,
+--                                     yPos)
+--                 _G[itemButton:GetName() .. "NormalTexture"]:Show()
+--                 _G[itemButton:GetName() .. "IconTexture"]:Show()
+--                 if itemButton.ProfessionQualityOverlay then
+--                     itemButton.ProfessionQualityOverlay:Show()
+--                 end
+--                 itemIndex = itemIndex + 1
+--             end
+--         end
+--     end
 
-    local searchBox = _G["BagItemSearchBox"]
-    if searchBox then
-        local xPos = -300
-        local yPos = -35
+--     local searchBox = _G["BagItemSearchBox"]
+--     if searchBox then
+--         local xPos = -300
+--         local yPos = -35
 
-        searchBox:ClearAllPoints()
-        searchBox:SetPoint("CENTER", ContainerFrame1, "CENTER", xPos, yPos)
+--         searchBox:ClearAllPoints()
+--         searchBox:SetPoint("CENTER", ContainerFrame1, "CENTER", xPos, yPos)
 
-        MoneyFrame = _G["ContainerFrame1MoneyFrame"]
-        if MoneyFrame then
-            MoneyFrame:ClearAllPoints()
-            MoneyFrame:SetPoint("CENTER", ContainerFrame1, "CENTER", xPos + 120,
-                                yPos)
-            _G["ContainerFrame1MoneyFrame"]:Show()
-            _G["ContainerFrame1MoneyFrame"].Border:Hide()
+--         MoneyFrame = _G["ContainerFrame1MoneyFrame"]
+--         if MoneyFrame then
+--             MoneyFrame:ClearAllPoints()
+--             MoneyFrame:SetPoint("CENTER", ContainerFrame1, "CENTER", xPos + 120,
+--                                 yPos)
+--             _G["ContainerFrame1MoneyFrame"]:Show()
+--             _G["ContainerFrame1MoneyFrame"].Border:Hide()
 
-            if not _G.totalGoldText then
-                _G.totalGoldText = MoneyFrame:CreateFontString(nil, "OVERLAY",
-                                                               "GameFontNormal")
-                _G.totalGoldText:SetPoint("TOPLEFT", MoneyFrame, "TOPRIGHT", 0,
-                                          0)
-            end
+--             if not _G.totalGoldText then
+--                 _G.totalGoldText = MoneyFrame:CreateFontString(nil, "OVERLAY",
+--                                                                "GameFontNormal")
+--                 _G.totalGoldText:SetPoint("TOPLEFT", MoneyFrame, "TOPRIGHT", 0,
+--                                           0)
+--             end
 
-            _G.totalGoldText:SetText("Total: " .. zUI_SavedSettings.TotalGold ..
-                                         "|TInterface\\MoneyFrame\\UI-GoldIcon:12:12:4:0|t")
+--             _G.totalGoldText:SetText("Total: " .. zUI_SavedSettings.TotalGold ..
+--                                          "|TInterface\\MoneyFrame\\UI-GoldIcon:12:12:4:0|t")
 
-            if rawget(_G, "bagMoneyUpdater") == nil then
-                _G.bagMoneyUpdater = CreateFrame("Frame")
-            end
+--             if rawget(_G, "bagMoneyUpdater") == nil then
+--                 _G.bagMoneyUpdater = CreateFrame("Frame")
+--             end
 
-            local bagMoneyUpdater = _G.bagMoneyUpdater
+--             local bagMoneyUpdater = _G.bagMoneyUpdater
 
-            bagMoneyUpdater:SetScript("OnEvent", function(self, event, ...)
-                if event == "PLAYER_MONEY" then
-                    _G.totalGoldText:SetText("Total: " ..
-                                                 zUI_SavedSettings.TotalGold ..
-                                                 "|TInterface\\MoneyFrame\\UI-GoldIcon:12:12:4:0|t")
-                end
-            end)
+--             bagMoneyUpdater:SetScript("OnEvent", function(self, event, ...)
+--                 if event == "PLAYER_MONEY" then
+--                     _G.totalGoldText:SetText("Total: " ..
+--                                                  zUI_SavedSettings.TotalGold ..
+--                                                  "|TInterface\\MoneyFrame\\UI-GoldIcon:12:12:4:0|t")
+--                 end
+--             end)
 
-            RegisterEventsToFrame(bagMoneyUpdater, "PLAYER_MONEY")
+--             RegisterEventsToFrame(bagMoneyUpdater, "PLAYER_MONEY")
 
-            local function comma_value(n)
-                local left, num, right =
-                    string.match(n, '^([^%d]*%d)(%d*)(.-)$')
-                return
-                    left .. (num:reverse():gsub('(%d%d%d)', '%1 '):reverse()) ..
-                        right
-            end
+--             local function comma_value(n)
+--                 local left, num, right =
+--                     string.match(n, '^([^%d]*%d)(%d*)(.-)$')
+--                 return
+--                     left .. (num:reverse():gsub('(%d%d%d)', '%1 '):reverse()) ..
+--                         right
+--             end
 
-            _G.totalGoldText:SetScript("OnEnter", function(self)
-                GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
-                GameTooltip:ClearLines()
-                local _, characterClass = UnitClass("player")
-                local characters = {}
-                for character, data in pairs(zUI_SavedSettings) do
-                    if character == PlayerIdentifier then
-                        local classInUpperCase = string.upper(characterClass)
-                        data.Class = classInUpperCase
-                    end
-                    if type(data) == "table" and data.Gold and data.Class then
-                        local currentRealm = GetRealmName()
-                        local name, realm = strsplit("-", character)
-                        if realm == currentRealm then
-                            table.insert(characters, {
-                                name = character,
-                                gold = data.Gold,
-                                class = data.Class
-                            })
-                        end
-                    end
-                end
-                table.sort(characters, function(a, b)
-                    return a.gold > b.gold
-                end)
-                for _, character in ipairs(characters) do
-                    local colorTable = ClassColors[character.class] or
-                                           {r = 1, g = 1, b = 1}
-                    local color = RGBToHex(colorTable)
-                    color = "|cff" .. color:sub(3)
-                    GameTooltip:AddLine(color .. character.name .. "|r  " ..
-                                            comma_value(character.gold) ..
-                                            "|TInterface\\MoneyFrame\\UI-GoldIcon:12:12:4:0|t")
-                end
-                GameTooltip:Show()
-            end)
+--             _G.totalGoldText:SetScript("OnEnter", function(self)
+--                 GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
+--                 GameTooltip:ClearLines()
+--                 local _, characterClass = UnitClass("player")
+--                 local characters = {}
+--                 for character, data in pairs(zUI_SavedSettings) do
+--                     if character == PlayerIdentifier then
+--                         local classInUpperCase = string.upper(characterClass)
+--                         data.Class = classInUpperCase
+--                     end
+--                     if type(data) == "table" and data.Gold and data.Class then
+--                         local currentRealm = GetRealmName()
+--                         local name, realm = strsplit("-", character)
+--                         if realm == currentRealm then
+--                             table.insert(characters, {
+--                                 name = character,
+--                                 gold = data.Gold,
+--                                 class = data.Class
+--                             })
+--                         end
+--                     end
+--                 end
+--                 table.sort(characters, function(a, b)
+--                     return a.gold > b.gold
+--                 end)
+--                 for _, character in ipairs(characters) do
+--                     local colorTable = ClassColors[character.class] or
+--                                            {r = 1, g = 1, b = 1}
+--                     local color = RGBToHex(colorTable)
+--                     color = "|cff" .. color:sub(3)
+--                     GameTooltip:AddLine(color .. character.name .. "|r  " ..
+--                                             comma_value(character.gold) ..
+--                                             "|TInterface\\MoneyFrame\\UI-GoldIcon:12:12:4:0|t")
+--                 end
+--                 GameTooltip:Show()
+--             end)
 
-            _G.totalGoldText:SetScript("OnLeave",
-                                       function(self)
-                GameTooltip:Hide()
-            end)
-        end
+--             _G.totalGoldText:SetScript("OnLeave",
+--                                        function(self)
+--                 GameTooltip:Hide()
+--             end)
+--         end
 
-        BagItemAutoSortButton:Hide()
+--         BagItemAutoSortButton:Hide()
 
-        if BackpackTokenFrame then
-            BackpackTokenFrame:Hide()
-            -- BackpackTokenFrame:ClearAllPoints()
-            -- BackpackTokenFrame:SetPoint("CENTER", ContainerFrame1, "CENTER",
-            --                             xPos, yPos - 20)
-            -- BackpackTokenFrame:Show()
-            -- BackpackTokenFrame.Border:Hide()
-        end
-        _G["BagItemSearchBox"]:Show()
-    end
-end
+--         if BackpackTokenFrame then
+--             BackpackTokenFrame:Hide()
+--             -- BackpackTokenFrame:ClearAllPoints()
+--             -- BackpackTokenFrame:SetPoint("CENTER", ContainerFrame1, "CENTER",
+--             --                             xPos, yPos - 20)
+--             -- BackpackTokenFrame:Show()
+--             -- BackpackTokenFrame.Border:Hide()
+--         end
+--         _G["BagItemSearchBox"]:Show()
+--     end
+-- end
 
-BagFrame:EnableKeyboard(true)
-BagFrame:SetPropagateKeyboardInput(true)
+-- BagFrame:EnableKeyboard(true)
+-- BagFrame:SetPropagateKeyboardInput(true)
 
-BagFrame:SetScript("OnKeyDown", function(self, key)
-    if SettingsInitialized and
-        zUI_SavedSettings[PlayerIdentifier].CustomBagsSetting then
+-- BagFrame:SetScript("OnKeyDown", function(self, key)
+--     if SettingsInitialized and
+--         zUI_SavedSettings[PlayerIdentifier].CustomBagsSetting then
 
-        local openAllBags = GetBindingKey("OPENALLBAGS")
+--         local openAllBags = GetBindingKey("OPENALLBAGS")
 
-        if key == openAllBags then
-            BackpackTokenFrame:Hide()
-            _G["BagItemSearchBox"]:Hide()
-            _G["ContainerFrame1MoneyFrame"]:Hide()
-            for bag = 0, 5 do
-                local numSlots = C_Container.GetContainerNumSlots(bag)
-                for slot = 1, numSlots do
-                    local itemButton = _G["ContainerFrame" .. (bag + 1) ..
-                                           "Item" .. slot]
-                    if itemButton then
-                        itemButton:SetAlpha(0)
-                        itemButton.IconBorder:Hide()
-                        _G[itemButton:GetName() .. "NormalTexture"]:Hide()
-                        _G[itemButton:GetName() .. "IconTexture"]:Hide()
-                        if itemButton.ProfessionQualityOverlay then
-                            itemButton.ProfessionQualityOverlay:Hide()
-                        end
-                    end
-                end
-            end
-            C_Timer.After(0, function() UpdateBagLayout() end)
-        end
-    end
-end)
+--         if key == openAllBags then
+--             BackpackTokenFrame:Hide()
+--             _G["BagItemSearchBox"]:Hide()
+--             _G["ContainerFrame1MoneyFrame"]:Hide()
+--             for bag = 0, 5 do
+--                 local numSlots = C_Container.GetContainerNumSlots(bag)
+--                 for slot = 1, numSlots do
+--                     local itemButton = _G["ContainerFrame" .. (bag + 1) ..
+--                                            "Item" .. slot]
+--                     if itemButton then
+--                         itemButton:SetAlpha(0)
+--                         itemButton.IconBorder:Hide()
+--                         _G[itemButton:GetName() .. "NormalTexture"]:Hide()
+--                         _G[itemButton:GetName() .. "IconTexture"]:Hide()
+--                         if itemButton.ProfessionQualityOverlay then
+--                             itemButton.ProfessionQualityOverlay:Hide()
+--                         end
+--                     end
+--                 end
+--             end
+--             C_Timer.After(0, function() UpdateBagLayout() end)
+--         end
+--     end
+-- end)
 
-local elementsToHide = {
-    "CloseButton", "TitleContainer", "PortraitContainer", "Bg",
-    "NineSlice.LeftEdge", "NineSlice.RightEdge", "NineSlice.TopEdge",
-    "NineSlice.TopLeftCorner", "NineSlice.TopRightCorner",
-    "NineSlice.BottomEdge", "NineSlice.BottomLeftCorner",
-    "NineSlice.BottomRightCorner", "NineSlice.Center"
-}
+-- local elementsToHide = {
+--     "CloseButton", "TitleContainer", "PortraitContainer", "Bg",
+--     "NineSlice.LeftEdge", "NineSlice.RightEdge", "NineSlice.TopEdge",
+--     "NineSlice.TopLeftCorner", "NineSlice.TopRightCorner",
+--     "NineSlice.BottomEdge", "NineSlice.BottomLeftCorner",
+--     "NineSlice.BottomRightCorner", "NineSlice.Center"
+-- }
 
-local function hideElements()
-    for i = 1, 6 do
-        local bagFrame = _G["ContainerFrame" .. i]
-        if bagFrame then
-            bagFrame:EnableMouse(false)
-            for _, element in ipairs(elementsToHide) do
-                local parts = {}
-                for part in string.gmatch(element, "[^.]+") do
-                    table.insert(parts, part)
-                end
-                local target = bagFrame
-                for _, part in ipairs(parts) do
-                    target = target[part]
-                    if not target then break end
-                end
-                if target and type(target.Hide) == "function" then
-                    target:Hide()
-                end
-            end
-        end
-    end
-end
+-- local function hideElements()
+--     for i = 1, 6 do
+--         local bagFrame = _G["ContainerFrame" .. i]
+--         if bagFrame then
+--             bagFrame:EnableMouse(false)
+--             for _, element in ipairs(elementsToHide) do
+--                 local parts = {}
+--                 for part in string.gmatch(element, "[^.]+") do
+--                     table.insert(parts, part)
+--                 end
+--                 local target = bagFrame
+--                 for _, part in ipairs(parts) do
+--                     target = target[part]
+--                     if not target then break end
+--                 end
+--                 if target and type(target.Hide) == "function" then
+--                     target:Hide()
+--                 end
+--             end
+--         end
+--     end
+-- end
 
-BagFrame:SetScript("OnEvent", function(self, event, ...)
-    if SettingsInitialized and
-        zUI_SavedSettings[PlayerIdentifier].CustomBagsSetting then
-        local bagEvents = {
-            ["PLAYER_LOGIN"] = true,
-            ["BAG_OPEN"] = true,
-            ["BAG_CLOSED"] = true,
-            ["BANKFRAME_OPENED"] = true,
-            ["BANKFRAME_CLOSED"] = true,
-            ["QUEST_ACCEPTED"] = true,
-            ["QUEST_REMOVED"] = true,
-            ["MAIL_SHOW"] = true,
-            ["MAIL_CLOSED"] = true,
-            ["TRADE_SHOW"] = true,
-            ["TRADE_CLOSED"] = true,
-            ["AUCTION_HOUSE_SHOW"] = true,
-            ["AUCTION_HOUSE_CLOSED"] = true,
-            ["GUILDBANKFRAME_OPENED"] = true,
-            ["GUILDBANKFRAME_CLOSED"] = true,
-            ["GOSSIP_SHOW"] = true,
-            ["GOSSIP_CLOSED"] = true,
-            ["MERCHANT_SHOW"] = true
-        }
+-- BagFrame:SetScript("OnEvent", function(self, event, ...)
+--     if SettingsInitialized and
+--         zUI_SavedSettings[PlayerIdentifier].CustomBagsSetting then
+--         local bagEvents = {
+--             ["PLAYER_LOGIN"] = true,
+--             ["BAG_OPEN"] = true,
+--             ["BAG_CLOSED"] = true,
+--             ["BANKFRAME_OPENED"] = true,
+--             ["BANKFRAME_CLOSED"] = true,
+--             ["QUEST_ACCEPTED"] = true,
+--             ["QUEST_REMOVED"] = true,
+--             ["MAIL_SHOW"] = true,
+--             ["MAIL_CLOSED"] = true,
+--             ["TRADE_SHOW"] = true,
+--             ["TRADE_CLOSED"] = true,
+--             ["AUCTION_HOUSE_SHOW"] = true,
+--             ["AUCTION_HOUSE_CLOSED"] = true,
+--             ["GUILDBANKFRAME_OPENED"] = true,
+--             ["GUILDBANKFRAME_CLOSED"] = true,
+--             ["GOSSIP_SHOW"] = true,
+--             ["GOSSIP_CLOSED"] = true,
+--             ["MERCHANT_SHOW"] = true
+--         }
 
-        if bagEvents[event] then
-            C_Timer.After(0, function() UpdateBagLayout() end)
-        end
+--         if bagEvents[event] then
+--             C_Timer.After(0, function() UpdateBagLayout() end)
+--         end
 
-        hideElements()
-    end
-end)
+--         hideElements()
+--     end
+-- end)
 
 ---------------------------------------------------------------------------------------------------
 -- Total amount of gold
@@ -2050,260 +2050,260 @@ end)
     - Tabs always below last bags, on reagent tab reset 
     - Purchase button new slots next to the last bag with price
 ]]
-if rawget(_G, "BankFrameMod") == nil then
-    _G.BankFrameMod = CreateFrame("Frame")
-else
-    print("this object already exist", BankFrameMod:GetName())
-end
+-- if rawget(_G, "BankFrameMod") == nil then
+--     _G.BankFrameMod = CreateFrame("Frame")
+-- else
+--     print("this object already exist", BankFrameMod:GetName())
+-- end
 
-local BankFrameMod = _G.BankFrameMod
+-- local BankFrameMod = _G.BankFrameMod
 
-RegisterEventsToFrame(BankFrameMod, "BAG_UPDATE", "BANKFRAME_OPENED",
-                      "PLAYERBANKSLOTS_CHANGED", "PLAYERBANKBAGSLOTS_CHANGED",
-                      "PLAYERREAGENTBANKSLOTS_CHANGED")
+-- RegisterEventsToFrame(BankFrameMod, "BAG_UPDATE", "BANKFRAME_OPENED",
+--                       "PLAYERBANKSLOTS_CHANGED", "PLAYERBANKBAGSLOTS_CHANGED",
+--                       "PLAYERREAGENTBANKSLOTS_CHANGED")
 
-local frameElementsToHide = {
-    "NineSlice", "Bg", "CloseButton", "PortraitOverlay", "PortraitOverlayFrame",
-    "PortraitContainer", "TitleText", "TitleContainer"
-}
+-- local frameElementsToHide = {
+--     "NineSlice", "Bg", "CloseButton", "PortraitOverlay", "PortraitOverlayFrame",
+--     "PortraitContainer", "TitleText", "TitleContainer"
+-- }
 
-function StripTextures(frame)
-    local regions = {frame:GetRegions()}
-    for _, region in ipairs(regions) do
-        if region:IsObjectType("Texture") then
-            region:SetTexture(nil)
-        elseif region:IsObjectType("FontString") and region ~=
-            BankFramePurchaseInfo then
-            region:SetText(nil)
-        end
-    end
-end
+-- function StripTextures(frame)
+--     local regions = {frame:GetRegions()}
+--     for _, region in ipairs(regions) do
+--         if region:IsObjectType("Texture") then
+--             region:SetTexture(nil)
+--         elseif region:IsObjectType("FontString") and region ~=
+--             BankFramePurchaseInfo then
+--             region:SetText(nil)
+--         end
+--     end
+-- end
 
-local validEvents = {
-    ["BAG_UPDATE"] = true,
-    ["BANKFRAME_OPENED"] = true,
-    ["PLAYERBANKSLOTS_CHANGED"] = true,
-    ["PLAYERBANKBAGSLOTS_CHANGED"] = true,
-    ["PLAYERREAGENTBANKSLOTS_CHANGED"] = true
-}
+-- local validEvents = {
+--     ["BAG_UPDATE"] = true,
+--     ["BANKFRAME_OPENED"] = true,
+--     ["PLAYERBANKSLOTS_CHANGED"] = true,
+--     ["PLAYERBANKBAGSLOTS_CHANGED"] = true,
+--     ["PLAYERREAGENTBANKSLOTS_CHANGED"] = true
+-- }
 
-BankFrameMod:SetScript("OnEvent", function(self, event, changedBagSlotID)
-    if SettingsInitialized then
-        if zUI_SavedSettings[PlayerIdentifier].CustomBankSetting then
-            if validEvents[event] then
-                for i = 7, 13 do
-                    local bankBagSlotFrame = _G["ContainerFrame" .. i]
-                    if bankBagSlotFrame then
-                        bankBagSlotFrame:EnableMouse(false)
-                        for _, element in ipairs(frameElementsToHide) do
-                            local subFrame = bankBagSlotFrame[element]
-                            if subFrame then
-                                subFrame:Hide()
-                            end
-                        end
-                    end
-                end
+-- BankFrameMod:SetScript("OnEvent", function(self, event, changedBagSlotID)
+--     if SettingsInitialized then
+--         if zUI_SavedSettings[PlayerIdentifier].CustomBankSetting then
+--             if validEvents[event] then
+--                 for i = 7, 13 do
+--                     local bankBagSlotFrame = _G["ContainerFrame" .. i]
+--                     if bankBagSlotFrame then
+--                         bankBagSlotFrame:EnableMouse(false)
+--                         for _, element in ipairs(frameElementsToHide) do
+--                             local subFrame = bankBagSlotFrame[element]
+--                             if subFrame then
+--                                 subFrame:Hide()
+--                             end
+--                         end
+--                     end
+--                 end
 
-                BankFrame:EnableMouse(false)
-                BankFrame.NineSlice:Hide()
-                BankFrame.Bg:Hide()
-                BankItemAutoSortButton:Hide()
-                BankFrame.PortraitContainer:Hide()
-                BankFrame.CloseButton:Hide()
-                BankFrameTitleText:Hide()
-                BankFrame.TopTileStreaks:Hide()
-                BankFrameMoneyFrame:Hide()
-                BankFrameMoneyFrameInset.NineSlice:Hide()
+--                 BankFrame:EnableMouse(false)
+--                 BankFrame.NineSlice:Hide()
+--                 BankFrame.Bg:Hide()
+--                 BankItemAutoSortButton:Hide()
+--                 BankFrame.PortraitContainer:Hide()
+--                 BankFrame.CloseButton:Hide()
+--                 BankFrameTitleText:Hide()
+--                 BankFrame.TopTileStreaks:Hide()
+--                 BankFrameMoneyFrame:Hide()
+--                 BankFrameMoneyFrameInset.NineSlice:Hide()
 
-                StripTextures(BankFrameMoneyFrameInset)
-                StripTextures(BankFrameMoneyFrameBorder)
-                StripTextures(BankFrameMoneyFrame)
-                StripTextures(BankFrame)
-                StripTextures(BankSlotsFrame)
-                StripTextures(ReagentBankFrame)
+--                 StripTextures(BankFrameMoneyFrameInset)
+--                 StripTextures(BankFrameMoneyFrameBorder)
+--                 StripTextures(BankFrameMoneyFrame)
+--                 StripTextures(BankFrame)
+--                 StripTextures(BankSlotsFrame)
+--                 StripTextures(ReagentBankFrame)
 
-                ReagentBankFrame:DisableDrawLayer("BACKGROUND")
-                ReagentBankFrame:DisableDrawLayer("ARTWORK")
+--                 ReagentBankFrame:DisableDrawLayer("BACKGROUND")
+--                 ReagentBankFrame:DisableDrawLayer("ARTWORK")
 
-                local frame = _G["BankFrame"]
-                local perRow = 20
-                local lastSlot = nil
-                local firstSlotInRow = nil
-                local slotCounter = 0
+--                 local frame = _G["BankFrame"]
+--                 local perRow = 20
+--                 local lastSlot = nil
+--                 local firstSlotInRow = nil
+--                 local slotCounter = 0
 
-                if frame then
+--                 if frame then
 
-                    local firstSlotOfCurrentRow
+--                     local firstSlotOfCurrentRow
 
-                    for bankMainSlot = 1, 28 do
-                        local slot = _G["BankFrameItem" .. bankMainSlot]
-                        if slot then
-                            slot:ClearAllPoints()
-                            local bg = CreateFrame("Frame", nil, slot)
-                            bg:SetAllPoints()
-                            bg:SetFrameLevel(slot:GetFrameLevel() - 1)
-                            local texture = bg:CreateTexture(nil, "BACKGROUND")
-                            texture:SetAllPoints()
-                            texture:SetTexture(
-                                "Interface/PaperDoll/UI-Backpack-EmptySlot")
-                            if slotCounter % perRow == 0 then
-                                if slotCounter == 0 then
-                                    slot:SetPoint("TOPLEFT", frame, "TOPLEFT",
-                                                  0, 0)
-                                else
-                                    slot:SetPoint("TOP", firstSlotInRow,
-                                                  "BOTTOM", 0, 0)
-                                end
-                                firstSlotInRow = slot
-                                firstSlotOfCurrentRow = slot
-                            else
-                                slot:SetPoint("LEFT", lastSlot, "RIGHT", 0, 0)
-                            end
-                            lastSlot = slot
-                            slotCounter = slotCounter + 1
-                        end
-                    end
-                    C_Timer.After(0, function()
-                        local firstSlotOfLastRow
+--                     for bankMainSlot = 1, 28 do
+--                         local slot = _G["BankFrameItem" .. bankMainSlot]
+--                         if slot then
+--                             slot:ClearAllPoints()
+--                             local bg = CreateFrame("Frame", nil, slot)
+--                             bg:SetAllPoints()
+--                             bg:SetFrameLevel(slot:GetFrameLevel() - 1)
+--                             local texture = bg:CreateTexture(nil, "BACKGROUND")
+--                             texture:SetAllPoints()
+--                             texture:SetTexture(
+--                                 "Interface/PaperDoll/UI-Backpack-EmptySlot")
+--                             if slotCounter % perRow == 0 then
+--                                 if slotCounter == 0 then
+--                                     slot:SetPoint("TOPLEFT", frame, "TOPLEFT",
+--                                                   0, 0)
+--                                 else
+--                                     slot:SetPoint("TOP", firstSlotInRow,
+--                                                   "BOTTOM", 0, 0)
+--                                 end
+--                                 firstSlotInRow = slot
+--                                 firstSlotOfCurrentRow = slot
+--                             else
+--                                 slot:SetPoint("LEFT", lastSlot, "RIGHT", 0, 0)
+--                             end
+--                             lastSlot = slot
+--                             slotCounter = slotCounter + 1
+--                         end
+--                     end
+--                     C_Timer.After(0, function()
+--                         local firstSlotOfLastRow
 
-                        for bagID = 7, 13 do
-                            local numSlots =
-                                C_Container.GetContainerNumSlots(bagID - 1)
-                            for bagSlotID = 1, numSlots do
-                                local slot =
-                                    _G["ContainerFrame" .. bagID .. "Item" ..
-                                        bagSlotID]
-                                if slot then
-                                    slot:ClearAllPoints()
-                                    if slotCounter % perRow == 0 then
-                                        slot:SetPoint("TOP", firstSlotInRow,
-                                                      "BOTTOM", 0, 0)
-                                        firstSlotInRow = slot
-                                        firstSlotOfLastRow = slot
-                                    else
-                                        slot:SetPoint("LEFT", lastSlot, "RIGHT",
-                                                      0, 0)
-                                    end
-                                    lastSlot = slot
-                                    slotCounter = slotCounter + 1
-                                end
-                            end
-                        end
+--                         for bagID = 7, 13 do
+--                             local numSlots =
+--                                 C_Container.GetContainerNumSlots(bagID - 1)
+--                             for bagSlotID = 1, numSlots do
+--                                 local slot =
+--                                     _G["ContainerFrame" .. bagID .. "Item" ..
+--                                         bagSlotID]
+--                                 if slot then
+--                                     slot:ClearAllPoints()
+--                                     if slotCounter % perRow == 0 then
+--                                         slot:SetPoint("TOP", firstSlotInRow,
+--                                                       "BOTTOM", 0, 0)
+--                                         firstSlotInRow = slot
+--                                         firstSlotOfLastRow = slot
+--                                     else
+--                                         slot:SetPoint("LEFT", lastSlot, "RIGHT",
+--                                                       0, 0)
+--                                     end
+--                                     lastSlot = slot
+--                                     slotCounter = slotCounter + 1
+--                                 end
+--                             end
+--                         end
 
-                        BankItemSearchBox:ClearAllPoints()
-                        BankItemSearchBox:SetPoint("BOTTOM", BankFrameItem10,
-                                                   "TOP", 0, 0)
+--                         BankItemSearchBox:ClearAllPoints()
+--                         BankItemSearchBox:SetPoint("BOTTOM", BankFrameItem10,
+--                                                    "TOP", 0, 0)
 
-                        local lastBag
+--                         local lastBag
 
-                        for bagID = 1, 7 do
-                            local bag = BankSlotsFrame["Bag" .. bagID]
-                            if bag then
-                                bag:ClearAllPoints()
-                                if bagID == 1 then
-                                    if firstSlotOfLastRow ~= nil then
-                                        bag:SetPoint("TOP", firstSlotOfLastRow,
-                                                     "BOTTOM", 0, 0)
-                                    elseif firstSlotOfCurrentRow ~= nil then
-                                        bag:SetPoint("TOP",
-                                                     firstSlotOfCurrentRow,
-                                                     "BOTTOM", 0, 0)
-                                    end
-                                else
-                                    bag:SetPoint("LEFT", lastBag, "RIGHT", 0, 0)
-                                end
-                                lastBag = bag
-                            end
-                        end
+--                         for bagID = 1, 7 do
+--                             local bag = BankSlotsFrame["Bag" .. bagID]
+--                             if bag then
+--                                 bag:ClearAllPoints()
+--                                 if bagID == 1 then
+--                                     if firstSlotOfLastRow ~= nil then
+--                                         bag:SetPoint("TOP", firstSlotOfLastRow,
+--                                                      "BOTTOM", 0, 0)
+--                                     elseif firstSlotOfCurrentRow ~= nil then
+--                                         bag:SetPoint("TOP",
+--                                                      firstSlotOfCurrentRow,
+--                                                      "BOTTOM", 0, 0)
+--                                     end
+--                                 else
+--                                     bag:SetPoint("LEFT", lastBag, "RIGHT", 0, 0)
+--                                 end
+--                                 lastBag = bag
+--                             end
+--                         end
 
-                        BankFrameSlotCost:ClearAllPoints()
-                        BankFrameSlotCost:SetPoint("LEFT", lastBag, "RIGHT", 5,
-                                                   0)
+--                         BankFrameSlotCost:ClearAllPoints()
+--                         BankFrameSlotCost:SetPoint("LEFT", lastBag, "RIGHT", 5,
+--                                                    0)
 
-                        BankFramePurchaseButton:ClearAllPoints()
-                        BankFramePurchaseButton:SetPoint("LEFT",
-                                                         BankFrameSlotCost,
-                                                         "RIGHT", 50, 0)
+--                         BankFramePurchaseButton:ClearAllPoints()
+--                         BankFramePurchaseButton:SetPoint("LEFT",
+--                                                          BankFrameSlotCost,
+--                                                          "RIGHT", 50, 0)
 
-                        BankFramePurchaseInfo:ClearAllPoints()
-                        BankFramePurchaseInfo:SetPoint("TOP",
-                                                       BankFramePurchaseButton,
-                                                       "BOTTOM", 5, 0)
+--                         BankFramePurchaseInfo:ClearAllPoints()
+--                         BankFramePurchaseInfo:SetPoint("TOP",
+--                                                        BankFramePurchaseButton,
+--                                                        "BOTTOM", 5, 0)
 
-                        local point1, relativeTo1, relativePoint1, xOfs1, yOfs1 =
-                            BankFrameTab1:GetPoint()
-                        local point2, relativeTo2, relativePoint2, xOfs2, yOfs2 =
-                            BankFrameTab2:GetPoint()
+--                         local point1, relativeTo1, relativePoint1, xOfs1, yOfs1 =
+--                             BankFrameTab1:GetPoint()
+--                         local point2, relativeTo2, relativePoint2, xOfs2, yOfs2 =
+--                             BankFrameTab2:GetPoint()
 
-                        BankFrameTab1:ClearAllPoints()
-                        BankFrameTab1:SetPoint("TOPLEFT", BankSlotsFrame.Bag1,
-                                               "BOTTOMLEFT", 0, 0)
+--                         BankFrameTab1:ClearAllPoints()
+--                         BankFrameTab1:SetPoint("TOPLEFT", BankSlotsFrame.Bag1,
+--                                                "BOTTOMLEFT", 0, 0)
 
-                        BankFrameTab1:HookScript("OnClick", function()
-                            BankFrameTab1:ClearAllPoints()
-                            BankFrameTab1:SetPoint("TOPLEFT",
-                                                   BankSlotsFrame.Bag1,
-                                                   "BOTTOMLEFT", 0, 0)
-                        end)
+--                         BankFrameTab1:HookScript("OnClick", function()
+--                             BankFrameTab1:ClearAllPoints()
+--                             BankFrameTab1:SetPoint("TOPLEFT",
+--                                                    BankSlotsFrame.Bag1,
+--                                                    "BOTTOMLEFT", 0, 0)
+--                         end)
 
-                        BankFrameTab2:HookScript("OnClick", function()
-                            if point1 and relativeTo1 and relativePoint1 and
-                                xOfs1 and yOfs1 then
-                                BankFrameTab1:ClearAllPoints()
-                                BankFrameTab1:SetPoint(point1, relativeTo1,
-                                                       relativePoint1, xOfs1,
-                                                       yOfs1)
-                            end
-                            if BankFrameTab2:IsShown() then
-                                point2, relativeTo2, relativePoint2, xOfs2, yOfs2 =
-                                    BankFrameTab2:GetPoint()
-                            end
-                            BankFrameTab2:ClearAllPoints()
-                            BankFrameTab2:SetPoint(point2, relativeTo2,
-                                                   relativePoint2, xOfs2, yOfs2)
-                        end)
-                    end)
-                end
+--                         BankFrameTab2:HookScript("OnClick", function()
+--                             if point1 and relativeTo1 and relativePoint1 and
+--                                 xOfs1 and yOfs1 then
+--                                 BankFrameTab1:ClearAllPoints()
+--                                 BankFrameTab1:SetPoint(point1, relativeTo1,
+--                                                        relativePoint1, xOfs1,
+--                                                        yOfs1)
+--                             end
+--                             if BankFrameTab2:IsShown() then
+--                                 point2, relativeTo2, relativePoint2, xOfs2, yOfs2 =
+--                                     BankFrameTab2:GetPoint()
+--                             end
+--                             BankFrameTab2:ClearAllPoints()
+--                             BankFrameTab2:SetPoint(point2, relativeTo2,
+--                                                    relativePoint2, xOfs2, yOfs2)
+--                         end)
+--                     end)
+--                 end
 
-                local function toggleContainerFrames(show)
-                    for bagID = 7, 13 do
-                        local numSlots =
-                            C_Container.GetContainerNumSlots(bagID - 1)
-                        for bagSlotID = 1, numSlots do
-                            local slot =
-                                _G["ContainerFrame" .. bagID .. "Item" ..
-                                    bagSlotID]
-                            if slot then
-                                if show then
-                                    slot:Show()
-                                else
-                                    slot:Hide()
-                                end
-                            end
-                        end
-                    end
-                end
+--                 local function toggleContainerFrames(show)
+--                     for bagID = 7, 13 do
+--                         local numSlots =
+--                             C_Container.GetContainerNumSlots(bagID - 1)
+--                         for bagSlotID = 1, numSlots do
+--                             local slot =
+--                                 _G["ContainerFrame" .. bagID .. "Item" ..
+--                                     bagSlotID]
+--                             if slot then
+--                                 if show then
+--                                     slot:Show()
+--                                 else
+--                                     slot:Hide()
+--                                 end
+--                             end
+--                         end
+--                     end
+--                 end
 
-                BankFrameTab1:HookScript("OnClick", function()
-                    toggleContainerFrames(true)
-                end)
-                BankFrameTab2:HookScript("OnClick", function()
-                    toggleContainerFrames(false)
-                end)
+--                 BankFrameTab1:HookScript("OnClick", function()
+--                     toggleContainerFrames(true)
+--                 end)
+--                 BankFrameTab2:HookScript("OnClick", function()
+--                     toggleContainerFrames(false)
+--                 end)
 
-                if event == "BANKFRAME_OPENED" or event ==
-                    "PLAYERBANKSLOTS_CHANGED" or event ==
-                    "PLAYERBANKBAGSLOTS_CHANGED" or event ==
-                    "PLAYERREAGENTBANKSLOTS_CHANGED" then
-                    for bag = 6, 13 do OpenBag(bag) end
-                end
-                if event == "BAG_UPDATE" and changedBagSlotID > 5 then
-                    OpenBag(changedBagSlotID)
-                end
-            end
-        end
-    end
-end)
+--                 if event == "BANKFRAME_OPENED" or event ==
+--                     "PLAYERBANKSLOTS_CHANGED" or event ==
+--                     "PLAYERBANKBAGSLOTS_CHANGED" or event ==
+--                     "PLAYERREAGENTBANKSLOTS_CHANGED" then
+--                     for bag = 6, 13 do OpenBag(bag) end
+--                 end
+--                 if event == "BAG_UPDATE" and changedBagSlotID > 5 then
+--                     OpenBag(changedBagSlotID)
+--                 end
+--             end
+--         end
+--     end
+-- end)
 
 ---------------------------------------------------------------------------------------------------
 -- Custom minimap
@@ -2421,7 +2421,8 @@ end)
 
 --[[
     - TO BE OR NOT TO BE(HAVIORAL_NOTIFICATION_WARNING)
+    - Bags got completely broken in TWW, rework needed
     - Better minmap unlock
     - On loading screens the usage still can go high after good amount of loading screens
-    - Same with the memory, but barely noticeable  
+    - Same with the memory, but barely noticeable
 ]]

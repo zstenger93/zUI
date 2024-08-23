@@ -120,40 +120,40 @@ end)
 ---------------------------------------------------------------------------------------------------
 -- Checkbox for Custom Player Bags
 ---------------------------------------------------------------------------------------------------
----@class Checkbox_CustomBags : CheckButton
-Checkbox_CustomBags = CreateFrame("CheckButton", "zUICustomBagsCheckbox",
-                                  GeneralPage, "ChatConfigCheckButtonTemplate")
-local customBagsCheckbox = Checkbox_CustomBags:CreateFontString(nil, "OVERLAY",
-                                                                "GameFontNormal")
-customBagsCheckbox:SetPoint("LEFT", Checkbox_CustomBags, "RIGHT", 20, 0)
-customBagsCheckbox:SetText("Custom Bags (BROKEN ATM)")
-Checkbox_CustomBags:SetPoint("TOPLEFT", 20, -180)
-Checkbox_CustomBags.tooltip = "Enable or disable custom player bags."
-Checkbox_CustomBags:SetChecked(zUI_SavedSettings[PlayerIdentifier]
-                                   .CustomBagsSetting)
+-- ---@class Checkbox_CustomBags : CheckButton
+-- Checkbox_CustomBags = CreateFrame("CheckButton", "zUICustomBagsCheckbox",
+--                                   GeneralPage, "ChatConfigCheckButtonTemplate")
+-- local customBagsCheckbox = Checkbox_CustomBags:CreateFontString(nil, "OVERLAY",
+--                                                                 "GameFontNormal")
+-- customBagsCheckbox:SetPoint("LEFT", Checkbox_CustomBags, "RIGHT", 20, 0)
+-- customBagsCheckbox:SetText("Custom Bags (BROKEN ATM)")
+-- Checkbox_CustomBags:SetPoint("TOPLEFT", 20, -180)
+-- Checkbox_CustomBags.tooltip = "Enable or disable custom player bags."
+-- Checkbox_CustomBags:SetChecked(zUI_SavedSettings[PlayerIdentifier]
+--                                    .CustomBagsSetting)
 
-Checkbox_CustomBags:SetScript("OnClick", function(self)
-    zUI_SavedSettings[PlayerIdentifier].CustomBagsSetting = self:GetChecked()
-end)
+-- Checkbox_CustomBags:SetScript("OnClick", function(self)
+--     zUI_SavedSettings[PlayerIdentifier].CustomBagsSetting = self:GetChecked()
+-- end)
 
 ---------------------------------------------------------------------------------------------------
 -- Checkbox for Custom Bank
 ---------------------------------------------------------------------------------------------------
----@class Checkbox_CustomBank : CheckButton
-Checkbox_CustomBank = CreateFrame("CheckButton", "zUICustomBankCheckbox",
-                                  GeneralPage, "ChatConfigCheckButtonTemplate")
-local customBankCheckbox = Checkbox_CustomBank:CreateFontString(nil, "OVERLAY",
-                                                                "GameFontNormal")
-customBankCheckbox:SetPoint("LEFT", Checkbox_CustomBank, "RIGHT", 20, 0)
-customBankCheckbox:SetText("Custom Bank (BROKEN ATM)")
-Checkbox_CustomBank:SetPoint("TOPLEFT", 20, -210)
-Checkbox_CustomBank.tooltip = "Enable or disable custom bank."
-Checkbox_CustomBank:SetChecked(zUI_SavedSettings[PlayerIdentifier]
-                                   .CustomBankSetting)
+-- ---@class Checkbox_CustomBank : CheckButton
+-- Checkbox_CustomBank = CreateFrame("CheckButton", "zUICustomBankCheckbox",
+--                                   GeneralPage, "ChatConfigCheckButtonTemplate")
+-- local customBankCheckbox = Checkbox_CustomBank:CreateFontString(nil, "OVERLAY",
+--                                                                 "GameFontNormal")
+-- customBankCheckbox:SetPoint("LEFT", Checkbox_CustomBank, "RIGHT", 20, 0)
+-- customBankCheckbox:SetText("Custom Bank (BROKEN ATM)")
+-- Checkbox_CustomBank:SetPoint("TOPLEFT", 20, -210)
+-- Checkbox_CustomBank.tooltip = "Enable or disable custom bank."
+-- Checkbox_CustomBank:SetChecked(zUI_SavedSettings[PlayerIdentifier]
+--                                    .CustomBankSetting)
 
-Checkbox_CustomBank:SetScript("OnClick", function(self)
-    zUI_SavedSettings[PlayerIdentifier].CustomBankSetting = self:GetChecked()
-end)
+-- Checkbox_CustomBank:SetScript("OnClick", function(self)
+--     zUI_SavedSettings[PlayerIdentifier].CustomBankSetting = self:GetChecked()
+-- end)
 
 ---------------------------------------------------------------------------------------------------
 -- Checkbox for minimap
@@ -167,7 +167,7 @@ local customMinimapCheckbox = Checkbox_CustomMinimap:CreateFontString(nil,
                                                                       "GameFontNormal")
 customMinimapCheckbox:SetPoint("LEFT", Checkbox_CustomMinimap, "RIGHT", 20, 0)
 customMinimapCheckbox:SetText("Custom Minimap")
-Checkbox_CustomMinimap:SetPoint("TOPLEFT", 20, -240)
+Checkbox_CustomMinimap:SetPoint("TOPLEFT", 20, -180)
 Checkbox_CustomMinimap.tooltip =
     "Removing the border textures and making it movable."
 Checkbox_CustomMinimap:SetChecked(zUI_SavedSettings[PlayerIdentifier]
@@ -188,7 +188,7 @@ local customVigorCheckbox = Checkbox_CustomVigor:CreateFontString(nil,
                                                                   "GameFontNormal")
 customVigorCheckbox:SetPoint("LEFT", Checkbox_CustomVigor, "RIGHT", 20, 0)
 customVigorCheckbox:SetText("Custom Vigor")
-Checkbox_CustomVigor:SetPoint("TOPLEFT", 20, -270)
+Checkbox_CustomVigor:SetPoint("TOPLEFT", 20, -210)
 Checkbox_CustomVigor.tooltip = "Removing the wings and vigor borders"
 Checkbox_CustomVigor:SetChecked(zUI_SavedSettings[PlayerIdentifier]
                                     .CustomVigorSetting)
